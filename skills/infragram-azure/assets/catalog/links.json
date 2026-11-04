@@ -1,0 +1,528 @@
+{
+  "schema": 1,
+  "about": "Where a component is read about, shown when its card is clicked in the page. A component listed under components has its own pages; every other component of a vendor library gets a search of that vendor's site for its name ({query}, URL-encoded). Local & On-Premises and the shared infragram library name no vendor, so they have no search.",
+  "libraries": {
+    "aws": {
+      "site": "aws.amazon.com",
+      "search": "https://aws.amazon.com/search/?searchQuery={query}"
+    },
+    "azure": {
+      "site": "learn.microsoft.com",
+      "search": "https://learn.microsoft.com/en-us/search/?terms={query}"
+    },
+    "gcp": {
+      "site": "cloud.google.com",
+      "search": "https://cloud.google.com/search?q={query}"
+    },
+    "digitalocean": {
+      "site": "docs.digitalocean.com",
+      "search": "https://duckduckgo.com/?q=site%3Adocs.digitalocean.com+{query}"
+    },
+    "hetzner": {
+      "site": "docs.hetzner.com",
+      "search": "https://docs.hetzner.com/search/?q={query}"
+    },
+    "cloudflare": {
+      "site": "developers.cloudflare.com",
+      "search": "https://developers.cloudflare.com/search/?q={query}"
+    },
+    "oracle": {
+      "site": "docs.oracle.com",
+      "search": "https://docs.oracle.com/search/?q={query}"
+    },
+    "ibm": {
+      "site": "cloud.ibm.com",
+      "search": "https://cloud.ibm.com/docs/search?q={query}"
+    },
+    "alibaba": {
+      "site": "alibabacloud.com",
+      "search": "https://www.alibabacloud.com/search?k={query}"
+    },
+    "ovhcloud": {
+      "site": "help.ovhcloud.com",
+      "search": "https://help.ovhcloud.com/csm/en-gb-search?q={query}"
+    },
+    "vultr": {
+      "site": "docs.vultr.com",
+      "search": "https://duckduckgo.com/?q=site%3Adocs.vultr.com+{query}"
+    },
+    "akamai": {
+      "site": "techdocs.akamai.com",
+      "search": "https://techdocs.akamai.com/search?q={query}"
+    },
+    "kubernetes": {
+      "site": "kubernetes.io",
+      "search": "https://kubernetes.io/search/?q={query}"
+    },
+    "openstack": {
+      "site": "docs.openstack.org",
+      "search": "https://duckduckgo.com/?q=site%3Adocs.openstack.org+{query}"
+    },
+    "vmware": {
+      "site": "techdocs.broadcom.com",
+      "search": "https://techdocs.broadcom.com/us/en/search.html?q={query}"
+    },
+    "proxmox": {
+      "site": "pve.proxmox.com",
+      "search": "https://pve.proxmox.com/mediawiki/index.php?search={query}"
+    },
+    "databricks": {
+      "site": "databricks.com",
+      "search": "https://www.databricks.com/search?q={query}"
+    },
+    "equinix": {
+      "site": "docs.equinix.com",
+      "search": "https://duckduckgo.com/?q=site%3Adocs.equinix.com+{query}"
+    }
+  },
+  "components": {
+    "aws:ec2": [
+      {
+        "label": "Product",
+        "url": "https://aws.amazon.com/ec2/"
+      },
+      {
+        "label": "On-demand pricing",
+        "url": "https://aws.amazon.com/ec2/pricing/on-demand/"
+      },
+      {
+        "label": "Instance types",
+        "url": "https://aws.amazon.com/ec2/instance-types/"
+      },
+      {
+        "label": "Documentation",
+        "url": "https://docs.aws.amazon.com/ec2/"
+      },
+      {
+        "label": "Pricing calculator",
+        "url": "https://calculator.aws/#/createCalculator/ec2-enhancement"
+      }
+    ],
+    "databricks:databricks": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/"
+      }
+    ],
+    "databricks:data-intelligence-platform": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-intelligence-platform"
+      }
+    ],
+    "databricks:lakehouse": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-lakehouse"
+      }
+    ],
+    "databricks:apache-spark": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/spark"
+      }
+    ],
+    "databricks:photon": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/photon"
+      }
+    ],
+    "databricks:compute-clusters": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/compute/"
+      }
+    ],
+    "databricks:serverless-compute": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/serverless-compute"
+      }
+    ],
+    "databricks:databricks-runtime": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/machine-learning-runtime"
+      }
+    ],
+    "databricks:spark-real-time-mode": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-engineering/spark-real-time-mode"
+      }
+    ],
+    "databricks:multicloud": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-intelligence-platform"
+      }
+    ],
+    "databricks:lakeflow": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-engineering"
+      }
+    ],
+    "databricks:lakeflow-connect": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-engineering/lakeflow-connect"
+      }
+    ],
+    "databricks:zerobus-ingest": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-engineering/lakeflow-connect/zerobus-ingest"
+      }
+    ],
+    "databricks:spark-declarative-pipelines": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-engineering/spark-declarative-pipelines"
+      }
+    ],
+    "databricks:lakeflow-jobs": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-engineering/lakeflow-jobs"
+      }
+    ],
+    "databricks:lakeflow-designer": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-engineering/lakeflow-designer"
+      }
+    ],
+    "databricks:auto-loader": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/ingestion/cloud-object-storage/auto-loader/"
+      }
+    ],
+    "databricks:structured-streaming": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/structured-streaming/"
+      }
+    ],
+    "databricks:lakebridge": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/solutions/migration"
+      }
+    ],
+    "databricks:delta-lake": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/delta-lake-on-databricks"
+      }
+    ],
+    "databricks:apache-iceberg": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/lakehouse-storage"
+      }
+    ],
+    "databricks:lakehouse-storage": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/lakehouse-storage"
+      }
+    ],
+    "databricks:liquid-clustering": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/delta/clustering"
+      }
+    ],
+    "databricks:predictive-optimization": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/optimizations/predictive-optimization"
+      }
+    ],
+    "databricks:lakebase": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/lakebase"
+      }
+    ],
+    "databricks:data-warehousing": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/databricks-lakehouse"
+      }
+    ],
+    "databricks:databricks-sql": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/databricks-sql"
+      }
+    ],
+    "databricks:sql-warehouse": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/compute/sql-warehouse/"
+      }
+    ],
+    "databricks:lakehouse-rt": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/lakehouse/real-time-lakehouse"
+      }
+    ],
+    "databricks:ai-bi": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/business-intelligence"
+      }
+    ],
+    "databricks:ai-bi-dashboards": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/business-intelligence/ai-bi-dashboards"
+      }
+    ],
+    "databricks:lakehouse-federation": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/query-federation/"
+      }
+    ],
+    "databricks:genie": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/business-intelligence"
+      }
+    ],
+    "databricks:genie-one": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/genie/one"
+      }
+    ],
+    "databricks:genie-agents": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/genie/agents"
+      }
+    ],
+    "databricks:genie-code": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/genie/code"
+      }
+    ],
+    "databricks:genie-deep-research": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/genie/one"
+      }
+    ],
+    "databricks:agent-bricks": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/artificial-intelligence/agent-bricks"
+      }
+    ],
+    "databricks:ai-search": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/artificial-intelligence/ai-search"
+      }
+    ],
+    "databricks:unity-ai-gateway": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/artificial-intelligence/unity-ai-gateway"
+      }
+    ],
+    "databricks:document-intelligence": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/artificial-intelligence/document-intelligence"
+      }
+    ],
+    "databricks:model-serving": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/model-serving"
+      }
+    ],
+    "databricks:model-training": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/machine-learning/mosaic-ai-training"
+      }
+    ],
+    "databricks:mlflow": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/managed-mlflow"
+      }
+    ],
+    "databricks:feature-store": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/feature-store"
+      }
+    ],
+    "databricks:ai-functions": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/large-language-models/ai-functions"
+      }
+    ],
+    "databricks:automl": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/automl"
+      }
+    ],
+    "databricks:customerlake": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/customerlake-cdp"
+      }
+    ],
+    "databricks:unity-catalog": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/unity-catalog"
+      }
+    ],
+    "databricks:unity-catalog-semantics": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/unity-catalog/business-semantics"
+      }
+    ],
+    "databricks:data-lineage": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/data-governance/unity-catalog/data-lineage"
+      }
+    ],
+    "databricks:abac": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/data-governance/unity-catalog/abac/"
+      }
+    ],
+    "databricks:data-quality-monitoring": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/machine-learning/lakehouse-monitoring"
+      }
+    ],
+    "databricks:lakewatch": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/lakewatch"
+      }
+    ],
+    "databricks:system-tables": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/admin/system-tables/"
+      }
+    ],
+    "databricks:enterprise-security": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/trust/security-features"
+      }
+    ],
+    "databricks:delta-sharing": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/delta-sharing"
+      }
+    ],
+    "databricks:opensharing": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/opensharing"
+      }
+    ],
+    "databricks:marketplace": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/marketplace"
+      }
+    ],
+    "databricks:clean-rooms": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/collaboration/clean-rooms"
+      }
+    ],
+    "databricks:partner-connect": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/partnerconnect"
+      }
+    ],
+    "databricks:databricks-apps": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/databricks-apps"
+      }
+    ],
+    "databricks:notebooks": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/collaborative-notebooks"
+      }
+    ],
+    "databricks:workspace": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/workspace/"
+      }
+    ],
+    "databricks:git-folders": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/repos"
+      }
+    ],
+    "databricks:asset-bundles": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/dev-tools/bundles/"
+      }
+    ],
+    "databricks:databricks-cli": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/dev-tools/cli/"
+      }
+    ],
+    "databricks:databricks-connect": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/aws/en/dev-tools/databricks-connect/"
+      }
+    ],
+    "databricks:ide-integrations": [
+      {
+        "label": "Product",
+        "url": "https://www.databricks.com/product/data-science/ide-integrations"
+      }
+    ],
+    "databricks:rest-api": [
+      {
+        "label": "Product",
+        "url": "https://docs.databricks.com/api/workspace/introduction"
+      }
+    ],
+    "databricks:terraform-provider": [
+      {
+        "label": "Product",
+        "url": "https://registry.terraform.io/providers/databricks/databricks/latest/docs"
+      }
+    ]
+  }
+}

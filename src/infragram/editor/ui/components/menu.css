@@ -1,0 +1,26 @@
+/* A menu: a white panel with a hairline and a soft shadow, rows 32 px tall
+   that darken under the pointer (states.css). */
+.md-menu{min-width:160px;max-width:280px;padding:4px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);box-shadow:var(--ui-shadow-menu)}
+.md-menu .md-list-item{min-height:var(--ui-h-md);padding:0 8px;border-radius:var(--ui-radius-xs);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.md-menu .md-list-item[aria-checked="true"]{background:transparent;color:var(--md-sys-color-on-surface)}
+/* the shortcut that does the same, muted at the right */
+.md-menu__keys{margin-left:auto;padding-left:24px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking);white-space:nowrap}
+.md-menu .md-list-item:disabled .md-menu__keys{color:inherit}
+/* a row with the keyboard's focus is filled, not boxed: the menu is the box */
+.md-menu .md-list-item::before{display:none}
+.md-menu .md-list-item:focus-visible{outline:none;background:var(--md-sys-color-surface-container-high)}
+@media(hover:hover){.md-menu .md-list-item:hover:not(:disabled){background:var(--md-sys-color-surface-container-high)}}
+.md-menu .md-list-item[aria-checked="true"]::after{content:"";flex:none;width:18px;height:18px;margin-left:auto;background:currentColor;-webkit-mask:var(--md-icon-check) center/18px no-repeat;mask:var(--md-icon-check) center/18px no-repeat}
+.md-menu__header{display:block;overflow:hidden;padding:8px 8px 4px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);text-overflow:ellipsis;white-space:nowrap}
+.md-menu-anchor{position:relative}
+.md-menu-anchor>.md-menu{position:absolute;z-index:60;top:calc(100% + 4px);right:0}
+.md-menu-anchor>summary .md-expand-icon{width:18px;height:18px}
+/* Menus enter with a fade and a short drop, never a scale: a scale would
+   change the size a measuring script reads while the menu opens. */
+@keyframes md-menu-enter{from{opacity:0;translate:0 -4px}}
+.md-menu:not([hidden]){animation:md-menu-enter var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate)}
+/* the icon at a row's start: an empty slot where a row has none, so every
+   label starts at the same edge */
+.md-menu__icon{display:grid;flex:none;width:18px;height:18px;place-items:center;color:var(--md-sys-color-on-surface-variant)}
+.md-menu__icon .md-icon{width:18px;height:18px}
+.md-menu .md-list-item:is(:disabled,.md-list-item--danger) .md-menu__icon{color:inherit}

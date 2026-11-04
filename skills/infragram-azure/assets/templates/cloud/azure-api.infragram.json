@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "slug": "azure-api-reference",
+  "title": "Azure API reference",
+  "description": "Client traffic enters through Application Gateway, reaches App Service, and writes to Azure Storage.",
+  "provider": "azure",
+  "presentation": {
+    "size": "doc-wide",
+    "detail": "balanced",
+    "audience": "mixed",
+    "eyebrow": "Azure architecture",
+    "legend": [
+      [
+        "solid",
+        "Request and data flow"
+      ]
+    ]
+  },
+  "topology": {
+    "id": "root",
+    "name": "Azure API reference",
+    "type": "group",
+    "children": [
+      {
+        "id": "client",
+        "name": "Client",
+        "type": "client",
+        "component": {
+          "provider": "infragram",
+          "service_id": "public-users",
+          "icon_ref": "infragram:public-users"
+        },
+        "attributes": {
+          "detail": "browser"
+        },
+        "connections": [
+          {
+            "target": "gateway",
+            "kind": "solid",
+            "label": "HTTPS"
+          }
+        ]
+      },
+      {
+        "id": "gateway",
+        "name": "Application Gateway",
+        "type": "gateway",
+        "attributes": {
+          "icon": "application-gateways",
+          "category": "networking",
+          "detail": "ingress"
+        },
+        "connections": [
+          {
+            "target": "app",
+            "kind": "solid",
+            "label": "ROUTES"
+          }
+        ]
+      },
+      {
+        "id": "app",
+        "name": "App Service",
+        "type": "service",
+        "role": "hub",
+        "attributes": {
+          "icon": "app-services",
+          "category": "web",
+          "detail": "application"
+        },
+        "connections": [
+          {
+            "target": "storage",
+            "kind": "solid",
+            "label": "WRITES"
+          }
+        ]
+      },
+      {
+        "id": "storage",
+        "name": "Storage Account",
+        "type": "storage",
+        "attributes": {
+          "icon": "storage-accounts",
+          "category": "storage",
+          "detail": "object data"
+        }
+      }
+    ]
+  }
+}

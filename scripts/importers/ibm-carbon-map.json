@@ -1,0 +1,1418 @@
+[
+ {
+  "slug": "analytics-analytics",
+  "name": "Analytics",
+  "category": "analytics",
+  "carbon": "analytics",
+  "basis": "generic",
+  "note": "generic analytics line chart"
+ },
+ {
+  "slug": "analytics-data-integration",
+  "name": "Data Integration",
+  "category": "analytics",
+  "carbon": "integration",
+  "basis": "generic",
+  "note": "Carbon's generic integration glyph; DataStage icon would name one product"
+ },
+ {
+  "slug": "analytics-data-repositories",
+  "name": "Data Repositories",
+  "category": "analytics",
+  "carbon": "datastore",
+  "basis": "generic",
+  "note": "generic data store"
+ },
+ {
+  "slug": "analytics-device-analytics",
+  "name": "Device Analytics",
+  "category": "analytics",
+  "carbon": "iot--platform",
+  "basis": "generic",
+  "note": "IoT device glyph; no device-analytics icon, the chip says IoT not analytics"
+ },
+ {
+  "slug": "analytics-streaming-computing",
+  "name": "Streaming Computing",
+  "category": "analytics",
+  "carbon": "flow--stream",
+  "basis": "generic",
+  "note": "generic stream flow; Event Streams is Kafka, not stream computing"
+ },
+ {
+  "slug": "applications-actionable-insight",
+  "name": "Actionable Insight",
+  "category": "applications",
+  "carbon": "idea",
+  "basis": "generic",
+  "note": "lightbulb for insight"
+ },
+ {
+  "slug": "applications-annotate",
+  "name": "Annotate",
+  "category": "applications",
+  "carbon": "document--comment",
+  "basis": "generic",
+  "note": "document with comment mark"
+ },
+ {
+  "slug": "applications-api-developer-portal",
+  "name": "API Developer Portal",
+  "category": "applications",
+  "carbon": "ibm--webmethods-developer-portal",
+  "basis": "ibm-product",
+  "note": "IBM's API developer portal product (webMethods); the 2017 icon meant API Connect's portal"
+ },
+ {
+  "slug": "applications-api-polyglot-runtimes",
+  "name": "API Polyglot Runtimes",
+  "category": "applications",
+  "carbon": "cloud-foundry--1",
+  "basis": "ibm-product",
+  "note": "Bluemix polyglot runtimes were Cloud Foundry buildpacks"
+ },
+ {
+  "slug": "applications-app-server",
+  "name": "App Server",
+  "category": "applications",
+  "carbon": "bare-metal-server--02",
+  "basis": "generic",
+  "note": "plain server-stack glyph (Carbon names it bare metal 02); no app-server icon"
+ },
+ {
+  "slug": "applications-application-logic",
+  "name": "Application Logic",
+  "category": "applications",
+  "carbon": "flow--conditional",
+  "basis": "generic",
+  "note": "conditional flow for logic"
+ },
+ {
+  "slug": "applications-enterprise-applications",
+  "name": "Enterprise Applications",
+  "category": "applications",
+  "carbon": "apps",
+  "basis": "generic",
+  "note": "suite of applications"
+ },
+ {
+  "slug": "applications-index",
+  "name": "Index",
+  "category": "applications",
+  "carbon": "table-of-contents",
+  "basis": "generic",
+  "note": "index list"
+ },
+ {
+  "slug": "applications-iot-application",
+  "name": "IoT Application",
+  "category": "applications",
+  "carbon": "iot--connect",
+  "basis": "generic",
+  "note": "IoT connect chip"
+ },
+ {
+  "slug": "applications-microservice",
+  "name": "Microservice",
+  "category": "applications",
+  "carbon": "microservices--1",
+  "basis": "generic",
+  "note": "generic microservices"
+ },
+ {
+  "slug": "applications-mobile-app",
+  "name": "Mobile App",
+  "category": "applications",
+  "carbon": "application--mobile",
+  "basis": "generic",
+  "note": "mobile application"
+ },
+ {
+  "slug": "applications-ontology",
+  "name": "Ontology",
+  "category": "applications",
+  "carbon": "concept",
+  "basis": "generic",
+  "note": "concept graph"
+ },
+ {
+  "slug": "applications-open-source-tools",
+  "name": "Open Source Tools",
+  "category": "applications",
+  "carbon": "tools",
+  "basis": "generic",
+  "note": "generic tools; no open-source mark"
+ },
+ {
+  "slug": "applications-runtime-services",
+  "name": "Runtime Services",
+  "category": "applications",
+  "carbon": "container--runtime",
+  "basis": "generic",
+  "note": "generic runtime glyph (aliases: runtime); box with gear"
+ },
+ {
+  "slug": "applications-saas-applications",
+  "name": "Saas Applications",
+  "category": "applications",
+  "carbon": "cloud-app",
+  "basis": "generic",
+  "note": "app delivered from the cloud"
+ },
+ {
+  "slug": "applications-service-broker",
+  "name": "Service Broker",
+  "category": "applications",
+  "carbon": "none",
+  "basis": "none",
+  "note": "no broker glyph; connect/arrows would say link or exchange"
+ },
+ {
+  "slug": "applications-speech-to-text",
+  "name": "Speech To Text",
+  "category": "applications",
+  "carbon": "ibm-watson--speech-to-text",
+  "basis": "ibm-product",
+  "note": ""
+ },
+ {
+  "slug": "applications-visual-recognition",
+  "name": "Visual Recognition",
+  "category": "applications",
+  "carbon": "visual-recognition",
+  "basis": "generic",
+  "note": "Carbon's visual-recognition glyph (Watson VR is retired, no product icon)"
+ },
+ {
+  "slug": "applications-visualization",
+  "name": "Visualization",
+  "category": "applications",
+  "carbon": "chart--bar",
+  "basis": "generic",
+  "note": "bar chart for visualization"
+ },
+ {
+  "slug": "blockchain-blockchain",
+  "name": "Blockchain",
+  "category": "blockchain",
+  "carbon": "blockchain",
+  "basis": "generic",
+  "note": "Carbon blockchain glyph (abstract bracketed square)"
+ },
+ {
+  "slug": "blockchain-blockchain-developer",
+  "name": "Blockchain Developer",
+  "category": "blockchain",
+  "carbon": "development",
+  "basis": "generic",
+  "note": "development blocks; no developer-person icon"
+ },
+ {
+  "slug": "blockchain-certificate-authority",
+  "name": "Certificate Authority",
+  "category": "blockchain",
+  "carbon": "certificate",
+  "basis": "generic",
+  "note": "certificate"
+ },
+ {
+  "slug": "blockchain-client-application",
+  "name": "Client Application",
+  "category": "blockchain",
+  "carbon": "application",
+  "basis": "generic",
+  "note": "generic application"
+ },
+ {
+  "slug": "blockchain-communication",
+  "name": "Communication",
+  "category": "blockchain",
+  "carbon": "connection--two-way",
+  "basis": "generic",
+  "note": "two-way communication"
+ },
+ {
+  "slug": "blockchain-consensus",
+  "name": "Consensus",
+  "category": "blockchain",
+  "carbon": "checkmark--double",
+  "basis": "generic",
+  "note": "double approval for agreement among peers"
+ },
+ {
+  "slug": "blockchain-event",
+  "name": "Event",
+  "category": "blockchain",
+  "carbon": "event",
+  "basis": "generic",
+  "note": "generic event"
+ },
+ {
+  "slug": "blockchain-event-listener",
+  "name": "Event Listener",
+  "category": "blockchain",
+  "carbon": "trigger",
+  "basis": "generic",
+  "note": "Carbon trigger (aliases: listener, events)"
+ },
+ {
+  "slug": "blockchain-existing-enterprise-systems",
+  "name": "Existing Enterprise Systems",
+  "category": "blockchain",
+  "carbon": "enterprise",
+  "basis": "generic",
+  "note": "enterprise building; same kind as Enterprise"
+ },
+ {
+  "slug": "blockchain-hyperledger-fabric",
+  "name": "Hyperledger Fabric",
+  "category": "blockchain",
+  "carbon": "blockchain",
+  "basis": "generic",
+  "note": "Fabric is a blockchain framework; no Hyperledger icon"
+ },
+ {
+  "slug": "blockchain-key-management",
+  "name": "Key Management",
+  "category": "blockchain",
+  "carbon": "keychain",
+  "basis": "generic",
+  "note": "keys"
+ },
+ {
+  "slug": "blockchain-ledger",
+  "name": "Ledger",
+  "category": "blockchain",
+  "carbon": "book",
+  "basis": "generic",
+  "note": "ledger as a book of records"
+ },
+ {
+  "slug": "blockchain-membership",
+  "name": "Membership",
+  "category": "blockchain",
+  "carbon": "user--multiple",
+  "basis": "generic",
+  "note": "members"
+ },
+ {
+  "slug": "blockchain-membership-services-provider-api",
+  "name": "Membership Services Provider API",
+  "category": "blockchain",
+  "carbon": "user--certification",
+  "basis": "generic",
+  "note": "MSP issues member identity certificates"
+ },
+ {
+  "slug": "blockchain-message-bus",
+  "name": "Message Bus",
+  "category": "blockchain",
+  "carbon": "message-queue",
+  "basis": "generic",
+  "note": "messaging; queue glyph stands for the bus"
+ },
+ {
+  "slug": "blockchain-node",
+  "name": "Node",
+  "category": "blockchain",
+  "carbon": "bare-metal-server--01",
+  "basis": "generic",
+  "note": "a peer node is a server; plain server glyph"
+ },
+ {
+  "slug": "blockchain-services",
+  "name": "Services",
+  "category": "blockchain",
+  "carbon": "settings--services",
+  "basis": "generic",
+  "note": "generic services gear"
+ },
+ {
+  "slug": "blockchain-smart-contract",
+  "name": "Smart Contract",
+  "category": "blockchain",
+  "carbon": "document--signed",
+  "basis": "generic",
+  "note": "signed contract document"
+ },
+ {
+  "slug": "blockchain-transaction-manager",
+  "name": "Transaction Manager",
+  "category": "blockchain",
+  "carbon": "none",
+  "basis": "none",
+  "note": "no transaction-manager glyph; CICS icons are a different product"
+ },
+ {
+  "slug": "blockchain-wallet",
+  "name": "Wallet",
+  "category": "blockchain",
+  "carbon": "wallet",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "compute-bare-metal-server",
+  "name": "Bare Metal Server",
+  "category": "compute",
+  "carbon": "ibm-cloud--bare-metal-server",
+  "basis": "ibm-product",
+  "note": ""
+ },
+ {
+  "slug": "compute-image-service",
+  "name": "Image Service",
+  "category": "compute",
+  "carbon": "ibm-cloud--vpc-images",
+  "basis": "ibm-product",
+  "note": "VPC image service"
+ },
+ {
+  "slug": "compute-instance",
+  "name": "Instance",
+  "category": "compute",
+  "carbon": "ibm-cloud--virtual-server-vpc",
+  "basis": "ibm-product",
+  "note": "VPC virtual server instance"
+ },
+ {
+  "slug": "compute-key",
+  "name": "Key",
+  "category": "compute",
+  "carbon": "password",
+  "basis": "generic",
+  "note": "key glyph for SSH key"
+ },
+ {
+  "slug": "compute-power-instance",
+  "name": "Power Instance",
+  "category": "compute",
+  "carbon": "ibm--power-vs",
+  "basis": "ibm-product",
+  "note": "Power Virtual Server instance"
+ },
+ {
+  "slug": "data-caches",
+  "name": "Caches",
+  "category": "data",
+  "carbon": "database--redis",
+  "basis": "generic",
+  "note": "IBM's cache service is Databases for Redis"
+ },
+ {
+  "slug": "data-cloud",
+  "name": "Cloud",
+  "category": "data",
+  "carbon": "cloud",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "data-conversation-trained-deployed",
+  "name": "Conversation Trained Deployed",
+  "category": "data",
+  "carbon": "chat-bot",
+  "basis": "generic",
+  "note": "trained conversation bot"
+ },
+ {
+  "slug": "data-data-services",
+  "name": "Data Services",
+  "category": "data",
+  "carbon": "data--base",
+  "basis": "generic",
+  "note": "generic database"
+ },
+ {
+  "slug": "data-data-sources",
+  "name": "Data Sources",
+  "category": "data",
+  "carbon": "data--set",
+  "basis": "generic",
+  "note": "data set"
+ },
+ {
+  "slug": "data-device-identity-service",
+  "name": "Device Identity Service",
+  "category": "data",
+  "carbon": "id-management",
+  "basis": "generic",
+  "note": "identity management gear"
+ },
+ {
+  "slug": "data-device-registry",
+  "name": "Device Registry",
+  "category": "data",
+  "carbon": "devices",
+  "basis": "generic",
+  "note": "devices; registry of devices"
+ },
+ {
+  "slug": "data-enterprise-data",
+  "name": "Enterprise Data",
+  "category": "data",
+  "carbon": "datastore",
+  "basis": "generic",
+  "note": "stored enterprise records; same kind as Data Repositories (data--structured read as an org chart)"
+ },
+ {
+  "slug": "data-enterprise-user-directory",
+  "name": "Enterprise User Directory",
+  "category": "data",
+  "carbon": "directory-domain",
+  "basis": "generic",
+  "note": "directory domain"
+ },
+ {
+  "slug": "data-file-repository",
+  "name": "File Repository",
+  "category": "data",
+  "carbon": "file--storage",
+  "basis": "generic",
+  "note": "file storage"
+ },
+ {
+  "slug": "data-ground-truth",
+  "name": "Ground Truth",
+  "category": "data",
+  "carbon": "data--check",
+  "basis": "generic",
+  "note": "verified data"
+ },
+ {
+  "slug": "data-model",
+  "name": "Model",
+  "category": "data",
+  "carbon": "machine-learning-model",
+  "basis": "generic",
+  "note": "ML model"
+ },
+ {
+  "slug": "data-tms-data-interface",
+  "name": "Tms Data Interface",
+  "category": "data",
+  "carbon": "none",
+  "basis": "none",
+  "note": "TMS-specific interface; nothing depicts it"
+ },
+ {
+  "slug": "devops-artifact-management",
+  "name": "Artifact Management",
+  "category": "devops",
+  "carbon": "repo--artifact",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "devops-build-test",
+  "name": "Build Test",
+  "category": "devops",
+  "carbon": "build-tool",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "devops-code-editor",
+  "name": "Code Editor",
+  "category": "devops",
+  "carbon": "code",
+  "basis": "generic",
+  "note": "code brackets"
+ },
+ {
+  "slug": "devops-collaborative-development",
+  "name": "Collaborative Development",
+  "category": "devops",
+  "carbon": "pull-request",
+  "basis": "generic",
+  "note": "pull request = collaborative development"
+ },
+ {
+  "slug": "devops-configuration-management",
+  "name": "Configuration Management",
+  "category": "devops",
+  "carbon": "document--configuration",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "devops-continuous-deploy",
+  "name": "Continuous Deploy",
+  "category": "devops",
+  "carbon": "continuous-deployment",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "devops-continuous-testing",
+  "name": "Continuous Testing",
+  "category": "devops",
+  "carbon": "test-tool",
+  "basis": "generic",
+  "note": "generic test glyph"
+ },
+ {
+  "slug": "devops-devops",
+  "name": "Devops",
+  "category": "devops",
+  "carbon": "infinity-symbol",
+  "basis": "generic",
+  "note": "the DevOps loop"
+ },
+ {
+  "slug": "devops-provision",
+  "name": "Provision",
+  "category": "devops",
+  "carbon": "sys-provision",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "devops-release-management",
+  "name": "Release Management",
+  "category": "devops",
+  "carbon": "version",
+  "basis": "generic",
+  "note": "versioned releases"
+ },
+ {
+  "slug": "general-cloud-messaging",
+  "name": "Cloud Messaging",
+  "category": "general",
+  "carbon": "message-queue",
+  "basis": "generic",
+  "note": "message queue; same kind as message bus"
+ },
+ {
+  "slug": "general-cloud-services",
+  "name": "Cloud Services",
+  "category": "general",
+  "carbon": "cloud-services",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "general-cloudant",
+  "name": "Cloudant",
+  "category": "general",
+  "carbon": "ibm--cloudant",
+  "basis": "ibm-product",
+  "note": ""
+ },
+ {
+  "slug": "general-cognitive-services",
+  "name": "Cognitive Services",
+  "category": "general",
+  "carbon": "cognitive",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "general-data-security",
+  "name": "Data Security",
+  "category": "general",
+  "carbon": "data-set-encryption",
+  "basis": "generic",
+  "note": "database + lock glyph (Carbon names it for z/OS data set encryption)"
+ },
+ {
+  "slug": "general-enterprise",
+  "name": "Enterprise",
+  "category": "general",
+  "carbon": "enterprise",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "general-governance-risk-compliance",
+  "name": "Governance Risk Compliance",
+  "category": "general",
+  "carbon": "policy",
+  "basis": "generic",
+  "note": "policy document with seal"
+ },
+ {
+  "slug": "general-ibm-containers",
+  "name": "IBM Containers",
+  "category": "general",
+  "carbon": "container-services",
+  "basis": "generic",
+  "note": "IBM Containers was retired; generic container services"
+ },
+ {
+  "slug": "general-identity-access-management",
+  "name": "Identity Access Management",
+  "category": "general",
+  "carbon": "user--access",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "general-identity-provider",
+  "name": "Identity Provider",
+  "category": "general",
+  "carbon": "digital--identity",
+  "basis": "generic",
+  "note": "identity verification"
+ },
+ {
+  "slug": "general-infrastructure-security",
+  "name": "Infrastructure Security",
+  "category": "general",
+  "carbon": "security",
+  "basis": "generic",
+  "note": "generic shield"
+ },
+ {
+  "slug": "general-internet",
+  "name": "Internet",
+  "category": "general",
+  "carbon": "earth",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "general-microservices-application",
+  "name": "Microservices Application",
+  "category": "general",
+  "carbon": "microservices--2",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "general-microservices-mesh",
+  "name": "Microservices Mesh",
+  "category": "general",
+  "carbon": "network--4",
+  "basis": "generic",
+  "note": "interconnected nodes; no service-mesh icon"
+ },
+ {
+  "slug": "general-monitoring",
+  "name": "Monitoring",
+  "category": "general",
+  "carbon": "cloud--monitoring",
+  "basis": "ibm-product",
+  "note": "IBM Cloud Monitoring"
+ },
+ {
+  "slug": "general-monitoring-logging",
+  "name": "Monitoring Logging",
+  "category": "general",
+  "carbon": "cloud--logging",
+  "basis": "ibm-product",
+  "note": "IBM Cloud Log Analysis glyph"
+ },
+ {
+  "slug": "general-object-storage",
+  "name": "Object Storage",
+  "category": "general",
+  "carbon": "object-storage",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "general-offline-capabilities",
+  "name": "Offline Capabilities",
+  "category": "general",
+  "carbon": "cloud--offline",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "general-openwhisk",
+  "name": "Openwhisk",
+  "category": "general",
+  "carbon": "function",
+  "basis": "generic",
+  "note": "Carbon function glyph; Cloud Functions is retired, Code Engine is a different service"
+ },
+ {
+  "slug": "general-retrieve-rank",
+  "name": "Retrieve Rank",
+  "category": "general",
+  "carbon": "improve-relevance",
+  "basis": "generic",
+  "note": "relevance ranking; Retrieve and Rank is retired"
+ },
+ {
+  "slug": "general-scalable",
+  "name": "Scalable",
+  "category": "general",
+  "carbon": "autoscaling",
+  "basis": "ibm-product",
+  "note": "IBM Cloud autoscaling"
+ },
+ {
+  "slug": "general-service-discovery-configuration",
+  "name": "Service Discovery Configuration",
+  "category": "general",
+  "carbon": "search--locate",
+  "basis": "generic",
+  "note": "locate in a list = registry lookup"
+ },
+ {
+  "slug": "general-text-to-speech",
+  "name": "Text To Speech",
+  "category": "general",
+  "carbon": "ibm-watson--text-to-speech",
+  "basis": "ibm-product",
+  "note": ""
+ },
+ {
+  "slug": "general-transformation-connectivity",
+  "name": "Transformation Connectivity",
+  "category": "general",
+  "carbon": "app-connectivity",
+  "basis": "generic",
+  "note": "app connectivity"
+ },
+ {
+  "slug": "infrastructure-channels",
+  "name": "Channels",
+  "category": "infrastructure",
+  "carbon": "devices--apps",
+  "basis": "generic",
+  "note": "delivery channels: mobile, desktop, apps"
+ },
+ {
+  "slug": "infrastructure-cloud-messaging",
+  "name": "Cloud Messaging",
+  "category": "infrastructure",
+  "carbon": "message-queue",
+  "basis": "generic",
+  "note": "same as general Cloud Messaging"
+ },
+ {
+  "slug": "infrastructure-dashboard",
+  "name": "Dashboard",
+  "category": "infrastructure",
+  "carbon": "dashboard",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "infrastructure-diagnostics",
+  "name": "Diagnostics",
+  "category": "infrastructure",
+  "carbon": "stethoscope",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "infrastructure-edge-services",
+  "name": "Edge Services",
+  "category": "infrastructure",
+  "carbon": "edge-service",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "infrastructure-enterprise-messaging",
+  "name": "Enterprise Messaging",
+  "category": "infrastructure",
+  "carbon": "ibm--mq",
+  "basis": "ibm-product",
+  "note": "IBM MQ is IBM's enterprise messaging"
+ },
+ {
+  "slug": "infrastructure-event-feed",
+  "name": "Event Feed",
+  "category": "infrastructure",
+  "carbon": "rss",
+  "basis": "generic",
+  "note": "feed"
+ },
+ {
+  "slug": "infrastructure-infrastructure-services",
+  "name": "Infrastructure Services",
+  "category": "infrastructure",
+  "carbon": "infrastructure--classic",
+  "basis": "ibm-product",
+  "note": "IBM Cloud Classic Infrastructure (the SoftLayer IaaS of that era)"
+ },
+ {
+  "slug": "infrastructure-interservice-communication",
+  "name": "Interservice Communication",
+  "category": "infrastructure",
+  "carbon": "connection--two-way",
+  "basis": "generic",
+  "note": "same kind as Communication"
+ },
+ {
+  "slug": "infrastructure-load-balancing-routing",
+  "name": "Load Balancing Routing",
+  "category": "infrastructure",
+  "carbon": "load-balancer--application",
+  "basis": "generic",
+  "note": "L7 load balancing and routing"
+ },
+ {
+  "slug": "infrastructure-microservices-mesh",
+  "name": "Microservices Mesh",
+  "category": "infrastructure",
+  "carbon": "network--4",
+  "basis": "generic",
+  "note": "same as general Microservices Mesh"
+ },
+ {
+  "slug": "infrastructure-mobile-backend",
+  "name": "Mobile Backend",
+  "category": "infrastructure",
+  "carbon": "bare-metal-server--02",
+  "basis": "generic",
+  "note": "backend server glyph; same as App Server"
+ },
+ {
+  "slug": "infrastructure-mobile-provider-network",
+  "name": "Mobile Provider Network",
+  "category": "infrastructure",
+  "carbon": "cell-tower",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "infrastructure-monitoring",
+  "name": "Monitoring",
+  "category": "infrastructure",
+  "carbon": "cloud--monitoring",
+  "basis": "ibm-product",
+  "note": "IBM Cloud Monitoring"
+ },
+ {
+  "slug": "infrastructure-monitoring-logging",
+  "name": "Monitoring Logging",
+  "category": "infrastructure",
+  "carbon": "cloud--logging",
+  "basis": "ibm-product",
+  "note": "IBM Cloud Log Analysis glyph"
+ },
+ {
+  "slug": "infrastructure-peer-services",
+  "name": "Peer Services",
+  "category": "infrastructure",
+  "carbon": "none",
+  "basis": "none",
+  "note": "meaning unclear; no honest glyph"
+ },
+ {
+  "slug": "infrastructure-service-discovery-configuration",
+  "name": "Service Discovery Configuration",
+  "category": "infrastructure",
+  "carbon": "search--locate",
+  "basis": "generic",
+  "note": "same as general Service Discovery"
+ },
+ {
+  "slug": "infrastructure-transformation-connectivity",
+  "name": "Transformation Connectivity",
+  "category": "infrastructure",
+  "carbon": "app-connectivity",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "management-alert-notification",
+  "name": "Alert Notification",
+  "category": "management",
+  "carbon": "cloud--alerting",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "management-api-management",
+  "name": "API Management",
+  "category": "management",
+  "carbon": "ibm--api-connect",
+  "basis": "ibm-product",
+  "note": "API Connect is IBM's API management"
+ },
+ {
+  "slug": "management-cloud-management",
+  "name": "Cloud Management",
+  "category": "management",
+  "carbon": "cloud--service-management",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "management-cluster-management",
+  "name": "Cluster Management",
+  "category": "management",
+  "carbon": "software-resource--cluster",
+  "basis": "generic",
+  "note": "generic cluster; no cluster-management icon"
+ },
+ {
+  "slug": "management-content-management",
+  "name": "Content Management",
+  "category": "management",
+  "carbon": "document--multiple-01",
+  "basis": "generic",
+  "note": "documents"
+ },
+ {
+  "slug": "management-data-services",
+  "name": "Data Services",
+  "category": "management",
+  "carbon": "data--base",
+  "basis": "generic",
+  "note": "same as data Data Services"
+ },
+ {
+  "slug": "management-device-management",
+  "name": "Device Management",
+  "category": "management",
+  "carbon": "mobile--check",
+  "basis": "generic",
+  "note": "managed device"
+ },
+ {
+  "slug": "management-information-governance",
+  "name": "Information Governance",
+  "category": "management",
+  "carbon": "rule--data-quality",
+  "basis": "generic",
+  "note": "data rule review; Knowledge Catalog would name a product"
+ },
+ {
+  "slug": "management-it-service-management",
+  "name": "It Service Management",
+  "category": "management",
+  "carbon": "service-desk",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "management-management",
+  "name": "Management",
+  "category": "management",
+  "carbon": "gui--management",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "management-monitoring-metrics",
+  "name": "Monitoring Metrics",
+  "category": "management",
+  "carbon": "meter",
+  "basis": "generic",
+  "note": "gauge"
+ },
+ {
+  "slug": "management-process-management",
+  "name": "Process Management",
+  "category": "management",
+  "carbon": "business-processes",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "management-provider-cloud-portal-service",
+  "name": "Provider Cloud Portal Service",
+  "category": "management",
+  "carbon": "none",
+  "basis": "none",
+  "note": "no provider-portal glyph"
+ },
+ {
+  "slug": "management-push-notifications",
+  "name": "Push Notifications",
+  "category": "management",
+  "carbon": "notification--new",
+  "basis": "generic",
+  "note": "bell with new dot"
+ },
+ {
+  "slug": "management-service-management-tools",
+  "name": "Service Management Tools",
+  "category": "management",
+  "carbon": "tool-box",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-bridge",
+  "name": "Bridge",
+  "category": "network",
+  "carbon": "switch-layer-2",
+  "basis": "generic",
+  "note": "a bridge is a layer-2 device"
+ },
+ {
+  "slug": "network-direct-link",
+  "name": "Direct Link",
+  "category": "network",
+  "carbon": "direct-link",
+  "basis": "ibm-product",
+  "note": "IBM Cloud Direct Link 2.0"
+ },
+ {
+  "slug": "network-enterprise",
+  "name": "Enterprise",
+  "category": "network",
+  "carbon": "network--enterprise",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-firewall",
+  "name": "Firewall",
+  "category": "network",
+  "carbon": "firewall",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-floating-ip",
+  "name": "Floating IP",
+  "category": "network",
+  "carbon": "floating-ip",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-gateway",
+  "name": "Gateway",
+  "category": "network",
+  "carbon": "gateway",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-internet-services",
+  "name": "Internet Services",
+  "category": "network",
+  "carbon": "ibm-cloud--internet-services",
+  "basis": "ibm-product",
+  "note": ""
+ },
+ {
+  "slug": "network-load-balancer",
+  "name": "Load Balancer",
+  "category": "network",
+  "carbon": "load-balancer--vpc",
+  "basis": "ibm-product",
+  "note": "IBM Cloud Load Balancer for VPC"
+ },
+ {
+  "slug": "network-load-balancer-listener",
+  "name": "Load Balancer Listener",
+  "category": "network",
+  "carbon": "load-balancer--listener",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-load-balancer-pool",
+  "name": "Load Balancer Pool",
+  "category": "network",
+  "carbon": "load-balancer--pool",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-load-balancing-routing",
+  "name": "Load Balancing Routing",
+  "category": "network",
+  "carbon": "load-balancer--application",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-public-gateway",
+  "name": "Public Gateway",
+  "category": "network",
+  "carbon": "gateway--public",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-region",
+  "name": "Region",
+  "category": "network",
+  "carbon": "location",
+  "basis": "generic",
+  "note": "location pin for a region"
+ },
+ {
+  "slug": "network-router",
+  "name": "Router",
+  "category": "network",
+  "carbon": "router",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-rules",
+  "name": "Rules",
+  "category": "network",
+  "carbon": "subnet-acl-rules",
+  "basis": "generic",
+  "note": "network ACL rules"
+ },
+ {
+  "slug": "network-subnet",
+  "name": "Subnet",
+  "category": "network",
+  "carbon": "ibm-cloud--subnets",
+  "basis": "ibm-product",
+  "note": ""
+ },
+ {
+  "slug": "network-transit-gateway",
+  "name": "Transit Gateway",
+  "category": "network",
+  "carbon": "ibm-cloud--transit-gateway",
+  "basis": "ibm-product",
+  "note": ""
+ },
+ {
+  "slug": "network-vpc",
+  "name": "VPC",
+  "category": "network",
+  "carbon": "ibm-cloud--vpc",
+  "basis": "ibm-product",
+  "note": ""
+ },
+ {
+  "slug": "network-vpn-connection",
+  "name": "VPN Connection",
+  "category": "network",
+  "carbon": "vpn--connection",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "network-vpn-gateway",
+  "name": "VPN Gateway",
+  "category": "network",
+  "carbon": "ibm--vpn-for-vpc",
+  "basis": "ibm-product",
+  "note": "VPN for VPC is the VPC VPN gateway"
+ },
+ {
+  "slug": "network-vpn-policy",
+  "name": "VPN Policy",
+  "category": "network",
+  "carbon": "vpn--policy",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "security-api-security",
+  "name": "API Security",
+  "category": "security",
+  "carbon": "api--key",
+  "basis": "generic",
+  "note": "API key"
+ },
+ {
+  "slug": "security-blockchain-security-service",
+  "name": "Blockchain Security Service",
+  "category": "security",
+  "carbon": "none",
+  "basis": "none",
+  "note": "no glyph for it"
+ },
+ {
+  "slug": "security-data-security",
+  "name": "Data Security",
+  "category": "security",
+  "carbon": "data-set-encryption",
+  "basis": "generic",
+  "note": "same as general Data Security"
+ },
+ {
+  "slug": "security-firewall",
+  "name": "Firewall",
+  "category": "security",
+  "carbon": "firewall",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "security-gateway",
+  "name": "Gateway",
+  "category": "security",
+  "carbon": "gateway--security",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "security-governance-risk-compliance",
+  "name": "Governance Risk Compliance",
+  "category": "security",
+  "carbon": "policy",
+  "basis": "generic",
+  "note": "same as general GRC"
+ },
+ {
+  "slug": "security-identity-access-management",
+  "name": "Identity Access Management",
+  "category": "security",
+  "carbon": "user--access",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "security-identity-provider",
+  "name": "Identity Provider",
+  "category": "security",
+  "carbon": "digital--identity",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "security-infrastructure-security",
+  "name": "Infrastructure Security",
+  "category": "security",
+  "carbon": "security",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "security-physical-security",
+  "name": "Physical Security",
+  "category": "security",
+  "carbon": "police",
+  "basis": "generic",
+  "note": "guard (aliases: security, guard)"
+ },
+ {
+  "slug": "security-security-monitoring-intelligence",
+  "name": "Security Monitoring Intelligence",
+  "category": "security",
+  "carbon": "shield--alert",
+  "basis": "generic",
+  "note": "threat alert"
+ },
+ {
+  "slug": "security-security-services",
+  "name": "Security Services",
+  "category": "security",
+  "carbon": "security-services",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "security-trustend-computing",
+  "name": "Trustend Computing",
+  "category": "security",
+  "carbon": "none",
+  "basis": "none",
+  "note": "no TPM/attestation glyph; HSM or Hyper Protect would be a different thing"
+ },
+ {
+  "slug": "security-vpn",
+  "name": "VPN",
+  "category": "security",
+  "carbon": "VPN",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "social-communities",
+  "name": "Communities",
+  "category": "social",
+  "carbon": "group",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "social-file-sync",
+  "name": "File Sync",
+  "category": "social",
+  "carbon": "folder--shared",
+  "basis": "generic",
+  "note": "shared folder; no sync glyph that fits"
+ },
+ {
+  "slug": "social-live-collaboration",
+  "name": "Live Collaboration",
+  "category": "social",
+  "carbon": "collaborate",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "social-messaging",
+  "name": "Messaging",
+  "category": "social",
+  "carbon": "chat",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "social-networking",
+  "name": "Networking",
+  "category": "social",
+  "carbon": "friendship",
+  "basis": "generic",
+  "note": "people connected"
+ },
+ {
+  "slug": "storage-block-storage",
+  "name": "Block Storage",
+  "category": "storage",
+  "carbon": "block-storage",
+  "basis": "ibm-product",
+  "note": "IBM Cloud Block Storage for VPC"
+ },
+ {
+  "slug": "storage-object-storage",
+  "name": "Object Storage",
+  "category": "storage",
+  "carbon": "object-storage",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "user-browser",
+  "name": "Browser",
+  "category": "user",
+  "carbon": "application--web",
+  "basis": "generic",
+  "note": "browser window"
+ },
+ {
+  "slug": "user-device",
+  "name": "Device",
+  "category": "user",
+  "carbon": "devices",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "user-integrated-digital-experiences",
+  "name": "Integrated Digital Experiences",
+  "category": "user",
+  "carbon": "none",
+  "basis": "none",
+  "note": "omnichannel experience; devices--apps already says Channels"
+ },
+ {
+  "slug": "user-physical-entity",
+  "name": "Physical Entity",
+  "category": "user",
+  "carbon": "none",
+  "basis": "none",
+  "note": "nothing depicts an arbitrary physical thing; cube/box would mislead"
+ },
+ {
+  "slug": "user-sensor",
+  "name": "Sensor",
+  "category": "user",
+  "carbon": "sensor",
+  "basis": "generic",
+  "note": ""
+ },
+ {
+  "slug": "user-user",
+  "name": "User",
+  "category": "user",
+  "carbon": "user",
+  "basis": "generic",
+  "note": ""
+ }
+]

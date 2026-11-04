@@ -1,0 +1,771 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "infragram-project.schema.json",
+  "title": "Infragram Azure project",
+  "description": "An .infragram.json document: the one source every export of a diagram is drawn from.",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/CloudProject"
+    },
+    {
+      "$ref": "#/$defs/OlderVersion"
+    }
+  ],
+  "$defs": {
+    "Badge": {
+      "additionalProperties": false,
+      "description": "What applies to a frame, drawn on its top-right corner: a subnet's\nnetwork security group or route table, the way Azure's reference\ndiagrams seat an NSG on its subnet.\n\nThe first badge's icon sits on the corner point, the rest on the top\nborder leftwards from it, each name just under the line to the left of\nits icon. A label written ``Type · name`` sets the type in the frame's\nquiet tone. Both renderers draw it (``CORNER_BADGE`` in builders/scene.py\nand runtime 14-shapes).",
+      "properties": {
+        "icon": {
+          "title": "Icon",
+          "type": "string"
+        },
+        "collection": {
+          "default": "",
+          "title": "Collection",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "title": "Label",
+          "type": "string"
+        },
+        "side": {
+          "default": "top",
+          "enum": [
+            "corner",
+            "edge",
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ],
+          "title": "Side",
+          "type": "string"
+        },
+        "offset": {
+          "default": 0.5,
+          "title": "Offset",
+          "type": "number"
+        }
+      },
+      "required": [
+        "icon"
+      ],
+      "title": "Badge",
+      "type": "object"
+    },
+    "ComponentRef": {
+      "additionalProperties": false,
+      "description": "Stable provider-qualified identity for a catalog-backed component.",
+      "properties": {
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "service_id": {
+          "title": "Service Id",
+          "type": "string"
+        },
+        "icon_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Icon Ref"
+        }
+      },
+      "required": [
+        "provider",
+        "service_id"
+      ],
+      "title": "ComponentRef",
+      "type": "object"
+    },
+    "Connection": {
+      "additionalProperties": false,
+      "description": "A declared link from one element to another, by id.\n\nContainment is ``>>``; this is the other axis -- what talks to what.\nStored by target id rather than by object so the tree stays a tree and\na link can point anywhere in it, including across branches.",
+      "properties": {
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "kind": {
+          "default": "solid",
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "title": "Label",
+          "type": "string"
+        },
+        "waypoints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Waypoint"
+          },
+          "title": "Waypoints",
+          "type": "array"
+        },
+        "label_placement": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LabelPlacement"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "direction": {
+          "default": "forward",
+          "enum": [
+            "forward",
+            "both",
+            "none"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "maximum": 99,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "step_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Text"
+        },
+        "step_flow": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step Flow"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "title": "Connection",
+      "type": "object"
+    },
+    "LabelPlacement": {
+      "additionalProperties": false,
+      "description": "Editor-neutral placement metadata for a connector label.\n\nManual coordinates are offsets from the renderer's automatic label anchor,\nso a label follows its connector when connected nodes move or resize.",
+      "properties": {
+        "mode": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "dx": {
+          "default": 0,
+          "title": "Dx",
+          "type": "number"
+        },
+        "dy": {
+          "default": 0,
+          "title": "Dy",
+          "type": "number"
+        }
+      },
+      "title": "LabelPlacement",
+      "type": "object"
+    },
+    "Layer": {
+      "additionalProperties": false,
+      "description": "Visibility and z-order grouping, independent from containment.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "kind": {
+          "default": "logical",
+          "enum": [
+            "provider",
+            "platform",
+            "on-prem",
+            "logical"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "provider": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Provider"
+        },
+        "visible": {
+          "default": true,
+          "title": "Visible",
+          "type": "boolean"
+        },
+        "locked": {
+          "default": false,
+          "title": "Locked",
+          "type": "boolean"
+        },
+        "order": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Order",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Layer",
+      "type": "object"
+    },
+    "Presentation": {
+      "additionalProperties": false,
+      "description": "Layout and wording choices that materially affect rendering.",
+      "properties": {
+        "size": {
+          "default": "doc-inline",
+          "enum": [
+            "doc-inline",
+            "doc-wide",
+            "slide-16x9",
+            "slide-4x3",
+            "social-og",
+            "social-square",
+            "print-a4-landscape",
+            "print-letter-landscape",
+            "fit"
+          ],
+          "title": "Size",
+          "type": "string"
+        },
+        "detail": {
+          "default": "balanced",
+          "enum": [
+            "faithful",
+            "balanced",
+            "simplified"
+          ],
+          "title": "Detail",
+          "type": "string"
+        },
+        "audience": {
+          "default": "mixed",
+          "enum": [
+            "engineer",
+            "mixed",
+            "executive"
+          ],
+          "title": "Audience",
+          "type": "string"
+        },
+        "eyebrow": {
+          "default": "Architecture",
+          "title": "Eyebrow",
+          "type": "string"
+        },
+        "heading": {
+          "default": "",
+          "title": "Heading",
+          "type": "string"
+        },
+        "legend": {
+          "default": [],
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Legend",
+          "type": "array"
+        },
+        "tones": {
+          "default": [],
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Tones",
+          "type": "array"
+        },
+        "display": {
+          "default": "icon",
+          "enum": [
+            "card",
+            "icon"
+          ],
+          "title": "Display",
+          "type": "string"
+        },
+        "crossings": {
+          "default": "plain",
+          "enum": [
+            "plain",
+            "bridge"
+          ],
+          "title": "Crossings",
+          "type": "string"
+        },
+        "frame_lines": {
+          "default": "thin",
+          "enum": [
+            "thin",
+            "medium",
+            "thick"
+          ],
+          "title": "Frame Lines",
+          "type": "string"
+        },
+        "status": {
+          "default": "",
+          "title": "Status",
+          "type": "string"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "drawn": {
+          "default": "",
+          "title": "Drawn",
+          "type": "string"
+        }
+      },
+      "title": "Presentation",
+      "type": "object"
+    },
+    "ProviderSelection": {
+      "additionalProperties": false,
+      "description": "One provider or platform library installed in a project.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "ProviderSelection",
+      "type": "object"
+    },
+    "TopologyElement": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        },
+        "component": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "layer_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Layer Id"
+        },
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "children": {
+          "items": {
+            "$ref": "#/$defs/TopologyElement"
+          },
+          "title": "Children",
+          "type": "array"
+        },
+        "connections": {
+          "items": {
+            "$ref": "#/$defs/Connection"
+          },
+          "title": "Connections",
+          "type": "array"
+        },
+        "badges": {
+          "items": {
+            "$ref": "#/$defs/Badge"
+          },
+          "title": "Badges",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type"
+      ],
+      "title": "TopologyElement",
+      "type": "object"
+    },
+    "View": {
+      "additionalProperties": false,
+      "description": "A named part of the diagram, selected by rule and drawn on its own\n(``--view``). It owns no elements: an element is in the view when it\nmatches ``include`` (or ``include`` is empty) and nothing in ``exclude``.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "default": "",
+          "title": "Title",
+          "type": "string"
+        },
+        "include": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ViewSelector"
+          },
+          "title": "Include",
+          "type": "array"
+        },
+        "exclude": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ViewSelector"
+          },
+          "title": "Exclude",
+          "type": "array"
+        },
+        "extends": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Extends"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "View",
+      "type": "object"
+    },
+    "ViewSelector": {
+      "additionalProperties": false,
+      "description": "One thing a view's rule matches; exactly one field is set.\n\nA frame that matches brings everything inside it, however deep.",
+      "properties": {
+        "tag": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tag"
+        },
+        "category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "within": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Within"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        }
+      },
+      "title": "ViewSelector",
+      "type": "object"
+    },
+    "Waypoint": {
+      "additionalProperties": false,
+      "description": "One corner a connector is pinned through, in canvas coordinates.",
+      "properties": {
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "Waypoint",
+      "type": "object"
+    },
+    "CloudProject": {
+      "additionalProperties": false,
+      "description": "Versioned source document for single-provider and mixed-provider diagrams.",
+      "properties": {
+        "schema_version": {
+          "const": 3,
+          "default": 3,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "kind": {
+          "default": "single-cloud",
+          "enum": [
+            "single-cloud",
+            "multicloud",
+            "platform",
+            "hybrid"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "slug": {
+          "title": "Slug",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "template_brief": {
+          "default": "",
+          "title": "Template Brief",
+          "type": "string"
+        },
+        "starter_preset": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Starter Preset"
+        },
+        "providers": {
+          "items": {
+            "$ref": "#/$defs/ProviderSelection"
+          },
+          "title": "Providers",
+          "type": "array"
+        },
+        "default_library": {
+          "default": "all",
+          "title": "Default Library",
+          "type": "string"
+        },
+        "layers": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Layer"
+          },
+          "title": "Layers",
+          "type": "array"
+        },
+        "views": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/View"
+          },
+          "title": "Views",
+          "type": "array"
+        },
+        "icon_collection": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Icon Collection"
+        },
+        "presentation": {
+          "$ref": "#/$defs/Presentation"
+        },
+        "topology": {
+          "$ref": "#/$defs/TopologyElement"
+        },
+        "$schema": {
+          "type": "string",
+          "description": "The schema this document is written against, for an editor's completion."
+        }
+      },
+      "required": [
+        "slug",
+        "title",
+        "description",
+        "providers",
+        "topology"
+      ],
+      "type": "object"
+    },
+    "OlderVersion": {
+      "type": "object",
+      "description": "A version 1 or 2 document, migrated to version 3 when it is loaded.",
+      "properties": {
+        "schema_version": {
+          "enum": [
+            1,
+            2
+          ]
+        }
+      },
+      "required": [
+        "schema_version"
+      ]
+    }
+  }
+}

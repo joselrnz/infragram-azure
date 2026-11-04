@@ -1,0 +1,6 @@
+# Icon and mark artwork is content-addressed: catalogs record a sha256 per
+# file and the provider gate verifies it. Git's autocrlf rewrites those
+# bytes on checkout, so the hash stops matching a file nobody touched --
+# and it does so differently on Windows and Linux. Keep assets byte-exact.
+*.svg   -text
+*.png   binary

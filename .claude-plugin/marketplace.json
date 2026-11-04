@@ -1,0 +1,15 @@
+{
+  "name": "infragram-azure",
+  "metadata": {
+    "description": "Interactive, local-first infrastructure diagram editor and exporter for Azure, Kubernetes and Databricks. Design and import architecture diagrams, retain editable source in exported images, compare revisions, estimate costs, check policies, and export Terraform skeletons. Discover Azure subscriptions and Kubernetes clusters read-only, or redraw saved Azure snapshots offline."
+  },
+  "owner": {
+    "name": "Infragram Azure"
+  },
+  "plugins": [
+    {
+      "name": "infragram-azure",
+      "source": "./"
+    }
+  ]
+}

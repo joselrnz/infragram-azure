@@ -1,0 +1,67 @@
+# Draw every Terraform plan a pull request makes, and say what it changes.
+#
+# Copy to .forgejo/workflows/ (Forgejo Actions) or .github/workflows/
+# (GitHub Actions); both read this file as it is. The job plans, draws the
+# plan with Infragram Architect (added, changed, replaced and destroyed
+# resources each in their colour, the count above the drawing), uploads the
+# picture, the editor page and the diagram file as an artifact, and writes
+# the changes as Markdown. On GitHub it also posts that as a PR comment; on
+# Forgejo post it with your instance's API, or read it in the job summary.
+#
+# Nothing is applied: `terraform plan` only, and Infragram reads its JSON.
+# Set TF_DIR to the configuration's folder and INFRAGRAM to where the
+# package installs from (the package name once published, else a git URL:
+# "infragram @ git+<repository>#subdirectory=plugin"). The cloud credentials
+# the plan needs come from the repository's secrets, as for any plan job.
+
+name: terraform plan diagram
+
+on:
+  pull_request:
+    paths: ["**.tf", "**.tfvars"]
+
+env:
+  TF_DIR: infra
+  INFRAGRAM: infragram
+
+jobs:
+  plan-diagram:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Plan
+        working-directory: ${{ env.TF_DIR }}
+        run: |
+          terraform init -input=false
+          terraform plan -input=false -lock=false -out=plan.out
+          terraform show -json plan.out > plan.json
+
+      - name: Draw the plan
+        run: |
+          python -m pip install --quiet "$INFRAGRAM"
+          infragram import:terraform "$TF_DIR/plan.json" --title "${{ github.event.repository.name }} plan" \
+            --formats html,svg --output-dir diagram --comment diagram/comment.md --verify
+          cat diagram/comment.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plan-diagram
+          path: diagram/
+
+      - name: Comment on the pull request
+        if: github.server_url == 'https://github.com'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr comment "${{ github.event.pull_request.number }}" --body-file diagram/comment.md

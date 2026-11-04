@@ -1,0 +1,21 @@
+/* ---- Button: filled, tonal, outlined, text ----
+   Small corners and a hairline: filled for the one main action, tonal and
+   outlined alike as the ordinary button (a white face, a grey rule), text for
+   the quietest. Hover darkens the face (states.css) rather than lifting it. */
+.md-button{display:inline-flex;min-width:48px;height:var(--ui-h-md);flex:none;align-items:center;justify-content:center;gap:6px;padding:0 12px;border:1px solid transparent;border-radius:var(--ui-radius);background:transparent;color:var(--md-sys-color-primary);font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking);white-space:nowrap;text-decoration:none;cursor:pointer;user-select:none;transition:background-color .12s ease,border-color .12s ease}
+.md-button .md-icon{width:18px;height:18px}
+.md-button--filled{border-color:var(--md-sys-color-primary);background:var(--md-sys-color-primary);color:var(--md-sys-color-on-primary)}
+.md-button--tonal,.md-button--outlined{border-color:var(--md-sys-color-outline);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface)}
+.md-button--tonal:hover:not(:disabled),.md-button--outlined:hover:not(:disabled){border-color:var(--md-sys-color-outline)}
+.md-button--block{display:flex;width:100%}
+.md-button:disabled{border-color:transparent;background:transparent;color:var(--md-disabled-content);cursor:not-allowed}
+.md-button--filled:disabled,.md-button--tonal:disabled{background:var(--md-disabled-container)}
+.md-button--outlined:disabled{border-color:var(--md-disabled-container)}
+.md-button-group{display:flex;gap:2px}
+.md-button-group>.md-button{flex:1 1 0;min-width:0;padding:0 8px;border-radius:var(--ui-radius-xs)}
+.md-button-group>.md-button:first-child{border-radius:var(--ui-radius) var(--ui-radius-xs) var(--ui-radius-xs) var(--ui-radius)}
+.md-button-group>.md-button:last-child{border-radius:var(--ui-radius-xs) var(--ui-radius) var(--ui-radius) var(--ui-radius-xs)}
+.md-button-row{display:flex;flex-wrap:wrap;gap:8px}
+/* Text: the lowest-emphasis button. Used where an action undoes something
+   the reader set rather than doing something new. */
+.md-button--text{border-color:transparent;background:transparent;color:var(--md-sys-color-primary);padding:0 10px}

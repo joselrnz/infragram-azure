@@ -1,0 +1,93 @@
+.right-inspector{position:relative;min-width:0;overflow:hidden;border-left:1px solid var(--md-sys-color-outline-variant);background:var(--md-sys-color-surface)}
+.inspector-header{display:flex;height:48px;align-items:center;border-bottom:1px solid var(--md-sys-color-surface-container-highest)}
+.inspector-toggle{margin:0 8px 0 4px}
+.inspector-toggle .md-icon{transition:transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.inspector-toggle[aria-expanded="false"] .md-icon{transform:rotate(180deg)}
+.inspector-body{height:calc(100% - 48px);overflow:auto;padding:16px}
+.inspector-section{display:grid;gap:12px}
+.inspector-section h2{font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
+.inspector-section h3{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-title-small);letter-spacing:var(--md-sys-typescale-title-small-tracking)}
+.inspector-section p{color:var(--md-sys-color-on-surface-variant)}
+.inspector-section p strong{color:var(--md-sys-color-on-surface);font-weight:500}
+/* the diagram's counts: figures divided by hairlines, not three tinted cards */
+.diagram-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.diagram-stat{display:grid;gap:2px;padding:0 12px;border-left:1px solid var(--md-sys-color-outline-variant)}
+.diagram-stat:first-child{padding-left:0;border-left:0}
+.diagram-stat strong{color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-title-large);letter-spacing:var(--md-sys-typescale-title-large-tracking);font-variant-numeric:tabular-nums}
+.diagram-stat span{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+.inspector-subsection{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--md-sys-color-outline-variant)}
+.template-brief{overflow:hidden}
+.template-brief summary{justify-content:space-between;gap:8px;cursor:pointer}
+.template-brief summary>span{min-width:0;overflow-wrap:anywhere}
+.template-brief summary .md-expand-icon{flex:none;transition:transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.template-brief details[open]>summary .md-expand-icon,.template-brief[open]>summary .md-expand-icon{transform:rotate(180deg)}
+.reference-section{border-top:1px solid var(--md-sys-color-outline-variant)}
+.reference-section p{margin:0;padding:4px 16px 16px;overflow-wrap:anywhere;font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.template-brief pre{max-height:264px;margin:0;padding:12px 16px;overflow:auto;border-top:1px solid var(--md-sys-color-outline-variant);color:var(--md-sys-color-on-surface-variant);font:400 12px/16px 'Geist Mono',ui-monospace,monospace;letter-spacing:0;white-space:pre-wrap}
+.template-starter{margin:0 12px 12px}
+/* what is selected: plain label and value rows, not a tinted box */
+.selection-context{display:grid;gap:0}
+/* label and value rows at the property size, as the Diagram tab's settings */
+.selection-context span{display:grid;grid-template-columns:104px minmax(0,1fr);gap:8px;padding:4px 0;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.selection-context strong{min-width:0;overflow:hidden;color:var(--md-sys-color-on-surface);font-weight:400;text-overflow:ellipsis;white-space:nowrap}
+/* an outline preset shows the outline it sets: a short stroke in its colour,
+   not a square that reads as a checkbox */
+.preset-swatch{display:block;width:16px;height:0;flex:none;border-top:3px solid var(--border-color);border-radius:2px}
+[data-style-preset="accent-outline"] .preset-swatch{border-color:var(--accent)}
+[data-style-preset="muted-outline"] .preset-swatch{border-color:var(--accent-muted)}
+[data-style-preset="danger-outline"] .preset-swatch{border-color:var(--error-color)}
+.md-chip:disabled .preset-swatch{opacity:.38}
+/* a panel's tone: its fill and outline, as the canvas draws them */
+.tone-swatch{display:block;width:16px;height:10px;flex:none;border:1px solid var(--tone-line);border-radius:2px;background:var(--tone-fill)}
+.md-chip:disabled .tone-swatch{opacity:.38}
+.box-shapes .md-segmented{display:flex}
+.box-shapes .md-segmented>button{padding:0 6px}
+.box-tones,.box-shapes{display:grid;gap:6px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.md-field__input--area{height:auto;min-height:72px;max-height:240px;field-sizing:content;padding:8px 10px;resize:vertical;font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking);line-height:1.5}
+/* a description: a line an input's height, growing a line at a time */
+.md-field__input--lines{display:block;height:auto;min-height:var(--ui-h-md);max-height:160px;field-sizing:content;padding:5px 10px;resize:none;line-height:20px}
+.field-help{margin:0;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.inspector-section[data-empty="true"]>:not(h2,.md-empty-state),.inspector-section:not([data-empty="true"])>.md-empty-state{display:none}
+[data-inspector-panel="layers"]>h3{margin-top:4px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+.frame-tree{display:grid;gap:2px}
+/* each level of nesting draws a guide line down the rows it contains */
+.frame-tree-row{display:flex;align-items:center;gap:4px;padding-left:calc(var(--frame-depth,0) * 16px);background:repeating-linear-gradient(90deg,var(--md-sys-color-outline-variant) 0 1px,transparent 1px 16px) 11px 0/calc(var(--frame-depth,0) * 16px) 100% no-repeat}
+.frame-tree-row>.md-list-item{flex:1;gap:10px;padding-left:8px}
+.frame-tree-row>.md-list-item::after{content:"";order:-1;width:14px;height:12px;flex:none;border:1.5px dashed currentColor;border-radius:3px;opacity:.64}
+.layer-row{min-height:56px;padding-right:4px}
+.layer-row .md-icon-button .md-icon,.frame-tree-row .md-icon-button .md-icon{width:18px;height:18px}
+/* Cost: the total, each frame's, every item with its lines, the assumptions, what is not priced. */
+.cost-panel h3[hidden]{display:none}
+.setting-row>.md-field__input{width:auto;min-width:152px;flex:none}
+.cost-total{margin:0;color:var(--md-sys-color-on-surface)!important;font:var(--md-sys-typescale-title-large);letter-spacing:var(--md-sys-typescale-title-large-tracking);font-variant-numeric:tabular-nums}
+.cost-total strong{font-weight:500}
+.cost-split{display:grid;margin:4px 0 0;font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.cost-split div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.cost-split dt{color:var(--md-sys-color-on-surface-variant)}
+.cost-split dd{margin:0;color:var(--md-sys-color-on-surface);font-variant-numeric:tabular-nums}
+.cost-frames{display:grid;gap:2px}
+.cost-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0 6px calc(var(--cost-depth,0) * 14px);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.cost-row strong{font-weight:500;font-variant-numeric:tabular-nums}
+.cost-row small{margin-left:4px;font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.cost-row span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cost-row small{color:var(--md-sys-color-on-surface-variant)}
+.cost-items{display:grid;gap:4px}
+.cost-item{border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.cost-item summary{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:6px 0;cursor:pointer;list-style:none}
+.cost-item summary::-webkit-details-marker{display:none}
+.cost-item summary>span{display:grid;min-width:0;gap:2px}
+.cost-item summary strong{font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+.cost-item summary small{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.cost-item summary b{flex:none;font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking);font-variant-numeric:tabular-nums}
+.cost-item table{width:100%;border-collapse:collapse;font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.cost-item td:last-child{font-variant-numeric:tabular-nums}
+.cost-item th,.cost-item td{padding:4px 8px 4px 0;border-top:1px solid var(--md-sys-color-surface-container-highest);text-align:left;vertical-align:top}
+.cost-item th{color:var(--md-sys-color-on-surface);font-weight:400}
+.cost-item td:last-child{padding-right:0;text-align:right;white-space:nowrap}
+.cost-item em,.cost-unpriced em{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-small);letter-spacing:var(--md-sys-typescale-label-small-tracking);font-style:normal}
+.cost-item p{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 8px}
+.cost-assumed,.cost-unpriced{display:grid;gap:4px;margin:0;padding-left:16px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.cost-assumed strong,.cost-unpriced strong{color:var(--md-sys-color-on-surface);font-weight:500}
+.cost-free{list-style:none;margin-left:-16px}
+.cost-free summary{cursor:pointer}
+.cost-note{font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}

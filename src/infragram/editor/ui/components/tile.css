@@ -1,0 +1,4 @@
+/* ---- Tile: a compact outlined card that is a drag source ---- */
+.md-tile{display:grid;min-width:0;height:96px;grid-template-rows:48px minmax(0,1fr);align-items:start;justify-items:center;gap:4px;padding:8px 4px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius-lg);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);text-align:center;cursor:grab;transition:border-color .12s ease,background-color .12s ease}
+.md-tile:hover{border-color:var(--md-sys-color-outline)}
+.md-tile[aria-pressed="true"]{border-color:var(--md-sys-color-primary);background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)}

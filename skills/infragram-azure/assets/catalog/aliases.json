@@ -1,0 +1,1971 @@
+{
+  "providers": {
+    "azure": {
+      "active-directory-connect-health": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "adch"
+      ],
+      "advisor": [
+        "recommendations",
+        "well-architected"
+      ],
+      "agentic-web-apps": [
+        "awa"
+      ],
+      "ai-at-edge": [
+        "aae"
+      ],
+      "ai-foundry": [
+        "ai studio",
+        "genai",
+        "agents"
+      ],
+      "aks-network-policy": [
+        "anp"
+      ],
+      "api-management-services": [
+        "apim",
+        "api gateway",
+        "api management",
+        "ams"
+      ],
+      "api-management-services-integration": [
+        "apim",
+        "api gateway",
+        "api management",
+        "ams"
+      ],
+      "api-management-services-web": [
+        "apim",
+        "api gateway",
+        "api management",
+        "ams"
+      ],
+      "app-compliance-automation": [
+        "aca"
+      ],
+      "app-service-certificates": [
+        "asc"
+      ],
+      "app-service-certificates-web": [
+        "asc"
+      ],
+      "app-service-domains": [
+        "asd"
+      ],
+      "app-service-domains-web": [
+        "asd"
+      ],
+      "app-service-environments": [
+        "ase"
+      ],
+      "app-service-environments-web": [
+        "ase"
+      ],
+      "app-service-plans": [
+        "asp",
+        "server farm"
+      ],
+      "app-service-plans-web": [
+        "asp",
+        "server farm"
+      ],
+      "app-services": [
+        "web app",
+        "paas",
+        "app service"
+      ],
+      "app-services-compute": [
+        "web app",
+        "paas",
+        "app service"
+      ],
+      "app-services-containers": [
+        "web app",
+        "paas",
+        "app service"
+      ],
+      "app-services-mobile": [
+        "web app",
+        "paas",
+        "app service"
+      ],
+      "app-services-web": [
+        "web app",
+        "paas",
+        "app service"
+      ],
+      "app-space-component": [
+        "asc"
+      ],
+      "application-gateway-containers": [
+        "appgw",
+        "agw",
+        "l7",
+        "waf",
+        "reverse proxy",
+        "agc"
+      ],
+      "application-gateways": [
+        "appgw",
+        "agw",
+        "l7",
+        "waf",
+        "reverse proxy"
+      ],
+      "application-insights": [
+        "apm",
+        "appinsights",
+        "tracing"
+      ],
+      "application-insights-management-governance": [
+        "apm",
+        "appinsights",
+        "tracing"
+      ],
+      "application-insights-monitor": [
+        "apm",
+        "appinsights",
+        "tracing"
+      ],
+      "application-security-groups": [
+        "asg"
+      ],
+      "arc-data-services": [
+        "ads"
+      ],
+      "arc-kubernetes": [
+        "arc",
+        "hybrid",
+        "on-premises",
+        "multicloud"
+      ],
+      "arc-machines": [
+        "arc",
+        "hybrid",
+        "on-premises",
+        "multicloud"
+      ],
+      "arc-sql-managed-instance": [
+        "asmi"
+      ],
+      "arc-sql-server": [
+        "ass"
+      ],
+      "automation-accounts": [
+        "runbook",
+        "automation",
+        "dsc"
+      ],
+      "avs-vm": [
+        "avs",
+        "vsphere",
+        "vmware",
+        "esxi"
+      ],
+      "azure-ad-b2c": [
+        "b2c",
+        "ciam",
+        "customer identity"
+      ],
+      "azure-ai-foundry-iq": [
+        "afi"
+      ],
+      "azure-applied-ai-services": [
+        "aas"
+      ],
+      "azure-arc": [
+        "arc",
+        "hybrid",
+        "on-premises",
+        "multicloud"
+      ],
+      "azure-backup-center": [
+        "backup",
+        "recovery",
+        "dr",
+        "site recovery"
+      ],
+      "azure-chaos-studio": [
+        "chaos engineering",
+        "fault injection"
+      ],
+      "azure-communication-services": [
+        "acs",
+        "sms",
+        "voip",
+        "chat",
+        "email"
+      ],
+      "azure-compute-galleries": [
+        "image gallery",
+        "golden image"
+      ],
+      "azure-compute-galleries-other": [
+        "image gallery",
+        "golden image"
+      ],
+      "azure-cosmos-db": [
+        "cosmos",
+        "nosql",
+        "document db",
+        "mongodb",
+        "cassandra api"
+      ],
+      "azure-cosmos-db-iot": [
+        "cosmos",
+        "nosql",
+        "document db",
+        "mongodb",
+        "cassandra api"
+      ],
+      "azure-data-explorer-clusters": [
+        "adx",
+        "kusto",
+        "kql",
+        "time series",
+        "dec"
+      ],
+      "azure-data-explorer-clusters-databases": [
+        "adx",
+        "kusto",
+        "kql",
+        "time series",
+        "dec"
+      ],
+      "azure-database-mariadb-server": [
+        "mariadb",
+        "dms"
+      ],
+      "azure-database-migration-services": [
+        "dms"
+      ],
+      "azure-database-migration-services-migration": [
+        "dms"
+      ],
+      "azure-database-mysql-server": [
+        "mysql",
+        "dms"
+      ],
+      "azure-database-postgresql-server": [
+        "postgres",
+        "postgresql",
+        "pg",
+        "dps"
+      ],
+      "azure-database-postgresql-server-group": [
+        "postgres",
+        "postgresql",
+        "pg",
+        "dpsg"
+      ],
+      "azure-databricks": [
+        "databricks",
+        "spark",
+        "lakehouse"
+      ],
+      "azure-devops": [
+        "ado",
+        "pipelines",
+        "repos",
+        "boards",
+        "ci/cd"
+      ],
+      "azure-edge-hardware-center": [
+        "ehc"
+      ],
+      "azure-fileshares": [
+        "smb",
+        "nfs",
+        "file share",
+        "azure files"
+      ],
+      "azure-firewall-manager": [
+        "firewall policy"
+      ],
+      "azure-lighthouse": [
+        "msp",
+        "delegated management",
+        "multi-tenant"
+      ],
+      "azure-load-testing": [
+        "load testing",
+        "jmeter",
+        "performance"
+      ],
+      "azure-local": [
+        "azure stack",
+        "hci",
+        "hyper-v",
+        "on-premises"
+      ],
+      "azure-machine-learning": [
+        "aml",
+        "ml",
+        "mlops",
+        "model training"
+      ],
+      "azure-managed-grafana": [
+        "grafana",
+        "dashboards"
+      ],
+      "azure-managed-redis": [
+        "redis",
+        "cache",
+        "in-memory"
+      ],
+      "azure-maps-accounts": [
+        "gis",
+        "maps",
+        "geospatial"
+      ],
+      "azure-media-service": [
+        "video",
+        "streaming",
+        "media"
+      ],
+      "azure-migrate": [
+        "migration",
+        "assessment"
+      ],
+      "azure-monitors-for-sap-solutions": [
+        "mss"
+      ],
+      "azure-netapp-files": [
+        "anf",
+        "nfs",
+        "smb",
+        "netapp"
+      ],
+      "azure-network-function-manager": [
+        "nfm"
+      ],
+      "azure-network-function-manager-functions": [
+        "nfmf"
+      ],
+      "azure-openai": [
+        "aoai",
+        "openai",
+        "llm",
+        "gpt",
+        "genai"
+      ],
+      "azure-operator-5g-core": [
+        "o5c"
+      ],
+      "azure-operator-nexus": [
+        "5g",
+        "telco",
+        "private 5g"
+      ],
+      "azure-operator-service-manager": [
+        "osm"
+      ],
+      "azure-red-hat-openshift": [
+        "rho"
+      ],
+      "azure-sentinel": [
+        "sentinel",
+        "siem",
+        "soar",
+        "soc"
+      ],
+      "azure-service-bus": [
+        "asb",
+        "queue",
+        "topic",
+        "amqp",
+        "message broker"
+      ],
+      "azure-sphere": [
+        "iot security",
+        "mcu"
+      ],
+      "azure-spring-apps": [
+        "spring boot",
+        "java",
+        "paas"
+      ],
+      "azure-spring-apps-web": [
+        "spring boot",
+        "java",
+        "paas"
+      ],
+      "azure-sql": [
+        "mssql",
+        "sql server",
+        "rdbms"
+      ],
+      "azure-sql-server-stretch-databases": [
+        "sssd"
+      ],
+      "azure-sql-server-stretch-databases-integration": [
+        "sssd"
+      ],
+      "azure-stack-hci-sizer": [
+        "azure stack",
+        "hci",
+        "hyper-v",
+        "on-premises",
+        "shs"
+      ],
+      "azure-support-center-blue": [
+        "scb"
+      ],
+      "azure-synapse-analytics": [
+        "synapse",
+        "dw",
+        "data warehouse",
+        "dedicated sql pool"
+      ],
+      "azure-synapse-analytics-databases": [
+        "synapse",
+        "dw",
+        "data warehouse",
+        "dedicated sql pool"
+      ],
+      "azure-virtual-desktop": [
+        "avd",
+        "vdi",
+        "wvd",
+        "remote desktop",
+        "thin client"
+      ],
+      "azure-vmware-solution": [
+        "avs",
+        "vsphere",
+        "vmware",
+        "esxi"
+      ],
+      "backup-vault": [
+        "backup",
+        "recovery",
+        "dr",
+        "site recovery"
+      ],
+      "bare-metal-infrastructure": [
+        "bmi"
+      ],
+      "bastions": [
+        "bastion",
+        "jump host",
+        "jump box",
+        "rdp",
+        "ssh"
+      ],
+      "batch-accounts": [
+        "batch",
+        "hpc",
+        "job scheduler"
+      ],
+      "batch-accounts-containers": [
+        "batch",
+        "hpc",
+        "job scheduler"
+      ],
+      "blob-block": [
+        "blob",
+        "object"
+      ],
+      "blob-page": [
+        "blob",
+        "object"
+      ],
+      "blueprints": [
+        "landing zone",
+        "governance"
+      ],
+      "bot-services": [
+        "chatbot",
+        "bot"
+      ],
+      "business-process-tracking": [
+        "bpt"
+      ],
+      "cache-redis": [
+        "redis",
+        "cache",
+        "in-memory"
+      ],
+      "capacity-reservation-groups": [
+        "crg"
+      ],
+      "cdn-profiles": [
+        "cdn",
+        "edge cache"
+      ],
+      "cdn-profiles-networking": [
+        "cdn",
+        "edge cache"
+      ],
+      "central-service-instance-for-sap": [
+        "csis"
+      ],
+      "cloud-services-extended-support": [
+        "cses"
+      ],
+      "cognitive-services": [
+        "ai services",
+        "cognitive"
+      ],
+      "cognitive-services-decisions": [
+        "csd"
+      ],
+      "cognitive-services-web": [
+        "ai services",
+        "cognitive"
+      ],
+      "conditional-access": [
+        "mfa",
+        "zero trust",
+        "policy"
+      ],
+      "connected-vehicle-platform": [
+        "cvp"
+      ],
+      "container-apps-environments": [
+        "aca",
+        "container apps",
+        "serverless containers",
+        "cae"
+      ],
+      "container-instances": [
+        "aci",
+        "container"
+      ],
+      "container-instances-containers": [
+        "aci",
+        "container"
+      ],
+      "container-registries": [
+        "acr",
+        "registry",
+        "docker"
+      ],
+      "container-services-deprecated": [
+        "csd"
+      ],
+      "cost-management": [
+        "finops",
+        "billing",
+        "cost"
+      ],
+      "cost-management-and-billing": [
+        "finops",
+        "billing",
+        "cost",
+        "cmb"
+      ],
+      "cost-management-and-billing-management-governance": [
+        "finops",
+        "billing",
+        "cost",
+        "cmb"
+      ],
+      "cost-management-and-billing-migrate": [
+        "finops",
+        "billing",
+        "cost",
+        "cmb"
+      ],
+      "custom-ip-prefix": [
+        "byoip",
+        "ip prefix",
+        "cip"
+      ],
+      "customer-lockbox-for-microsoft-azure": [
+        "clma"
+      ],
+      "data-collection-rules": [
+        "dcr"
+      ],
+      "data-factories": [
+        "adf",
+        "etl",
+        "elt",
+        "pipelines",
+        "data integration"
+      ],
+      "data-factories-databases": [
+        "adf",
+        "etl",
+        "elt",
+        "pipelines",
+        "data integration"
+      ],
+      "data-factories-integration": [
+        "adf",
+        "etl",
+        "elt",
+        "pipelines",
+        "data integration"
+      ],
+      "data-lake-analytics": [
+        "dla"
+      ],
+      "data-lake-storage-gen1": [
+        "adls",
+        "data lake",
+        "dlsg"
+      ],
+      "data-lake-store-gen1": [
+        "adls",
+        "data lake",
+        "dlsg"
+      ],
+      "data-share-invitations": [
+        "dsi"
+      ],
+      "database-instance-for-sap": [
+        "dis"
+      ],
+      "ddos-custom-policy": [
+        "ddos",
+        "shield",
+        "dcp"
+      ],
+      "ddos-protection-plans": [
+        "ddos",
+        "shield",
+        "dpp"
+      ],
+      "dedicated-hsm": [
+        "hsm",
+        "fips",
+        "key custody"
+      ],
+      "defender-cm-local-manager": [
+        "dclm"
+      ],
+      "defender-dcs-controller": [
+        "ddc"
+      ],
+      "defender-distributer-control-system": [
+        "ddcs"
+      ],
+      "defender-engineering-station": [
+        "des"
+      ],
+      "defender-external-management": [
+        "dem"
+      ],
+      "defender-freezer-monitor": [
+        "dfm"
+      ],
+      "defender-industrial-packaging-system": [
+        "dips"
+      ],
+      "defender-industrial-printer": [
+        "dip"
+      ],
+      "defender-industrial-robot": [
+        "dir"
+      ],
+      "defender-industrial-scale-system": [
+        "diss"
+      ],
+      "defender-pneumatic-device": [
+        "dpd"
+      ],
+      "defender-programable-board": [
+        "dpb"
+      ],
+      "defender-robot-controller": [
+        "drc"
+      ],
+      "defender-web-guiding-system": [
+        "dwgs"
+      ],
+      "device-provisioning-services": [
+        "dps"
+      ],
+      "device-security-apple": [
+        "dsa"
+      ],
+      "device-security-google": [
+        "dsg"
+      ],
+      "device-security-windows": [
+        "dsw"
+      ],
+      "device-update-iot-hub": [
+        "duih"
+      ],
+      "digital-twins": [
+        "adt",
+        "digital twin"
+      ],
+      "disk-encryption-sets": [
+        "des"
+      ],
+      "disks": [
+        "managed disk",
+        "block storage",
+        "ebs",
+        "ssd"
+      ],
+      "disks-classic": [
+        "managed disk",
+        "block storage",
+        "ebs",
+        "ssd"
+      ],
+      "disks-snapshots": [
+        "managed disk",
+        "block storage",
+        "ebs",
+        "ssd"
+      ],
+      "dns-private-resolver": [
+        "dns",
+        "resolver",
+        "unbound",
+        "dpr"
+      ],
+      "dns-security-policy": [
+        "dsp"
+      ],
+      "dns-zones": [
+        "dns",
+        "zone",
+        "record"
+      ],
+      "edge-storage-accelerator": [
+        "esa"
+      ],
+      "elastic-job-agents": [
+        "eja"
+      ],
+      "elastic-san": [
+        "san",
+        "iscsi",
+        "block storage"
+      ],
+      "engage-center-connect": [
+        "ecc"
+      ],
+      "entra-connect": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml"
+      ],
+      "entra-connect-health": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "ech"
+      ],
+      "entra-connect-sync": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "ecs"
+      ],
+      "entra-domain-services": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "aad ds",
+        "domain controller",
+        "ldap",
+        "kerberos",
+        "eds"
+      ],
+      "entra-global-secure-access": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "egsa"
+      ],
+      "entra-id": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "tenant",
+        "directory",
+        "identity provider",
+        "eid"
+      ],
+      "entra-id-governance": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "identity governance",
+        "access reviews",
+        "entitlement management",
+        "lifecycle workflows",
+        "eidg"
+      ],
+      "entra-id-protection": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eip"
+      ],
+      "entra-identity-custom-roles": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eicr"
+      ],
+      "entra-identity-licenses": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eil"
+      ],
+      "entra-identity-licenses-other": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eil"
+      ],
+      "entra-identity-risky-signins": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eirs"
+      ],
+      "entra-identity-risky-users": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eiru"
+      ],
+      "entra-identity-roles-and-administrators": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eira"
+      ],
+      "entra-identity-roles-and-administrators-intune": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eira"
+      ],
+      "entra-internet-access": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "eia"
+      ],
+      "entra-managed-identities": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "msi",
+        "managed identity",
+        "workload identity",
+        "emi"
+      ],
+      "entra-private-access": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "epa"
+      ],
+      "entra-privleged-identity-management": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "pim",
+        "pam",
+        "privileged access",
+        "epim"
+      ],
+      "entra-verified-id": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "idp",
+        "sso",
+        "oidc",
+        "saml",
+        "evi"
+      ],
+      "entra-workload-id": [
+        "aad",
+        "azure ad",
+        "entra",
+        "active directory",
+        "oidc",
+        "workload identity",
+        "workload identity federation",
+        "federated credential",
+        "service principal",
+        "ewid"
+      ],
+      "event-grid-domains": [
+        "event grid",
+        "events",
+        "pubsub",
+        "eventbridge",
+        "egd"
+      ],
+      "event-grid-subscriptions": [
+        "event grid",
+        "events",
+        "pubsub",
+        "eventbridge",
+        "egs"
+      ],
+      "event-grid-subscriptions-iot": [
+        "event grid",
+        "events",
+        "pubsub",
+        "eventbridge",
+        "egs"
+      ],
+      "event-grid-topics": [
+        "event grid",
+        "events",
+        "pubsub",
+        "eventbridge",
+        "egt"
+      ],
+      "event-hub-clusters": [
+        "kafka",
+        "event streaming",
+        "ingestion",
+        "ehc"
+      ],
+      "event-hub-clusters-iot": [
+        "kafka",
+        "event streaming",
+        "ingestion",
+        "ehc"
+      ],
+      "event-hubs": [
+        "kafka",
+        "event streaming",
+        "ingestion"
+      ],
+      "event-hubs-iot": [
+        "kafka",
+        "event streaming",
+        "ingestion"
+      ],
+      "exchange-on-premises-access": [
+        "exchange",
+        "hybrid identity",
+        "epa"
+      ],
+      "express-route-traffic-collector": [
+        "ertc"
+      ],
+      "expressroute-circuits": [
+        "expressroute",
+        "er",
+        "direct connect",
+        "private connectivity",
+        "mpls"
+      ],
+      "expressroute-direct": [
+        "expressroute",
+        "er",
+        "direct connect",
+        "private connectivity",
+        "mpls"
+      ],
+      "external-id-modified": [
+        "eim"
+      ],
+      "files": [
+        "smb",
+        "nfs",
+        "file share",
+        "azure files"
+      ],
+      "firewalls": [
+        "azfw",
+        "azure firewall",
+        "ngfw"
+      ],
+      "foundry-agent-service": [
+        "fas"
+      ],
+      "foundry-control-plane": [
+        "fcp"
+      ],
+      "front-door-and-cdn-profiles": [
+        "afd",
+        "front door",
+        "cdn",
+        "global load balancer",
+        "fdcp"
+      ],
+      "front-door-and-cdn-profiles-web": [
+        "afd",
+        "front door",
+        "cdn",
+        "global load balancer",
+        "fdcp"
+      ],
+      "function-apps": [
+        "functions",
+        "faas",
+        "serverless",
+        "lambda"
+      ],
+      "function-apps-iot": [
+        "functions",
+        "faas",
+        "serverless",
+        "lambda"
+      ],
+      "hd-insight-clusters": [
+        "hdinsight",
+        "hadoop",
+        "spark",
+        "kafka",
+        "hbase",
+        "hic"
+      ],
+      "hdi-aks-cluster": [
+        "hdinsight",
+        "hadoop",
+        "spark",
+        "kafka",
+        "hbase",
+        "hac"
+      ],
+      "hybrid-connectivity-hub": [
+        "hch"
+      ],
+      "identity-secure-score": [
+        "iss"
+      ],
+      "import-export-jobs": [
+        "iej"
+      ],
+      "integration-service-environments": [
+        "ise"
+      ],
+      "internet-analyzer-profiles": [
+        "iap"
+      ],
+      "intune-app-protection": [
+        "iap"
+      ],
+      "iot-central-applications": [
+        "ica"
+      ],
+      "iot-hub": [
+        "iot",
+        "mqtt",
+        "device gateway"
+      ],
+      "ip-address-manager": [
+        "iam"
+      ],
+      "key-vaults": [
+        "kv",
+        "secrets",
+        "certificates",
+        "keys",
+        "hsm"
+      ],
+      "kubernetes-fleet-manager": [
+        "fleet",
+        "multi-cluster",
+        "kfm"
+      ],
+      "kubernetes-services": [
+        "aks",
+        "kubernetes",
+        "k8s",
+        "aks cluster",
+        "azure kubernetes service"
+      ],
+      "kubernetes-services-containers": [
+        "aks",
+        "kubernetes",
+        "k8s"
+      ],
+      "load-balancer-hub": [
+        "lb",
+        "l4",
+        "load balancing",
+        "lbh"
+      ],
+      "load-balancers": [
+        "lb",
+        "l4",
+        "load balancing"
+      ],
+      "load-test": [
+        "load testing",
+        "jmeter",
+        "performance"
+      ],
+      "local-network-gateways": [
+        "on-premises gateway",
+        "vpn",
+        "lng"
+      ],
+      "local-network-gateways-other": [
+        "on-premises gateway",
+        "vpn",
+        "lng"
+      ],
+      "log-analytics-query-pack": [
+        "laqp"
+      ],
+      "log-analytics-workspaces": [
+        "law",
+        "kql",
+        "logs",
+        "workspace",
+        "siem storage"
+      ],
+      "log-analytics-workspaces-management-governance": [
+        "law",
+        "kql",
+        "logs",
+        "workspace",
+        "siem storage"
+      ],
+      "log-analytics-workspaces-monitor": [
+        "law",
+        "kql",
+        "logs",
+        "workspace",
+        "siem storage"
+      ],
+      "logic-apps": [
+        "workflow",
+        "ipaas",
+        "automation",
+        "integration"
+      ],
+      "logic-apps-custom-connector": [
+        "lacc"
+      ],
+      "logic-apps-iot": [
+        "workflow",
+        "ipaas",
+        "automation",
+        "integration"
+      ],
+      "logic-apps-template": [
+        "lat"
+      ],
+      "machine-learning": [
+        "aml",
+        "ml",
+        "mlops",
+        "model training"
+      ],
+      "machine-learning-studio-classic-web-services": [
+        "mlsws"
+      ],
+      "machine-learning-studio-classic-web-services-iot": [
+        "mlsws"
+      ],
+      "machine-learning-studio-workspaces": [
+        "mlsw"
+      ],
+      "machine-learning-studio-workspaces-iot": [
+        "mlsw"
+      ],
+      "machinesazurearc": [
+        "arc",
+        "hybrid",
+        "on-premises",
+        "multicloud"
+      ],
+      "managed-applications-center": [
+        "mac"
+      ],
+      "managed-devops-pools": [
+        "mdp"
+      ],
+      "managed-file-shares": [
+        "mfs"
+      ],
+      "managed-instance-apache-cassandra": [
+        "cassandra",
+        "nosql",
+        "miac"
+      ],
+      "managed-service-fabric": [
+        "service fabric",
+        "microservices",
+        "msf"
+      ],
+      "management-groups": [
+        "mg",
+        "hierarchy",
+        "governance"
+      ],
+      "microsoft-defender-for-cloud": [
+        "defender",
+        "cspm",
+        "cwpp",
+        "security center"
+      ],
+      "microsoft-defender-for-iot": [
+        "ot security",
+        "ics"
+      ],
+      "mission-landing-zone": [
+        "mlz"
+      ],
+      "mobile-networks": [
+        "5g",
+        "telco",
+        "private 5g"
+      ],
+      "modular-data-center": [
+        "mdc"
+      ],
+      "monitor": [
+        "azure monitor",
+        "metrics",
+        "alerts",
+        "observability"
+      ],
+      "monitor-health-models": [
+        "mhm"
+      ],
+      "monitor-monitor": [
+        "azure monitor",
+        "metrics",
+        "alerts",
+        "observability"
+      ],
+      "multi-factor-authentication": [
+        "mfa"
+      ],
+      "nat": [
+        "nat gateway",
+        "snat",
+        "egress"
+      ],
+      "network-foundation-hub": [
+        "nfh"
+      ],
+      "network-interfaces": [
+        "nic",
+        "vnic"
+      ],
+      "network-managers": [
+        "avnm",
+        "network manager"
+      ],
+      "network-security-groups": [
+        "nsg",
+        "acl",
+        "security group",
+        "firewall rules"
+      ],
+      "network-security-hub": [
+        "nsh"
+      ],
+      "network-security-perimeters": [
+        "nsp",
+        "perimeter",
+        "dmz"
+      ],
+      "network-watcher": [
+        "flow logs",
+        "packet capture",
+        "netflow"
+      ],
+      "network-watcher-networking": [
+        "flow logs",
+        "packet capture",
+        "netflow"
+      ],
+      "notification-hub-namespaces": [
+        "push notifications",
+        "mobile push",
+        "nhn"
+      ],
+      "notification-hub-namespaces-web": [
+        "push notifications",
+        "mobile push",
+        "nhn"
+      ],
+      "notification-hubs": [
+        "push notifications",
+        "mobile push"
+      ],
+      "notification-hubs-iot": [
+        "push notifications",
+        "mobile push"
+      ],
+      "notification-hubs-mobile": [
+        "push notifications",
+        "mobile push"
+      ],
+      "on-premises-data-gateways": [
+        "pdg"
+      ],
+      "open-supply-chain-platform": [
+        "oscp"
+      ],
+      "peering-service": [
+        "vnet peering",
+        "peering",
+        "isp"
+      ],
+      "peerings": [
+        "vnet peering",
+        "peering",
+        "isp"
+      ],
+      "planetary-computer-pro": [
+        "pcp"
+      ],
+      "policy": [
+        "azure policy",
+        "governance",
+        "compliance",
+        "guardrails"
+      ],
+      "power-bi-embedded": [
+        "pbe"
+      ],
+      "private-endpoints": [
+        "private endpoint",
+        "privatelink",
+        "psc"
+      ],
+      "private-link": [
+        "private endpoint",
+        "privatelink",
+        "psc"
+      ],
+      "private-link-service": [
+        "private endpoint",
+        "privatelink",
+        "psc",
+        "pls"
+      ],
+      "private-link-services": [
+        "private endpoint",
+        "privatelink",
+        "psc",
+        "pls"
+      ],
+      "private-link-services-networking": [
+        "private endpoint",
+        "privatelink",
+        "psc",
+        "pls"
+      ],
+      "production-ready-database": [
+        "prd"
+      ],
+      "promethus": [
+        "prometheus",
+        "metrics"
+      ],
+      "proximity-placement-groups": [
+        "ppg"
+      ],
+      "public-ip-addresses": [
+        "pip",
+        "public ip",
+        "elastic ip",
+        "pia"
+      ],
+      "public-ip-addresses-classic": [
+        "pip",
+        "public ip",
+        "elastic ip",
+        "pia"
+      ],
+      "public-ip-prefixes": [
+        "pip"
+      ],
+      "recovery-services-vaults": [
+        "backup",
+        "recovery",
+        "dr",
+        "site recovery",
+        "rsv"
+      ],
+      "recovery-services-vaults-migrate": [
+        "backup",
+        "recovery",
+        "dr",
+        "site recovery",
+        "rsv"
+      ],
+      "recovery-services-vaults-storage": [
+        "backup",
+        "recovery",
+        "dr",
+        "site recovery",
+        "rsv"
+      ],
+      "reserved-ip-addresses-classic": [
+        "ria"
+      ],
+      "resource-graph-explorer": [
+        "rge"
+      ],
+      "resource-group-list": [
+        "rg",
+        "resource group",
+        "rgl"
+      ],
+      "resource-groups": [
+        "rg",
+        "resource group"
+      ],
+      "resource-management-private-link": [
+        "rmpl"
+      ],
+      "restore-points-collections": [
+        "rpc"
+      ],
+      "route-tables": [
+        "udr",
+        "routing",
+        "routes"
+      ],
+      "scheduler-job-collections": [
+        "sjc"
+      ],
+      "scvmm-management-servers": [
+        "sms"
+      ],
+      "service-catalog-mad": [
+        "scm"
+      ],
+      "service-endpoint-policies": [
+        "sep"
+      ],
+      "service-fabric-clusters": [
+        "service fabric",
+        "microservices",
+        "sfc"
+      ],
+      "service-fabric-clusters-containers": [
+        "service fabric",
+        "microservices",
+        "sfc"
+      ],
+      "service-group-relationships": [
+        "sgr"
+      ],
+      "shared-image-galleries": [
+        "image gallery",
+        "golden image",
+        "sig"
+      ],
+      "signalr": [
+        "websocket",
+        "realtime"
+      ],
+      "software-as-a-service": [
+        "sas"
+      ],
+      "spatial-anchor-accounts": [
+        "saa"
+      ],
+      "sql-data-warehouses": [
+        "synapse",
+        "dw",
+        "data warehouse",
+        "dedicated sql pool",
+        "sdw"
+      ],
+      "sql-data-warehouses-integration": [
+        "synapse",
+        "dw",
+        "data warehouse",
+        "dedicated sql pool",
+        "sdw"
+      ],
+      "sql-database": [
+        "mssql",
+        "sql server",
+        "rdbms"
+      ],
+      "sql-database-fleet-manager": [
+        "sdfm"
+      ],
+      "sql-elastic-pools": [
+        "elastic pool",
+        "mssql",
+        "sep"
+      ],
+      "sql-managed-instance": [
+        "sqlmi",
+        "mssql",
+        "smi"
+      ],
+      "sql-server-registries": [
+        "ssr"
+      ],
+      "ssh-keys": [
+        "ssh",
+        "key pair"
+      ],
+      "ssis-lift-and-shift-ir": [
+        "slsi"
+      ],
+      "stack-hci-premium": [
+        "azure stack",
+        "hci",
+        "hyper-v",
+        "on-premises",
+        "shp"
+      ],
+      "static-apps": [
+        "swa",
+        "static site",
+        "jamstack",
+        "frontend"
+      ],
+      "storage-accounts": [
+        "blob",
+        "adls",
+        "object storage",
+        "s3",
+        "bucket"
+      ],
+      "storage-accounts-classic": [
+        "blob",
+        "adls",
+        "object storage",
+        "s3",
+        "bucket"
+      ],
+      "storage-azure-files": [
+        "smb",
+        "nfs",
+        "file share",
+        "azure files",
+        "saf"
+      ],
+      "storage-queue": [
+        "queue storage",
+        "queue"
+      ],
+      "storage-sync-services": [
+        "sss"
+      ],
+      "storsimple-data-managers": [
+        "sdm"
+      ],
+      "storsimple-device-managers": [
+        "sdm"
+      ],
+      "storsimple-device-managers-storage": [
+        "sdm"
+      ],
+      "stream-analytics-jobs": [
+        "asa",
+        "stream processing",
+        "saj"
+      ],
+      "stream-analytics-jobs-iot": [
+        "asa",
+        "stream processing",
+        "saj"
+      ],
+      "subscriptions": [
+        "sub",
+        "billing scope",
+        "account"
+      ],
+      "table": [
+        "table storage",
+        "key-value"
+      ],
+      "tfs-vc-repository": [
+        "tvr"
+      ],
+      "time-series-data-sets": [
+        "tsds"
+      ],
+      "time-series-insights-access-policies": [
+        "tsiap"
+      ],
+      "time-series-insights-environments": [
+        "tsie"
+      ],
+      "time-series-insights-event-sources": [
+        "tsies"
+      ],
+      "traffic-manager-profiles": [
+        "gslb",
+        "dns load balancing",
+        "tmp"
+      ],
+      "update-management-center": [
+        "umc"
+      ],
+      "verification-as-a-service": [
+        "vas"
+      ],
+      "virtual-instance-for-sap": [
+        "vis"
+      ],
+      "virtual-machine": [
+        "vm",
+        "instance",
+        "iaas"
+      ],
+      "virtual-machines-classic": [
+        "vm",
+        "instance",
+        "iaas"
+      ],
+      "virtual-network-gateways": [
+        "vpn gateway",
+        "vpn",
+        "ipsec",
+        "s2s",
+        "p2s",
+        "bgp",
+        "vng"
+      ],
+      "virtual-networks": [
+        "vnet",
+        "network",
+        "vpc"
+      ],
+      "virtual-networks-classic": [
+        "vnet",
+        "network",
+        "vpc"
+      ],
+      "virtual-router": [
+        "route server",
+        "bgp"
+      ],
+      "virtual-visits-builder": [
+        "vvb"
+      ],
+      "virtual-wan-hub": [
+        "vwan",
+        "sd-wan",
+        "hub",
+        "wan",
+        "vwh"
+      ],
+      "virtual-wans": [
+        "vwan",
+        "sd-wan",
+        "hub",
+        "wan"
+      ],
+      "vm-app-definitions": [
+        "vad"
+      ],
+      "vm-app-versions": [
+        "vav"
+      ],
+      "vm-image-version": [
+        "viv"
+      ],
+      "vm-scale-sets": [
+        "vmss",
+        "autoscale",
+        "scale set",
+        "vss"
+      ],
+      "web-app-database": [
+        "wad"
+      ],
+      "web-application-firewall-policies-waf": [
+        "waf",
+        "owasp",
+        "l7 firewall",
+        "wafpw"
+      ],
+      "windows-notification-services": [
+        "wns"
+      ],
+      "windows10-core-services": [
+        "wcs"
+      ],
+      "worker-container-app": [
+        "aca",
+        "container apps",
+        "serverless containers",
+        "wca"
+      ]
+    },
+    "kubernetes": {
+      "c-role": [
+        "clusterrole",
+        "cluster role",
+        "rbac"
+      ],
+      "cm": [
+        "configmap",
+        "config map",
+        "configuration"
+      ],
+      "control-plane": [
+        "api server",
+        "kube-apiserver",
+        "master",
+        "scheduler",
+        "controller manager"
+      ],
+      "crb": [
+        "clusterrolebinding",
+        "cluster role binding",
+        "rbac"
+      ],
+      "crd": [
+        "customresourcedefinition",
+        "custom resource",
+        "operator"
+      ],
+      "cronjob": [
+        "cron",
+        "scheduled job",
+        "batch"
+      ],
+      "deploy": [
+        "deployment",
+        "rollout",
+        "replicas",
+        "workload"
+      ],
+      "ds": [
+        "daemonset",
+        "daemon set",
+        "node agent"
+      ],
+      "ep": [
+        "endpoints",
+        "endpoint slice"
+      ],
+      "etcd": [
+        "key-value store",
+        "cluster state",
+        "consensus"
+      ],
+      "group": [
+        "user group",
+        "rbac subject"
+      ],
+      "hpa": [
+        "horizontalpodautoscaler",
+        "autoscaler",
+        "autoscaling",
+        "scale"
+      ],
+      "ing": [
+        "ingress",
+        "ingress controller",
+        "nginx ingress",
+        "http routing",
+        "gateway api"
+      ],
+      "job": [
+        "batch job",
+        "one-off task"
+      ],
+      "limits": [
+        "limitrange",
+        "limit range",
+        "resource limits"
+      ],
+      "netpol": [
+        "networkpolicy",
+        "network policy",
+        "firewall",
+        "cilium",
+        "calico"
+      ],
+      "node": [
+        "worker node",
+        "kubelet",
+        "minion",
+        "vm"
+      ],
+      "ns": [
+        "namespace",
+        "tenant",
+        "isolation"
+      ],
+      "pod": [
+        "container",
+        "workload",
+        "replica"
+      ],
+      "psp": [
+        "podsecuritypolicy",
+        "pod security",
+        "psa"
+      ],
+      "pv": [
+        "persistentvolume",
+        "persistent volume",
+        "storage"
+      ],
+      "pvc": [
+        "persistentvolumeclaim",
+        "persistent volume claim",
+        "storage claim"
+      ],
+      "quota": [
+        "resourcequota",
+        "resource quota"
+      ],
+      "rb": [
+        "rolebinding",
+        "role binding",
+        "rbac"
+      ],
+      "role": [
+        "rbac role",
+        "permissions"
+      ],
+      "rs": [
+        "replicaset",
+        "replica set"
+      ],
+      "sa": [
+        "serviceaccount",
+        "service account",
+        "workload identity"
+      ],
+      "sc": [
+        "storageclass",
+        "storage class",
+        "csi",
+        "provisioner"
+      ],
+      "secret": [
+        "secrets",
+        "credentials",
+        "tls secret"
+      ],
+      "sts": [
+        "statefulset",
+        "stateful set",
+        "database workload"
+      ],
+      "svc": [
+        "service",
+        "clusterip",
+        "nodeport",
+        "loadbalancer",
+        "load balancer"
+      ],
+      "user": [
+        "user account",
+        "kubeconfig",
+        "rbac subject"
+      ],
+      "vol": [
+        "volume",
+        "emptydir",
+        "hostpath"
+      ]
+    }
+  },
+  "schema_version": 1
+}

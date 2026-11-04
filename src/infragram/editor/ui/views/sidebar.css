@@ -1,0 +1,76 @@
+.provider-sidebar{position:relative;z-index:20;display:flex;width:372px;min-height:0;overflow:hidden;flex-direction:column;border-right:1px solid var(--md-sys-color-outline-variant);background:var(--md-sys-color-surface-container-low);transition:width var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.provider-header{display:flex;min-height:92px;flex:none;align-items:center;padding:0 12px}
+.provider-brand{width:100%;height:56px;padding:0 4px 0 0;color:var(--md-sys-color-on-surface)}
+.provider-brand-mark{display:flex;align-items:center;justify-content:center;width:48px;flex:none}
+.provider-brand-mark .provider-mark,.provider-brand-mark .provider-monogram{width:36px;height:36px}
+.provider-context{display:flex;align-items:center;gap:6px;margin-top:2px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+.provider-mark{height:36px;object-fit:contain}
+/* a library whose mark differs by theme carries both, and shows the one for the theme */
+body[data-workspace-theme="dark"] .provider-mark[data-mark-look="light"],
+body:not([data-workspace-theme="dark"]) .provider-mark[data-mark-look="dark"]{display:none}
+.provider-monogram{display:grid;height:36px;place-items:center;border-radius:var(--md-sys-shape-corner-small);background:var(--md-sys-color-primary-container);color:var(--md-sys-color-on-primary-container);font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
+.provider-name{min-width:0;flex:1;overflow:hidden}
+.provider-name strong{display:block;overflow:hidden;font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking);font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+.sidebar-state-icon{width:20px;height:20px;flex:none;margin-right:10px;color:var(--md-sys-color-on-surface-variant)}
+.search-box{margin:0 12px 12px}
+.provider-selector{position:relative;flex:none;margin:0 12px 12px}
+.provider-selector[hidden]{display:none}
+.provider-menu-trigger{justify-content:space-between}
+.provider-menu-trigger>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.provider-menu-trigger strong{color:var(--md-sys-color-on-surface);font-weight:500}
+.provider-menu-trigger[aria-expanded="true"]{border-color:var(--md-sys-color-outline);background:var(--md-sys-color-surface-container-low);color:var(--md-sys-color-on-surface)}
+.provider-menu-trigger[aria-expanded="true"] strong{color:inherit}
+.provider-menu-trigger[aria-expanded="true"] .md-expand-icon{transform:rotate(180deg)}
+.provider-quick-filters{margin-top:8px}
+.provider-quick-filters:not(:has(> :nth-child(2))){display:none}
+.provider-menu{position:absolute;z-index:40;top:40px;left:0;width:100%;max-width:none;max-height:min(560px,calc(100vh - 220px));overflow:auto;scrollbar-width:none}
+.provider-menu::-webkit-scrollbar{width:0;height:0}
+.provider-menu-actions{display:flex;justify-content:space-between;padding:0 0 4px}
+.provider-option img,.provider-option-monogram{width:24px;height:24px;object-fit:contain}
+.provider-option-monogram{display:grid;place-items:center;border-radius:var(--md-sys-shape-corner-extra-small);background:var(--md-sys-color-surface-container-highest);color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-small);letter-spacing:var(--md-sys-typescale-label-small-tracking)}
+.provider-apply{margin-top:4px}
+.category-list{min-height:0;overflow:auto;padding:0 0 16px;scrollbar-width:none}
+.category-list::-webkit-scrollbar{width:0;height:0}
+.category[hidden]{display:none}
+.category>summary{margin:0 12px}
+.category[open]>summary{background:var(--md-sys-color-surface-container-high);color:var(--md-sys-color-on-surface)}
+.provider-sidebar[data-searching="true"] .category[open]>summary{background:transparent;color:var(--md-sys-color-on-surface)}
+.provider-sidebar[data-searching="true"] .category[open]>summary .category-count{color:var(--md-sys-color-on-surface-variant)}
+.category-icon{width:24px;height:24px;flex:none;transform-origin:center;transition:transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+.category>summary:hover .category-icon,.category>summary:focus-visible .category-icon{transform:scale(1.08)}
+.category-label{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* As a work tracker's sidebar: a category's chevron shows on the row the
+   pointer is over and on the open one, not down the whole list; with one
+   library, the quick filter that repeats the picker above it goes. */
+.category>summary .chevron-icon{opacity:0;transition:opacity .12s ease}
+.category>summary:hover .chevron-icon,.category>summary:focus-visible .chevron-icon,.category[open]>summary .chevron-icon{opacity:1}
+.category-count{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);font-variant-numeric:tabular-nums}
+/* what a category holds sits one step in from it, its sections' names
+   muted and smaller than the category's, so the levels read at a glance */
+.component-list{display:grid;gap:2px;padding:4px 8px 12px 20px}
+.component-section>summary.md-subheader{padding-left:12px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+.component-section-body .component-card.md-list-item{padding-left:12px}
+/* a component: a 44 px row, its artwork and its name, as a list row reads */
+.component-card{cursor:grab}
+.component-card.md-list-item{min-height:44px;gap:12px;padding:2px 8px}
+.component-artwork{display:grid;width:40px;height:40px;flex:none;place-items:center;border-radius:var(--md-sys-shape-corner-small)}
+.component-artwork img{max-width:32px;max-height:32px;object-fit:contain}
+body[data-workspace-theme="dark"] .component-artwork{background:var(--md-sys-color-inverse-surface)}
+body[data-workspace-theme="dark"] .frame-artwork{background:var(--md-sys-color-surface-container-highest)}
+.component-section-body{display:grid;gap:8px;padding:4px 0 8px}
+.frame-group>summary,.provider-service-group>summary{padding-left:24px}
+.frame-group-body{display:grid;gap:8px;padding:4px 0 8px 16px}
+.provider-service-list{padding:4px 0 4px 16px}
+.frame-preset{display:flex;width:100%;min-height:72px;align-items:center;gap:12px;padding:8px 12px 8px 8px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius-lg);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);text-align:left;cursor:grab}
+.frame-preset:hover{border-color:var(--md-sys-color-outline)}
+.frame-preset-preview{position:relative;display:block;width:56px;height:40px;flex:none}
+.frame-preset-preview i{position:absolute;inset:0;border:1.5px solid currentColor;border-radius:var(--md-sys-shape-corner-extra-small)}
+.frame-preset-preview i:nth-child(2){inset:5px;border-style:dashed;opacity:.8}
+.frame-preset-preview i:nth-child(3){inset:10px;opacity:.64}
+.frame-preset-preview i:nth-child(4){inset:15px;opacity:.48}
+.frame-preset .md-list-item__supporting{white-space:normal}
+.frame-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.frame-artwork{display:grid;width:100%;height:48px;place-items:center;overflow:hidden;border-radius:var(--md-sys-shape-corner-small)}
+.frame-card img{max-width:92px;max-height:44px}
+.frame-card .md-tile__label{display:-webkit-box;overflow:hidden;font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.empty-category{margin:8px 16px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}

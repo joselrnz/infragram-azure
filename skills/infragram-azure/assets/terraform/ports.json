@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "about": "The port a wire's label names, for the security rules the Terraform export writes. A number in the label wins (\"TDS 1433\"); else the first word here that the label contains; else the port the target component's table entry gives (a database, a cache); else a variable to fill. Words are matched case-insensitively, as whole words.",
+  "words": {
+    "https": 443,
+    "tls": 443,
+    "grpc": 443,
+    "http": 80,
+    "ssh": 22,
+    "rdp": 3389,
+    "postgres": 5432,
+    "postgresql": 5432,
+    "mysql": 3306,
+    "tds": 1433,
+    "mssql": 1433,
+    "redis": 6379,
+    "valkey": 6379,
+    "memcached": 11211,
+    "kafka": 9092,
+    "nfs": 2049,
+    "smb": 445,
+    "dns": 53,
+    "smtp": 25,
+    "ldap": 389,
+    "ldaps": 636,
+    "amqp": 5672,
+    "mqtt": 8883,
+    "mongodb": 27017
+  }
+}

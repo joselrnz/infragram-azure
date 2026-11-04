@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="430" viewBox="0 0 680 430" role="img">
+  <title>Connector anchoring guidelines</title>
+  <desc>A card's wire meets the card's edge. A bare glyph's wire meets the glyph's own edge (left, right, top) or the underside of its caption from below, never the invisible layout box. The four port dots sit exactly where wires touch.</desc>
+  <style>
+    .t  { font: 500 14px 'Geist', 'Segoe UI', system-ui, sans-serif; fill: #16191f; }
+    .ts { font: 400 12px 'Geist', 'Segoe UI', system-ui, sans-serif; fill: #4a5568; }
+    .box { fill: #f7f8fa; stroke: #c9ced6; stroke-width: 0.75; }
+    .wire { fill: none; stroke: #4a5568; stroke-width: 1.5; }
+    .leader { fill: none; stroke: #9aa3ad; stroke-width: 0.75; stroke-dasharray: 4 3; }
+    .port-card { fill: #2b6cb0; stroke: #ffffff; stroke-width: 1; }
+    .port-glyph { fill: #8c4fff; stroke: #ffffff; stroke-width: 1; }
+    .old { fill: #c0392b; stroke: #ffffff; stroke-width: 1; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="430" fill="#ffffff"/>
+
+  <!-- A card: wires and ports on its four mid-edges -->
+  <text x="40" y="48" class="t">Card</text>
+  <rect class="box" x="40" y="60" width="208" height="72" rx="6"/>
+  <rect x="54" y="80" width="32" height="32" rx="4" fill="#2b6cb0"/>
+  <text x="100" y="92" class="t">Amazon ECS</text>
+  <text x="100" y="112" class="ts">Shiny task definitions</text>
+  <circle class="port-card" cx="144" cy="60" r="4"/>
+  <circle class="port-card" cx="248" cy="96" r="4"/>
+  <circle class="port-card" cx="144" cy="132" r="4"/>
+  <circle class="port-card" cx="40" cy="96" r="4"/>
+  <line class="wire" x1="252" y1="96" x2="330" y2="96" marker-end="url(#arrow)"/>
+  <text x="40" y="170" class="ts">Ports and wires on the card's four mid-edges</text>
+
+  <!-- A bare glyph: wires and ports on the glyph itself, and under its caption -->
+  <text x="400" y="30" class="t">Bare glyph (layout box dashed)</text>
+  <rect class="leader" x="400" y="40" width="144" height="116" rx="6"/>
+  <circle cx="472" cy="78" r="32" fill="#8c4fff" fill-opacity="0.18" stroke="#8c4fff" stroke-width="2"/>
+  <text x="472" y="132" class="t" text-anchor="middle">NAT Gateway</text>
+  <text x="472" y="150" class="ts" text-anchor="middle">outbound only</text>
+  <circle class="port-glyph" cx="440" cy="78" r="4"/>
+  <circle class="port-glyph" cx="504" cy="78" r="4"/>
+  <circle class="port-glyph" cx="472" cy="46" r="4"/>
+  <circle class="port-glyph" cx="472" cy="156" r="4"/>
+  <line class="wire" x1="508" y1="78" x2="600" y2="78" marker-end="url(#arrow)"/>
+  <line class="wire" x1="472" y1="160" x2="472" y2="215" marker-end="url(#arrow)"/>
+  <circle class="old" cx="544" cy="98" r="4"/>
+  <line class="leader" x1="548" y1="102" x2="574" y2="186"/>
+  <text x="560" y="200" class="ts">old anchor</text>
+
+  <!-- The rules -->
+  <rect class="box" x="40" y="260" width="600" height="130" rx="6"/>
+  <text x="56" y="284" class="t">Anchoring guidelines</text>
+  <text x="56" y="306" class="ts">1 · A wire touches what is drawn: a card's edge, or the glyph's own edge (left, right, top).</text>
+  <text x="56" y="326" class="ts">2 · From below, a wire meets the underside of the caption, never crossing the text.</text>
+  <text x="56" y="346" class="ts">3 · The four port dots sit exactly where wires touch.</text>
+  <text x="56" y="366" class="ts">4 · A wire never crosses its own glyph or caption; other wires keep clear of the whole node.</text>
+</svg>

@@ -1,0 +1,1 @@
+.md-badge{display:grid;min-width:20px;height:20px;flex:none;place-items:center;padding:0 6px;border-radius:var(--ui-radius-xs);background:var(--md-sys-color-primary);color:var(--md-sys-color-on-primary);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);font-variant-numeric:tabular-nums}

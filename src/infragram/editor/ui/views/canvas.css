@@ -1,0 +1,83 @@
+/* ---- Canvas: the viewport and the stage, sized for this diagram ---- */
+.canvas-pane{position:relative;display:grid;grid-template-rows:minmax(0,1fr) auto auto;min-width:0;min-height:0;height:100%}
+.diagram-legend{max-height:min(160px,25dvh);min-width:0;overflow:auto;padding:8px 12px;background:var(--canvas-bg);border-top:1px solid var(--md-sys-color-outline-variant)}
+.diagram-legend[hidden]{display:none}
+.diagram-legend svg{display:block;max-width:100%;height:auto}
+.diagram-caption{padding:10px 16px;border-top:1px solid var(--md-sys-color-outline-variant);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-body-medium);overflow-wrap:anywhere;max-height:5em;overflow:auto;letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.diagram-caption[hidden]{display:none}
+.canvas-welcome{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;pointer-events:none}
+.canvas-welcome[hidden]{display:none}
+.canvas-welcome img{max-width:35%;height:auto;object-fit:contain}
+.canvas-welcome h2{margin:0;color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-title-large);letter-spacing:var(--md-sys-typescale-title-large-tracking)}
+.canvas-welcome p{margin:0;max-width:320px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.canvas-welcome button{pointer-events:auto;margin-top:8px}
+.save-notice{position:fixed;left:16px;bottom:16px;z-index:100;max-width:min(340px,calc(100vw - 32px));box-sizing:border-box;padding:12px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--error-color);border-radius:12px;background:var(--card-bg);color:var(--text-canvas);font:var(--md-sys-typescale-body-medium);overflow-wrap:anywhere;cursor:auto;box-shadow:0 2px 12px #0003;letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.save-notice[hidden]{display:none}
+.save-notice button{align-self:flex-start;white-space:normal}
+.diagram-stage{--editor-grid-image:linear-gradient(to right,var(--diagram-grid-major) 1px,transparent 1px),linear-gradient(to bottom,var(--diagram-grid-major) 1px,transparent 1px),linear-gradient(to right,var(--diagram-grid-minor) 1px,transparent 1px),linear-gradient(to bottom,var(--diagram-grid-minor) 1px,transparent 1px);display:flex;min-width:100%;min-height:100%;box-sizing:content-box;padding:var(--canvas-gutter-y,0) var(--canvas-gutter-x,0);align-items:flex-start;justify-content:flex-start;background-color:var(--diagram-surface);background-image:var(--editor-grid-image);background-size:var(--editor-grid-major-px,48px) var(--editor-grid-major-px,48px),var(--editor-grid-major-px,48px) var(--editor-grid-major-px,48px),var(--editor-grid-minor-px,12px) var(--editor-grid-minor-px,12px),var(--editor-grid-minor-px,12px) var(--editor-grid-minor-px,12px);background-position:var(--canvas-gutter-x,0) var(--canvas-gutter-y,0)}
+.diagram-stage[data-grid-visible="false"],.diagram-stage[data-grid-visible="false"] svg{background-image:none}
+.diagram-stage svg{display:block;width:__STAGE_WIDTH__px;height:__STAGE_HEIGHT__px;min-width:0;flex:none;background-color:var(--diagram-surface);background-image:var(--editor-grid-image);background-size:var(--editor-grid-major-px,48px) var(--editor-grid-major-px,48px),var(--editor-grid-major-px,48px) var(--editor-grid-major-px,48px),var(--editor-grid-minor-px,12px) var(--editor-grid-minor-px,12px),var(--editor-grid-minor-px,12px) var(--editor-grid-minor-px,12px);background-position:0 0;touch-action:none;user-select:none}
+/* ---- Canvas: the drawing's own interaction styles ---- */
+body[data-workspace-theme="dark"] .diagram-stage [data-graph-boundary]>text,
+body[data-workspace-theme="dark"] .diagram-stage [data-edge-layer] text,
+body[data-workspace-theme="dark"] .diagram-stage [data-static-meta-layer] text{fill:var(--diagram-text)}
+body[data-workspace-theme="dark"] .diagram-stage .boundary-label-backing{fill:var(--diagram-surface)}
+body[data-workspace-theme="dark"] .diagram-stage [data-static-meta-layer] line{stroke:var(--diagram-muted)}
+body[data-workspace-theme="dark"] .diagram-stage [data-static-meta-layer] svg{color:var(--diagram-text)!important}
+body[data-workspace-theme="dark"] .diagram-stage [data-step-list]>rect{fill:var(--card-bg);stroke:var(--border-color)}
+/* The drawing runs far past the screen; its keyboard focus ring goes
+   round the canvas that shows it instead. Chromium rings an element a
+   click focuses even when it is not :focus-visible, so plain :focus. */
+.diagram-stage svg:focus{outline:none}
+.canvas-viewport:has(.diagram-stage svg:focus-visible:not([data-pointer-focus])){outline:2px solid var(--md-sys-color-primary);outline-offset:-2px}
+[data-graph-node]{cursor:grab}
+[data-graph-node],[data-graph-boundary]{transition:opacity .12s ease}
+[data-graph-node]:hover [data-node-surface],[data-graph-boundary]:hover [data-boundary-surface]{filter:drop-shadow(0 0 1px var(--md-sys-color-primary))}
+[data-graph-node][data-selected="true"]{cursor:grabbing}
+[data-graph-node] .node-selection{display:none}
+[data-graph-node][data-selected="true"] .node-selection{display:block}
+/* A connection dot: 5 px, 10 px off the middle of an edge at any zoom; under
+   the pointer it fills with the accent and grows to 7 px. */
+/* Hidden, a dot takes no room and no press: an invisible circle past a
+   card's edge would catch the clicks meant for its neighbour. */
+[data-node-port]{display:none;cursor:crosshair}
+.node-port-handle{transform:translate(calc(var(--dx) * var(--port-gap,10px)),calc(var(--dy) * var(--port-gap,10px))) scale(var(--port-unit,1))}
+.node-port-dot{transition:r .12s ease,fill .12s ease}
+[data-node-port]:hover .node-port-dot{r:7px;fill:var(--md-sys-color-primary)}
+[data-graph-node][data-connect-target="true"]{filter:drop-shadow(0 0 2px var(--md-sys-color-primary)) drop-shadow(0 0 8px var(--md-sys-color-primary))}
+.canvas-viewport [data-graph-node][data-connect-target="true"]{opacity:1}
+[data-edge-end]{cursor:grab}
+.canvas-viewport[data-connecting="true"],.canvas-viewport[data-connecting="true"] *{cursor:crosshair!important}
+[data-graph-node][data-sole-selected="true"] [data-node-port]{display:inline}
+/* A pointer that hovers shows a card's connection points as it passes; a
+   finger has no hover, and the one a tap leaves behind would show points
+   the card does not answer until it is selected. */
+@media(hover:hover){[data-graph-node]:hover [data-node-port]{display:inline}}
+/* None while a card is moved or a wire is drawn, and none to read by. */
+.canvas-viewport[data-moving="true"] [data-graph-node] [data-node-port],body.review-mode .canvas-viewport [data-graph-node] [data-node-port]{display:none}
+/* while a wire is drawn every card keeps its sides to drop on, unseen: a
+   drop on a dot's place picks that side, and finds the card */
+.canvas-viewport[data-connecting="true"] [data-graph-node] [data-node-port]{display:inline;opacity:0}
+[data-graph-edge]{cursor:pointer}
+.edge-hit{cursor:pointer;pointer-events:stroke}
+.canvas-viewport:not([data-connecting="true"]) [data-edge-group]:hover [data-graph-edge]{filter:drop-shadow(0 0 3px var(--md-sys-color-primary))}
+[data-edge-label]{cursor:grab;touch-action:none}
+[data-edge-label][data-selected="true"]{cursor:grabbing}
+[data-graph-boundary]{cursor:move}
+[data-graph-boundary][data-drop-target="true"] [data-boundary-surface]{fill:color-mix(in srgb,var(--md-sys-color-primary) 8%,var(--diagram-surface));stroke:var(--md-sys-color-primary);stroke-dasharray:none}
+[data-graph-node][data-focus-dimmed="true"],[data-graph-boundary][data-focus-dimmed="true"],[data-graph-node][data-search-dimmed="true"]{opacity:.25}
+[data-graph-node][data-search-match="true"] [data-node-surface]{stroke:var(--md-sys-color-primary);stroke-width:2}
+[data-graph-edge][data-focus-edge="true"]{stroke-width:2.2;stroke-dasharray:8 4;animation:edge-flow .7s linear infinite}
+[data-graph-edge][data-focus-edge="true"][data-edge-direction="both"]{animation-direction:alternate}
+[data-graph-edge][data-focus-edge="true"][data-edge-direction="none"]{animation:none;stroke-dasharray:none}
+[data-edge-group][data-focus-dimmed="true"],[data-edge-label][data-focus-dimmed="true"]{opacity:.2}
+[data-step-list] [data-step-row]{cursor:pointer}
+[data-step-row][data-focus-dimmed="true"]{opacity:.35}
+@keyframes edge-flow{to{stroke-dashoffset:-12}}
+[data-boundary-resize]{cursor:nwse-resize}
+[data-node-resize="e"]{cursor:ew-resize}
+[data-node-resize="s"]{cursor:ns-resize}
+[data-node-resize="se"]{cursor:nwse-resize}
+.boundary-selection{pointer-events:none}
+.drop-active{outline:2px solid var(--md-sys-color-primary);outline-offset:-4px}
+[data-alignment-guide]{pointer-events:none}

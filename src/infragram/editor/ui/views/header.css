@@ -1,0 +1,110 @@
+/* ---- Layout: header, toolbar, workbench, inspector ---- */
+/* Three rows: the header, the workbench, and the drawer along the
+   bottom. The drawer sizes itself, so its row is auto -- without one
+   it lands outside the grid and the workbench keeps its space. */
+/* The header sizes its own row: two rows -- the title and actions, then
+   the toolbar -- or, where the editor has room for all three side by side,
+   one row as a work tracker's top bar: the title, the toolbar after it, the
+   actions at the right (the container query at the end of this file). */
+.editor-main{position:relative;display:grid;grid-template-rows:auto minmax(0,1fr) auto;min-width:0;min-height:0;container:editor/inline-size}
+.editor-header{display:grid;grid-template-rows:48px 40px;min-width:0}
+.document-bar{display:flex;min-width:0;align-items:center;gap:16px;padding:0 8px}
+.app-mascot{display:block;width:40px;height:40px;flex:none;object-fit:contain;border-radius:22%;overflow:hidden}
+.document-copy{display:flex;flex:1;min-width:0;overflow:hidden;align-items:baseline;gap:12px}
+.document-copy strong{min-width:0;max-width:40ch;overflow:hidden;font:var(--md-sys-typescale-title-large);letter-spacing:var(--md-sys-typescale-title-large-tracking);text-overflow:ellipsis;white-space:nowrap}
+.document-copy strong[hidden]{display:none}
+/* short of room the kind line gives way before the title does */
+.document-copy small{min-width:0;flex-shrink:100;overflow:hidden;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);text-overflow:ellipsis;white-space:nowrap}
+.document-actions{display:flex;flex-shrink:0;align-items:center;gap:8px;margin-left:auto}
+.theme-menu>.md-menu{min-width:200px}
+.download-menu>.download-panel{width:344px;max-width:calc(100vw - 64px);max-height:calc(100dvh - 72px);overflow-y:auto;padding:12px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface);box-shadow:var(--ui-shadow-menu)}
+.download-menu>summary .md-expand-icon{width:16px;height:16px;margin-left:2px}
+.download-panel__heading{display:grid;gap:2px;padding:4px 8px 10px}
+.download-panel__heading strong{font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
+.download-panel__heading>span{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.download-options{display:grid;gap:12px;margin:0 0 6px;padding:10px 8px 12px;border-top:1px solid var(--md-sys-color-outline-variant);border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.download-resolution__label{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+[data-png-quality-label]{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+.download-resolution .md-segmented{display:flex;width:100%;box-sizing:border-box}
+.download-resolution .md-segmented>button{padding:0 6px}
+.download-legend{display:flex;align-items:center;gap:12px;cursor:pointer;font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+.download-legend small{display:block;margin-top:2px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.download-panel .download-format{min-height:48px;gap:10px;padding:6px 8px;border-radius:var(--ui-radius)}
+.download-format .md-list-item__leading{width:24px;height:24px;color:var(--md-sys-color-on-surface-variant)}
+.download-format .md-icon{width:20px;height:20px}
+.download-format .md-list-item__trailing{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+.theme-choice{gap:12px}
+/* each swatch previews its theme: the surface and the accent it pairs with */
+.theme-swatch{width:20px;height:20px;flex:none;border-radius:var(--ui-radius-xs);background:linear-gradient(135deg,var(--swatch-surface) 50%,var(--swatch-accent) 50%);box-shadow:inset 0 0 0 1px var(--md-sys-color-outline-variant)}
+.theme-swatch--light{--swatch-surface:#FFFFFF;--swatch-accent:#006399}
+.theme-swatch--dark{--swatch-surface:#141515;--swatch-accent:#2893CC}
+.theme-swatch--darker{--swatch-surface:#0D0D0D;--swatch-accent:#2893CC}
+.editor-toolbar{display:flex;width:max-content;max-width:calc(100% - 8px);height:40px;min-width:0;align-self:center;align-items:center;gap:2px;margin-left:4px;padding:0 3px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface)}
+.editor-toolbar>.md-icon-button:last-child{margin-left:2px}
+.toolbar-group{display:flex;align-items:center;gap:4px}
+.toolbar-group::after{content:"";width:1px;height:20px;margin:0 4px;background:var(--md-sys-color-outline-variant)}
+.zoom-value{min-width:56px;padding:0 8px;color:var(--md-sys-color-on-surface);font-variant-numeric:tabular-nums}
+/* What the page does with a change: keeps it, here, in this file. */
+.local-state:empty{display:none}
+.local-state{margin-right:8px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+/* the header's actions are ordinary buttons, not capsules; a phone keeps
+   their icons and leaves the figures to the inventory */
+.document-actions>.md-button,.document-actions .download-menu>summary,.view-toggle{border-radius:var(--ui-radius)}
+/* The header in two rows with their own jobs, as a work tracker's top bar
+   and sub-header: the title and what is said about the whole page (its
+   cost, the theme, downloads) above; the drawing's tools and the view
+   switches (Inventory, Edit) below, over a hairline. Each group is set off
+   from the next by a rule. */
+@media(min-width:600px){
+  /* the title as a breadcrumb: the kind of page, muted, then its name */
+  .document-copy{align-items:center;gap:8px}
+  .document-copy small{order:-1;flex-shrink:100}
+  .document-copy small::after{content:"/";margin-left:8px;color:var(--md-sys-color-outline)}
+  .document-copy strong{font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking);font-weight:600}
+  /* the page's one main action is the filled button; theme and mascot sit
+     after a rule, as the account corner does */
+  .document-actions .download-menu>summary{border-color:var(--md-sys-color-primary);background:var(--md-sys-color-primary);color:var(--md-sys-color-on-primary)}
+  .document-actions .theme-menu{margin-left:4px;padding-left:12px;border-left:1px solid var(--md-sys-color-outline-variant)}
+  .document-actions .app-mascot{width:32px;height:32px}
+  .editor-header{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:48px 44px;grid-template-areas:"title actions" "tools views";align-items:center;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+  .document-bar{display:contents}
+  .document-copy{grid-area:title;padding-left:16px}
+  .document-actions{grid-area:actions;padding-right:12px}
+  .editor-header>.editor-toolbar{grid-area:tools;width:auto;max-width:none;height:44px;margin:0;padding:0 8px;border:0;border-top:1px solid var(--md-sys-color-outline-variant);border-radius:0;background:none}
+  .document-views{grid-area:views;align-self:stretch;padding:0 12px;border-top:1px solid var(--md-sys-color-outline-variant)}
+}
+.document-views{display:flex;align-items:center;gap:6px}
+/* a view switch is pressed while its view is shown */
+.view-toggle{padding:0 10px}
+.view-toggle[aria-pressed="true"]{border-color:var(--md-sys-color-primary);background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)}
+/* a phone: one bar of the title and the action icons; the figures are
+   left to the inventory (last here, so it wins over the groups' display) */
+@media(max-width:599px){.document-action-label{display:none}.document-views{order:1;padding:0}.document-actions{order:2;margin-left:0}.document-copy{order:0}
+  /* icon buttons on the bar, not boxed tiles; a pressed view keeps its tint */
+  .document-views .view-toggle,.document-actions .download-menu>summary{border-color:transparent;background:none}
+  .document-views .view-toggle[aria-pressed="true"]{background:var(--md-sys-color-secondary-container)}
+  /* the tools: a row under a hairline, as on a wider screen */
+  .editor-header>.editor-toolbar{margin:0;border:0;border-top:1px solid var(--md-sys-color-outline-variant);border-bottom:1px solid var(--md-sys-color-outline-variant);border-radius:0;background:none}}
+/* One 48 px row wherever the editor is wide enough for the four groups side
+   by side -- the title, the tools, the view switches, the actions -- so the
+   top takes as little of the screen as it can and is the same in every
+   view, the title giving way to an ellipsis when room is short; two rows
+   only on a narrow window. */
+@container editor (min-width:960px){
+  .editor-header{grid-template-columns:minmax(0,max-content) max-content minmax(0,1fr) max-content max-content;grid-template-rows:48px;grid-template-areas:"title tools . views actions"}
+  .editor-header>.editor-toolbar{overflow:visible}
+  .editor-header>.editor-toolbar,.document-views{height:48px;border-top:0}
+  .editor-header>.editor-toolbar{margin-left:8px;padding:0 8px;border-left:1px solid var(--md-sys-color-outline-variant)}
+  .document-views{padding:0 12px;border-right:1px solid var(--md-sys-color-outline-variant)}
+  .document-actions{padding-left:12px}
+}
+/* a phone's header holds more than Download, so its panel spans the screen
+   below the header rather than hang off the button's right edge */
+@media(max-width:599px){.download-menu>.download-panel{position:fixed;top:auto;left:8px;right:8px;width:auto;max-width:none}}
+/* short of room in that one row, the breadcrumb's kind goes rather than
+   be cut to a stub, and Download keeps its icon, so the title keeps its name */
+@container editor (max-width:1279px){.document-copy small{display:none}}
+@container editor (min-width:960px) and (max-width:1179px){
+  .document-actions .download-menu__label{display:none}
+  .document-actions .download-menu>summary{gap:2px;padding:0 8px}
+}

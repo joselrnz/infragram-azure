@@ -1,0 +1,219 @@
+{
+  "description": "The numbers both renderers must agree on. A document is drawn twice: by the Python renderer in builders/, and by the editor runtime inside an exported page. They are separate implementations of one picture, so anything that decides where a wire runs, how a mark is sized or where a line of text sits lives here and is read by both. The editor's values are canonical, because every exported SVG and PNG comes from the editor. The card, icon_node and text numbers for type are the editor's own, still typed into the runtime's 14-shapes.js until its next port reads them from here; the browser gate tests/integration/test_renderer_parity_browser.py holds the two pictures equal meanwhile. Change a number here and both pictures follow; the golden pictures will move, which is the point.",
+  "router": {
+    "clearance": 12,
+    "stub": 20,
+    "lane": 16.0,
+    "margin": 48,
+    "turn_cost": 90,
+    "radius": 8,
+    "straighten": 4,
+    "max_obstacles": 48,
+    "grid": 4,
+    "corners": {
+      "default": "sharp",
+      "rounded": 8,
+      "sharp": 0,
+      "curved": 48,
+      "note": "How a wire turns a corner, per wire: the largest radius of the bend. sharp, a hard square elbow, is the house default; rounded equals router.radius; curved widens every bend as far as its legs allow. Legs stay horizontal and vertical in every style, so the picture rules still hold."
+    },
+    "note": "clearance: how far a wire stays off a card; stub: the straight run out of a side before it may turn; margin: how far outside the content a detour may go; turn_cost: pixels charged per corner; straighten: ports this close to one line are put on one line; max_obstacles: the nearest cards a search considers before falling back to all of them; grid: the lattice the plain dog-leg's middle snaps to; rail: how near a frame's border a wire runs along it; rail_cost: pixels charged per pixel run along a border, on top of its length; rail_run: how far along a border the plain path may run before the search is asked for a way off it; cross_cost: pixels charged for each border crossed of a frame that holds neither end of the wire, so a wire goes around a group it has nothing to do with when the way around is not much longer; spread: how far apart wires that run along one line are drawn, inside the room the cards and frame borders either side leave; spread_min: the narrowest such spacing worth drawing, below which the wires stay together. Both routers search only when the plain path hits something, from the sides the nodes' relative position infers, and try the other sides in the order right, left, bottom, top when the facing ones are boxed in.",
+    "crossing_radius": 8,
+    "crossing_clearance": 3,
+    "rail": 4,
+    "rail_cost": 3,
+    "rail_run": 24,
+    "cross_cost": 250,
+    "spread": 8,
+    "spread_min": 4
+  },
+  "icon_node": {
+    "width": 144,
+    "height": 116,
+    "glyph": 64,
+    "caption_min_height": 96,
+    "max_width": 280,
+    "glyph_top": 4,
+    "caption_gap": 16,
+    "caption_pad": 8,
+    "caption_min_chars": 6,
+    "detail_size": 10,
+    "detail_gap": 31,
+    "detail_advance": 5.8,
+    "detail_min_height": 108,
+    "note": "A bare glyph with its caption beneath. The glyph square is min(glyph, width - 8, (captioned ? height - 34 : height) - 8), centred across and seated glyph_top below the top when the node is at least caption_min_height tall (captioned), else centred. The name sits caption_gap below the square in the title type, cut to max(caption_min_chars, (width - caption_pad) / (size * text.advance)) characters; the detail sits detail_gap below the square at detail_size, cut to (width - caption_pad) / detail_advance characters, and only on a node at least detail_min_height tall. An icon node grows to max(name * 12 * text.advance, detail * detail_advance) + 16, ceiled to 4, up to max_width."
+  },
+  "link_dashes": {
+    "dashed": "5 4",
+    "dotted": "2 3"
+  },
+  "frame": {
+    "tab": 20,
+    "icon": 16,
+    "icon_inset": 2,
+    "label_gap": 5,
+    "baseline_divisor": 2.8,
+    "dashed_kinds": [
+      "organization",
+      "management-group",
+      "folder",
+      "project",
+      "region",
+      "zone",
+      "security-zone",
+      "security-group",
+      "cluster",
+      "namespace",
+      "node-pool",
+      "server-group",
+      "group",
+      "environment",
+      "management",
+      "dmz"
+    ],
+    "widths": {
+      "cloud": 1.8
+    },
+    "line_scales": {
+      "thin": 1,
+      "medium": 1.75,
+      "thick": 2.5
+    },
+    "note": "The badge tab in a frame's corner: the square, the glyph inside it (inset icon_inset from the tab's edges), the gap before the caption, and the divisor that places the caption baseline (y = tab / 2 + label size / divisor). The tab seats half the frame's stroke inside the corner so the border stays whole. label_advance, label_pad and label_min are the one estimate of a title's width both routers keep wires out of: max(label_min, characters * label size * label_advance + label_pad) + tab, clamped to the frame's width (ClusterStyle.title_width and the runtime's boundaryLabelBox); the advance is the one the shipped checker measures text with. Read by ClusterStyle and by the runtime's FRAME.",
+    "label_advance": 0.58,
+    "label_pad": 12,
+    "label_min": 48
+  },
+  "flag": {
+    "label": "Unused",
+    "font": 9,
+    "weight": 600,
+    "advance": 0.56,
+    "pad": 1,
+    "height": 12,
+    "inset": 3,
+    "radius": 0,
+    "fill": "none",
+    "stroke": "none",
+    "ink": "#9a3412",
+    "ink_dark": "#fdba74",
+    "note": "The word on a card the estate keeps without using (attributes.unused): plain text, no pill, inset from the card's top-right corner, inside its box, so it meets no wire or frame title. Its box is ceil(label length * font * advance + 2 * pad) wide, unpainted; its text is centred across it, its baseline at inset + height / 2 + font * 0.35. ink on a light canvas, ink_dark on a dark one (the editor only; exports are light). Drawn the same by the Python renderer and the editor."
+  },
+  "mark": {
+    "gap": 16,
+    "height": 40,
+    "note": "The provider mark's band below the drawing: the mark is `height` tall, sits `gap` below the lowest frame or card, left-aligned with the content, and the picture extends to hold it. Read by the Python layout (Canvas.mark_gap, Style.mark_height), by the editor's export (MARK), and never drawn over."
+  },
+  "card": {
+    "width": 208,
+    "max_width": 416,
+    "note": "A card is 208 wide and 64 tall in both renderers. Python grows one to its text when the canvas is sized to its content, up to max_width; the editor draws the width it is given and never grows a card itself, because a person can widen one by hand. Inside: the icon (icon square, icon_x in, centred down), or without artwork a blank tile (blank square, blank_x in) carrying the name's first letter; the name at text_x, title_dy from the middle, in the title type; the detail at text_x, detail_dy from the middle, at detail_size. The name is cut to max(min_chars, max(min_room, width - text_x - text_end) / (title_size * text.advance)) characters and the detail to max(min_chars, max(min_room, width - text_x - text_end) / detail_advance).",
+    "height": 64,
+    "icon": 32,
+    "icon_x": 14,
+    "blank": 28,
+    "blank_x": 16,
+    "text_x": 54,
+    "text_end": 12,
+    "title_size": 12,
+    "title_weight": 600,
+    "title_dy": -2,
+    "detail_size": 9,
+    "detail_dy": 14,
+    "detail_advance": 5.2,
+    "min_chars": 8,
+    "min_room": 48
+  },
+  "text": {
+    "family": "Inter",
+    "advance": 0.58,
+    "note": "The face every card, caption and wire label is set in (embedded in each export from assets/fonts), and the one width estimate: advance em per character, the same number the shipped checker measures text with."
+  },
+  "step": {
+    "lead": 26,
+    "radius": 11,
+    "inset": 2,
+    "number_size": 11,
+    "chip": 24,
+    "list_gap": 32,
+    "list_row": 30,
+    "list_size": 12,
+    "list_radius": 11,
+    "list_pad": 14,
+    "note": "A wire's step: a circle `radius` wide in the theme's step colour, `inset` from the left of its caption's chip, which is `chip` tall and reaches `lead` further left than the caption's text so both routers, the chip and the checker count it; the number is `number_size` px, bold, white. The step list is a panel `list_gap` right of the drawing, `list_pad` inside, a step a `list_row`, its text `list_size` px beside a circle `list_radius` wide. Read by the Python renderer (builders/captions.py, render.py) and the editor (STEP)."
+  },
+  "panel": {
+    "pad_x": 10,
+    "pad_top": 8,
+    "pad_bottom": 8,
+    "radius": 4,
+    "title_size": 12,
+    "title_weight": 700,
+    "title_line": 16,
+    "detail_size": 9,
+    "detail_line": 12,
+    "detail_advance": 5.2,
+    "cell_title_size": 10.5,
+    "cell_title_weight": 600,
+    "cell_title_line": 14,
+    "cell_size": 8.5,
+    "cell_line": 11,
+    "cell_advance": 4.9,
+    "cell_pad_x": 8,
+    "cell_pad_y": 6,
+    "icon": 20,
+    "icon_x": 8,
+    "icon_y": 8,
+    "min_width": 160,
+    "max_width": 720,
+    "fold": 10,
+    "hex_inset": 20,
+    "ellipse_pad": 26,
+    "ellipse_pad_y": 8,
+    "note": "A panel is a card that says more than a name and a detail line: several detail lines (a detail with line breaks), compartments (attributes.sections: rows of cells, each a title, lines and a tone), or a shape other than the rectangle (attributes.shape: ellipse, hexagon, note). Python sizes it once (builders/panels.py) and both renderers draw it from these numbers. The heading (the name, title_size at title_weight, one title_line) and the detail lines (detail_size, one detail_line each) stand centred between pad_x margins, pad_top under the top and pad_bottom over the first compartment. A row of cells follows the heading under a rule; each cell takes a share of the width in proportion to what its own text needs (floored, the last cell takes the rest), its title (cell_title_size, cell_title_line) and lines (cell_size, cell_line) centred within cell_pad_x, cell_pad_y above and below. A row is as tall as its tallest cell. Baselines sit at a line box's middle plus 0.35 of the type size. An ellipse is ellipse_pad wider each side and ellipse_pad_y taller each end; a hexagon hex_inset wider each side; a note folds its top-right corner fold px. Text past min_width..max_width is cut with an ellipsis. A card with artwork keeps an icon square (icon) at icon_x, icon_y and the heading reserves its lane on both sides."
+  },
+  "tones": {
+    "edge": {
+      "fill": "#fde6d1",
+      "stroke": "#cc7631",
+      "fill_dark": "#432810",
+      "stroke_dark": "#e6965a"
+    },
+    "private": {
+      "fill": "#e7f2e8",
+      "stroke": "#4e8a5a",
+      "fill_dark": "#1d3324",
+      "stroke_dark": "#6fae7c"
+    },
+    "internal": {
+      "fill": "#e3edf8",
+      "stroke": "#4a77ad",
+      "fill_dark": "#1b2b3f",
+      "stroke_dark": "#7aa3d4"
+    },
+    "correction": {
+      "fill": "#fbf5c2",
+      "stroke": "#a28d0e",
+      "fill_dark": "#35320e",
+      "stroke_dark": "#d4c13c"
+    },
+    "blocker": {
+      "fill": "#fce3e3",
+      "stroke": "#c24848",
+      "fill_dark": "#4a1c20",
+      "stroke_dark": "#e07a7a"
+    },
+    "managed": {
+      "fill": "#efe9f8",
+      "stroke": "#7a5cb0",
+      "fill_dark": "#2b2340",
+      "stroke_dark": "#a58bd6"
+    },
+    "neutral": {
+      "fill": "#f3f4f6",
+      "stroke": "#8a9099",
+      "fill_dark": "#3a3d44",
+      "stroke_dark": "#9aa1ab"
+    }
+  }
+}

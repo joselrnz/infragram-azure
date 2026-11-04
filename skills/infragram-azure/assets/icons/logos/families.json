@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "comment": "Curated grouping overlay. The logo importer regenerates catalog.json but never touches this file. 'official.vendors' names the collection that supersedes these logos in lookup; 'official.url' is where to download the official pack.",
+  "families": {
+    "amazon": {
+      "members": [
+        "aws"
+      ],
+      "official": {
+        "vendors": "vendors/aws",
+        "url": "https://aws.amazon.com/architecture/icons/"
+      }
+    },
+    "microsoft": {
+      "members": [
+        "microsoft",
+        "microsoft-azure"
+      ],
+      "official": {
+        "vendors": "vendors/azure",
+        "url": "https://learn.microsoft.com/en-us/azure/architecture/icons/"
+      }
+    }
+  }
+}

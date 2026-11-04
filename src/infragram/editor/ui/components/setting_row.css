@@ -1,0 +1,4 @@
+.setting-row{display:flex;min-height:44px;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.setting-row>span:first-child{color:var(--md-sys-color-on-surface-variant)}
+.setting-value{color:var(--md-sys-color-on-surface-variant);font-variant-numeric:tabular-nums}
+

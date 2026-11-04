@@ -1,0 +1,4 @@
+/* ---- Cards, menus, tooltip, badge, settings rows ---- */
+.md-card{border-radius:var(--ui-radius-lg)}
+.md-card--outlined{border:1px solid var(--md-sys-color-outline-variant)}
+.md-card--filled{background:var(--md-sys-color-surface-container-low)}

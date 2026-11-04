@@ -1,0 +1,3 @@
+# Codex: a command the user invokes ($check), never one the model picks on its own.
+policy:
+  allow_implicit_invocation: false

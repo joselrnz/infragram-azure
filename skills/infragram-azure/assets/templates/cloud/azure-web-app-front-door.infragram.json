@@ -1,0 +1,677 @@
+{
+  "schema_version": 2,
+  "kind": "single-cloud",
+  "slug": "azure-web-app-front-door",
+  "title": "Zone-redundant web app behind Front Door",
+  "description": "Front Door Premium is the only public surface: WAF and TLS at the edge, Private Link to an App Service origin with no public endpoint. In the primary region App Service, Azure SQL, Cache for Redis and Storage are zone redundant and reached over private endpoints from the integration subnet; a failover group replicates SQL to a second region where a warm standby App Service waits as origin priority 2. Managed identity, Key Vault, Application Insights and Log Analytics complete the picture.",
+  "template_brief": "",
+  "providers": [
+    {
+      "id": "azure",
+      "enabled": true
+    }
+  ],
+  "default_library": "azure",
+  "layers": [],
+  "presentation": {
+    "size": "fit",
+    "detail": "balanced",
+    "audience": "mixed",
+    "eyebrow": "Architecture",
+    "heading": "",
+    "legend": []
+  },
+  "topology": {
+    "id": "root",
+    "name": "Zone-redundant web app behind Front Door",
+    "type": "group",
+    "attributes": {},
+    "children": [
+      {
+        "id": "users",
+        "name": "Users",
+        "type": "Public users",
+        "component": {
+          "provider": "infragram",
+          "service_id": "public-users",
+          "icon_ref": "infragram:public-users"
+        },
+        "attributes": {
+          "detail": "browsers · worldwide",
+          "icon": "public-users",
+          "collection": "infragram",
+          "category": "identity"
+        },
+        "children": [],
+        "connections": [
+          {
+            "target": "azure-front-door-premium",
+            "kind": "solid",
+            "label": "HTTPS 443",
+            "direction": "forward"
+          }
+        ],
+        "badges": []
+      },
+      {
+        "id": "mobile-clients",
+        "name": "Mobile clients",
+        "type": "Mobile",
+        "component": {
+          "provider": "azure",
+          "service_id": "mobile",
+          "icon_ref": "azure:mobile"
+        },
+        "attributes": {
+          "detail": "iOS · Android",
+          "icon": "mobile",
+          "collection": "azure",
+          "category": "general"
+        },
+        "children": [],
+        "connections": [
+          {
+            "target": "azure-front-door-premium",
+            "kind": "solid",
+            "label": "HTTPS 443 · API",
+            "direction": "forward"
+          }
+        ],
+        "badges": []
+      },
+      {
+        "id": "production-subscription",
+        "name": "Production subscription",
+        "type": "subscription",
+        "component": {
+          "provider": "infragram",
+          "service_id": "custom-boundary-azure-subscription",
+          "icon_ref": "infragram:custom-boundary-azure-subscription"
+        },
+        "attributes": {
+          "arrange": "manual",
+          "flow": "column",
+          "editor_frame_group": "azure"
+        },
+        "children": [
+          {
+            "id": "rg-global-edge",
+            "name": "rg-global-edge",
+            "type": "resource-group",
+            "component": {
+              "provider": "infragram",
+              "service_id": "custom-boundary-azure-resource-group",
+              "icon_ref": "infragram:custom-boundary-azure-resource-group"
+            },
+            "attributes": {
+              "flow": "row",
+              "editor_frame_group": "azure"
+            },
+            "children": [
+              {
+                "id": "azure-dns",
+                "name": "Azure DNS",
+                "type": "DNS Zones",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "dns-zones",
+                  "icon_ref": "azure:dns-zones"
+                },
+                "attributes": {
+                  "detail": "contoso.com · CNAME to Front Door",
+                  "icon": "dns-zones",
+                  "collection": "azure",
+                  "category": "networking"
+                },
+                "children": [],
+                "connections": [
+                  {
+                    "target": "azure-front-door-premium",
+                    "kind": "dotted",
+                    "label": "CNAME · TXT validation",
+                    "direction": "forward"
+                  }
+                ],
+                "badges": []
+              },
+              {
+                "id": "azure-front-door-premium",
+                "name": "Azure Front Door Premium",
+                "type": "Front Door and CDN Profiles",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "front-door-and-cdn-profiles",
+                  "icon_ref": "azure:front-door-and-cdn-profiles"
+                },
+                "attributes": {
+                  "detail": "WAF · TLS · caching · Private Link origins",
+                  "icon": "front-door-and-cdn-profiles",
+                  "collection": "azure",
+                  "category": "networking"
+                },
+                "children": [],
+                "connections": [
+                  {
+                    "target": "app-service",
+                    "kind": "solid",
+                    "label": "Private Link origin · priority 1",
+                    "direction": "forward"
+                  },
+                  {
+                    "target": "app-service-warm-standby",
+                    "kind": "dashed",
+                    "label": "origin priority 2 · health probes",
+                    "direction": "forward"
+                  },
+                  {
+                    "target": "log-analytics",
+                    "kind": "dotted",
+                    "label": "access + WAF logs",
+                    "direction": "forward"
+                  }
+                ],
+                "badges": []
+              },
+              {
+                "id": "ddos-protection",
+                "name": "DDoS Protection",
+                "type": "DDoS Protection Plans",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "ddos-protection-plans",
+                  "icon_ref": "azure:ddos-protection-plans"
+                },
+                "attributes": {
+                  "detail": "network protection · public IPs",
+                  "icon": "ddos-protection-plans",
+                  "collection": "azure",
+                  "category": "networking"
+                },
+                "children": [],
+                "connections": [
+                  {
+                    "target": "azure-front-door-premium",
+                    "kind": "dotted",
+                    "label": "covers public IPs",
+                    "direction": "forward"
+                  }
+                ],
+                "badges": []
+              }
+            ],
+            "connections": [],
+            "badges": []
+          },
+          {
+            "id": "east-us-2-primary",
+            "name": "East US 2 · primary",
+            "type": "region",
+            "component": {
+              "provider": "infragram",
+              "service_id": "custom-boundary-azure-region",
+              "icon_ref": "infragram:custom-boundary-azure-region"
+            },
+            "attributes": {
+              "flow": "row",
+              "editor_frame_group": "azure"
+            },
+            "children": [
+              {
+                "id": "rg-web-prod",
+                "name": "rg-web-prod",
+                "type": "resource-group",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-azure-resource-group",
+                  "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                },
+                "attributes": {
+                  "flow": "column",
+                  "editor_frame_group": "azure"
+                },
+                "children": [
+                  {
+                    "id": "vnet-10-20-0-0-16",
+                    "name": "VNet · 10.20.0.0/16",
+                    "type": "network",
+                    "component": {
+                      "provider": "infragram",
+                      "service_id": "custom-boundary-azure-vnet",
+                      "icon_ref": "infragram:custom-boundary-azure-vnet"
+                    },
+                    "attributes": {
+                      "flow": "row",
+                      "editor_frame_group": "azure"
+                    },
+                    "children": [
+                      {
+                        "id": "snet-appservice-integration",
+                        "name": "snet-appservice-integration",
+                        "type": "subnet-private",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-subnet",
+                          "icon_ref": "infragram:custom-boundary-azure-subnet"
+                        },
+                        "attributes": {
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "app-service",
+                            "name": "App Service",
+                            "type": "App Services",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "app-services",
+                              "icon_ref": "azure:app-services"
+                            },
+                            "attributes": {
+                              "detail": "P1v3 ×3 · zone redundant · VNet integration",
+                              "icon": "app-services",
+                              "collection": "azure",
+                              "category": "app-services",
+                              "sizing": {
+                                "sku": "P1v3",
+                                "count": 3
+                              }
+                            },
+                            "children": [],
+                            "connections": [
+                              {
+                                "target": "private-endpoints",
+                                "kind": "solid",
+                                "label": "VNet integration · private DNS",
+                                "direction": "forward"
+                              },
+                              {
+                                "target": "managed-identity",
+                                "kind": "dotted",
+                                "label": "token",
+                                "direction": "forward"
+                              },
+                              {
+                                "target": "application-insights",
+                                "kind": "dotted",
+                                "label": "telemetry",
+                                "direction": "forward"
+                              }
+                            ],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      },
+                      {
+                        "id": "snet-private-endpoints",
+                        "name": "snet-private-endpoints",
+                        "type": "subnet-private",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-subnet",
+                          "icon_ref": "infragram:custom-boundary-azure-subnet"
+                        },
+                        "attributes": {
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "private-endpoints",
+                            "name": "Private endpoints",
+                            "type": "Private Endpoints",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "private-endpoints",
+                              "icon_ref": "azure:private-endpoints"
+                            },
+                            "attributes": {
+                              "detail": "SQL · Redis · Storage · Key Vault",
+                              "icon": "private-endpoints",
+                              "collection": "azure",
+                              "category": "other"
+                            },
+                            "children": [],
+                            "connections": [
+                              {
+                                "target": "azure-sql-database",
+                                "kind": "dotted",
+                                "label": "TDS 1433",
+                                "direction": "forward"
+                              },
+                              {
+                                "target": "cache-for-redis",
+                                "kind": "dotted",
+                                "label": "TLS 6380",
+                                "direction": "forward"
+                              },
+                              {
+                                "target": "storage-account",
+                                "kind": "dotted",
+                                "label": "blob · HTTPS",
+                                "direction": "forward"
+                              },
+                              {
+                                "target": "key-vault",
+                                "kind": "dotted",
+                                "label": "secrets",
+                                "direction": "forward"
+                              }
+                            ],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      }
+                    ],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              },
+              {
+                "id": "rg-data-prod",
+                "name": "rg-data-prod",
+                "type": "resource-group",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-azure-resource-group",
+                  "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                },
+                "attributes": {
+                  "arrange": "manual",
+                  "flow": "column",
+                  "editor_frame_group": "azure"
+                },
+                "children": [
+                  {
+                    "id": "azure-sql-database",
+                    "name": "Azure SQL Database",
+                    "type": "SQL Database",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "sql-database",
+                      "icon_ref": "azure:sql-database"
+                    },
+                    "attributes": {
+                      "detail": "Business Critical · zone redundant · failover group",
+                      "icon": "sql-database",
+                      "collection": "azure",
+                      "category": "databases",
+                      "sizing": {
+                        "tier": "Business Critical",
+                        "zone_redundant": "yes"
+                      }
+                    },
+                    "children": [],
+                    "connections": [
+                      {
+                        "target": "azure-sql-geo-secondary",
+                        "kind": "dashed",
+                        "label": "failover group · async replication",
+                        "direction": "forward"
+                      }
+                    ],
+                    "badges": []
+                  },
+                  {
+                    "id": "cache-for-redis",
+                    "name": "Cache for Redis",
+                    "type": "Cache Redis",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "cache-redis",
+                      "icon_ref": "azure:cache-redis"
+                    },
+                    "attributes": {
+                      "detail": "Premium · zone redundant · session state",
+                      "icon": "cache-redis",
+                      "collection": "azure",
+                      "category": "databases",
+                      "sizing": {
+                        "tier": "Premium"
+                      }
+                    },
+                    "children": [],
+                    "connections": [],
+                    "badges": []
+                  },
+                  {
+                    "id": "storage-account",
+                    "name": "Storage account",
+                    "type": "Storage Accounts",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "storage-accounts",
+                      "icon_ref": "azure:storage-accounts"
+                    },
+                    "attributes": {
+                      "detail": "ZRS · static assets · uploads",
+                      "icon": "storage-accounts",
+                      "collection": "azure",
+                      "category": "storage",
+                      "sizing": {
+                        "redundancy": "ZRS"
+                      }
+                    },
+                    "children": [],
+                    "connections": [],
+                    "badges": []
+                  },
+                  {
+                    "id": "key-vault",
+                    "name": "Key Vault",
+                    "type": "Key Vaults",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "key-vaults",
+                      "icon_ref": "azure:key-vaults"
+                    },
+                    "attributes": {
+                      "detail": "connection strings · certificates",
+                      "icon": "key-vaults",
+                      "collection": "azure",
+                      "category": "security"
+                    },
+                    "children": [],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              },
+              {
+                "id": "rg-ops-prod",
+                "name": "rg-ops-prod",
+                "type": "resource-group",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-azure-resource-group",
+                  "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                },
+                "attributes": {
+                  "arrange": "manual",
+                  "flow": "column",
+                  "editor_frame_group": "azure"
+                },
+                "children": [
+                  {
+                    "id": "managed-identity",
+                    "name": "Managed identity",
+                    "type": "Managed Identities",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "managed-identities",
+                      "icon_ref": "azure:managed-identities"
+                    },
+                    "attributes": {
+                      "detail": "App Service · no secrets in config",
+                      "icon": "managed-identities",
+                      "collection": "azure",
+                      "category": "identity"
+                    },
+                    "children": [],
+                    "connections": [
+                      {
+                        "target": "key-vault",
+                        "kind": "dotted",
+                        "label": "RBAC · Key Vault Secrets User",
+                        "direction": "forward"
+                      }
+                    ],
+                    "badges": []
+                  },
+                  {
+                    "id": "application-insights",
+                    "name": "Application Insights",
+                    "type": "Application Insights",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "application-insights-monitor",
+                      "icon_ref": "azure:application-insights-monitor"
+                    },
+                    "attributes": {
+                      "detail": "requests · dependencies · availability tests",
+                      "icon": "application-insights-monitor",
+                      "collection": "azure",
+                      "category": "monitor"
+                    },
+                    "children": [],
+                    "connections": [
+                      {
+                        "target": "log-analytics",
+                        "kind": "dotted",
+                        "label": "workspace-based",
+                        "direction": "forward"
+                      }
+                    ],
+                    "badges": []
+                  },
+                  {
+                    "id": "log-analytics",
+                    "name": "Log Analytics",
+                    "type": "Log Analytics Workspaces",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "log-analytics-workspaces-monitor",
+                      "icon_ref": "azure:log-analytics-workspaces-monitor"
+                    },
+                    "attributes": {
+                      "detail": "diagnostics · alerts",
+                      "icon": "log-analytics-workspaces-monitor",
+                      "collection": "azure",
+                      "category": "monitor"
+                    },
+                    "children": [],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              }
+            ],
+            "connections": [],
+            "badges": []
+          },
+          {
+            "id": "central-us-standby",
+            "name": "Central US · standby",
+            "type": "region",
+            "component": {
+              "provider": "infragram",
+              "service_id": "custom-boundary-azure-region",
+              "icon_ref": "infragram:custom-boundary-azure-region"
+            },
+            "attributes": {
+              "flow": "row",
+              "editor_frame_group": "azure"
+            },
+            "children": [
+              {
+                "id": "rg-web-standby",
+                "name": "rg-web-standby",
+                "type": "resource-group",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-azure-resource-group",
+                  "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                },
+                "attributes": {
+                  "flow": "row",
+                  "editor_frame_group": "azure"
+                },
+                "children": [
+                  {
+                    "id": "app-service-warm-standby",
+                    "name": "App Service · warm standby",
+                    "type": "App Services",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "app-services",
+                      "icon_ref": "azure:app-services"
+                    },
+                    "attributes": {
+                      "detail": "P1v3 ×1 · origin priority 2",
+                      "icon": "app-services",
+                      "collection": "azure",
+                      "category": "app-services",
+                      "sizing": {
+                        "sku": "P1v3",
+                        "count": 1
+                      }
+                    },
+                    "children": [],
+                    "connections": [
+                      {
+                        "target": "azure-sql-geo-secondary",
+                        "kind": "dotted",
+                        "label": "read-only until failover",
+                        "direction": "forward"
+                      }
+                    ],
+                    "badges": []
+                  },
+                  {
+                    "id": "azure-sql-geo-secondary",
+                    "name": "Azure SQL · geo-secondary",
+                    "type": "SQL Database",
+                    "component": {
+                      "provider": "azure",
+                      "service_id": "sql-database",
+                      "icon_ref": "azure:sql-database"
+                    },
+                    "attributes": {
+                      "detail": "readable · failover group",
+                      "icon": "sql-database",
+                      "collection": "azure",
+                      "category": "databases",
+                      "sizing": {
+                        "tier": "Business Critical"
+                      }
+                    },
+                    "children": [],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              }
+            ],
+            "connections": [],
+            "badges": []
+          }
+        ],
+        "connections": [],
+        "badges": []
+      }
+    ],
+    "connections": [],
+    "badges": []
+  }
+}

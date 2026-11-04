@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "categories": [
+    {
+      "id": "custom",
+      "label": "Custom",
+      "icon": "edit",
+      "order": 10,
+      "visibility": "always",
+      "aliases": ["general", "other", "custom-resource"]
+    },
+    {
+      "id": "ai-machine-learning",
+      "label": "AI & Machine Learning",
+      "icon": "ai-function",
+      "order": 20,
+      "visibility": "when-populated",
+      "aliases": ["ai", "artificial-intelligence", "machine-learning"]
+    },
+    {
+      "id": "analytics",
+      "label": "Analytics",
+      "icon": "analytics-nodes",
+      "order": 30,
+      "visibility": "when-populated",
+      "aliases": ["observability", "business-intelligence"]
+    },
+    {
+      "id": "compute",
+      "label": "Compute",
+      "icon": "compute-screen",
+      "order": 40,
+      "visibility": "when-populated",
+      "aliases": ["virtual-machines", "serverless-compute"]
+    },
+    {
+      "id": "containers",
+      "label": "Containers",
+      "icon": "container-cubes",
+      "order": 50,
+      "visibility": "when-populated",
+      "aliases": ["container", "kubernetes"]
+    },
+    {
+      "id": "databases",
+      "label": "Databases",
+      "icon": "database",
+      "order": 60,
+      "visibility": "when-populated",
+      "aliases": ["database", "data-stores"]
+    },
+    {
+      "id": "devops",
+      "label": "DevOps",
+      "icon": "devops-loop",
+      "order": 70,
+      "visibility": "when-populated",
+      "aliases": ["developer-tools", "development-tools", "ci-cd"]
+    },
+    {
+      "id": "hybrid-multicloud",
+      "label": "Hybrid & MultiCloud",
+      "icon": "hybrid-network",
+      "order": 80,
+      "visibility": "when-populated",
+      "aliases": ["hybrid", "multicloud", "hybrid-multi-cloud"]
+    },
+    {
+      "id": "identity",
+      "label": "Identity",
+      "icon": "identity",
+      "order": 90,
+      "visibility": "when-populated",
+      "aliases": ["iam", "access-management"]
+    },
+    {
+      "id": "integration",
+      "label": "Integration",
+      "icon": "integration-grid",
+      "order": 100,
+      "visibility": "when-populated",
+      "aliases": ["application-integration", "messaging"]
+    },
+    {
+      "id": "internet-of-things",
+      "label": "Internet of Things",
+      "icon": "iot-signal",
+      "order": 110,
+      "visibility": "when-populated",
+      "aliases": ["iot", "connected-devices"]
+    },
+    {
+      "id": "energy",
+      "label": "Energy & Power",
+      "icon": "energy-bolt",
+      "order": 120,
+      "visibility": "when-populated",
+      "aliases": ["power", "generation", "grid", "utility", "electrical"]
+    },
+    {
+      "id": "industrial",
+      "label": "Industrial & OT",
+      "icon": "industrial-gear",
+      "order": 130,
+      "visibility": "when-populated",
+      "aliases": ["ot", "operational-technology", "factory", "process", "plant", "test-equipment"]
+    },
+    {
+      "id": "facilities",
+      "label": "Facilities & Sites",
+      "icon": "facilities-building",
+      "order": 140,
+      "visibility": "when-populated",
+      "aliases": ["buildings", "sites", "physical", "hvac", "fire", "vehicles", "workplace", "datacenter-facility"]
+    },
+    {
+      "id": "governance",
+      "label": "Governance",
+      "icon": "governance-tree",
+      "order": 150,
+      "visibility": "when-populated",
+      "aliases": ["management", "management-governance", "cost-management"]
+    },
+    {
+      "id": "mobile",
+      "label": "Mobile",
+      "icon": "mobile-device",
+      "order": 160,
+      "visibility": "when-populated",
+      "aliases": ["mobile-services", "end-user-computing"]
+    },
+    {
+      "id": "networking",
+      "label": "Networking",
+      "icon": "network",
+      "order": 170,
+      "visibility": "when-populated",
+      "aliases": ["network", "networking-content-delivery"]
+    },
+    {
+      "id": "power-platform",
+      "label": "Power Platform",
+      "icon": "power-platform",
+      "order": 180,
+      "visibility": "when-populated",
+      "aliases": ["low-code", "microsoft-power-platform"]
+    },
+    {
+      "id": "security",
+      "label": "Security",
+      "icon": "security-shield",
+      "order": 190,
+      "visibility": "when-populated",
+      "aliases": ["security-identity", "cybersecurity"]
+    },
+    {
+      "id": "storage",
+      "label": "Storage",
+      "icon": "storage",
+      "order": 200,
+      "visibility": "when-populated",
+      "aliases": ["object-storage", "file-storage"]
+    },
+    {
+      "id": "web",
+      "label": "Web",
+      "icon": "web-globe",
+      "order": 210,
+      "visibility": "when-populated",
+      "aliases": ["app-services", "front-end-web-mobile"]
+    }
+  ]
+}

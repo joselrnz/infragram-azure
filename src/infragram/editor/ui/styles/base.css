@@ -1,0 +1,14 @@
+/* ---- Base ---- */
+*,*::before,*::after{box-sizing:border-box}
+/* scrollbars thin and quiet, in the chrome's grey */
+*{scrollbar-width:thin;scrollbar-color:var(--md-sys-color-outline) transparent}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{overflow:hidden;background:var(--md-sys-color-surface-container-low);color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,select,summary{color:inherit;font:inherit;letter-spacing:inherit}
+summary{list-style:none}
+summary::-webkit-details-marker{display:none}
+h2,h3,p{margin:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.md-icon{display:block;flex:none;width:20px;height:20px}
+

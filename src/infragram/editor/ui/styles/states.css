@@ -1,0 +1,10 @@
+/* ---- State layers and focus: shared by every interactive component ---- */
+:is(.md-button,.md-icon-button,.md-segmented>button,.md-chip,.md-list-item:not(.md-list-item--static),.md-nav-item,.md-tab,.md-tile,.md-search){position:relative;isolation:isolate}
+:is(.md-button,.md-icon-button,.md-segmented>button,.md-chip,.md-list-item:not(.md-list-item--static),.md-nav-item,.md-tab,.md-tile,.md-search)::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:currentColor;opacity:0;pointer-events:none;transition:opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+/* only where a pointer can hover: a tap would leave it stuck on */
+@media(hover:hover){:is(.md-button,.md-icon-button,.md-segmented>button,.md-chip,.md-list-item:not(.md-list-item--static),.md-nav-item,.md-tab,.md-tile,.md-search):hover:not(:disabled)::before{opacity:var(--md-sys-state-hover-state-layer-opacity)}}
+:is(.md-button,.md-icon-button,.md-segmented>button,.md-chip,.md-list-item,.md-nav-item,.md-tab,.md-tile):focus-visible::before{opacity:var(--md-sys-state-focus-state-layer-opacity)}
+:is(.md-button,.md-icon-button,.md-segmented>button,.md-chip,.md-list-item,.md-nav-item,.md-tab,.md-tile):active:not(:disabled)::before{opacity:var(--md-sys-state-pressed-state-layer-opacity)}
+:is(.md-button,.md-icon-button,.md-segmented>button,.md-chip,.md-tile,.md-switch,.md-checkbox):focus-visible{outline:var(--md-sys-state-focus-indicator-thickness) solid var(--md-sys-color-primary);outline-offset:var(--md-sys-state-focus-indicator-outer-offset)}
+:is(.md-list-item,.md-nav-item,.md-tab):focus-visible{outline:var(--md-sys-state-focus-indicator-thickness) solid var(--md-sys-color-primary);outline-offset:var(--md-sys-state-focus-indicator-inner-offset)}
+

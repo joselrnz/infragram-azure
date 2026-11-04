@@ -1,0 +1,65 @@
+name: Bug report
+description: The editor, an export, a library, or a project document misbehaves - report it so we can fix it.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Before submitting, check that this isn't an already-open issue.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: What part of the project is affected?
+      options:
+        - Editor (drag, connect, frames, layers, arrange, undo)
+        - Export (template / HTML / SVG / PNG)
+        - A provider library or its artwork
+        - Project document schema or a shipped template
+        - Documentation
+        - CI / tooling
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the unexpected behavior. Include what you expected instead.
+      placeholder: "Moving an Azure VNet frame leaves its subnets behind…"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Concrete steps - commands, template names, and inputs matter here. Attach the .infragram.json if you can.
+      placeholder: |
+        1. Run `infragram export:project skills/infragram-azure/assets/templates/cloud/<template>.infragram.json --formats html --output-dir dist`
+        2. Open dist/<slug>.html and …
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, browser, agent (Claude Code / Codex / Pi) if relevant
+      placeholder: "Windows 11, Python 3.11, Chrome 129, Claude Code"
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Validation gates
+      description: If relevant, which gates have you already run?
+      options:
+        - label: "`infragram verify:all`"
+        - label: "`python -m pytest tests/unit tests/skill --ignore=tests/unit/test_architecture_builder.py --ignore=tests/unit/test_fix_mojibake.py`"
+        - label: "`INFRAGRAM_RUN_BROWSER_TESTS=1 python -m pytest tests/integration`"
+        - label: "`python skills/infragram-azure/scripts/project_check.py <file>`"
+        - label: "I haven't run any gates"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output
+      description: Paste error messages or checker findings, trimmed to what matters.
+      render: text

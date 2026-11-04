@@ -1,0 +1,753 @@
+{
+  "schema_version": 2,
+  "kind": "single-cloud",
+  "slug": "azure-aks-baseline",
+  "title": "AKS production baseline",
+  "description": "A private AKS cluster in its own spoke: Application Gateway with WAF is the only public entry and forwards to an internal load balancer in front of the ingress controller. System and user node pools are separated, images and secrets come from Container Registry and Key Vault over private endpoints, Cosmos DB is reached the same way, and every outbound flow leaves through Azure Firewall in the hub. Workload identity, Azure Policy, Defender for Containers and Container insights watch the cluster.",
+  "template_brief": "",
+  "providers": [
+    {
+      "id": "azure",
+      "enabled": true
+    }
+  ],
+  "default_library": "azure",
+  "layers": [],
+  "presentation": {
+    "size": "fit",
+    "detail": "balanced",
+    "audience": "mixed",
+    "eyebrow": "Architecture",
+    "heading": "",
+    "legend": []
+  },
+  "topology": {
+    "id": "root",
+    "name": "AKS production baseline",
+    "type": "group",
+    "attributes": {},
+    "children": [
+      {
+        "id": "customers",
+        "name": "Customers",
+        "type": "Public users",
+        "component": {
+          "provider": "infragram",
+          "service_id": "public-users",
+          "icon_ref": "infragram:public-users"
+        },
+        "attributes": {
+          "detail": "HTTPS",
+          "icon": "public-users",
+          "collection": "infragram",
+          "category": "identity"
+        },
+        "children": [],
+        "connections": [
+          {
+            "target": "application-gateway",
+            "kind": "solid",
+            "label": "HTTPS 443",
+            "direction": "forward"
+          }
+        ],
+        "badges": []
+      },
+      {
+        "id": "platform-team",
+        "name": "Platform team",
+        "type": "Administrator",
+        "component": {
+          "provider": "infragram",
+          "service_id": "administrator",
+          "icon_ref": "infragram:administrator"
+        },
+        "attributes": {
+          "detail": "GitHub Actions · kubectl",
+          "icon": "administrator",
+          "collection": "infragram",
+          "category": "identity"
+        },
+        "children": [],
+        "connections": [
+          {
+            "target": "container-registry",
+            "kind": "solid",
+            "label": "push images · OIDC",
+            "direction": "forward"
+          },
+          {
+            "target": "system-node-pool",
+            "kind": "dotted",
+            "label": "kubectl · private API server",
+            "direction": "forward"
+          }
+        ],
+        "badges": []
+      },
+      {
+        "id": "internet",
+        "name": "Internet",
+        "type": "Public Internet",
+        "component": {
+          "provider": "infragram",
+          "service_id": "public-internet",
+          "icon_ref": "infragram:public-internet"
+        },
+        "attributes": {
+          "detail": "allow-listed FQDNs",
+          "icon": "public-internet",
+          "collection": "infragram",
+          "category": "networking"
+        },
+        "children": [],
+        "connections": [],
+        "badges": []
+      },
+      {
+        "id": "workload-subscription",
+        "name": "Workload subscription",
+        "type": "subscription",
+        "component": {
+          "provider": "infragram",
+          "service_id": "custom-boundary-azure-subscription",
+          "icon_ref": "infragram:custom-boundary-azure-subscription"
+        },
+        "attributes": {
+          "flow": "column",
+          "editor_frame_group": "azure"
+        },
+        "children": [
+          {
+            "id": "west-europe",
+            "name": "West Europe",
+            "type": "region",
+            "component": {
+              "provider": "infragram",
+              "service_id": "custom-boundary-azure-region",
+              "icon_ref": "infragram:custom-boundary-azure-region"
+            },
+            "attributes": {
+              "arrange": "manual",
+              "flow": "column",
+              "editor_frame_group": "azure"
+            },
+            "children": [
+              {
+                "id": "rg-aks-spoke",
+                "name": "rg-aks-spoke",
+                "type": "resource-group",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-azure-resource-group",
+                  "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                },
+                "attributes": {
+                  "flow": "column",
+                  "editor_frame_group": "azure"
+                },
+                "children": [
+                  {
+                    "id": "spoke-vnet-10-240-0-0-16",
+                    "name": "Spoke VNet · 10.240.0.0/16",
+                    "type": "network",
+                    "component": {
+                      "provider": "infragram",
+                      "service_id": "custom-boundary-azure-vnet",
+                      "icon_ref": "infragram:custom-boundary-azure-vnet"
+                    },
+                    "attributes": {
+                      "flow": "row",
+                      "editor_frame_group": "azure"
+                    },
+                    "children": [
+                      {
+                        "id": "snet-applicationgateway",
+                        "name": "snet-applicationgateway",
+                        "type": "subnet-private",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-subnet",
+                          "icon_ref": "infragram:custom-boundary-azure-subnet"
+                        },
+                        "attributes": {
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "application-gateway",
+                            "name": "Application Gateway",
+                            "type": "Application Gateways",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "application-gateways",
+                              "icon_ref": "azure:application-gateways"
+                            },
+                            "attributes": {
+                              "detail": "WAF v2 · TLS termination · zone redundant",
+                              "icon": "application-gateways",
+                              "collection": "azure",
+                              "category": "networking"
+                            },
+                            "children": [],
+                            "connections": [
+                              {
+                                "target": "internal-load-balancer",
+                                "kind": "solid",
+                                "label": "re-encrypt · health probes",
+                                "direction": "forward"
+                              }
+                            ],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      },
+                      {
+                        "id": "snet-clusternodes",
+                        "name": "snet-clusternodes",
+                        "type": "subnet-private",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-subnet",
+                          "icon_ref": "infragram:custom-boundary-azure-subnet"
+                        },
+                        "attributes": {
+                          "flow": "column",
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "aks-cluster-private-api-server",
+                            "name": "AKS cluster · private API server",
+                            "type": "cluster",
+                            "component": {
+                              "provider": "infragram",
+                              "service_id": "custom-boundary-azure-aks",
+                              "icon_ref": "infragram:custom-boundary-azure-aks"
+                            },
+                            "attributes": {
+                              "flow": "row",
+                              "editor_frame_group": "azure"
+                            },
+                            "children": [
+                              {
+                                "id": "system-node-pool",
+                                "name": "System node pool",
+                                "type": "Kubernetes Services",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "kubernetes-services",
+                                  "icon_ref": "azure:kubernetes-services"
+                                },
+                                "attributes": {
+                                  "detail": "3 nodes · zones 1-3 · CoreDNS, metrics",
+                                  "icon": "kubernetes-services",
+                                  "collection": "azure",
+                                  "category": "compute"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "user-node-pool",
+                                    "kind": "dotted",
+                                    "label": "CoreDNS · metrics",
+                                    "direction": "forward"
+                                  },
+                                  {
+                                    "target": "log-analytics",
+                                    "kind": "dotted",
+                                    "label": "logs · metrics",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              },
+                              {
+                                "id": "user-node-pool",
+                                "name": "User node pool",
+                                "type": "Kubernetes Services",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "kubernetes-services",
+                                  "icon_ref": "azure:kubernetes-services"
+                                },
+                                "attributes": {
+                                  "detail": "autoscale 3-12 · workloads",
+                                  "icon": "kubernetes-services",
+                                  "collection": "azure",
+                                  "category": "compute"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "private-endpoints",
+                                    "kind": "solid",
+                                    "label": "private DNS",
+                                    "direction": "forward"
+                                  },
+                                  {
+                                    "target": "azure-firewall",
+                                    "kind": "dashed",
+                                    "label": "VNet peering · UDR 0.0.0.0/0 · egress",
+                                    "direction": "forward"
+                                  },
+                                  {
+                                    "target": "workload-identity",
+                                    "kind": "dotted",
+                                    "label": "token exchange",
+                                    "direction": "forward"
+                                  },
+                                  {
+                                    "target": "application-insights",
+                                    "kind": "dotted",
+                                    "label": "traces",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              },
+                              {
+                                "id": "internal-load-balancer",
+                                "name": "Internal load balancer",
+                                "type": "Load Balancers",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "load-balancers",
+                                  "icon_ref": "azure:load-balancers"
+                                },
+                                "attributes": {
+                                  "detail": "ingress-nginx · private IP",
+                                  "icon": "load-balancers",
+                                  "collection": "azure",
+                                  "category": "networking"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "user-node-pool",
+                                    "kind": "solid",
+                                    "label": "ingress-nginx",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              }
+                            ],
+                            "connections": [],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      },
+                      {
+                        "id": "snet-privatelinkendpoints",
+                        "name": "snet-privatelinkendpoints",
+                        "type": "subnet-private",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-subnet",
+                          "icon_ref": "infragram:custom-boundary-azure-subnet"
+                        },
+                        "attributes": {
+                          "flow": "column",
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "private-endpoints",
+                            "name": "Private endpoints",
+                            "type": "Private Endpoints",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "private-endpoints",
+                              "icon_ref": "azure:private-endpoints"
+                            },
+                            "attributes": {
+                              "detail": "ACR · Key Vault · Cosmos DB",
+                              "icon": "private-endpoints",
+                              "collection": "azure",
+                              "category": "other"
+                            },
+                            "children": [],
+                            "connections": [
+                              {
+                                "target": "container-registry",
+                                "kind": "dotted",
+                                "label": "image pull",
+                                "direction": "forward"
+                              },
+                              {
+                                "target": "key-vault",
+                                "kind": "dotted",
+                                "label": "CSI secrets store",
+                                "direction": "forward"
+                              },
+                              {
+                                "target": "cosmos-db",
+                                "kind": "dotted",
+                                "label": "SQL API",
+                                "direction": "forward"
+                              }
+                            ],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      }
+                    ],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              },
+              {
+                "id": "platform-services",
+                "name": "Platform services",
+                "type": "zone",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-zone-generic",
+                  "icon_ref": "infragram:custom-boundary-zone-generic"
+                },
+                "attributes": {
+                  "arrange": "manual",
+                  "flow": "row",
+                  "editor_frame_group": "generic"
+                },
+                "children": [
+                  {
+                    "id": "rg-aks-shared",
+                    "name": "rg-aks-shared",
+                    "type": "resource-group",
+                    "component": {
+                      "provider": "infragram",
+                      "service_id": "custom-boundary-azure-resource-group",
+                      "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                    },
+                    "attributes": {
+                      "flow": "row",
+                      "editor_frame_group": "azure"
+                    },
+                    "children": [
+                      {
+                        "id": "supply-chain-and-secrets",
+                        "name": "Supply chain and secrets",
+                        "type": "zone",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-zone-generic",
+                          "icon_ref": "infragram:custom-boundary-zone-generic"
+                        },
+                        "attributes": {
+                          "arrange": "manual",
+                          "flow": "column",
+                          "editor_frame_group": "generic"
+                        },
+                        "children": [
+                          {
+                            "id": "container-registry",
+                            "name": "Container Registry",
+                            "type": "Container Registries",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "container-registries",
+                              "icon_ref": "azure:container-registries"
+                            },
+                            "attributes": {
+                              "detail": "Premium · private link · geo-replication",
+                              "icon": "container-registries",
+                              "collection": "azure",
+                              "category": "containers"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "key-vault",
+                            "name": "Key Vault",
+                            "type": "Key Vaults",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "key-vaults",
+                              "icon_ref": "azure:key-vaults"
+                            },
+                            "attributes": {
+                              "detail": "TLS certs · secrets · RBAC",
+                              "icon": "key-vaults",
+                              "collection": "azure",
+                              "category": "security"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "cosmos-db",
+                            "name": "Cosmos DB",
+                            "type": "Azure Cosmos DB",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "azure-cosmos-db",
+                              "icon_ref": "azure:azure-cosmos-db"
+                            },
+                            "attributes": {
+                              "detail": "serverless · private endpoint",
+                              "icon": "azure-cosmos-db",
+                              "collection": "azure",
+                              "category": "databases"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "workload-identity",
+                            "name": "Workload identity",
+                            "type": "Managed Identities",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "managed-identities",
+                              "icon_ref": "azure:managed-identities"
+                            },
+                            "attributes": {
+                              "detail": "federated · per namespace",
+                              "icon": "managed-identities",
+                              "collection": "azure",
+                              "category": "identity"
+                            },
+                            "children": [],
+                            "connections": [
+                              {
+                                "target": "key-vault",
+                                "kind": "dotted",
+                                "label": "RBAC",
+                                "direction": "forward"
+                              }
+                            ],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      },
+                      {
+                        "id": "observability-and-governance",
+                        "name": "Observability and governance",
+                        "type": "zone",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-zone-generic",
+                          "icon_ref": "infragram:custom-boundary-zone-generic"
+                        },
+                        "attributes": {
+                          "arrange": "manual",
+                          "flow": "column",
+                          "editor_frame_group": "generic"
+                        },
+                        "children": [
+                          {
+                            "id": "log-analytics",
+                            "name": "Log Analytics",
+                            "type": "Log Analytics Workspaces",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "log-analytics-workspaces-monitor",
+                              "icon_ref": "azure:log-analytics-workspaces-monitor"
+                            },
+                            "attributes": {
+                              "detail": "Container insights · Prometheus",
+                              "icon": "log-analytics-workspaces-monitor",
+                              "collection": "azure",
+                              "category": "monitor"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "application-insights",
+                            "name": "Application Insights",
+                            "type": "Application Insights",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "application-insights-monitor",
+                              "icon_ref": "azure:application-insights-monitor"
+                            },
+                            "attributes": {
+                              "detail": "distributed tracing",
+                              "icon": "application-insights-monitor",
+                              "collection": "azure",
+                              "category": "monitor"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "azure-policy-for-aks",
+                            "name": "Azure Policy for AKS",
+                            "type": "Policy",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "policy",
+                              "icon_ref": "azure:policy"
+                            },
+                            "attributes": {
+                              "detail": "baseline initiative · gatekeeper",
+                              "icon": "policy",
+                              "collection": "azure",
+                              "category": "management-governance"
+                            },
+                            "children": [],
+                            "connections": [
+                              {
+                                "target": "user-node-pool",
+                                "kind": "dotted",
+                                "label": "admission control",
+                                "direction": "forward"
+                              }
+                            ],
+                            "badges": []
+                          },
+                          {
+                            "id": "defender-for-containers",
+                            "name": "Defender for Containers",
+                            "type": "Microsoft Defender for Cloud",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "microsoft-defender-for-cloud",
+                              "icon_ref": "azure:microsoft-defender-for-cloud"
+                            },
+                            "attributes": {
+                              "detail": "image scanning · runtime alerts",
+                              "icon": "microsoft-defender-for-cloud",
+                              "collection": "azure",
+                              "category": "security"
+                            },
+                            "children": [],
+                            "connections": [
+                              {
+                                "target": "user-node-pool",
+                                "kind": "dotted",
+                                "label": "runtime protection",
+                                "direction": "forward"
+                              },
+                              {
+                                "target": "container-registry",
+                                "kind": "dotted",
+                                "label": "scan on push",
+                                "direction": "forward"
+                              }
+                            ],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      }
+                    ],
+                    "connections": [],
+                    "badges": []
+                  },
+                  {
+                    "id": "rg-hub",
+                    "name": "rg-hub",
+                    "type": "resource-group",
+                    "component": {
+                      "provider": "infragram",
+                      "service_id": "custom-boundary-azure-resource-group",
+                      "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                    },
+                    "attributes": {
+                      "flow": "column",
+                      "editor_frame_group": "azure"
+                    },
+                    "children": [
+                      {
+                        "id": "hub-vnet-10-200-0-0-24",
+                        "name": "Hub VNet · 10.200.0.0/24",
+                        "type": "network",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-vnet",
+                          "icon_ref": "infragram:custom-boundary-azure-vnet"
+                        },
+                        "attributes": {
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "azurefirewallsubnet",
+                            "name": "AzureFirewallSubnet",
+                            "type": "subnet-private",
+                            "component": {
+                              "provider": "infragram",
+                              "service_id": "custom-boundary-azure-subnet",
+                              "icon_ref": "infragram:custom-boundary-azure-subnet"
+                            },
+                            "attributes": {
+                              "editor_frame_group": "azure"
+                            },
+                            "children": [
+                              {
+                                "id": "azure-firewall",
+                                "name": "Azure Firewall",
+                                "type": "Firewalls",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "firewalls",
+                                  "icon_ref": "azure:firewalls"
+                                },
+                                "attributes": {
+                                  "detail": "egress · FQDN rules for AKS",
+                                  "icon": "firewalls",
+                                  "collection": "azure",
+                                  "category": "networking"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "internet",
+                                    "kind": "solid",
+                                    "label": "allow-listed FQDNs",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              }
+                            ],
+                            "connections": [],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      }
+                    ],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              }
+            ],
+            "connections": [],
+            "badges": []
+          }
+        ],
+        "connections": [],
+        "badges": []
+      }
+    ],
+    "connections": [],
+    "badges": []
+  }
+}

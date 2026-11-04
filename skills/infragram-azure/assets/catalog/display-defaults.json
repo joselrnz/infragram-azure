@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "about": "Which components draw bare -- the glyph with its caption beneath and no card -- whatever the document's look, unless a node's own editor_display_mode says otherwise. The first matching rule wins; a component no rule matches gets `default`, which the renderers read as not bare: it draws in the document's own look (presentation.display). This is the one place the answer lives: the editor state, the exports, the static fallback and the sidebar all resolve through infragram.catalog.display.default_display. A rule's `match` keys are ANDed; list-valued keys match any entry. `tier` and `category` are the icon's own, as the vendor deck files it; ids are the component's service id.",
+  "default": "card",
+  "rules": [
+    {
+      "provider": "*",
+      "match": {
+        "tier": "resource"
+      },
+      "display": "icon",
+      "why": "A resource-tier glyph is the deck's line drawing of a thing inside a service -- a NAT gateway, an internet gateway, an endpoint, a user -- and the deck places it bare inside its group box with a caption beneath."
+    },
+    {
+      "provider": "azure",
+      "match": {
+        "category": "general"
+      },
+      "display": "icon",
+      "why": "The Azure deck's General folder: browser, mobile, globe, file, folder, gear, tag, cubes and the other generic glyphs Microsoft places bare beside its services."
+    },
+    {
+      "provider": "azure",
+      "match": {
+        "ids": [
+          "users",
+          "client-apps"
+        ]
+      },
+      "display": "icon",
+      "why": "People and their apps are actors around the system, not services in it."
+    },
+    {
+      "provider": "kubernetes",
+      "match": {
+        "ids": [
+          "user"
+        ]
+      },
+      "display": "icon",
+      "why": "The one actor in the Kubernetes set; objects keep their card so the kind and name stay legible."
+    },
+    {
+      "provider": "infragram",
+      "match": {
+        "ids": [
+          "custom-3d"
+        ]
+      },
+      "display": "icon",
+      "why": "A 3D item rendered by spec is the object itself, like the shipped renders."
+    },
+    {
+      "provider": "infragram",
+      "match": {
+        "not_prefixes": [
+          "brand-",
+          "data-",
+          "custom-",
+          "language-",
+          "statistics-",
+          "kubernetes-"
+        ],
+        "not_ids": [
+          "microsoft-teams",
+          "slack",
+          "microsoft-365"
+        ]
+      },
+      "display": "icon",
+      "why": "Shared primitives are line art -- servers, switches, users, devices, sensors, files -- and read as glyphs. Brand logos, data tools, languages, statistics packages and Kubernetes objects keep their card."
+    }
+  ]
+}

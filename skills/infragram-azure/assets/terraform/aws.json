@@ -1,0 +1,466 @@
+{
+  "schema_version": 1,
+  "provider": "aws",
+  "about": "What each AWS frame kind and component is written as by the Terraform export (infragram.terraform). A component missing here is written as a comment the README lists. Arguments follow the AWS provider's schema; a $ value is filled from where the element sits (see infragram/terraform/mapping.py).",
+  "terraform": {"name": "aws", "source": "hashicorp/aws", "version": "~> 6.0"},
+  "frames": {
+    "group": {"role": "none"},
+    "cloud": {"role": "none"},
+    "organization": {"role": "account", "note": "An AWS organization: the provider's credentials and the account structure are managed outside this configuration."},
+    "account": {"role": "account", "note": "An AWS account: the provider's credentials choose it."},
+    "region": {"role": "region"},
+    "vpc": {
+      "role": "network",
+      "resources": [
+        {"type": "aws_vpc", "args": {"cidr_block": "$cidr", "enable_dns_support": true, "enable_dns_hostnames": true, "tags": "$tags_named"}}
+      ]
+    },
+    "zone": {"role": "zone"},
+    "subnet-public": {
+      "role": "subnet",
+      "resources": [
+        {"type": "aws_subnet", "args": {"vpc_id": "$network.id", "cidr_block": "$cidr", "availability_zone": "$zone?", "map_public_ip_on_launch": true, "tags": "$tags_named"}}
+      ]
+    },
+    "subnet-private": {
+      "role": "subnet",
+      "resources": [
+        {"type": "aws_subnet", "args": {"vpc_id": "$network.id", "cidr_block": "$cidr", "availability_zone": "$zone?", "tags": "$tags_named"}}
+      ]
+    },
+    "security-group": {
+      "role": "security_group",
+      "resources": [
+        {"type": "aws_security_group", "args": {"name": "$name", "description": "$caption", "vpc_id": "$network.id", "tags": "$tags_named"}}
+      ]
+    },
+    "auto-scaling": {"role": "none"},
+    "location": {"role": "outside"},
+    "site": {"role": "outside"}
+  },
+  "components": {
+    "ec2": {
+      "step": "compute", "category": "compute", "item": "ec2_instance", "requires": "subnet", "security_group": true, "output": "private_ip",
+      "resources": [
+        {"type": "aws_instance", "args": {"ami": "$var:ami", "instance_type": "$var:instance_type=t3.micro", "subnet_id": "$subnet.id", "vpc_security_group_ids": "$security_groups", "tags": "$tags_named"},
+         "module": "aws-ec2-instance", "module_args": {"name": "$name", "ami": "$var:ami", "instance_type": "$var:instance_type=t3.micro", "subnet_id": "$subnet.id", "vpc_security_group_ids": "$security_groups", "create_security_group": false}}
+      ]
+    },
+    "ec2-auto-scaling": {
+      "step": "compute", "category": "compute", "item": "autoscaling_group", "requires": "subnet", "security_group": true, "output": "name",
+      "resources": [
+        {"key": "template", "type": "aws_launch_template", "in_modules": false, "args": {"name": "$name", "image_id": "$var:ami", "instance_type": "$var:instance_type=t3.micro", "vpc_security_group_ids": "$security_groups", "tag_specifications": {"$block": {"resource_type": "instance", "tags": "$tags_named"}}, "tags": "$tags_named"}},
+        {"type": "aws_autoscaling_group", "args": {"name": "$name", "desired_capacity": "$var:desired_capacity:number=1", "min_size": "$var:min_size:number=1", "max_size": "$var:max_size:number=2", "vpc_zone_identifier": "$subnets.id", "launch_template": {"$block": {"id": "$self.template.id", "version": "$raw:\"$Latest\""}}, "tag": {"$block": {"key": "Name", "value": "$name", "propagate_at_launch": true}}},
+         "module": "aws-autoscaling", "module_args": {"name": "$name", "use_name_prefix": false, "min_size": "$var:min_size:number=1", "max_size": "$var:max_size:number=2", "desired_capacity": "$var:desired_capacity:number=1", "vpc_zone_identifier": "$subnets.id", "image_id": "$var:ami", "instance_type": "$var:instance_type=t3.micro", "security_groups": "$security_groups", "tags": "$tags_named"}}
+      ]
+    },
+    "elastic-load-balancing": {
+      "step": "edge", "category": "edge", "item": "load_balancer", "requires": "subnet", "security_group": true, "port": 443, "output": "dns_name", "plumbing": "load_balancer",
+      "resources": [
+        {"type": "aws_lb", "args": {"name": "$name:max32", "load_balancer_type": "application", "internal": "$internal", "subnets": "$subnets.id", "security_groups": "$security_groups", "tags": "$tags_named"},
+         "module": "aws-alb", "module_args": {"name": "$name:max32", "load_balancer_type": "application", "internal": "$internal", "vpc_id": "$network.id", "subnets": "$subnets.id", "security_groups": "$security_groups", "create_security_group": false, "enable_deletion_protection": false, "tags": "$tags_named"}}
+      ]
+    },
+    "rds": {
+      "step": "data", "category": "database", "item": "rds_instance", "requires": "subnet", "security_group": true, "port": 5432, "output": "address",
+      "resources": [
+        {"key": "subnets", "type": "aws_db_subnet_group", "in_modules": false, "args": {"name": "$name:lower", "subnet_ids": "$subnets.id", "tags": "$tags_named"}},
+        {"type": "aws_db_instance", "args": {"identifier": "$name:lower", "engine": "$var:engine=postgres", "instance_class": "$var:instance_class=db.t4g.medium", "multi_az": "$var:multi_az:bool=false", "allocated_storage": "$var:allocated_storage:number=20", "username": "$var:username=dbadmin", "manage_master_user_password": true, "final_snapshot_identifier": "$name:lower+final", "db_subnet_group_name": "$self.subnets.name", "vpc_security_group_ids": "$security_groups", "tags": "$tags_named"},
+         "module": "aws-rds", "module_args": {"identifier": "$name:lower", "engine": "$var:engine=postgres", "instance_class": "$var:instance_class=db.t4g.medium", "multi_az": "$var:multi_az:bool=false", "allocated_storage": "$var:allocated_storage:number=20", "username": "$var:username=dbadmin", "manage_master_user_password": true, "create_db_subnet_group": true, "db_subnet_group_name": "$name:lower", "db_subnet_group_use_name_prefix": false, "subnet_ids": "$subnets.id", "vpc_security_group_ids": "$security_groups", "create_db_parameter_group": false, "create_db_option_group": false}}
+      ]
+    },
+    "aurora": {
+      "step": "data", "category": "database", "item": "aurora_cluster", "requires": "subnet", "security_group": true, "port": 5432, "output": "endpoint",
+      "resources": [
+        {"key": "subnets", "type": "aws_db_subnet_group", "in_modules": false, "args": {"name": "$name:lower", "subnet_ids": "$subnets.id", "tags": "$tags_named"}},
+        {"type": "aws_rds_cluster", "args": {"cluster_identifier": "$name:lower", "engine": "$var:engine=aurora-postgresql", "master_username": "$var:username=dbadmin", "manage_master_user_password": true, "final_snapshot_identifier": "$name:lower+final", "db_subnet_group_name": "$self.subnets.name", "vpc_security_group_ids": "$security_groups", "tags": "$tags_named"},
+         "module": "aws-rds-aurora", "module_args": {"name": "$name:lower", "engine": "$var:engine=aurora-postgresql", "master_username": "$var:username=dbadmin", "manage_master_user_password": true, "final_snapshot_identifier": "$name:lower+final", "create_db_subnet_group": true, "db_subnet_group_name": "$name:lower", "subnets": "$subnets.id", "create_security_group": false, "vpc_security_group_ids": "$security_groups", "instances": {"writer": {"instance_class": "$var:instance_class=db.r6g.large"}}, "tags": "$tags_named"}},
+        {"key": "writer", "type": "aws_rds_cluster_instance", "in_modules": false, "args": {"identifier": "$name:lower", "cluster_identifier": "$self.main.id", "engine": "$self.main.engine", "instance_class": "$var:instance_class=db.r6g.large", "tags": "$tags_named"}}
+      ]
+    },
+    "elasticache": {
+      "step": "data", "category": "database", "item": "elasticache_cluster", "requires": "subnet", "security_group": true, "port": 6379, "output": "primary_endpoint_address",
+      "resources": [
+        {"key": "subnets", "type": "aws_elasticache_subnet_group", "in_modules": false, "args": {"name": "$name:lower", "subnet_ids": "$subnets.id"}},
+        {"type": "aws_elasticache_replication_group", "args": {"replication_group_id": "$name:lower40", "description": "$caption", "engine": "valkey", "node_type": "$var:node_type=cache.t4g.small", "num_cache_clusters": "$var:nodes:number=2", "subnet_group_name": "$self.subnets.name", "security_group_ids": "$security_groups", "tags": "$tags_named"},
+         "module": "aws-elasticache", "module_args": {"replication_group_id": "$name:lower40", "description": "$caption", "engine": "valkey", "node_type": "$var:node_type=cache.t4g.small", "num_cache_clusters": "$var:nodes:number=2", "create_subnet_group": true, "subnet_group_name": "$name:lower", "subnet_ids": "$subnets.id", "create_security_group": false, "security_group_ids": "$security_groups", "log_delivery_configuration": {}, "tags": "$tags_named"}}
+      ]
+    },
+    "efs": {
+      "step": "data", "category": "storage", "item": "efs_file_system", "requires": "subnet", "security_group": true, "port": 2049, "output": "dns_name",
+      "resources": [
+        {"type": "aws_efs_file_system", "args": {"creation_token": "$name", "encrypted": true, "tags": "$tags_named"},
+         "module": "aws-efs", "module_args": {"name": "$name", "creation_token": "$name", "encrypted": true, "create_security_group": false, "mount_targets": {"main": {"subnet_id": "$subnet.id", "security_groups": "$security_groups"}}, "tags": "$tags_named"}},
+        {"key": "mount", "type": "aws_efs_mount_target", "in_modules": false, "args": {"file_system_id": "$self.main.id", "subnet_id": "$subnet.id", "security_groups": "$security_groups"}}
+      ]
+    },
+    "managed-streaming-for-apache-kafka": {
+      "step": "data", "category": "messaging", "item": "msk_cluster", "requires": "subnet", "security_group": true, "port": 9092, "output": "bootstrap_brokers_tls",
+      "resources": [
+        {"type": "aws_msk_cluster", "args": {"cluster_name": "$name", "kafka_version": "$var:kafka_version=3.7.x", "number_of_broker_nodes": "$var:broker_nodes:number=2", "broker_node_group_info": {"$block": {"client_subnets": "$subnets.id", "instance_type": "$var:broker_instance_type=kafka.m7g.large", "security_groups": "$security_groups"}}, "tags": "$tags_named"},
+         "module": "aws-msk", "module_args": {"name": "$name", "kafka_version": "$var:kafka_version=3.7.x", "number_of_broker_nodes": "$var:broker_nodes:number=2", "broker_node_client_subnets": "$subnets.id", "broker_node_instance_type": "$var:broker_instance_type=kafka.m7g.large", "broker_node_security_groups": "$security_groups", "create_cloudwatch_log_group": false, "create_schema_registry": false, "tags": "$tags_named"}}
+      ]
+    },
+    "vpc-internet-gateway": {
+      "step": "network", "category": "network", "item": "internet_gateway", "requires": "network", "plumbing": "internet_gateway",
+      "resources": [
+        {"type": "aws_internet_gateway", "args": {"vpc_id": "$network.id", "tags": "$tags_named"}}
+      ]
+    },
+    "vpc-nat-gateway": {
+      "step": "network", "category": "network", "item": "nat_gateway", "requires": "subnet", "plumbing": "nat_gateway",
+      "resources": [
+        {"key": "eip", "type": "aws_eip", "args": {"domain": "vpc", "tags": "$tags_named"}},
+        {"type": "aws_nat_gateway", "args": {"allocation_id": "$self.eip.id", "subnet_id": "$subnet.id", "tags": "$tags_named"}}
+      ]
+    },
+    "vpc-endpoints": {
+      "step": "network", "category": "network", "item": "vpc_endpoint", "requires": "subnet", "security_group": true, "port": 443,
+      "resources": [
+        {"type": "aws_vpc_endpoint", "args": {"vpc_id": "$network.id", "service_name": "$var:service_name", "vpc_endpoint_type": "Interface", "subnet_ids": "$subnets.id", "security_group_ids": "$security_groups", "private_dns_enabled": true, "tags": "$tags_named"},
+         "module": "aws-vpc-endpoints", "module_args": {"vpc_id": "$network.id", "subnet_ids": "$subnets.id", "security_group_ids": "$security_groups", "endpoints": {"endpoint": {"service_name": "$var:service_name", "private_dns_enabled": true, "tags": {"Name": "$name"}}}}}
+      ]
+    },
+    "privatelink": {
+      "step": "network", "category": "network", "item": "privatelink_endpoint", "requires": "subnet", "security_group": true, "port": 443,
+      "resources": [
+        {"type": "aws_vpc_endpoint", "args": {"vpc_id": "$network.id", "service_name": "$var:service_name", "vpc_endpoint_type": "Interface", "subnet_ids": "$subnets.id", "security_group_ids": "$security_groups", "private_dns_enabled": true, "tags": "$tags_named"},
+         "module": "aws-vpc-endpoints", "module_args": {"vpc_id": "$network.id", "subnet_ids": "$subnets.id", "security_group_ids": "$security_groups", "endpoints": {"endpoint": {"service_name": "$var:service_name", "private_dns_enabled": true, "tags": {"Name": "$name"}}}}}
+      ]
+    },
+    "network-firewall": {
+      "step": "security", "category": "security", "item": "network_firewall", "requires": "subnet",
+      "resources": [
+        {"type": "aws_networkfirewall_firewall", "args": {"name": "$name", "firewall_policy_arn": "$var:firewall_policy_arn", "vpc_id": "$network.id", "subnet_mapping": {"$block": {"subnet_id": "$subnet.id"}}, "tags": "$tags_named"},
+         "module": "aws-network-firewall", "module_args": {"name": "$name", "firewall_policy_arn": "$var:firewall_policy_arn", "vpc_id": "$network.id", "subnet_mapping": {"main": {"subnet_id": "$subnet.id"}}, "delete_protection": false, "subnet_change_protection": false, "tags": "$tags_named"}}
+      ]
+    },
+    "site-to-site-vpn": {
+      "step": "network", "category": "network", "item": "vpn_connection",
+      "resources": [
+        {"key": "customer", "type": "aws_customer_gateway", "args": {"bgp_asn": "$var:customer_bgp_asn=65000", "ip_address": "$var:customer_ip_address", "type": "ipsec.1", "tags": "$tags_named"}},
+        {"key": "gateway", "type": "aws_vpn_gateway", "args": {"vpc_id": "$network.id?", "tags": "$tags_named"}},
+        {"type": "aws_vpn_connection", "args": {"customer_gateway_id": "$self.customer.id", "vpn_gateway_id": "$self.gateway.id", "type": "ipsec.1", "tags": "$tags_named"},
+         "module": "aws-vpn-gateway", "module_args": {"customer_gateway_id": "$self.customer.id", "vpn_gateway_id": "$self.gateway.id", "vpc_id": "$self.gateway.vpc_id", "create_vpn_gateway_attachment": false, "tags": "$tags_named"}}
+      ]
+    },
+    "direct-connect": {
+      "step": "network", "category": "network", "item": "direct_connect_connection",
+      "resources": [
+        {"type": "aws_dx_connection", "args": {"name": "$name", "bandwidth": "$var:bandwidth=1Gbps", "location": "$var:location", "tags": "$tags_named"}}
+      ]
+    },
+    "transit-gateway": {
+      "step": "network", "category": "network", "item": "transit_gateway", "note": "Attach each VPC it joins with an aws_ec2_transit_gateway_vpc_attachment.",
+      "resources": [
+        {"type": "aws_ec2_transit_gateway", "args": {"description": "$caption", "tags": "$tags_named"},
+         "module": "aws-transit-gateway", "module_args": {"name": "$name", "description": "$caption", "create_tgw_routes": false, "share_tgw": false, "tags": "$tags_named"}}
+      ]
+    },
+    "route-53": {
+      "step": "edge", "category": "dns", "item": "route53_zone", "output": "zone_id",
+      "resources": [
+        {"type": "aws_route53_zone", "args": {"name": "$var:domain_name", "tags": "$tags_named"},
+         "module": "aws-route53", "module_args": {"name": "$var:domain_name"}}
+      ]
+    },
+    "certificate-manager": {
+      "step": "edge", "category": "edge", "item": "certificate", "output": "arn",
+      "resources": [
+        {"type": "aws_acm_certificate", "args": {"domain_name": "$var:domain_name", "validation_method": "DNS", "tags": "$tags_named"},
+         "module": "aws-acm", "module_args": {"domain_name": "$var:domain_name", "validation_method": "DNS", "create_route53_records": false, "validate_certificate": false, "tags": "$tags_named"}}
+      ]
+    },
+    "api-gateway": {
+      "step": "edge", "category": "edge", "item": "api_gateway", "output": "api_endpoint",
+      "resources": [
+        {"type": "aws_apigatewayv2_api", "args": {"name": "$name", "protocol_type": "HTTP", "tags": "$tags_named"},
+         "module": "aws-apigateway-v2", "module_args": {"name": "$name", "protocol_type": "HTTP", "create_domain_name": false, "stage_access_log_settings": null, "tags": "$tags_named"}}
+      ]
+    },
+    "shield": {
+      "step": "security", "category": "security", "item": "shield_protection",
+      "resources": [
+        {"type": "aws_shield_protection", "args": {"name": "$name", "resource_arn": "$var:resource_arn", "tags": "$tags_named"}}
+      ]
+    },
+    "simple-storage-service": {
+      "step": "data", "category": "storage", "item": "s3_bucket", "output": "bucket", "ci_access": {"statements": [{"actions": ["s3:ListBucket"], "resources": ["arn"]}, {"actions": ["s3:DeleteObject", "s3:GetObject", "s3:PutObject"], "resources": ["arn/*"]}]},
+      "resources": [
+        {"type": "aws_s3_bucket", "args": {"bucket": "$name:lower", "tags": "$tags_named"},
+         "module": "aws-s3-bucket", "module_args": {"bucket": "$name:lower", "versioning": {"enabled": true}, "tags": "$tags_named"}},
+        {"key": "versioning", "type": "aws_s3_bucket_versioning", "in_modules": false, "args": {"bucket": "$self.main.id", "versioning_configuration": {"$block": {"status": "Enabled"}}}},
+        {"key": "public_access", "type": "aws_s3_bucket_public_access_block", "in_modules": false, "args": {"bucket": "$self.main.id", "block_public_acls": true, "block_public_policy": true, "ignore_public_acls": true, "restrict_public_buckets": true}}
+      ]
+    },
+    "simple-storage-service-glacier": {
+      "step": "data", "category": "storage", "item": "glacier_vault",
+      "resources": [
+        {"type": "aws_glacier_vault", "args": {"name": "$name", "tags": "$tags_named"}}
+      ]
+    },
+    "dynamodb": {
+      "step": "data", "category": "database", "item": "dynamodb_table", "output": "arn",
+      "resources": [
+        {"type": "aws_dynamodb_table", "args": {"name": "$name", "billing_mode": "PAY_PER_REQUEST", "hash_key": "id", "attribute": {"$block": {"name": "id", "type": "S"}}, "tags": "$tags_named"},
+         "module": "aws-dynamodb-table", "module_args": {"name": "$name", "billing_mode": "PAY_PER_REQUEST", "hash_key": "id", "attributes": [{"name": "id", "type": "S"}], "tags": "$tags_named"}}
+      ]
+    },
+    "athena": {
+      "step": "data", "category": "analytics", "item": "athena_workgroup",
+      "resources": [
+        {"type": "aws_athena_workgroup", "args": {"name": "$name", "tags": "$tags_named"}}
+      ]
+    },
+    "transfer-family": {
+      "step": "data", "category": "storage", "item": "transfer_server", "output": "endpoint",
+      "resources": [
+        {"type": "aws_transfer_server", "args": {"identity_provider_type": "SERVICE_MANAGED", "endpoint_type": "PUBLIC", "tags": "$tags_named"}}
+      ]
+    },
+    "simple-queue-service": {
+      "step": "data", "category": "messaging", "item": "sqs_queue", "output": "url",
+      "resources": [
+        {"type": "aws_sqs_queue", "args": {"name": "$name", "tags": "$tags_named"},
+         "module": "aws-sqs", "module_args": {"name": "$name", "tags": "$tags_named"}}
+      ]
+    },
+    "simple-notification-service": {
+      "step": "data", "category": "messaging", "item": "sns_topic", "output": "arn",
+      "resources": [
+        {"type": "aws_sns_topic", "args": {"name": "$name", "tags": "$tags_named"},
+         "module": "aws-sns", "module_args": {"name": "$name", "tags": "$tags_named"}}
+      ]
+    },
+    "elastic-container-registry": {
+      "step": "compute", "category": "containers", "item": "ecr_repository", "output": "repository_url", "ci_access": {"statements": [{"actions": ["ecr:GetAuthorizationToken"], "resources": ["*"]}, {"actions": ["ecr:BatchCheckLayerAvailability", "ecr:BatchGetImage", "ecr:CompleteLayerUpload", "ecr:GetDownloadUrlForLayer", "ecr:InitiateLayerUpload", "ecr:PutImage", "ecr:UploadLayerPart"], "resources": ["arn"]}]},
+      "resources": [
+        {"type": "aws_ecr_repository", "args": {"name": "$name:lower", "image_scanning_configuration": {"$block": {"scan_on_push": true}}, "tags": "$tags_named"},
+         "module": "aws-ecr", "module_args": {"repository_name": "$name:lower", "repository_image_scan_on_push": true, "create_lifecycle_policy": false, "create_repository_policy": false, "attach_repository_policy": false, "tags": "$tags_named"}}
+      ]
+    },
+    "elastic-container-service": {
+      "step": "compute", "category": "containers", "item": "ecs_cluster", "output": "arn", "ci_access": {"statements": [{"actions": ["ecs:DescribeClusters", "ecs:ListServices"], "resources": ["arn"]}]},
+      "resources": [
+        {"type": "aws_ecs_cluster", "args": {"name": "$name", "tags": "$tags_named"},
+         "module": "aws-ecs-cluster", "module_args": {"name": "$name", "create_cloudwatch_log_group": false, "configuration": null, "tags": "$tags_named"}}
+      ]
+    },
+    "fargate": {
+      "step": "compute", "category": "containers", "item": "ecs_service", "requires": "subnet", "security_group": true, "ci_access": {"statements": [{"actions": ["ecs:DescribeServices", "ecs:UpdateService"], "resources": ["id"]}, {"actions": ["ecs:DescribeTaskDefinition", "ecs:RegisterTaskDefinition"], "resources": ["*"]}]},
+      "resources": [
+        {"type": "aws_ecs_service", "args": {"name": "$name", "cluster": "$var:cluster_arn", "task_definition": "$var:task_definition_arn", "launch_type": "FARGATE", "desired_count": "$var:desired_count:number=1", "network_configuration": {"$block": {"subnets": "$subnets.id", "security_groups": "$security_groups", "assign_public_ip": false}}, "tags": "$tags_named"},
+         "module": "aws-ecs-service", "module_args": {"name": "$name", "cluster_arn": "$var:cluster_arn", "create_task_definition": false, "task_definition_arn": "$var:task_definition_arn", "launch_type": "FARGATE", "desired_count": "$var:desired_count:number=1", "subnet_ids": "$subnets.id", "security_group_ids": "$security_groups", "assign_public_ip": false, "create_security_group": false, "enable_autoscaling": false, "tags": "$tags_named"}}
+      ]
+    },
+    "elastic-kubernetes-service": {
+      "step": "compute", "category": "containers", "item": "eks_cluster", "requires": "subnet", "security_group": true, "port": 443, "output": "endpoint", "ci_access": {"statements": [{"actions": ["eks:DescribeCluster"], "resources": ["arn"]}]},
+      "resources": [
+        {"type": "aws_eks_cluster", "args": {"name": "$name", "role_arn": "$var:cluster_role_arn", "vpc_config": {"$block": {"subnet_ids": "$subnets.id", "security_group_ids": "$security_groups"}}, "tags": "$tags_named"},
+         "module": "aws-eks", "module_args": {"name": "$name", "iam_role_name": "$name:max32", "vpc_id": "$network.id", "subnet_ids": "$subnets.id", "endpoint_public_access": true, "create_security_group": false, "additional_security_group_ids": "$security_groups", "create_node_security_group": false, "enable_cluster_creator_admin_permissions": true, "create_kms_key": false, "encryption_config": null, "tags": "$tags_named"}}
+      ]
+    },
+    "lambda": {
+      "step": "compute", "category": "compute", "item": "lambda_function", "output": "arn", "note": "A function in a VPC also needs a vpc_config block with its subnets and security groups.", "ci_access": {"statements": [{"actions": ["lambda:GetFunction", "lambda:PublishVersion", "lambda:UpdateFunctionCode"], "resources": ["arn"]}]},
+      "resources": [
+        {"type": "aws_lambda_function", "args": {"function_name": "$name", "role": "$var:role_arn", "runtime": "$var:runtime=python3.12", "handler": "$var:handler=index.handler", "filename": "$var:package", "tags": "$tags_named"},
+         "module": "aws-lambda", "module_args": {"function_name": "$name", "runtime": "$var:runtime=python3.12", "handler": "$var:handler=index.handler", "create_package": false, "local_existing_package": "$var:package", "tags": "$tags_named"}}
+      ]
+    },
+    "key-management-service": {
+      "step": "security", "category": "security", "item": "kms_key", "output": "arn",
+      "resources": [
+        {"type": "aws_kms_key", "args": {"description": "$caption", "enable_key_rotation": true, "tags": "$tags_named"},
+         "module": "aws-kms", "module_args": {"description": "$caption", "enable_key_rotation": true, "tags": "$tags_named"}}
+      ]
+    },
+    "secrets-manager": {
+      "step": "security", "category": "security", "item": "secret", "output": "arn", "ci_access": {"statements": [{"actions": ["secretsmanager:GetSecretValue"], "resources": ["arn"]}]},
+      "resources": [
+        {"type": "aws_secretsmanager_secret", "args": {"name": "$name", "tags": "$tags_named"},
+         "module": "aws-secrets-manager", "module_args": {"name": "$name", "create_random_password": true, "tags": "$tags_named"}}
+      ]
+    },
+    "guardduty": {
+      "step": "security", "category": "security", "item": "guardduty_detector",
+      "resources": [
+        {"type": "aws_guardduty_detector", "args": {"enable": true, "tags": "$tags_named"}}
+      ]
+    },
+    "security-hub": {
+      "step": "security", "category": "security", "item": "security_hub",
+      "resources": [
+        {"type": "aws_securityhub_account", "args": {}}
+      ]
+    },
+    "macie": {
+      "step": "security", "category": "security", "item": "macie_account",
+      "resources": [
+        {"type": "aws_macie2_account", "args": {}}
+      ]
+    },
+    "cloudtrail": {
+      "step": "observability", "category": "observability", "item": "trail",
+      "resources": [
+        {"type": "aws_cloudtrail", "args": {"name": "$name", "s3_bucket_name": "$var:s3_bucket_name", "is_multi_region_trail": true, "tags": "$tags_named"}}
+      ]
+    },
+    "cloudwatch": {
+      "step": "observability", "category": "observability", "item": "log_group", "output": "arn",
+      "resources": [
+        {"type": "aws_cloudwatch_log_group", "args": {"name": "$name", "retention_in_days": "$var:retention_in_days:number=30", "tags": "$tags_named"},
+         "module": "aws-cloudwatch-log-group", "module_args": {"name": "$name", "retention_in_days": "$var:retention_in_days:number=30", "tags": "$tags_named"}}
+      ]
+    },
+    "config": {
+      "step": "observability", "category": "observability", "item": "config_recorder",
+      "resources": [
+        {"type": "aws_config_configuration_recorder", "args": {"name": "$name", "role_arn": "$var:role_arn"}}
+      ]
+    },
+    "datasync": {"step": "data", "category": "storage", "item": "datasync_task", "note": "A DataSync agent is activated against a running appliance; create it with aws_datasync_agent once the appliance exists."},
+    "elastic-disaster-recovery": {"step": "data", "category": "storage", "item": "recovery_source", "note": "Elastic Disaster Recovery replicates source servers with its agent; its replication settings are configured in the service, not declared here."},
+    "mainframe-modernization": {"step": "compute", "category": "compute", "item": "mainframe_application", "note": "An AWS Mainframe Modernization environment and application (aws_m2_environment, aws_m2_application) need an engine type and definition the diagram does not state."},
+    "cloudfront": {"step": "edge", "category": "edge", "item": "cloudfront_distribution", "note": "A CloudFront distribution needs its origins, cache behaviour and certificate; write an aws_cloudfront_distribution with the origin the wire points at."},
+    "waf": {
+      "step": "security", "category": "security", "item": "web_acl", "output": "arn",
+      "resources": [
+        {"type": "aws_wafv2_web_acl", "comment": "AWS's managed rule groups block what they match and the rest passes: to what the wires from it protect.", "args": {"name": "$name", "scope": "REGIONAL", "default_action": {"$block": {"allow": {"$block": {}}}}, "rule": [{"$block": {"name": "aws-common", "priority": 1, "override_action": {"$block": {"none": {"$block": {}}}}, "statement": {"$block": {"managed_rule_group_statement": {"$block": {"name": "AWSManagedRulesCommonRuleSet", "vendor_name": "AWS"}}}}, "visibility_config": {"$block": {"cloudwatch_metrics_enabled": true, "metric_name": "aws-common", "sampled_requests_enabled": true}}}}, {"$block": {"name": "aws-known-bad-inputs", "priority": 2, "override_action": {"$block": {"none": {"$block": {}}}}, "statement": {"$block": {"managed_rule_group_statement": {"$block": {"name": "AWSManagedRulesKnownBadInputsRuleSet", "vendor_name": "AWS"}}}}, "visibility_config": {"$block": {"cloudwatch_metrics_enabled": true, "metric_name": "aws-known-bad-inputs", "sampled_requests_enabled": true}}}}], "visibility_config": {"$block": {"cloudwatch_metrics_enabled": true, "metric_name": "$name", "sampled_requests_enabled": true}}, "tags": "$tags_named"}}
+      ]
+    },
+    "identity-access-management-role": {
+      "step": "security", "category": "security", "item": "iam_role", "output": "arn", "plumbing": "github_oidc",
+      "resources": [
+        {"type": "aws_iam_role", "args": {"name": "$name", "assume_role_policy": "$var:assume_role_policy", "tags": "$tags_named"}}
+      ],
+      "federated": [
+        {"type": "aws_iam_role", "args": {"name": "$name", "assume_role_policy": "$github.trust_policy", "max_session_duration": 3600, "tags": "$tags_named"}}
+      ]
+    }
+  },
+  "import": {
+    "about": "What import:terraform and discover:aws draw each resource type as, beyond the frame and component resources above read the other way. components: a type drawn as that component, or null for a type never drawn. owners: a type folded into the resource its argument names; a wire to it goes to that resource. edges: a type that is only a wire between the two resources its arguments name. collapse: a type drawn once per place however many there are. ignore: types that are not architecture, and with a trailing underscore every type they begin. fallback: the component a type with no mapping is drawn as, captioned with its type.",
+    "components": {
+      "aws_security_group": null,
+      "aws_vpc_endpoint": "vpc-endpoints",
+      "aws_alb": "elastic-load-balancing",
+      "aws_elb": "elastic-load-balancing-classic-load-balancer",
+      "aws_autoscaling_group": "ec2-auto-scaling",
+      "aws_launch_template": null,
+      "aws_launch_configuration": null,
+      "aws_ebs_volume": "elastic-block-store",
+      "aws_egress_only_internet_gateway": "vpc-internet-gateway",
+      "aws_vpn_gateway": "vpc-vpn-gateway",
+      "aws_customer_gateway": "vpc-customer-gateway",
+      "aws_cloudfront_distribution": "cloudfront",
+      "aws_wafv2_web_acl": "waf",
+      "aws_waf_web_acl": "waf",
+      "aws_globalaccelerator_accelerator": "global-accelerator",
+      "aws_api_gateway_rest_api": "api-gateway",
+      "aws_appsync_graphql_api": "appsync",
+      "aws_ecs_task_definition": null,
+      "aws_eks_node_group": null,
+      "aws_eks_fargate_profile": null,
+      "aws_elastic_beanstalk_environment": "elastic-beanstalk",
+      "aws_apprunner_service": "app-runner",
+      "aws_batch_compute_environment": "batch",
+      "aws_sfn_state_machine": "step-functions",
+      "aws_cloudwatch_event_bus": "eventbridge",
+      "aws_cloudwatch_event_rule": "eventbridge",
+      "aws_scheduler_schedule": "eventbridge",
+      "aws_kinesis_stream": "kinesis-data-streams",
+      "aws_kinesis_firehose_delivery_stream": "data-firehose",
+      "aws_mq_broker": "mq",
+      "aws_ses_domain_identity": "simple-email-service",
+      "aws_opensearch_domain": "opensearch-service",
+      "aws_elasticsearch_domain": "opensearch-service",
+      "aws_redshift_cluster": "redshift",
+      "aws_glue_job": "glue",
+      "aws_glue_crawler": "glue-crawler",
+      "aws_glue_catalog_database": "glue-data-catalog",
+      "aws_emr_cluster": "emr",
+      "aws_elasticache_cluster": "elasticache",
+      "aws_memorydb_cluster": "memorydb",
+      "aws_neptune_cluster": "neptune",
+      "aws_docdb_cluster": "documentdb",
+      "aws_fsx_lustre_file_system": "fsx-for-lustre",
+      "aws_fsx_windows_file_system": "fsx-for-wfs",
+      "aws_fsx_ontap_file_system": "fsx-for-netapp-ontap",
+      "aws_backup_vault": "backup",
+      "aws_cognito_user_pool": "cognito",
+      "aws_codebuild_project": "codebuild",
+      "aws_codepipeline": "codepipeline",
+      "aws_sagemaker_endpoint": "sagemaker",
+      "aws_sagemaker_notebook_instance": "sagemaker",
+      "aws_service_discovery_private_dns_namespace": "cloud-map",
+      "aws_ssm_parameter": null,
+      "aws_xray_group": "x-ray"
+    },
+    "owners": {
+      "aws_eks_node_group": "cluster_name",
+      "aws_eks_fargate_profile": "cluster_name",
+      "aws_rds_cluster_instance": "cluster_identifier",
+      "aws_efs_mount_target": "file_system_id",
+      "aws_route53_record": "zone_id",
+      "aws_lb_listener": "load_balancer_arn",
+      "aws_alb_listener": "load_balancer_arn",
+      "aws_lb_listener_rule": "listener_arn",
+      "aws_s3_bucket_public_access_block": "bucket",
+      "aws_eip": "instance",
+      "aws_api_gateway_resource": "rest_api_id",
+      "aws_api_gateway_method": "rest_api_id",
+      "aws_api_gateway_integration": "rest_api_id",
+      "aws_api_gateway_stage": "rest_api_id",
+      "aws_api_gateway_deployment": "rest_api_id",
+      "aws_apigatewayv2_integration": "api_id",
+      "aws_apigatewayv2_route": "api_id",
+      "aws_apigatewayv2_stage": "api_id",
+      "aws_ecs_cluster_capacity_providers": "cluster_name",
+      "aws_efs_file_system_policy": "file_system_id",
+      "aws_efs_backup_policy": "file_system_id",
+      "aws_eks_access_entry": "cluster_name",
+      "aws_eks_access_policy_association": "cluster_name",
+      "aws_eks_addon": "cluster_name",
+      "aws_networkfirewall_logging_configuration": "firewall_arn",
+      "aws_ec2_transit_gateway_route_table": "transit_gateway_id"
+    },
+    "edges": {
+      "aws_wafv2_web_acl_association": {"from": "web_acl_arn", "to": ["resource_arn"], "label": "inspects"},
+      "aws_route53_record": {"from": "zone_id", "to": ["alias.name", "records"], "label_from": "type"},
+      "aws_sns_topic_subscription": {"from": "topic_arn", "to": ["endpoint"], "label_from": "protocol"},
+      "aws_lambda_event_source_mapping": {"from": "event_source_arn", "to": ["function_name"], "label": "events"},
+      "aws_lambda_permission": {"from": "source_arn", "to": ["function_name"], "label": "invokes"},
+      "aws_s3_bucket_notification": {"from": "bucket", "to": ["lambda_function.lambda_function_arn", "queue.queue_arn", "topic.topic_arn"], "label": "events"},
+      "aws_cloudwatch_event_target": {"from": "rule", "to": ["arn"], "label": "targets"},
+      "aws_apigatewayv2_integration": {"from": "api_id", "to": ["integration_uri"], "label": "integration"},
+      "aws_api_gateway_integration": {"from": "rest_api_id", "to": ["uri"], "label": "integration"},
+      "aws_vpc_peering_connection": {"from": "vpc_id", "to": ["peer_vpc_id"], "label": "peering"},
+      "aws_ec2_transit_gateway_vpc_attachment": {"from": "transit_gateway_id", "to": ["vpc_id"], "label": "attachment"},
+      "aws_vpn_gateway_attachment": {"from": "vpn_gateway_id", "to": ["vpc_id"], "label": "attachment"}
+    },
+    "collapse": {
+      "aws_cloudwatch_log_group": "cloudwatch",
+      "aws_cloudwatch_metric_alarm": "cloudwatch",
+      "aws_cloudwatch_dashboard": "cloudwatch"
+    },
+    "not_drawn": ["aws_iam_role"],
+    "ignore": [
+      "aws_iam_", "aws_kms_alias", "aws_key_pair", "aws_route", "aws_route_table", "aws_route_table_association",
+      "aws_main_route_table_association",
+      "aws_default_", "aws_network_acl", "aws_vpc_dhcp_options", "aws_flow_log", "aws_vpc_ipv4_cidr_block_association",
+      "aws_security_group_rule", "aws_vpc_security_group_", "aws_lb_target_group", "aws_alb_target_group",
+      "aws_lb_target_group_attachment", "aws_alb_target_group_attachment",
+      "aws_lb_listener_certificate", "aws_eip_association", "aws_db_parameter_group", "aws_db_option_group",
+      "aws_rds_cluster_parameter_group", "aws_elasticache_parameter_group", "aws_s3_bucket_", "aws_s3_object",
+      "aws_sqs_queue_policy", "aws_sqs_queue_redrive", "aws_sns_topic_policy", "aws_lambda_alias", "aws_lambda_layer_version",
+      "aws_lambda_function_url", "aws_lambda_function_event_invoke_config", "aws_secretsmanager_secret_version",
+      "aws_secretsmanager_secret_rotation", "aws_acm_certificate_validation", "aws_ecr_lifecycle_policy",
+      "aws_ecr_repository_policy", "aws_cloudwatch_log_", "aws_cloudwatch_event_", "aws_appautoscaling_",
+      "aws_autoscaling_policy", "aws_autoscaling_attachment", "aws_ssm_", "aws_ami", "aws_caller_identity",
+      "aws_region", "aws_availability_zones", "aws_partition", "aws_organizations_", "aws_budgets_", "aws_ce_",
+      "aws_placement_group", "aws_network_interface_attachment", "aws_volume_attachment", "aws_vpc_endpoint_",
+      "aws_ec2_tag", "aws_msk_configuration", "aws_ram_"
+    ],
+    "fallback": "general-generic-application"
+  }
+}

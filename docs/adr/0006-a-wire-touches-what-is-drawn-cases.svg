@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="830" viewBox="0 0 680 830" role="img">
+  <title>Connector anchoring cases</title>
+  <desc>Six worked cases of the anchoring guidelines: two bare glyphs side by side meet at the glyphs' middles; two stacked glyphs leave under the caption and arrive at the glyph's top; a card and an offset glyph join with the fewest corners through the free air beside the glyph; a wire passing a third node keeps clear of that node's whole box, caption included; and a before and after of the old anchor on the invisible layout box, where a port floated in air and a straight wire crossed the caption.</desc>
+  <style>
+    .t  { font: 500 14px 'Geist', 'Segoe UI', system-ui, sans-serif; fill: #16191f; }
+    .ts { font: 400 12px 'Geist', 'Segoe UI', system-ui, sans-serif; fill: #4a5568; }
+    .box { fill: #f7f8fa; stroke: #c9ced6; stroke-width: 0.75; }
+    .wire { fill: none; stroke: #4a5568; stroke-width: 1.5; }
+    .wire-old { fill: none; stroke: #c0392b; stroke-width: 1.5; }
+    .leader { fill: none; stroke: #9aa3ad; stroke-width: 0.75; stroke-dasharray: 4 3; }
+    .glyph { fill: #8c4fff; fill-opacity: 0.18; stroke: #8c4fff; stroke-width: 2; }
+    .glyph-other { fill: #9aa3ad; fill-opacity: 0.18; stroke: #9aa3ad; stroke-width: 2; }
+    .port-card { fill: #2b6cb0; stroke: #ffffff; stroke-width: 1; }
+    .port-glyph { fill: #8c4fff; stroke: #ffffff; stroke-width: 1; }
+    .old { fill: #c0392b; stroke: #ffffff; stroke-width: 1; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#4a5568" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-old" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="680" height="830" fill="#ffffff"/>
+
+  <!-- A: side by side. Rules 1 and 6: sides face the other end, at the glyph's middle -->
+  <text x="40" y="55" class="t">Side by side</text>
+  <rect class="leader" x="50" y="100" width="100" height="84" rx="6"/>
+  <circle class="glyph" cx="100" cy="128" r="20"/>
+  <text x="100" y="176" class="ts" text-anchor="middle">Internet</text>
+  <rect class="leader" x="230" y="100" width="100" height="84" rx="6"/>
+  <circle class="glyph" cx="280" cy="128" r="20"/>
+  <text x="280" y="176" class="ts" text-anchor="middle">NAT gateway</text>
+  <line class="wire" x1="124" y1="128" x2="256" y2="128" marker-end="url(#arrow)"/>
+  <circle class="port-glyph" cx="120" cy="128" r="4"/>
+  <circle class="port-glyph" cx="260" cy="128" r="4"/>
+  <text x="40" y="305" class="ts">Sides face the other end, at the glyph's middle</text>
+
+  <!-- B: stacked. Rules 1 and 2: leaves under the caption, meets the glyph's top -->
+  <text x="350" y="55" class="t">Stacked</text>
+  <rect class="leader" x="490" y="70" width="100" height="84" rx="6"/>
+  <circle class="glyph" cx="540" cy="98" r="20"/>
+  <text x="540" y="146" class="ts" text-anchor="middle">Users</text>
+  <rect class="leader" x="490" y="200" width="100" height="84" rx="6"/>
+  <circle class="glyph" cx="540" cy="228" r="20"/>
+  <text x="540" y="276" class="ts" text-anchor="middle">Load balancer</text>
+  <line class="wire" x1="540" y1="158" x2="540" y2="204" marker-end="url(#arrow)"/>
+  <circle class="port-glyph" cx="540" cy="154" r="4"/>
+  <circle class="port-glyph" cx="540" cy="208" r="4"/>
+  <text x="350" y="305" class="ts">Leaves under the caption, meets the glyph's top</text>
+
+  <!-- C: card to glyph, offset. Rules 1, 4 and 6: fewest corners; the air beside the glyph is free -->
+  <text x="40" y="355" class="t">Card to glyph, offset</text>
+  <rect class="box" x="50" y="380" width="160" height="60" rx="6"/>
+  <text x="66" y="405" class="t">App servers</text>
+  <text x="66" y="424" class="ts">Auto Scaling group</text>
+  <rect class="leader" x="240" y="450" width="100" height="84" rx="6"/>
+  <circle class="glyph" cx="290" cy="478" r="20"/>
+  <text x="290" y="526" class="ts" text-anchor="middle">VPC endpoint</text>
+  <polyline class="wire" points="214,410 228,410 228,478 266,478" marker-end="url(#arrow)"/>
+  <circle class="port-card" cx="210" cy="410" r="4"/>
+  <circle class="port-glyph" cx="270" cy="478" r="4"/>
+  <text x="40" y="565" class="ts">Fewest corners; the air beside the glyph is free</text>
+
+  <!-- D: passing a third node. Rule 5: other nodes block their whole box, caption too -->
+  <text x="350" y="355" class="t">Passing a third node</text>
+  <rect class="leader" x="355" y="400" width="80" height="84" rx="6"/>
+  <circle class="glyph" cx="395" cy="428" r="20"/>
+  <text x="395" y="476" class="ts" text-anchor="middle">Client</text>
+  <rect class="leader" x="445" y="405" width="80" height="84" rx="6"/>
+  <circle class="glyph-other" cx="485" cy="433" r="20"/>
+  <text x="485" y="481" class="ts" text-anchor="middle">Bastion</text>
+  <rect class="leader" x="535" y="400" width="80" height="84" rx="6"/>
+  <circle class="glyph" cx="575" cy="428" r="20"/>
+  <text x="575" y="476" class="ts" text-anchor="middle">API</text>
+  <polyline class="wire" points="419,428 432,428 432,391 538,391 538,428 551,428" marker-end="url(#arrow)"/>
+  <circle class="port-glyph" cx="415" cy="428" r="4"/>
+  <circle class="port-glyph" cx="555" cy="428" r="4"/>
+  <text x="350" y="565" class="ts">Other nodes block their whole box, caption too</text>
+
+  <!-- E: before. The old anchor on the invisible box: a port floating in air, a straight wire through the caption -->
+  <text x="40" y="615" class="t">Before: anchors on the invisible box</text>
+  <rect class="leader" x="120" y="640" width="120" height="90" rx="6"/>
+  <circle class="glyph" cx="180" cy="672" r="20"/>
+  <text x="180" y="720" class="ts" text-anchor="middle">VPC endpoint</text>
+  <line class="wire-old" x1="50" y1="685" x2="116" y2="685" marker-end="url(#arrow-old)"/>
+  <circle class="old" cx="120" cy="685" r="4"/>
+  <line class="wire-old" x1="250" y1="780" x2="204" y2="700" marker-end="url(#arrow-old)"/>
+  <circle class="old" cx="215" cy="720" r="4"/>
+  <text x="40" y="810" class="ts">Port floats in air; straight wire crosses the caption</text>
+
+  <!-- F: after. Rules 1 and 2 applied to the same node -->
+  <text x="350" y="615" class="t">After: on the glyph, under the caption</text>
+  <rect class="leader" x="440" y="640" width="120" height="90" rx="6"/>
+  <circle class="glyph" cx="500" cy="672" r="20"/>
+  <text x="500" y="720" class="ts" text-anchor="middle">VPC endpoint</text>
+  <line class="wire" x1="370" y1="672" x2="476" y2="672" marker-end="url(#arrow)"/>
+  <circle class="port-glyph" cx="480" cy="672" r="4"/>
+  <polyline class="wire" points="570,780 500,780 500,738" marker-end="url(#arrow)"/>
+  <circle class="port-glyph" cx="500" cy="734" r="4"/>
+  <text x="350" y="810" class="ts">Wires touch the glyph's edge and the caption's underside</text>
+</svg>

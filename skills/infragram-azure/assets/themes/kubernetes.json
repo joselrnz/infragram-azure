@@ -1,0 +1,57 @@
+{
+ "schema_version": 1,
+ "slug": "kubernetes",
+ "name": "Kubernetes",
+ "title": "Kubernetes workload platform",
+ "mark": "marks/kubernetes.svg",
+ "mark_color": "#326ce5",
+ "icons": {
+  "categories": [
+   "analytics",
+   "compute",
+   "containers",
+   "data",
+   "integration",
+   "networking",
+   "security",
+   "storage"
+  ],
+  "items": []
+ },
+ "theme": {
+  "paper": "#ffffff",
+  "paper_2": "#f4f6f9",
+  "ink": "#131926",
+  "muted": "#455168",
+  "soft": "#5e6a82",
+  "accent": "#6f9bf5",
+  "link": "#0b3da2"
+ },
+ "icon_palette": [
+  "#326ce5"
+ ],
+ "services": {
+  "entry": {
+   "name": "Ingress Controller",
+   "detail": "edge · routing"
+  },
+  "app": {
+   "name": "Deployment",
+   "detail": "managed replicas"
+  },
+  "object_store": {
+   "name": "PersistentVolume",
+   "detail": "durable storage"
+  },
+  "database": {
+   "name": "StatefulSet",
+   "detail": "stateful workload"
+  }
+ },
+ "boundaries": {
+  "color": "#326ce5",
+  "icons": {
+   "cluster": "logos:kubernetes#mono"
+  }
+ }
+}

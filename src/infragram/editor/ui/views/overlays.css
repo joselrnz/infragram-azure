@@ -1,0 +1,96 @@
+/* ---- Overlays on the canvas ---- */
+@keyframes md-fade-in{from{opacity:0}}
+.canvas-tooltip{position:absolute;z-index:6;pointer-events:none}
+.canvas-tooltip:not([hidden]),.canvas-popup:not([hidden]){animation:md-fade-in var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate)}
+.canvas-tooltip strong{display:block;margin-bottom:2px;font:var(--md-sys-typescale-title-small);letter-spacing:var(--md-sys-typescale-title-small-tracking)}
+.canvas-tooltip em{margin-right:8px;font-style:normal;font-weight:500}
+.canvas-tooltip span{display:block;white-space:normal;overflow-wrap:normal;word-break:normal}
+.canvas-popup{position:absolute;z-index:7;min-width:240px;max-width:min(560px,90%);max-height:60%;overflow:auto;padding:4px 16px 16px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);box-shadow:var(--ui-shadow-menu)}
+.canvas-popup header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-right:-12px}
+.canvas-popup header strong{font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
+:is(.canvas-popup,.element-details) table{width:100%;border-collapse:collapse;font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+:is(.canvas-popup,.element-details) th{padding:8px 16px 8px 0;border-bottom:1px solid var(--md-sys-color-outline-variant);color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);text-align:left;white-space:nowrap}
+:is(.canvas-popup,.element-details) td{padding:8px 16px 8px 0;border-bottom:1px solid var(--md-sys-color-outline-variant);white-space:nowrap}
+:is(.canvas-popup,.element-details) th:last-child,:is(.canvas-popup,.element-details) td:last-child{padding-right:0}
+/* a long value (a resource ID) wraps inside the popup rather than run past
+   its edge; a label starts with a capital whatever its source wrote */
+:is(.canvas-popup,.element-details) td:last-child{white-space:normal;overflow-wrap:anywhere}
+:is(.canvas-popup,.element-details) table{table-layout:auto;max-width:100%}
+:is(.canvas-popup,.element-details) :is(th,td):first-child::first-letter{text-transform:uppercase}
+:is(.canvas-popup,.element-details) tr:last-child td{border-bottom:0}
+/* a two-column table is label and value rows: its Property / Value heading
+   says nothing the rows do not, so it is kept for screen readers only */
+:is(.canvas-popup,.element-details) table[data-popup-table]:has(thead th:nth-child(2):last-child) thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+:is(.canvas-popup,.element-details) table[data-popup-table]:has(thead th:nth-child(2):last-child) td:first-child{width:1%;color:var(--md-sys-color-on-surface-variant)}
+.canvas-popup__section{margin-top:8px}
+.canvas-popup__section+.canvas-popup__section,.canvas-popup__section+table,table+.canvas-popup__section{margin-top:16px;padding-top:12px;border-top:1px solid var(--md-sys-color-outline-variant)}
+.canvas-popup__amount{margin:0 0 2px;font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);color:var(--md-sys-color-on-surface-variant)}
+.canvas-popup__amount strong{font:var(--md-sys-typescale-title-large);letter-spacing:var(--md-sys-typescale-title-large-tracking);color:var(--md-sys-color-on-surface);font-variant-numeric:tabular-nums}
+.canvas-popup__note{margin:4px 0;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking);white-space:normal}
+.canvas-popup__section th{width:1%;border-bottom:0;padding:4px 16px 4px 0}
+.canvas-popup__section td{border-bottom:0;padding:4px 0}
+:is(.canvas-popup,.element-details) em[data-popup-assumed]{margin-left:6px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-small);letter-spacing:var(--md-sys-typescale-label-small-tracking);font-style:normal}
+:is(.canvas-popup,.element-details) h3{margin:0 0 4px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+:is(.canvas-popup,.element-details) ul{margin:0;padding:0;list-style:none}
+:is(.canvas-popup,.element-details) li{padding:2px 0}
+:is(.canvas-popup,.element-details) a{color:var(--md-sys-color-primary);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);text-decoration:none}
+:is(.canvas-popup,.element-details) a:hover,:is(.canvas-popup,.element-details) a:focus-visible{text-decoration:underline}
+.canvas-help{position:sticky;left:16px;bottom:16px;width:max-content;margin:0;padding:4px 10px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking);box-shadow:var(--ui-shadow-raised);pointer-events:none}
+.canvas-help{transition:opacity var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard)}
+.canvas-help--retired{opacity:0}
+.selection-toolbar{position:absolute;z-index:5;display:flex;height:40px;align-items:center;gap:2px;padding:0 4px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface);box-shadow:var(--ui-shadow-menu);transform:translate(-50%,-100%);white-space:nowrap}
+.selection-toolbar[hidden]{display:none}
+/* the grip it is dragged by; tinted while the toolbar stays where it was put */
+.selection-toolbar__grip{width:24px;cursor:grab;touch-action:none}
+.selection-toolbar[data-dragging] .selection-toolbar__grip{cursor:grabbing}
+.selection-toolbar[data-pinned] .selection-toolbar__grip{color:var(--md-sys-color-primary)}
+.toolbar-divider{width:1px;height:20px;flex:none;margin:0 4px;background:var(--md-sys-color-outline-variant)}
+.frame-review{position:fixed;z-index:70;display:flex;width:340px;max-height:min(600px,calc(100vh - 140px));flex-direction:column;overflow:hidden;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius-lg);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);box-shadow:var(--ui-shadow-menu);animation:md-fade-in var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate)}
+.frame-review[hidden]{display:none}
+.frame-review__header{display:flex;align-items:center;gap:8px;padding:12px 8px 4px 16px}
+.frame-review__heading{display:grid;min-width:0;flex:1}
+.frame-review__heading strong{overflow:hidden;font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking);text-overflow:ellipsis;white-space:nowrap}
+.frame-review__heading span{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.frame-review__actions{display:flex;align-items:center;gap:8px;padding:8px 16px 12px;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.frame-review__list{min-height:0;overflow:auto;padding:8px}
+.frame-review__group{padding:12px 12px 4px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+.canvas-context-menu{position:fixed;z-index:80;width:max-content;min-width:240px;max-width:320px;max-height:calc(100vh - 16px);overflow:auto}
+.canvas-context-menu[hidden]{display:none}
+/* under the menu's title: what the item is, in label and value rows */
+.context-menu-facts{display:grid;gap:2px;margin:0 0 4px;padding:0 8px 8px;border-bottom:1px solid var(--md-sys-color-outline-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.context-menu-facts[hidden]{display:none}
+.context-menu-facts>div{display:grid;grid-template-columns:72px minmax(0,1fr);gap:8px}
+.context-menu-facts>.context-menu-facts__line{grid-template-columns:1fr}
+/* the menu names what it acts on, strongest; the type under it is muted */
+.canvas-context-menu .context-menu-title{padding-bottom:0;color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+.context-menu-facts>.context-menu-facts__line:first-child dd{margin-bottom:4px;color:var(--md-sys-color-on-surface-variant)}
+.context-menu-facts dt{color:var(--md-sys-color-on-surface-variant)}
+.context-menu-facts dd{margin:0;overflow:hidden;color:var(--md-sys-color-on-surface);text-overflow:ellipsis;white-space:nowrap}
+.context-menu-tags{display:contents}
+.context-menu-tags[hidden]{display:none}
+.shortcut-sheet{position:fixed;z-index:75;top:50%;left:50%;display:flex;width:min(560px,calc(100vw - 48px));max-height:min(640px,calc(100vh - 96px));flex-direction:column;overflow:hidden;transform:translate(-50%,-50%);border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius-lg);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);box-shadow:var(--ui-shadow-menu);animation:md-fade-in var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate)}
+.shortcut-sheet[hidden]{display:none}
+.shortcut-sheet__header{display:flex;align-items:center;gap:8px;padding:12px 8px 4px 16px}
+.shortcut-sheet__header strong{flex:1;font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
+.shortcut-sheet__body{overflow-y:auto;padding:4px 16px 16px}
+.shortcut-sheet__group+.shortcut-sheet__group{margin-top:16px}
+.shortcut-sheet__group h3{margin:0 0 4px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+.shortcut-sheet__rows{display:grid;margin:0;grid-template-columns:1fr auto;align-items:center;gap:2px 16px}
+.shortcut-sheet__rows dt{font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.shortcut-sheet__rows dd{margin:0;justify-self:end}
+.shortcut-sheet__rows kbd{padding:2px 8px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--md-sys-shape-corner-extra-small);background:var(--md-sys-color-surface-container-lowest);color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);white-space:nowrap}
+:is(.canvas-popup,.element-details) [data-popup-lines] td:last-child{padding-left:12px;text-align:right}
+:is(.canvas-popup,.element-details) [data-popup-lines] th{white-space:normal}
+:is(.canvas-popup,.element-details) [data-popup-lines] em{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-small);letter-spacing:var(--md-sys-typescale-label-small-tracking);font-style:normal}
+/* the right-click menu's rows: an icon, the label, the key at the right */
+.canvas-context-menu .md-list-item{gap:12px}
+/* a divider with nothing visible on one side of it is not drawn */
+.canvas-context-menu .md-divider.is-redundant{display:none}
+/* More actions: a submenu beside the menu, placed by the runtime, since the
+   menu scrolls and would clip anything positioned inside it */
+.context-submenu[hidden]{display:none}
+.context-submenu__menu{position:fixed;z-index:81;width:max-content;min-width:220px;max-width:320px;max-height:calc(100vh - 16px);overflow:auto}
+.context-submenu__menu[hidden]{display:none}
+.context-submenu__chevron{display:grid;place-items:center;padding-left:16px}
+.context-submenu__chevron .md-icon{width:16px;height:16px}
+.canvas-context-menu [data-context-submenu-toggle][aria-expanded="true"]{background:var(--md-sys-color-surface-container-high)}

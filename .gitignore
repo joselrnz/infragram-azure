@@ -1,0 +1,32 @@
+.claude/
+# Credentials never belong here. Listed explicitly so a stray copy of a
+# secrets file cannot be added by a wildcard `git add`.
+.env
+*.env
+*.pem
+*.key
+*_rsa
+secrets*
+credentials*
+.mcp.json
+!/.mcp.json
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage*
+/build/
+dist/
+*.egg-info/
+# The build bundles the skill assets into the wheel; the tree never holds a copy.
+src/infragram/_assets/
+src/infragram/_scripts/
+src/infragram/_skill_scripts/
+src/infragram/_skill_references/
+src/infragram/_plugin/
+
+# Upstream research vault: shallow clones of the vendors' own icon
+# repositories, with mixed third-party licenses. It is the input to the
+# importers under scripts/importers/, not part of this package. Reviewed
+# output lives in skills/infragram-azure/assets/icons/.
+cloud-diagram-sources/

@@ -1,0 +1,164 @@
+[build-system]
+# 1.27 writes the licence as an SPDX expression with its files (PEP 639)
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "infragram-azure"
+version = "0.1.71"
+description = "Infrastructure diagram editor, project schema, exports and agent tools for the Infragram Azure plugin"
+readme = "README.md"
+license = "MIT"
+# The package's own licence, and the notices of what it bundles: the icon
+# packs, three.js, the Kubernetes artwork, the fonts (THIRD_PARTY_LICENSES.md
+# says which covers what).
+license-files = [
+  "LICENSE",
+  "THIRD_PARTY_LICENSES.md",
+  "licenses/*.txt",
+  "skills/infragram-azure/assets/fonts/OFL-*.txt",
+  "skills/infragram-azure/assets/icons/vendors/databricks/LICENSE",
+]
+authors = [{ name = "Infragram Azure contributors" }]
+keywords = [
+  "architecture-diagram",
+  "infrastructure",
+  "diagrams",
+  "cloud",
+  "azure",
+  "kubernetes",
+  "databricks",
+  "terraform",
+  "svg",
+  "claude-code-plugin",
+  "mcp",
+]
+# Only the Python versions something runs: 3.11 on a workstation, 3.12 in CI.
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Multimedia :: Graphics :: Editors :: Vector-Based",
+  "Topic :: Software Development :: Documentation",
+  "Topic :: System :: Systems Administration",
+  "Typing :: Typed",
+]
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic>=2,<3",
+]
+
+[project.optional-dependencies]
+png = ["playwright>=1.40", "Pillow>=10"]
+docs = ["playwright>=1.40", "Pillow>=10"]
+# The test tools are pinned: a new ruff or mypy minor turns on rules the tree
+# has not met, and Playwright must match the browser build CI's image carries.
+# pip-audit reads the lock against the advisories published for each version.
+test = ["pytest>=8,<10", "playwright==1.55.0", "Pillow>=10", "ruff>=0.15,<0.16",
+        "mypy>=2.3,<2.4", "pip-audit>=2.10,<3"]
+
+[project.scripts]
+infragram = "infragram.cli:main"
+
+# uv rebuilds a folder it installs from (the plugin's MCP server runs as
+# `uvx --from <plugin>`) only when a file named here changes; the default
+# watches pyproject.toml alone, and served stale code after every edit.
+[tool.uv]
+cache-keys = [
+  { file = "pyproject.toml" },
+  { file = "src/**/*" },
+  { file = "skills/**/*" },
+  { file = "scripts/export/**/*" },
+]
+
+# This folder is the plugin, and the wheel carries all of it: the package,
+# and beside it under infragram/_plugin the plugin's own files -- the
+# manifests, the skills with their assets (icons, fonts, themes, catalog,
+# templates), the hook, the agent, the MCP server's configuration and its own
+# copy of the package -- so an installed copy (uv tool install, pipx, pip)
+# draws with no checkout, and `infragram plugin:install` registers that folder
+# with an agent as a whole plugin. Run from this folder, the package reads the
+# same files in place, so edits are live; infragram.paths decides which.
+[tool.hatch.build.targets.wheel]
+packages = ["src/infragram"]
+
+[tool.hatch.build.targets.wheel.force-include]
+".claude-plugin" = "infragram/_plugin/.claude-plugin"
+".agents" = "infragram/_plugin/.agents"
+".codex-plugin" = "infragram/_plugin/.codex-plugin"
+"plugin.json" = "infragram/_plugin/plugin.json"
+".mcp.json" = "infragram/_plugin/.mcp.json"
+"mcp.json" = "infragram/_plugin/mcp.json"
+"package.json" = "infragram/_plugin/package.json"
+"pyproject.toml" = "infragram/_plugin/pyproject.toml"
+"README.md" = "infragram/_plugin/README.md"
+# the plugin's own copy of the package, so the folder is a whole plugin (its
+# MCP server builds from it with uvx, its launcher runs it)
+"src/infragram" = "infragram/_plugin/src/infragram"
+"skills" = "infragram/_plugin/skills"
+"agents" = "infragram/_plugin/agents"
+"hooks" = "infragram/_plugin/hooks"
+"examples" = "infragram/_plugin/examples"
+"scripts/export" = "infragram/_plugin/scripts/export"
+"LICENSE" = "infragram/_plugin/LICENSE"
+"THIRD_PARTY_LICENSES.md" = "infragram/_plugin/THIRD_PARTY_LICENSES.md"
+"licenses" = "infragram/_plugin/licenses"
+
+[tool.hatch.build.targets.sdist.force-include]
+# the repository's .gitignore keeps a personal /.mcp.json out of git, and
+# hatch reads that line against this folder: the plugin's own must ship
+".mcp.json" = ".mcp.json"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/infragram",
+  ".claude-plugin",
+  ".agents",
+  ".codex-plugin",
+  "plugin.json",
+  ".mcp.json",
+  "mcp.json",
+  "package.json",
+  "skills",
+  "agents",
+  "hooks",
+  "examples",
+  "scripts/export",
+  "README.md",
+  "LICENSE",
+  "THIRD_PARTY_LICENSES.md",
+  "licenses",
+  "pyproject.toml",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM"]
+ignore = ["SIM117"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["infragram"]
+combine-as-imports = true
+
+[tool.pytest.ini_options]
+addopts = ["--strict-markers"]
+markers = [
+  "slow: sweeps every shipped template, example or icon, or runs Terraform itself; verify:quick leaves it out",
+]
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+files = ["src/infragram", "examples", "scripts"]
+plugins = ["pydantic.mypy"]
+warn_redundant_casts = true
+warn_unused_ignores = true

@@ -1,0 +1,207 @@
+{
+  "note": "Artwork the vendor files as a group: the box drawn AROUND things, never a node placed beside them. Each one ships as a component class too, and several read exactly like a frame of the same name -- nodes.aws.architecture_group.Region beside frames.aws.Region -- so this table says which frame replaces which glyph. Detection is not guessed: an icon lands here only because its own catalog entry carries tier \"group\". The replacement is reviewed by hand, because matching names automatically paired the VPC glyph with the Cloud frame and every onprem network-* product with the Network frame. A wrong pairing is worse than none.",
+  "fallback": "frames.generic.Frame",
+  "providers": {},
+  "frame_counterparts_note": "Icons that are real services and also name something a frame does. Only AWS files artwork as a group; every other vendor draws its containment concepts as ordinary service icons -- Azure ships \"Virtual Networks\", IBM ships \"VPC\", Oracle ships \"VCN\". Placing one is not an error: an inventory diagram may want exactly that. But an icon holds nothing, so when the intent is containment the frame named here is what to reach for. This is a pointer, never a refusal -- the checker rejects group artwork and says nothing about these. Candidates come from tiers.candidate_frames(), which matches on exact words and on initials of at least three letters; every candidate it finds must appear here, and rows may go beyond it where an abbreviation defeats the match.",
+  "frame_counterparts": {
+    "azure": {
+      "management-groups": {
+        "frame": "frames.azure.ManagementGroup"
+      },
+      "resource-groups": {
+        "frame": "frames.azure.ResourceGroup"
+      },
+      "subnet": {
+        "frame": "frames.azure.Subnet"
+      },
+      "subscriptions": {
+        "frame": "frames.azure.Subscription"
+      },
+      "virtual-networks": {
+        "frame": "frames.azure.VNet"
+      }
+    },
+    "kubernetes": {
+      "group": {
+        "frame": "frames.kubernetes.Workload",
+        "note": "the CNCF deck's unlabeled group box; the workload frame is what draws it"
+      },
+      "ns": {
+        "frame": "frames.kubernetes.Namespace",
+        "note": "the Namespace resource icon; when the intent is containment, the namespace frame holds the workloads"
+      }
+    },
+    "databricks": {
+      "workspace": {
+        "frame": "frames.databricks.Workspace",
+        "note": "the Workspace product icon; when the intent is containment, the workspace frame holds it"
+      },
+      "compute-clusters": {
+        "frame": "frames.databricks.Compute",
+        "note": "the Compute (Clusters) icon; the compute frame is what draws a cluster boundary"
+      },
+      "unity-catalog": {
+        "frame": "frames.databricks.UnityCatalog",
+        "note": "the Unity Catalog icon; the Unity Catalog frame holds what one metastore governs"
+      }
+    },
+    "akamai": {
+      "cloud-firewall": {
+        "frame": "frames.akamai.Firewall",
+        "note": "the Cloud Firewall service tile; when the intent is containment, the firewall frame wraps the instances it protects"
+      },
+      "vpc": {
+        "frame": "frames.akamai.VPC",
+        "note": "the VPC service tile; the VPC frame holds the subnets and instances"
+      }
+    },
+    "alibaba": {
+      "network-virtual-private-cloud": {
+        "frame": "frames.alibaba.VPC"
+      }
+    },
+    "aws": {
+      "auto-scaling": {
+        "frame": "frames.aws.AutoScaling"
+      },
+      "organizations": {
+        "frame": "frames.aws.Organization"
+      },
+      "virtual-private-cloud": {
+        "frame": "frames.aws.VPC"
+      }
+    },
+    "digitalocean": {
+      "k8s-cluster": {
+        "frame": "frames.digitalocean.Doks"
+      },
+      "k8s-node-pool": {
+        "frame": "frames.digitalocean.NodePool",
+        "note": "beyond the candidate rule: the frame is labelled DOKS node pool, which no word or acronym match reaches"
+      },
+      "projects": {
+        "frame": "frames.digitalocean.Project"
+      },
+      "teams": {
+        "frame": "frames.digitalocean.Team"
+      },
+      "vpc": {
+        "frame": "frames.digitalocean.VPC"
+      }
+    },
+    "gcp": {
+      "project": {
+        "frame": "frames.gcp.Project"
+      },
+      "virtual-private-cloud": {
+        "frame": "frames.gcp.VPC",
+        "note": "the candidate rule offers VPC and SharedVPC, which share the kind vpc; the plain icon is the plain VPC, and Shared VPC is a different arrangement nobody should be sent to by accident"
+      }
+    },
+    "hetzner": {
+      "firewalls": {
+        "frame": "frames.hetzner.Firewall"
+      },
+      "network": {
+        "frame": "frames.hetzner.Network"
+      },
+      "networks": {
+        "frame": "frames.hetzner.Network",
+        "note": "the deck ships singular and plural artwork"
+      }
+    },
+    "ibm": {
+      "general-enterprise": {
+        "frame": "frames.ibm.Enterprise"
+      },
+      "network-enterprise": {
+        "frame": "frames.ibm.Enterprise",
+        "note": "the deck files one drawing twice"
+      },
+      "network-region": {
+        "frame": "frames.ibm.Region"
+      },
+      "network-subnet": {
+        "frame": "frames.ibm.Subnet"
+      },
+      "network-vpc": {
+        "frame": "frames.ibm.VPC"
+      }
+    },
+    "onprem": {
+      "generic-place-datacenter": {
+        "frame": "frames.onprem.Datacenter"
+      }
+    },
+    "oracle": {
+      "governance-compartments": {
+        "frame": "frames.oracle.Compartment"
+      },
+      "network-vcn": {
+        "frame": "frames.oracle.Vcn"
+      }
+    },
+    "ovhcloud": {
+      "vrack": {
+        "frame": "frames.ovhcloud.Vrack",
+        "note": "the vRack service tile; the vRack frame holds what the private network joins"
+      }
+    },
+    "proxmox": {
+      "datacenter": {
+        "frame": "frames.proxmox.Datacenter",
+        "note": "the Datacenter tile; the datacenter frame is the outermost containment"
+      },
+      "linux-bridge": {
+        "frame": "frames.proxmox.Bridge",
+        "note": "the Linux bridge (vmbr) tile; the bridge frame holds the guests attached to it"
+      },
+      "pve-cluster": {
+        "frame": "frames.proxmox.Cluster",
+        "note": "the PVE cluster tile; the cluster frame holds the nodes"
+      },
+      "pve-node": {
+        "frame": "frames.proxmox.Node",
+        "note": "the PVE node tile; the node frame holds the guests a host runs"
+      }
+    },
+    "vmware": {
+      "esxi-host": {
+        "frame": "frames.vmware.Host",
+        "note": "the ESXi host tile; the host frame holds the virtual machines it runs"
+      },
+      "resource-pool": {
+        "frame": "frames.vmware.ResourcePool",
+        "note": "the resource pool tile; the pool frame holds the workloads it budgets"
+      },
+      "vcenter": {
+        "frame": "frames.vmware.Vcenter",
+        "note": "the vCenter Server tile; the vCenter frame is the management boundary around clusters"
+      },
+      "vsphere-cluster": {
+        "frame": "frames.vmware.Cluster",
+        "note": "the vSphere cluster tile; the cluster frame holds the hosts"
+      }
+    },
+    "vultr": {
+      "vpc": {
+        "frame": "frames.vultr.VPC",
+        "note": "the VPC service tile; the VPC frame holds the instances attached to it"
+      }
+    },
+    "equinix": {
+      "ibx-data-center": {
+        "frame": "frames.equinix.IBX",
+        "note": "the IBX data center tile; the IBX frame holds the cages and cabinets inside the building"
+      },
+      "cage": {
+        "frame": "frames.equinix.Cage",
+        "note": "the cage tile; the cage frame holds the cabinets behind its door"
+      },
+      "cabinet": {
+        "frame": "frames.equinix.Cabinet",
+        "note": "the cabinet tile; the cabinet frame holds the equipment racked in it"
+      }
+    }
+  }
+}

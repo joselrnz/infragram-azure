@@ -1,0 +1,157 @@
+# The full CI, for Forgejo Actions. On GitHub, .github/workflows/ci.yml runs
+# the browser-free quick gates and the inventory check.
+#
+# Two jobs. `gates` is everything that needs no browser: the plugin package
+# checks, naming, the full pytest suite, the standalone script paths, every
+# template exported and checked, docs sync, the component inventory, the
+# golden pictures, and the shipped skill. `pictures` is the browser side: the
+# Chromium editor suite, and every template rendered three separate times in
+# both looks with the passes required to be byte-identical before the picture
+# checks run. Nothing is merged on trust.
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: "1"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  # A small self-hosted runner loads a single-file editor page slowly.
+  INFRAGRAM_RENDER_TIMEOUT_MS: "240000"
+  # The runner has no reliable route to Google Fonts; a render must not wait
+  # for it, and three passes must draw with the same faces.
+  INFRAGRAM_RENDER_OFFLINE: "1"
+
+jobs:
+  gates:
+    name: Gates (no browser)
+    runs-on: docker
+    # actions/checkout is a Node action, so the job image must carry Node.
+    # Playwright's Node image does, is multi-arch, ships Chromium at the
+    # version the Python package pins, and is Ubuntu, so Python comes from
+    # apt. Both jobs run on the same base. The version is the one the ink
+    # profiles and the golden pictures are measured with on a workstation:
+    # a different Chromium build rounds three icons' ink differently.
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.0-noble
+    # A small self-hosted runner has limited resources; budgets are generous.
+    timeout-minutes: 120
+    steps:
+      - name: Checkout repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install Python
+        run: |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends python3 python3-pip python3-venv python-is-python3 > /dev/null
+          python --version
+
+      - name: Install the package and test dependencies
+        run: python -m pip install --break-system-packages -e ".[test]" "playwright==1.55.0"
+
+      - name: Plugin package tooling
+        run: python -m pytest tests/integration/test_plugin_package.py -q
+
+      - name: Plugin package and version gate
+        run: python scripts/verify/plugin-package.py origin/main || python scripts/verify/plugin-package.py HEAD~1
+
+      - name: Plugin manifest validates
+        run: npx --yes @anthropic-ai/claude-code@2.1.229 plugin validate . --strict
+
+      - name: Line-ending gate
+        if: always()
+        run: python scripts/verify/line-endings.py origin/main || python scripts/verify/line-endings.py HEAD~1
+
+      - name: Naming gate
+        if: always()
+        run: python scripts/verify/naming.py
+
+      - name: Unit, skill and integration tests
+        if: always()
+        run: python -m pytest tests/unit tests/skill tests/integration -q -p no:cacheprovider
+
+      - name: Standalone suites and generated code
+        if: always()
+        run: |
+          python -m pytest tests/unit/test_architecture_builder.py -q
+          python -m pytest tests/unit/test_fix_mojibake.py -q
+          python -m pytest tests/unit/test_nodes.py -q
+          python -m pytest tests/unit/test_provider_catalog.py -q
+          python -m pytest tests/integration/test_provider_suite.py -q
+          python -m pytest tests/integration/test_cloud_project_cli.py -q
+          python -m pytest tests/unit/test_build_icons_devicon.py -q
+          python -m pytest tests/unit/test_build_icons_quoted_attributes.py -q
+          python scripts/tools/generate-nodes.py --check
+          python scripts/verify/wheel.py
+
+      - name: Export every template and check document, page and picture
+        if: always()
+        run: |
+          set -e
+          for f in skills/infragram-azure/assets/templates/cloud/*.infragram.json; do
+            python -m infragram export:project "$f" --formats template,html,svg --output-dir dist/ci
+          done
+          python skills/infragram-azure/scripts/project_check.py dist/ci/*.infragram.json dist/ci/*.html dist/ci/*.svg
+
+      - name: Golden pictures
+        if: always()
+        run: python scripts/verify/pictures.py
+
+      - name: Docs and routing sync
+        if: always()
+        run: python scripts/verify/docs-sync.py
+
+      - name: Component inventory
+        if: always()
+        run: python scripts/inventory/build.py --check
+
+      - name: Shipped skill package
+        if: always()
+        run: |
+          python -m pytest tests/skill/test_skill_structure.py -q
+          python -m pytest tests/skill/test_skill_is_self_contained.py -q
+          python -m pytest tests/skill/test_skill_runtime.py -q
+
+  pictures:
+    name: Pictures (Chromium, three passes)
+    runs-on: docker
+    container:
+      image: mcr.microsoft.com/playwright:v1.55.0-noble
+    timeout-minutes: 240
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install Python
+        run: |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends python3 python3-pip python3-venv python-is-python3 > /dev/null
+          python --version
+
+      - name: Install the package with the browser's Playwright
+        run: python -m pip install --break-system-packages -e ".[test]" "playwright==1.55.0"
+
+      - name: Chromium editor suite
+        run: python scripts/verify/browser.py
+
+      - name: Icon ink profiles match the shipped artwork
+        if: always()
+        run: python scripts/tools/ink-profiles.py --check
+
+      - name: Every template, three identical passes, cards and icons
+        if: always()
+        run: |
+          set -e
+          for f in skills/infragram-azure/assets/templates/cloud/*.infragram.json; do
+            python scripts/verify/render.py "$f" --passes 3 --display both
+          done

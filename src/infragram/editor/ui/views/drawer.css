@@ -1,0 +1,377 @@
+.bottom-drawer{height:48px;min-width:0;overflow:hidden;background:var(--md-sys-color-surface-container);border-top:1px solid var(--md-sys-color-outline-variant);transition:height .16s ease}
+.bottom-drawer[data-expanded="true"]{height:240px}
+.bottom-drawer-header{display:flex;height:48px;align-items:stretch;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+/* The inspector's five tabs divide the pane between them; the drawer's
+   three sit at their own width at the left, with the rest of the row
+   empty, so the bar reads as a shelf rather than as a split. */
+.bottom-tabs{min-width:0;flex:0 0 auto;margin-right:auto}
+.bottom-tabs .md-tab{flex:0 0 auto;padding:0 20px}
+.bottom-toggle{align-self:center;margin-right:8px}
+.bottom-toggle .md-icon{transition:transform .16s ease}
+.bottom-drawer[data-expanded="true"] .bottom-toggle .md-icon{transform:rotate(180deg)}
+.bottom-drawer-body{display:none;height:200px;overflow:auto;padding:20px 24px;background:var(--md-sys-color-surface)}
+.iso-builder{display:flex;gap:24px;align-items:flex-start;min-width:0}
+.iso-builder-note{padding:32px 16px}
+.iso-builder-note .md-empty-state__supporting{max-width:440px}
+.iso-builder-column{display:flex;flex-direction:column;gap:8px;min-width:200px}
+.iso-builder-knob input{font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking);padding:4px 6px;border:1px solid var(--md-sys-color-outline-variant);border-radius:4px;background:var(--control-bg,#fff);color:var(--text-primary)}
+.iso-builder-knobs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px}
+.iso-builder-knob{display:flex;flex-direction:column;gap:3px;font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);color:var(--md-sys-color-on-surface-variant)}
+.iso-builder-knob input[type="checkbox"]{width:16px;height:16px;padding:0}
+.iso-builder-actions{align-items:flex-start}
+.iso-builder-preview{width:96px;height:96px;border:1px solid var(--md-sys-color-outline-variant);border-radius:6px;background:var(--control-bg,#fff)}
+.iso-builder-status{margin:0;font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking);color:var(--md-sys-color-on-surface-variant);max-width:260px}
+.bottom-drawer[data-expanded="true"] .bottom-drawer-body{display:block}
+.example-card{display:block;width:320px;padding:12px 16px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface)}
+.example-card strong,.example-card small{display:block}
+.example-card strong{font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+.example-card small{margin-top:2px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+/* Resources: every card the diagram draws as a table, with its cost and
+   what it carries; taller than the shelf, so a page of rows shows at once.
+   Dressed as a work tracker's list view: one quiet surface, hairline rules
+   between rows and columns, a header band, compact controls and status in
+   plain text. Every colour is a token here, so Light, Dark and Darker each
+   carry it; Dark is the default and Light overrides it, as in tokens.css. */
+body{--inv-surface:var(--md-sys-color-surface);--inv-band:var(--md-sys-color-surface-container);--inv-hover:var(--md-sys-color-surface-container-high);--inv-line:color-mix(in srgb,var(--md-sys-color-outline-variant) 75%,transparent);--inv-pick:color-mix(in srgb,var(--md-sys-color-primary) 14%,var(--inv-surface));--inv-warn:#FDBA74;--inv-warn-bg:rgba(251,146,60,.12);--inv-warn-line:rgba(251,146,60,.4);--inv-search:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='6.5' fill='none' stroke='%238A919E' stroke-width='1.8'/%3E%3Cpath d='m16 16 4 4' stroke='%238A919E' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")}
+body[data-workspace-theme="light"]{--inv-surface:#FFFFFF;--inv-band:#F4F5F5;--inv-hover:#FAFAFA;--inv-line:#EAEBEB;--inv-pick:#EBF8FF;--inv-warn:#9A3412;--inv-warn-bg:#FFF4E5;--inv-warn-line:#FBC891}
+.bottom-drawer[data-expanded="true"][data-panel="resources"]{height:400px}
+.bottom-drawer[data-panel="resources"] .bottom-drawer-body{--inv-gutter:24px;height:360px;padding:12px 24px;background:var(--inv-surface)}
+.resource-panel{position:relative;display:flex;flex-direction:column;height:100%;min-height:0;container:inventory/inline-size}
+.resource-panel[hidden]{display:none}
+/* The bar over the table: Resources | Savings, then the toolbar -- search,
+   Filters, Display, the count and the download -- then the dock's switches,
+   all on one row with a rule under it when the panel has the room. */
+.resource-bar{display:flex;align-items:center;gap:0 12px;margin:-4px 0 12px;border-bottom:1px solid var(--inv-line)}
+.resource-views{display:flex;flex:none;gap:4px}
+.resource-views .md-tab{flex:0 0 auto;height:40px;padding:0 10px}
+.resource-views-total{margin-left:8px;color:var(--inv-warn);font-weight:500;font-variant-numeric:tabular-nums}
+.resource-views-total[hidden]{display:none}
+.resource-toolbar{display:flex;flex:1 1 auto;min-width:0;align-items:center;gap:8px}
+.resource-toolbar label{position:relative;min-width:0}
+.resource-toolbar input{box-sizing:border-box;height:32px;padding:0 10px;border:1px solid var(--md-sys-color-outline);border-radius:var(--ui-radius);background-color:var(--inv-surface);color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.resource-toolbar input:hover{border-color:var(--md-sys-color-on-surface-variant)}
+.resource-toolbar input:focus-visible{outline:2px solid var(--md-sys-color-primary);outline-offset:-1px}
+.resource-search{flex:0 1 240px;min-width:150px}
+.resource-search input{width:100%;padding-right:32px;padding-left:30px;background:var(--inv-surface) var(--inv-search) 9px 50%/15px no-repeat}
+.resource-summary{flex:none;margin:0 0 0 auto;white-space:nowrap;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);font-variant-numeric:tabular-nums}
+.resource-summary strong{color:var(--md-sys-color-on-surface);font-weight:500}
+/* the search's cross sits in the field at its right, once something is typed;
+   the browser's own goes */
+.resource-search input::-webkit-search-cancel-button{display:none}
+.resource-search .resource-search-clear{position:absolute;top:50%;right:0;transform:translateY(-50%)}
+.resource-search .resource-search-clear[hidden]{display:none}
+.resource-search-clear .md-icon{width:16px;height:16px}
+/* filtered, the count ends in Clear */
+.resource-summary-clear{margin:-6px 0 -6px 2px;padding:0 6px;vertical-align:middle}
+/* the dock's switches: beside or under the map, map and table or the table
+   alone, as small icons; then close */
+.resource-dock-controls{display:flex;flex:none;align-items:center;gap:6px;margin-left:auto}
+.resource-dock-controls .md-segmented>button{padding:0 6px}
+.resource-dock-controls .md-segmented .md-icon{width:16px;height:16px}
+@container inventory (min-width:1240px){
+  .resource-panel:not([data-view="savings"]) .resource-toolbar+.resource-dock-controls{padding-left:12px;border-left:1px solid var(--inv-line)}
+}
+/* Filters and Display: a button each, and the panel it opens under it --
+   Plane's list of rows, a box to tick, how many each holds */
+.resource-filters-menu{position:relative;flex:none}
+.resource-filters-toggle[aria-expanded="true"]{border-color:var(--md-sys-color-primary)}
+.resource-filters-count{display:inline-grid;min-width:18px;height:18px;place-items:center;margin-left:6px;padding:0 5px;box-sizing:border-box;border-radius:var(--ui-radius-xs);background:var(--md-sys-color-primary);color:var(--md-sys-color-on-primary);font:var(--md-sys-typescale-label-small);letter-spacing:var(--md-sys-typescale-label-small-tracking);font-variant-numeric:tabular-nums}
+.resource-filters-count[hidden]{display:none}
+.resource-filters-panel{position:absolute;z-index:60;top:calc(100% + 4px);left:0;display:grid;gap:0;width:272px;max-width:none;max-height:min(520px,70vh);padding:4px;overflow-y:auto}
+.resource-filters-panel[hidden]{display:none}
+.resource-filters-panel .md-menu__header{padding:8px 8px 4px}
+.resource-filter-section+.resource-filter-section{margin-top:4px;padding-top:4px;border-top:1px solid var(--md-sys-color-outline-variant)}
+.filter-choices{display:grid;gap:0}
+.filter-choice{gap:8px}
+.resource-filters-panel .filter-choice:is([aria-pressed="true"],[aria-checked="true"]){background:transparent;color:var(--md-sys-color-on-surface)}
+.resource-filters-panel .filter-choice[aria-checked="true"]::after{display:none}
+.filter-choice .md-list-item__label{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.filter-check{display:grid;width:14px;height:14px;flex:none;place-content:center;box-sizing:border-box;border:1px solid var(--md-sys-color-outline);border-radius:var(--ui-radius-xs);background:var(--md-sys-color-surface)}
+.filter-choice[aria-pressed="true"] .filter-check{border-color:var(--md-sys-color-primary);background:var(--md-sys-color-primary)}
+.filter-choice[aria-pressed="true"] .filter-check::after{content:"";width:10px;height:10px;background:var(--md-sys-color-on-primary);-webkit-mask:var(--md-icon-check) center/10px no-repeat;mask:var(--md-icon-check) center/10px no-repeat}
+/* one grouping at a time: a round box, filled when chosen */
+.filter-check--radio{border-radius:9999px}
+.filter-choice[aria-checked="true"] .filter-check--radio{border:4px solid var(--md-sys-color-primary)}
+.filter-count{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking);font-variant-numeric:tabular-nums}
+.resource-filters-panel .resource-filters-clear{justify-self:start;margin:4px 0 0 4px;padding:0 6px}
+/* Narrower than one row needs: the tabs and the dock's switches over the
+   rule, the toolbar under it. */
+@container inventory (max-width:1239px){
+  .resource-bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0;border-bottom:0}
+  .resource-views,.resource-dock-controls{box-sizing:content-box;height:40px;border-bottom:1px solid var(--inv-line)}
+  .resource-dock-controls{grid-column:2;grid-row:1}
+  .resource-toolbar{grid-column:1/-1;grid-row:2;padding-top:12px}
+}
+/* A slim side dock: the tabs drop their padding and the Savings figure
+   (its view shows it when opened), so the dock's switches fit beside them. */
+@container inventory (max-width:419px){
+  .resource-views{gap:0}
+  .resource-views .md-tab{padding:0 8px}
+  .resource-views-total{display:none}
+  .resource-dock-controls{gap:2px}
+  .resource-dock-controls .md-segmented>button{padding:0 4px}
+}
+/* and at the slimmest, a third tab (Changes) scrolls sideways rather than
+   hide under the switches, as a scrollable tab row does: no bar drawn, and
+   never up and down */
+@container inventory (max-width:1239px){
+  .resource-views{overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+}
+/* Narrow (beside the map, or a phone): the search takes the room the
+   buttons leave, and the count is a quiet line of its own under them. */
+.resource-panel[data-compact="true"] .resource-toolbar{flex-wrap:wrap;row-gap:8px}
+.resource-panel[data-compact="true"] .resource-search{flex:1 1 120px}
+.resource-panel[data-compact="true"] .resource-summary{order:1;flex:1 1 100%;margin:0;white-space:normal}
+/* the sheet runs edge to edge under the bar, as a work tracker's
+   spreadsheet does: rules above and below, no rounded card round it */
+.resource-table-wrap{flex:0 1 auto;min-height:0;overflow:auto;margin:0 calc(-1 * var(--inv-gutter,24px));border-top:1px solid var(--inv-line);border-bottom:1px solid var(--inv-line);background:var(--inv-surface)}
+.resource-table-wrap:focus-visible{outline:2px solid var(--md-sys-color-primary);outline-offset:-2px}
+/* the column widths are set from the room the table has (33-costs.js
+   sizeColumns): fixed for the short ones, a share of the rest for the others */
+.resource-table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+/* the header's band reaches a few pixels above it, so on a fractional
+   screen density no sliver of a scrolled row shows over it */
+/* figures line up in the number cells only: Inter's tabular figures widen a
+   name's hyphen too, so app-prod read as app - prod */
+.resource-table thead th{position:sticky;top:0;z-index:1;padding:0;background:var(--inv-band);box-shadow:0 -4px 0 var(--inv-band);text-align:left;border-bottom:1px solid var(--inv-line);border-right:1px solid var(--inv-line)}
+.resource-table thead button{all:unset;display:block;width:100%;box-sizing:border-box;padding:0 12px;cursor:pointer;font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);line-height:36px;color:var(--md-sys-color-on-surface-variant);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.resource-table thead button:hover,.resource-table thead th:not([aria-sort="none"]) button{color:var(--md-sys-color-on-surface)}
+.resource-table thead button:focus-visible{outline:2px solid var(--md-sys-color-primary);outline-offset:-2px}
+.resource-table thead button::after{content:"↕";margin-left:6px;opacity:0;color:var(--md-sys-color-outline);transition:opacity .12s ease}
+.resource-table thead button:hover::after{opacity:1}
+.resource-table thead th[aria-sort="ascending"] button::after{content:"↑";opacity:1;color:inherit}
+.resource-table thead th[aria-sort="descending"] button::after{content:"↓";opacity:1;color:inherit}
+/* one line a row, 36 px (44 under a finger), a hairline under each */
+.resource-table td{height:36px;box-sizing:border-box;padding:0 12px;border-bottom:1px solid var(--inv-line);border-right:1px solid var(--inv-line);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--md-sys-color-on-surface-variant)}
+/* Name always shows; the other columns show when the Display menu (or the
+   panel's width, until it is used) lists them in data-columns. The last one
+   shown runs to the sheet's edge. */
+@media(pointer:coarse){.resource-table td{height:44px}}
+/* the totals row: the month's total under its column, kept in sight at
+   the foot of the table (the room the table leaves for a sheet counts as
+   its foot, so it sits over the sheet) */
+.resource-table tfoot[hidden]{display:none}
+.resource-table tfoot td{position:sticky;bottom:0;z-index:1;border-bottom:0;background:var(--inv-band);box-shadow:inset 0 1px 0 var(--inv-line);color:var(--md-sys-color-on-surface);font-weight:500}
+.resource-table tfoot td:first-child{z-index:2;background:var(--inv-band)}
+.resource-table tbody tr:last-child td{border-bottom:0}
+.resource-table [data-col]:not([data-col="name"]){display:none}
+.resource-panel[data-columns~="type"] .resource-table [data-col="type"],.resource-panel[data-columns~="group"] .resource-table [data-col="group"],.resource-panel[data-columns~="location"] .resource-table [data-col="location"],.resource-panel[data-columns~="links"] .resource-table [data-col="links"],.resource-panel[data-columns~="monthly"] .resource-table [data-col="monthly"],.resource-panel[data-columns~="unused"] .resource-table [data-col="unused"],.resource-panel[data-columns~="findings"] .resource-table [data-col="findings"],.resource-panel[data-columns~="changed"] .resource-table [data-col="changed"],.resource-panel[data-columns~="tags"] .resource-table [data-col="tags"]{display:table-cell}
+.resource-panel[data-last-column="name"] .resource-table td[data-col="name"],.resource-panel[data-last-column="type"] .resource-table td[data-col="type"],.resource-panel[data-last-column="group"] .resource-table td[data-col="group"],.resource-panel[data-last-column="location"] .resource-table td[data-col="location"],.resource-panel[data-last-column="links"] .resource-table td[data-col="links"],.resource-panel[data-last-column="monthly"] .resource-table td[data-col="monthly"],.resource-panel[data-last-column="unused"] .resource-table td[data-col="unused"],.resource-panel[data-last-column="findings"] .resource-table td[data-col="findings"],.resource-panel[data-last-column="changed"] .resource-table td[data-col="changed"],.resource-panel[data-last-column="tags"] .resource-table td[data-col="tags"]{border-right:0;padding-right:var(--inv-gutter,24px)}
+.resource-panel[data-last-column="name"] .resource-table th[data-col="name"],.resource-panel[data-last-column="type"] .resource-table th[data-col="type"],.resource-panel[data-last-column="group"] .resource-table th[data-col="group"],.resource-panel[data-last-column="location"] .resource-table th[data-col="location"],.resource-panel[data-last-column="links"] .resource-table th[data-col="links"],.resource-panel[data-last-column="monthly"] .resource-table th[data-col="monthly"],.resource-panel[data-last-column="unused"] .resource-table th[data-col="unused"],.resource-panel[data-last-column="findings"] .resource-table th[data-col="findings"],.resource-panel[data-last-column="changed"] .resource-table th[data-col="changed"],.resource-panel[data-last-column="tags"] .resource-table th[data-col="tags"]{border-right:0}
+.resource-panel[data-last-column="name"] .resource-table th[data-col="name"] button,.resource-panel[data-last-column="type"] .resource-table th[data-col="type"] button,.resource-panel[data-last-column="group"] .resource-table th[data-col="group"] button,.resource-panel[data-last-column="location"] .resource-table th[data-col="location"] button,.resource-panel[data-last-column="links"] .resource-table th[data-col="links"] button,.resource-panel[data-last-column="monthly"] .resource-table th[data-col="monthly"] button,.resource-panel[data-last-column="unused"] .resource-table th[data-col="unused"] button,.resource-panel[data-last-column="findings"] .resource-table th[data-col="findings"] button,.resource-panel[data-last-column="changed"] .resource-table th[data-col="changed"] button,.resource-panel[data-last-column="tags"] .resource-table th[data-col="tags"] button{padding-right:var(--inv-gutter,24px)}
+.resource-table :is(th,td):first-child{position:sticky;left:0;z-index:1;background:var(--inv-surface)}
+.resource-table thead th:first-child{z-index:2;background:var(--inv-band)}
+.resource-table thead th:first-child button{padding-left:var(--inv-gutter,24px)}
+.resource-table td:first-child{padding-left:var(--inv-gutter,24px)}
+/* the frozen Name column keeps a rule on its right while the rest scroll under it */
+.resource-table-wrap[data-scrolled="true"] .resource-table :is(th,td):first-child{box-shadow:1px 0 0 var(--md-sys-color-outline-variant)}
+/* the name cell: the card's artwork at 20 px, then its name */
+.resource-name{display:flex;align-items:center;gap:10px;min-width:0}
+.resource-icon{display:block;width:20px;height:20px;flex:none;object-fit:contain}
+body[data-workspace-theme="dark"] .resource-icon[data-ink-dark]{filter:invert(1) hue-rotate(180deg)}
+.resource-name>strong{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.resource-name__text{min-width:0;overflow:hidden}
+.resource-name__text strong{display:block;overflow:hidden;text-overflow:ellipsis}
+/* a group's header row: a band across the sheet with a chevron, the
+   group's name, how many it holds and what they cost */
+.resource-table tr.resource-group-row td{position:sticky;top:37px;z-index:2;height:36px;padding:0;background:var(--inv-band);border-right:0}
+.resource-table tr.resource-group-row:hover td{background:var(--inv-band)}
+.resource-group-toggle{all:unset;display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;height:36px;padding:0 var(--inv-gutter,24px);cursor:pointer;color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking)}
+.resource-group-toggle:focus-visible{outline:2px solid var(--md-sys-color-primary);outline-offset:-2px}
+.resource-group-chevron{width:8px;height:8px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);transition:transform .12s ease}
+.resource-group-toggle[aria-expanded="false"] .resource-group-chevron{transform:rotate(-45deg)}
+.resource-group-count{color:var(--md-sys-color-on-surface-variant);font-variant-numeric:tabular-nums}
+.resource-group-total{margin-left:auto;color:var(--md-sys-color-on-surface-variant);font-variant-numeric:tabular-nums}
+.resource-table tbody tr{cursor:pointer}
+/* hover tints a row only under a mouse: a finger's would stick after a tap
+   and look like a pick */
+@media(hover:hover){.resource-table tbody tr:hover td{background:var(--inv-hover)}}
+.resource-table tbody tr[data-selected="true"] td{background:var(--inv-pick)}
+.resource-table td strong{font-weight:500;color:var(--md-sys-color-on-surface)}
+.resource-table td small{display:block;overflow:hidden;text-overflow:ellipsis;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+/* the unused reason runs on after the word, on the same line; narrow, the
+   word alone, its reason on hover and in the details */
+.resource-table td[data-col="unused"] small{display:inline;margin-left:6px}
+/* how many changes, after the newest one's day */
+.resource-table td[data-col="changed"] small{display:inline;margin-left:6px}
+.resource-panel:is([data-compact="true"],[data-unused-short="true"]) .resource-table td[data-col="unused"] small{display:none}
+.resource-unused{color:var(--inv-warn);font-weight:500}
+.resource-money{text-align:right;font-variant-numeric:tabular-nums}
+.resource-table td.resource-money{text-align:right;color:var(--md-sys-color-on-surface)}
+.resource-table thead .resource-money button{text-align:right}
+/* The picked resource: its name and its close button, what can be done
+   with it, then its facts as label and value rows. With room for it, it
+   opens in a 320 px column beside the table, which keeps its rows where
+   they were; narrow, as a sheet over the foot of the table. */
+.resource-selected[hidden]{display:none}
+.resource-selected-head{position:sticky;top:0;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:8px;margin-bottom:0;padding-bottom:8px;background:var(--inv-surface)}
+.resource-selected-head h3{grid-column:1;grid-row:1;min-width:0;margin:0;overflow:hidden;color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-title-small);letter-spacing:var(--md-sys-typescale-title-small-tracking);font-weight:500;text-overflow:ellipsis;white-space:nowrap}
+.resource-selected-close{grid-column:3;grid-row:1}
+/* the cost by the name, only in a peek: the facts say it otherwise */
+.resource-selected-cost{display:none;grid-column:2;grid-row:1;color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);font-variant-numeric:tabular-nums;white-space:nowrap}
+.resource-selected[data-sheet="peek"] .resource-selected-cost{display:block}
+/* the sheet's handle: a short bar on its top edge, there only when the
+   details are a sheet */
+.resource-sheet-handle{display:none}
+.resource-panel[data-compact="true"] .resource-sheet-handle{display:grid;width:64px;height:32px;min-height:0;margin:-10px auto -2px;cursor:ns-resize;touch-action:none}
+.resource-sheet-handle::after{content:"";width:32px;height:4px;border-radius:2px;background:var(--md-sys-color-outline)}
+.resource-selected[data-sheet="peek"]{overflow:hidden}
+/* the name's row drags the sheet too, so a thumb need not find the handle */
+.resource-panel[data-compact="true"] .resource-selected-head{cursor:ns-resize;touch-action:none;box-shadow:0 -12px 0 var(--inv-surface)}
+.resource-selected-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+.resource-selected-actions .md-button{padding:0 12px;border-color:var(--inv-line);color:var(--md-sys-color-on-surface)}
+.resource-facts{display:grid;grid-template-columns:1fr;gap:0;margin:0}
+/* Open details: the card's price worked out, its table and links, under the facts */
+.element-details{margin-top:12px;padding-top:4px;border-top:1px solid var(--inv-line);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.resource-fact{display:grid;grid-template-columns:104px minmax(0,1fr);gap:8px;align-items:baseline;min-width:0;padding:6px 0;border-bottom:1px solid var(--inv-line)}
+.resource-fact:last-child{border-bottom:0}
+.resource-fact dt{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+.resource-fact dd{margin:0;overflow-wrap:anywhere;color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+/* a name in the details that picks its card: plain text in the link colour */
+.resource-link{padding:0;border:0;background:none;color:var(--md-sys-color-primary);font:inherit;letter-spacing:inherit;cursor:pointer}
+.resource-link:hover{text-decoration:underline}
+.resource-link:focus-visible{outline:2px solid var(--md-sys-color-primary);outline-offset:2px;border-radius:2px}
+.resource-panel:not([data-compact="true"]){display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr);grid-template-areas:"bar bar" "table peek"}
+.resource-panel:not([data-compact="true"]) .resource-bar{grid-area:bar}
+.resource-panel:not([data-compact="true"]) .resource-table-wrap{grid-area:table;align-self:start;max-height:100%}
+.resource-panel:not([data-compact="true"]) .resource-savings{grid-area:table;grid-column:1/-1}
+.resource-panel:not([data-compact="true"]) .resource-selected{grid-area:peek;width:320px;min-height:0;box-sizing:border-box;margin:0 0 0 16px;padding:0 0 12px 16px;overflow:auto;border-left:1px solid var(--inv-line)}
+/* beside the peek the sheet stops at its rule */
+.resource-panel:not([data-compact="true"]):has(.resource-selected:not([hidden])) .resource-table-wrap{margin-right:0}
+/* narrow: a sheet over the foot of the panel, edge to edge; the table
+   leaves room under its last row for it (33-costs.js) */
+.resource-panel[data-compact="true"] .resource-selected{position:absolute;z-index:3;right:calc(-1 * var(--inv-gutter,12px));bottom:-12px;left:calc(-1 * var(--inv-gutter,12px));max-height:min(60%,340px);box-sizing:border-box;overflow:auto;padding:12px var(--inv-gutter,12px);border-top:1px solid var(--md-sys-color-outline-variant);background:var(--inv-surface);box-shadow:0 -4px 12px rgba(16,24,40,.08)}
+.resource-panel[data-compact="true"] .resource-fact{grid-template-columns:96px minmax(0,1fr);padding:4px 0}
+/* the Savings and Changes views take the place of the toolbar, the table
+   and the peek; Savings' figure is its own head's, so the tab drops it
+   while it is open */
+.resource-panel:is([data-view="savings"],[data-view="changes"]) :is(.resource-toolbar,.resource-selected,.resource-table-wrap:not(.savings-wrap)),.resource-panel[data-view="savings"] .resource-views-total{display:none}
+.resource-savings{display:flex;flex-direction:column;min-height:0}
+.resource-savings[hidden]{display:none}
+.savings-head{display:flex;align-items:flex-start;gap:0;padding-bottom:12px}
+.savings-head>div{display:grid;gap:2px;padding:0 20px;border-left:1px solid var(--inv-line);color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
+.savings-head>div:first-child{padding-left:0;border-left:0}
+.savings-head b{color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-title-large);letter-spacing:var(--md-sys-typescale-title-large-tracking);font-weight:500;font-variant-numeric:tabular-nums}
+.savings-head>div:first-child b{color:var(--inv-warn)}
+.savings-head small{font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.savings-head .md-icon-button{margin-left:auto}
+.savings-table td{height:44px;padding-top:4px;padding-bottom:4px}
+.savings-table th span{display:block;padding:0 12px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);line-height:36px}
+.savings-table th:first-child span{padding-left:var(--inv-gutter,24px)}
+.savings-table th:last-child span{padding-right:var(--inv-gutter,24px);text-align:right}
+.savings-table :is(th,td):last-child{border-right:0}
+.savings-table td:last-child{padding-right:var(--inv-gutter,24px)}
+.savings-table th:nth-child(1){width:44%}
+.savings-table th:last-child{width:112px}
+.savings-why{white-space:normal}
+.resource-panel[data-savings-narrow="true"] .savings-table th:first-child{width:auto}
+.savings-table td.resource-money{font-weight:500}
+.savings-none{color:var(--md-sys-color-on-surface-variant);font-weight:400}
+/* Changes: the time, what changed on what, the properties it moved, who;
+   its count is no warning, as a saving's is */
+.resource-changes .savings-head>div:first-child b{color:var(--md-sys-color-on-surface)}
+.changes-table td{height:44px;padding-top:4px;padding-bottom:4px;vertical-align:top}
+.changes-table th span{display:block;padding:0 12px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking);line-height:36px}
+.changes-table th:first-child span{padding-left:var(--inv-gutter,24px)}
+.changes-table td:first-child{padding-left:var(--inv-gutter,24px)}
+.changes-table th:first-child{width:76px}
+.changes-table th:nth-child(2){width:36%}
+.changes-table th:nth-child(4){width:22%}
+.changes-table :is(th,td):last-child{border-right:0}
+.changes-table td:last-child{padding-right:var(--inv-gutter,24px)}
+.resource-panel[data-savings-narrow="true"] .changes-table th:nth-child(2){width:auto}
+.change-time{color:var(--md-sys-color-on-surface-variant);font-variant-numeric:tabular-nums}
+.change-what span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.change-who{overflow:hidden;text-overflow:ellipsis;color:var(--md-sys-color-on-surface-variant)}
+.changes-table .resource-type-line{white-space:normal}
+/* findings and changes in the details: a line each, what Azure says under it */
+.resource-signal-list{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.resource-signal-list small{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.resource-signal-detail{display:block}
+.savings-note{margin:8px 0 0;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.resource-empty{display:grid;justify-items:start;gap:4px;margin:24px var(--inv-gutter,24px);color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.resource-empty[hidden]{display:none}
+.resource-empty strong{color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-title-small);letter-spacing:var(--md-sys-typescale-title-small-tracking)}
+.resource-empty .md-button{margin-top:8px}
+/* The inventory docks beside the map (body[data-dock="right"]: a column of
+   the workbench between the canvas and the inspector) or under it
+   (data-dock="bottom": the drawer, as tall as --dock-bottom); a divider
+   resizes it, and Map / Split / Table give one side the whole room. The
+   map's floor gives way first, so on a 1366 px screen the inspector stays on
+   it rather than the page scrolling sideways. */
+.resource-dock{--inv-gutter:12px;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;padding:12px;background:var(--inv-surface)}
+.resource-dock[hidden]{display:none}
+.dock-divider{position:relative;z-index:2;background:transparent;touch-action:none}
+.dock-divider[hidden]{display:none}
+.dock-divider::after{content:"";position:absolute;border-radius:2px;background:var(--md-sys-color-outline-variant)}
+.dock-divider:hover::after,.dock-divider:focus-visible::after,.dock-divider[data-dragging="true"]::after{background:var(--md-sys-color-primary)}
+.dock-divider--right{cursor:col-resize;width:8px;background:var(--inv-surface)}
+.dock-divider--right::before{content:"";position:absolute;top:0;bottom:0;left:3px;width:1px;background:var(--md-sys-color-outline-variant)}
+.dock-divider--right::after{top:50%;left:2px;width:4px;height:48px;transform:translateY(-50%)}
+.dock-divider--bottom{position:absolute;top:-4px;left:0;right:0;height:8px;cursor:row-resize}
+.dock-divider--bottom::after{left:50%;top:2px;width:48px;height:4px;transform:translateX(-50%)}
+.bottom-drawer{position:relative}
+body[data-dock="right"] .editor-workbench{grid-template-columns:minmax(max(0px,min(480px,40%,100% - 688px)),1fr) 8px minmax(320px,var(--dock-right,560px)) 360px}
+body[data-dock="right"].inspector-collapsed .editor-workbench{grid-template-columns:minmax(max(0px,min(480px,40%,100% - 384px)),1fr) 8px minmax(320px,var(--dock-right,560px)) 56px}
+body[data-dock="right"][data-dock-mode="table"] .canvas-pane,body[data-dock="right"][data-dock-mode="table"] .dock-divider--right{display:none}
+body[data-dock="right"][data-dock-mode="table"] .editor-workbench{grid-template-columns:minmax(0,1fr) 360px}
+body[data-dock="right"][data-dock-mode="table"].inspector-collapsed .editor-workbench{grid-template-columns:minmax(0,1fr) 56px}
+/* however tall it was made, the map under the header keeps 240 px */
+body[data-dock="bottom"]{--dock-bottom-shown:min(var(--dock-bottom,400px),max(200px,calc(100dvh - 92px - 240px)))}
+body[data-dock="bottom"] .bottom-drawer[data-expanded="true"][data-panel="resources"]{height:var(--dock-bottom-shown)}
+body[data-dock="bottom"] .bottom-drawer[data-panel="resources"] .bottom-drawer-body{height:calc(var(--dock-bottom-shown) - 48px)}
+body[data-dock="bottom"][data-dock-mode="table"] .editor-workbench{display:none}
+body[data-dock="bottom"][data-dock-mode="table"] .editor-main{grid-template-rows:auto minmax(0,1fr)}
+body[data-dock="bottom"][data-dock-mode="table"] .bottom-drawer[data-expanded="true"][data-panel="resources"]{height:100%}
+body[data-dock="bottom"][data-dock-mode="table"] .bottom-drawer[data-panel="resources"] .bottom-drawer-body{height:calc(100% - 48px)}
+.resource-dock .resource-panel{height:100%}
+body.review-mode .editor-toolbar [aria-label="Edit graph"] [data-editor-action="delete"],body.review-mode .editor-toolbar [aria-label="Layout"]{display:none}
+/* Review keeps the map for reading: no editing bar over a picked card, no
+   resize grips, and no drawer bar under a map whose inventory sits beside it. */
+body.review-mode .selection-toolbar,body.review-mode [data-node-resize]{display:none}
+/* A card picked in the table: one soft blue, the same in every theme, for
+   its outline and a still glow that fades in once. Only the outline glows,
+   not the card's face, so there is one ring and the text stays crisp; and
+   the glow does not loop (no decorative motion). */
+body[data-picked-in-table]{--pick-blue:#4C8DF6;--pick-glow:drop-shadow(0 0 2px rgb(76 141 246 / .9)) drop-shadow(0 0 6px rgb(76 141 246 / .75)) drop-shadow(0 0 14px rgb(76 141 246 / .45))}
+@keyframes inv-glow-in{from{opacity:.4;filter:none}to{opacity:1;filter:var(--pick-glow)}}
+body[data-picked-in-table] [data-graph-node][data-selected="true"] .node-selection,body[data-picked-in-table] [data-graph-boundary][data-selected="true"] .boundary-selection{stroke:var(--pick-blue);stroke-width:1.75px;filter:var(--pick-glow);animation:inv-glow-in .3s ease-out}
+@media(prefers-reduced-motion:reduce){body[data-picked-in-table] [data-graph-node][data-selected="true"] .node-selection,body[data-picked-in-table] [data-graph-boundary][data-selected="true"] .boundary-selection{animation:none}}
+body[data-picked-in-table] .selection-toolbar,body[data-picked-in-table] [data-node-resize],body[data-picked-in-table] .diagram-stage [data-node-port],body[data-picked-in-table]:not([data-details-asked]) .canvas-popup{display:none}
+body[data-dock-mode="table"] .editor-header>.editor-toolbar{opacity:.38;pointer-events:none}
+body.review-mode:not([data-dock="bottom"]) .bottom-drawer{display:none}
+body.review-mode .bottom-tab:not([data-bottom-tab="resources"]){display:none}
+body[data-dock="right"] .bottom-tab[data-bottom-tab="resources"]{display:none}
+/* a map squeezed beside the table and the inspector has no room for the
+   one-line help, which would only be cut off at both ends */
+@media (max-width:1499px){body[data-dock="right"]:not([data-dock-mode="table"]):not(.inspector-collapsed):not(.review-mode) .canvas-help{display:none}}
+/* Under the map in review the drawer holds the inventory alone: its tab bar
+   would only title the panel a second time, so the map takes its height. */
+body.review-mode[data-dock="bottom"] .bottom-drawer-header{display:none}
+/* In review the folded inspector is an empty strip with one chevron: it
+   goes, and Edit brings it back with the library. */
+body.review-mode .right-inspector{display:none}
+body.review-mode .editor-workbench{grid-template-columns:minmax(0,1fr)}
+body.review-mode[data-dock="right"] .editor-workbench{grid-template-columns:minmax(max(0px,min(480px,40%,100% - 328px)),1fr) 8px minmax(320px,var(--dock-right,560px))}
+body.review-mode[data-dock="right"][data-dock-mode="table"] .editor-workbench{grid-template-columns:minmax(0,1fr)}
+body.review-mode[data-dock="bottom"] .bottom-drawer[data-panel="resources"] .bottom-drawer-body{height:var(--dock-bottom-shown)}
+body.review-mode[data-dock="bottom"][data-dock-mode="table"] .bottom-drawer[data-panel="resources"] .bottom-drawer-body{height:100%}
+/* A phone: the inventory is a sheet under the map, as tall as leaves the
+   map 240 px, with no drawer bar over it (its own bar closes it); the
+   drawer is hidden on a phone otherwise. */
+@media(max-width:599px){
+  body[data-dock="bottom"] .bottom-drawer{display:block}
+  body[data-dock="bottom"] .editor-main{grid-template-rows:auto minmax(0,1fr) auto}
+  body[data-dock="bottom"]{--dock-bottom-shown:min(var(--dock-bottom,400px),max(220px,calc(100dvh - 120px - 240px)))}
+  body[data-dock="bottom"] .bottom-drawer[data-panel="resources"] .bottom-drawer-header{display:none}
+  body[data-dock="bottom"] .bottom-drawer[data-panel="resources"] .bottom-drawer-body{height:var(--dock-bottom-shown)}
+  body[data-dock="bottom"][data-dock-mode="table"] .bottom-drawer[data-panel="resources"] .bottom-drawer-body{height:100%}
+  .bottom-drawer[data-panel="resources"] .bottom-drawer-body{--inv-gutter:12px;box-sizing:border-box;padding:12px}
+  /* the table alone has no use for the map's editing bar: it goes, and the
+     table takes its room */
+  body[data-dock-mode="table"] .editor-header>.editor-toolbar{display:none}
+  /* the dock is always under the map on a phone: no Beside the map, so the Savings
+     tab keeps its figure */
+  .md-segmented>.resource-dock-side{display:none}
+  .resource-views-total:not([hidden]){display:inline}
+}

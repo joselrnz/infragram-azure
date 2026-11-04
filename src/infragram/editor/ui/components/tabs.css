@@ -1,0 +1,10 @@
+/* ---- Tabs (primary) ----
+   Text tabs with a straight 2 px rule under the chosen one; the chosen
+   label goes to full strength rather than to the accent. */
+.md-tabs{display:flex;min-width:0;height:48px;flex:1;align-items:stretch}
+.md-tab{display:flex;min-width:0;flex:1 1 auto;justify-content:center;padding:0 6px;border:0;background:transparent;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-large);letter-spacing:var(--md-sys-typescale-label-large-tracking);white-space:nowrap;cursor:pointer}
+.md-tab:hover{color:var(--md-sys-color-on-surface)}
+.md-tab>span{position:relative;display:flex;align-items:center}
+.md-tab[aria-selected="true"]{color:var(--md-sys-color-on-surface)}
+.inspector-tabs .md-tab{padding:0 8px}
+.md-tab[aria-selected="true"]>span::after{content:"";position:absolute;right:0;bottom:0;left:0;height:2px;background:var(--md-sys-color-primary)}

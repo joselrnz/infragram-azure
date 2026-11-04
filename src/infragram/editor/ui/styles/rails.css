@@ -1,0 +1,21 @@
+/* ---- Collapsed rails ---- */
+body.inspector-collapsed .right-inspector{width:56px}
+body.inspector-collapsed .right-inspector .md-tabs,body.inspector-collapsed .inspector-body{display:none}
+body.inspector-collapsed .inspector-header{border-bottom:0}
+body.inspector-collapsed .inspector-toggle{position:absolute;top:8px;left:8px;margin:0}
+body.sidebar-collapsed .workspace{grid-template-columns:56px minmax(0,1fr)}
+body.layout-settling .workspace,body.layout-settling .provider-sidebar{transition:none}
+body.sidebar-collapsed .provider-sidebar{width:56px}
+body.sidebar-collapsed.sidebar-preview .provider-sidebar{width:372px;box-shadow:var(--ui-shadow-raised)}
+body.sidebar-collapsed:not(.sidebar-preview) .provider-header{padding:0 4px}
+body.sidebar-collapsed:not(.sidebar-preview) .provider-brand{grid-template-columns:48px;width:48px;padding:0;justify-content:center}
+body.sidebar-collapsed:not(.sidebar-preview) .provider-name,
+body.sidebar-collapsed:not(.sidebar-preview) .sidebar-state-icon,
+body.sidebar-collapsed:not(.sidebar-preview) .search-box,
+body.sidebar-collapsed:not(.sidebar-preview) .provider-selector,
+body.sidebar-collapsed:not(.sidebar-preview) [data-search-empty],
+body.sidebar-collapsed:not(.sidebar-preview) .category-label,
+body.sidebar-collapsed:not(.sidebar-preview) .category-count,
+body.sidebar-collapsed:not(.sidebar-preview) .chevron-icon,
+body.sidebar-collapsed:not(.sidebar-preview) .component-list{display:none}
+body.sidebar-collapsed:not(.sidebar-preview) .category>summary{grid-template-columns:48px;width:48px;margin:0 4px;padding:0;justify-content:center}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "slug": "onprem",
+  "name": "Local & On-Premises",
+  "title": "Local and on-premises infrastructure",
+  "mark": "marks/onprem.svg",
+  "icons": {
+    "categories": [
+      "analytics",
+      "compute",
+      "containers",
+      "data",
+      "integration",
+      "networking",
+      "security",
+      "storage"
+    ],
+    "items": []
+  },
+  "theme": {
+    "paper": "#ffffff",
+    "paper_2": "#f2f4f7",
+    "ink": "#16191f",
+    "muted": "#4a5568",
+    "soft": "#5f6b7a",
+    "link": "#2e5aa8",
+    "accent": "#bdbdbd"
+  },
+  "icon_palette": [
+    "#bdbdbd",
+    "#909296",
+    "#ffffff"
+  ],
+  "services": {
+    "entry": {
+      "name": "On-premises VPN gateway",
+      "detail": "site-to-site or remote access"
+    },
+    "app": {
+      "name": "Application server",
+      "detail": "local runtime"
+    },
+    "object_store": {
+      "name": "Storage appliance",
+      "detail": "NAS, SAN, or object storage"
+    },
+    "database": {
+      "name": "Database server",
+      "detail": "self-managed data service"
+    }
+  },
+  "service_icons": {},
+  "boundaries": {
+    "color": "#bdbdbd"
+  }
+}

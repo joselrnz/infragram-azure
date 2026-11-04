@@ -1,0 +1,8 @@
+/* ---- Icon button: standard; --toggle shows its selected state; --sm is 40px ---- */
+.md-icon-button{display:inline-grid;width:32px;height:32px;flex:none;place-items:center;padding:0;border:0;border-radius:var(--ui-radius);background:transparent;color:var(--md-sys-color-on-surface-variant);cursor:pointer;transition:background-color .12s ease}
+.md-icon-button:hover:not(:disabled){color:var(--md-sys-color-on-surface)}
+.md-icon-button--sm{width:40px;height:40px}
+.md-icon-button--sm .md-icon{width:24px;height:24px}
+.md-icon-button--toggle[aria-pressed="true"]{background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)}
+.md-icon-button:disabled{background:transparent;color:var(--md-disabled-content);cursor:not-allowed}
+.md-icon-row{display:flex;flex-wrap:wrap;gap:4px}

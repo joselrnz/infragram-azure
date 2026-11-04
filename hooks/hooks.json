@@ -1,0 +1,17 @@
+{
+  "description": "Infragram Azure: check a diagram the moment the agent writes it",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/run\" hook:check",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

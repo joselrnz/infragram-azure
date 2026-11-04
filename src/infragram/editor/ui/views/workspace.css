@@ -1,0 +1,2 @@
+/* ---- Layout: workspace, sidebar ---- */
+.workspace{display:grid;grid-template-columns:372px minmax(0,1fr);height:100vh;height:100dvh;background:var(--md-sys-color-surface-container-low);transition:grid-template-columns var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}

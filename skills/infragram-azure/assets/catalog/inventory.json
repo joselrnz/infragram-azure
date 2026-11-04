@@ -1,0 +1,6457 @@
+{
+ "schema": 1,
+ "totals": {
+  "libraries": 3,
+  "vendor_icons": 827,
+  "unmapped": 30,
+  "shared_primitives": 370,
+  "frames": 40,
+  "frame_groups": 4,
+  "starter_stacks": 3,
+  "templates": 4
+ },
+ "categories": [
+  "custom",
+  "ai-machine-learning",
+  "analytics",
+  "compute",
+  "containers",
+  "databases",
+  "devops",
+  "hybrid-multicloud",
+  "identity",
+  "integration",
+  "internet-of-things",
+  "energy",
+  "industrial",
+  "facilities",
+  "governance",
+  "mobile",
+  "networking",
+  "power-platform",
+  "security",
+  "storage",
+  "web"
+ ],
+ "libraries": [
+  {
+   "id": "azure",
+   "display_name": "Azure",
+   "kind": "cloud",
+   "coverage": "full",
+   "mark_only": false,
+   "icons": 715,
+   "unmapped": 30,
+   "categories": {
+    "ai-machine-learning": 48,
+    "analytics": 38,
+    "compute": 59,
+    "containers": 15,
+    "custom": 30,
+    "databases": 43,
+    "devops": 44,
+    "governance": 79,
+    "hybrid-multicloud": 26,
+    "identity": 42,
+    "integration": 42,
+    "internet-of-things": 56,
+    "mobile": 26,
+    "networking": 72,
+    "power-platform": 4,
+    "security": 23,
+    "storage": 34,
+    "web": 34
+   },
+   "components": [
+    {
+     "id": "ai-foundry",
+     "name": "AI Foundry",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "ai-studio",
+     "name": "AI Studio",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "anomaly-detector",
+     "name": "Anomaly Detector",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "azure-ai-foundry-iq",
+     "name": "Azure AI Foundry IQ",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "azure-applied-ai-services",
+     "name": "Azure Applied AI Services",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "azure-experimentation-studio",
+     "name": "Azure Experimentation Studio",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "azure-machine-learning",
+     "name": "Azure Machine Learning",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "azure-object-understanding",
+     "name": "Azure Object Understanding",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "azure-openai",
+     "name": "Azure OpenAI",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "azure-video-indexer",
+     "name": "Azure Video Indexer",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "batch-ai",
+     "name": "Batch AI",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "bonsai",
+     "name": "Bonsai",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "bot-services",
+     "name": "Bot Services",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "cognitive-search",
+     "name": "Cognitive Search",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "cognitive-services",
+     "name": "Cognitive Services",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "cognitive-services-decisions",
+     "name": "Cognitive Services Decisions",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "computer-vision",
+     "name": "Computer Vision",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "content-moderators",
+     "name": "Content Moderators",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "content-safety",
+     "name": "Content Safety",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "custom-vision",
+     "name": "Custom Vision",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "face-apis",
+     "name": "Face APIs",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "form-recognizers",
+     "name": "Form Recognizers",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "foundry-agent-service",
+     "name": "Foundry Agent Service",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "foundry-application",
+     "name": "Foundry Application",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "foundry-control-plane",
+     "name": "Foundry Control Plane",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "foundry-labs",
+     "name": "Foundry Labs",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "foundry-local",
+     "name": "Foundry Local",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "foundry-models",
+     "name": "Foundry Models",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "foundry-project",
+     "name": "Foundry Project",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "frd-qa",
+     "name": "FRD QA",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "genomics",
+     "name": "Genomics",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "genomics-accounts",
+     "name": "Genomics Accounts",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "immersive-readers",
+     "name": "Immersive Readers",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "language",
+     "name": "Language",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "language-understanding",
+     "name": "Language Understanding",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "machine-learning",
+     "name": "Machine Learning",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "machine-learning-studio-classic-web-services",
+     "name": "Machine Learning Studio (Classic) Web Services",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "machine-learning-studio-web-service-plans",
+     "name": "Machine Learning Studio Web Service Plans",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "machine-learning-studio-workspaces",
+     "name": "Machine Learning Studio Workspaces",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "metrics-advisor",
+     "name": "Metrics Advisor",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "microsoft-discovery",
+     "name": "Microsoft Discovery",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "personalizers",
+     "name": "Personalizers",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "planetary-computer-pro",
+     "name": "Planetary Computer Pro",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "qna-makers",
+     "name": "QnA Makers",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "serverless-search",
+     "name": "Serverless Search",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "speech-services",
+     "name": "Speech Services",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "translator-text",
+     "name": "Translator Text",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "video-analyzers",
+     "name": "Video Analyzers",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "activity-log-monitor",
+     "name": "Activity Log",
+     "category": "analytics"
+    },
+    {
+     "id": "analysis-services",
+     "name": "Analysis Services",
+     "category": "analytics"
+    },
+    {
+     "id": "application-insights-monitor",
+     "name": "Application Insights",
+     "category": "analytics"
+    },
+    {
+     "id": "auto-scale",
+     "name": "Auto Scale",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-data-explorer-clusters",
+     "name": "Azure Data Explorer Clusters",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-data-sharing",
+     "name": "Azure Data Sharing",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-databricks",
+     "name": "Azure Databricks",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-managed-grafana",
+     "name": "Azure Managed Grafana",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-monitor-dashboard",
+     "name": "Azure Monitor Dashboard",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-monitors-for-sap-solutions",
+     "name": "Azure Monitors for SAP Solutions",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-synapse-analytics",
+     "name": "Azure Synapse Analytics",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-workbooks",
+     "name": "Azure Workbooks",
+     "category": "analytics"
+    },
+    {
+     "id": "azure-workbooks-monitor",
+     "name": "Azure Workbooks",
+     "category": "analytics"
+    },
+    {
+     "id": "change-analysis-monitor",
+     "name": "Change Analysis",
+     "category": "analytics"
+    },
+    {
+     "id": "dashboard",
+     "name": "Dashboard",
+     "category": "analytics"
+    },
+    {
+     "id": "data-collection-rules",
+     "name": "Data Collection Rules",
+     "category": "analytics"
+    },
+    {
+     "id": "data-factories",
+     "name": "Data Factories",
+     "category": "analytics"
+    },
+    {
+     "id": "data-lake-analytics",
+     "name": "Data Lake Analytics",
+     "category": "analytics"
+    },
+    {
+     "id": "data-lake-store-gen1",
+     "name": "Data Lake Store Gen1",
+     "category": "analytics"
+    },
+    {
+     "id": "diagnostics-settings-monitor",
+     "name": "Diagnostics Settings",
+     "category": "analytics"
+    },
+    {
+     "id": "endpoint-analytics",
+     "name": "Endpoint Analytics",
+     "category": "analytics"
+    },
+    {
+     "id": "event-hub-clusters",
+     "name": "Event Hub Clusters",
+     "category": "analytics"
+    },
+    {
+     "id": "event-hubs",
+     "name": "Event Hubs",
+     "category": "analytics"
+    },
+    {
+     "id": "hd-insight-clusters",
+     "name": "HD Insight Clusters",
+     "category": "analytics"
+    },
+    {
+     "id": "hdi-aks-cluster",
+     "name": "HDI AKS Cluster",
+     "category": "analytics"
+    },
+    {
+     "id": "log-analytics-query-pack",
+     "name": "Log Analytics Query Pack",
+     "category": "analytics"
+    },
+    {
+     "id": "log-analytics-workspaces",
+     "name": "Log Analytics Workspaces",
+     "category": "analytics"
+    },
+    {
+     "id": "log-analytics-workspaces-monitor",
+     "name": "Log Analytics Workspaces",
+     "category": "analytics"
+    },
+    {
+     "id": "log-streaming",
+     "name": "Log Streaming",
+     "category": "analytics"
+    },
+    {
+     "id": "metrics-monitor",
+     "name": "Metrics",
+     "category": "analytics"
+    },
+    {
+     "id": "monitor-health-models",
+     "name": "Monitor Health Models",
+     "category": "analytics"
+    },
+    {
+     "id": "monitor-monitor",
+     "name": "Monitor",
+     "category": "analytics"
+    },
+    {
+     "id": "network-watcher",
+     "name": "Network Watcher",
+     "category": "analytics"
+    },
+    {
+     "id": "power-bi-embedded",
+     "name": "Power BI Embedded",
+     "category": "analytics"
+    },
+    {
+     "id": "private-link-services",
+     "name": "Private Link Services",
+     "category": "analytics"
+    },
+    {
+     "id": "promethus",
+     "name": "promethus",
+     "category": "analytics"
+    },
+    {
+     "id": "stream-analytics-jobs",
+     "name": "Stream Analytics Jobs",
+     "category": "analytics"
+    },
+    {
+     "id": "workbooks",
+     "name": "Workbooks",
+     "category": "analytics"
+    },
+    {
+     "id": "aks-automatic",
+     "name": "AKS Automatic",
+     "category": "compute"
+    },
+    {
+     "id": "app-services-compute",
+     "name": "App Services",
+     "category": "compute"
+    },
+    {
+     "id": "application-group",
+     "name": "Application Group",
+     "category": "compute"
+    },
+    {
+     "id": "automanaged-vm",
+     "name": "Automanaged VM",
+     "category": "compute"
+    },
+    {
+     "id": "availability-sets",
+     "name": "Availability Sets",
+     "category": "compute"
+    },
+    {
+     "id": "avs-vm",
+     "name": "AVS VM",
+     "category": "compute"
+    },
+    {
+     "id": "azure-center-for-sap",
+     "name": "Azure Center for SAP",
+     "category": "compute"
+    },
+    {
+     "id": "azure-compute-galleries",
+     "name": "Azure Compute Galleries",
+     "category": "compute"
+    },
+    {
+     "id": "azure-compute-galleries-other",
+     "name": "Azure Compute Galleries",
+     "category": "compute"
+    },
+    {
+     "id": "azure-hpc-workbenches",
+     "name": "Azure HPC Workbenches",
+     "category": "compute"
+    },
+    {
+     "id": "azure-linux",
+     "name": "Azure Linux",
+     "category": "compute"
+    },
+    {
+     "id": "azure-spring-apps",
+     "name": "Azure Spring Apps",
+     "category": "compute"
+    },
+    {
+     "id": "azure-virtual-desktop",
+     "name": "Azure Virtual Desktop",
+     "category": "compute"
+    },
+    {
+     "id": "azure-vmware-solution",
+     "name": "Azure VMware Solution",
+     "category": "compute"
+    },
+    {
+     "id": "bare-metal-infrastructure",
+     "name": "Bare Metal Infrastructure",
+     "category": "compute"
+    },
+    {
+     "id": "batch-accounts",
+     "name": "Batch Accounts",
+     "category": "compute"
+    },
+    {
+     "id": "capacity-reservation-groups",
+     "name": "Capacity Reservation Groups",
+     "category": "compute"
+    },
+    {
+     "id": "central-service-instance-for-sap",
+     "name": "Central Service Instance For SAP",
+     "category": "compute"
+    },
+    {
+     "id": "cloud-services-classic",
+     "name": "Cloud Services (Classic)",
+     "category": "compute"
+    },
+    {
+     "id": "cloud-services-extended-support",
+     "name": "Cloud Services (extended support)",
+     "category": "compute"
+    },
+    {
+     "id": "community-images",
+     "name": "Community Images",
+     "category": "compute"
+    },
+    {
+     "id": "compute-fleet",
+     "name": "Compute Fleet",
+     "category": "compute"
+    },
+    {
+     "id": "container-instances",
+     "name": "Container Instances",
+     "category": "compute"
+    },
+    {
+     "id": "container-services-deprecated",
+     "name": "Container Services (Deprecated)",
+     "category": "compute"
+    },
+    {
+     "id": "disk-encryption-sets",
+     "name": "Disk Encryption Sets",
+     "category": "compute"
+    },
+    {
+     "id": "disks",
+     "name": "Disks",
+     "category": "compute"
+    },
+    {
+     "id": "disks-classic",
+     "name": "Disks (Classic)",
+     "category": "compute"
+    },
+    {
+     "id": "disks-snapshots",
+     "name": "Disks Snapshots",
+     "category": "compute"
+    },
+    {
+     "id": "function-apps",
+     "name": "Function Apps",
+     "category": "compute"
+    },
+    {
+     "id": "host-groups",
+     "name": "Host Groups",
+     "category": "compute"
+    },
+    {
+     "id": "host-pools",
+     "name": "Host Pools",
+     "category": "compute"
+    },
+    {
+     "id": "hosts",
+     "name": "Hosts",
+     "category": "compute"
+    },
+    {
+     "id": "image-definitions",
+     "name": "Image Definitions",
+     "category": "compute"
+    },
+    {
+     "id": "image-templates",
+     "name": "Image Templates",
+     "category": "compute"
+    },
+    {
+     "id": "image-versions",
+     "name": "Image Versions",
+     "category": "compute"
+    },
+    {
+     "id": "images",
+     "name": "Images",
+     "category": "compute"
+    },
+    {
+     "id": "instance-pools-other",
+     "name": "Instance Pools",
+     "category": "compute"
+    },
+    {
+     "id": "kubernetes-services",
+     "name": "Kubernetes Services",
+     "category": "compute"
+    },
+    {
+     "id": "maintenance-configuration",
+     "name": "Maintenance Configuration",
+     "category": "compute"
+    },
+    {
+     "id": "managed-service-fabric",
+     "name": "Managed Service Fabric",
+     "category": "compute"
+    },
+    {
+     "id": "mesh-applications",
+     "name": "Mesh Applications",
+     "category": "compute"
+    },
+    {
+     "id": "metrics-advisor-compute",
+     "name": "Metrics Advisor",
+     "category": "compute"
+    },
+    {
+     "id": "os-images-classic",
+     "name": "OS Images (Classic)",
+     "category": "compute"
+    },
+    {
+     "id": "restore-points",
+     "name": "Restore Points",
+     "category": "compute"
+    },
+    {
+     "id": "restore-points-collections",
+     "name": "Restore Points Collections",
+     "category": "compute"
+    },
+    {
+     "id": "rtos",
+     "name": "RTOS",
+     "category": "compute"
+    },
+    {
+     "id": "scheduled-actions",
+     "name": "Scheduled Actions",
+     "category": "compute"
+    },
+    {
+     "id": "service-fabric-clusters",
+     "name": "Service Fabric Clusters",
+     "category": "compute"
+    },
+    {
+     "id": "shared-image-galleries",
+     "name": "Shared Image Galleries",
+     "category": "compute"
+    },
+    {
+     "id": "stage-maps",
+     "name": "Stage Maps",
+     "category": "compute"
+    },
+    {
+     "id": "virtual-instance-for-sap",
+     "name": "Virtual Instance for SAP",
+     "category": "compute"
+    },
+    {
+     "id": "virtual-machine",
+     "name": "Virtual Machine",
+     "category": "compute"
+    },
+    {
+     "id": "virtual-machines-classic",
+     "name": "Virtual Machines (Classic)",
+     "category": "compute"
+    },
+    {
+     "id": "vm-app-definitions",
+     "name": "VM App Definitions",
+     "category": "compute"
+    },
+    {
+     "id": "vm-app-versions",
+     "name": "VM App Versions",
+     "category": "compute"
+    },
+    {
+     "id": "vm-image-version",
+     "name": "VM Image Version",
+     "category": "compute"
+    },
+    {
+     "id": "vm-images-classic",
+     "name": "VM Images (Classic)",
+     "category": "compute"
+    },
+    {
+     "id": "vm-scale-sets",
+     "name": "VM Scale Sets",
+     "category": "compute"
+    },
+    {
+     "id": "workspaces",
+     "name": "Workspaces",
+     "category": "compute"
+    },
+    {
+     "id": "aks-istio",
+     "name": "AKS Istio",
+     "category": "containers"
+    },
+    {
+     "id": "aks-network-policy",
+     "name": "AKS Network Policy",
+     "category": "containers"
+    },
+    {
+     "id": "app-services-containers",
+     "name": "App Services",
+     "category": "containers"
+    },
+    {
+     "id": "azure-container-storage",
+     "name": "Azure Container Storage",
+     "category": "containers"
+    },
+    {
+     "id": "azure-red-hat-openshift",
+     "name": "Azure Red Hat OpenShift",
+     "category": "containers"
+    },
+    {
+     "id": "batch-accounts-containers",
+     "name": "Batch Accounts",
+     "category": "containers"
+    },
+    {
+     "id": "container-apps-environments",
+     "name": "Container Apps Environments",
+     "category": "containers"
+    },
+    {
+     "id": "container-instances-containers",
+     "name": "Container Instances",
+     "category": "containers"
+    },
+    {
+     "id": "container-registries",
+     "name": "Container Registries",
+     "category": "containers"
+    },
+    {
+     "id": "kubernetes-fleet-manager",
+     "name": "Kubernetes Fleet Manager",
+     "category": "containers"
+    },
+    {
+     "id": "kubernetes-hub",
+     "name": "Kubernetes Hub",
+     "category": "containers"
+    },
+    {
+     "id": "kubernetes-services-containers",
+     "name": "Kubernetes Services",
+     "category": "containers"
+    },
+    {
+     "id": "service-fabric-clusters-containers",
+     "name": "Service Fabric Clusters",
+     "category": "containers"
+    },
+    {
+     "id": "service-groups",
+     "name": "Service Groups",
+     "category": "containers"
+    },
+    {
+     "id": "worker-container-app",
+     "name": "Worker Container App",
+     "category": "containers"
+    },
+    {
+     "id": "aquila",
+     "name": "Aquila",
+     "category": "custom"
+    },
+    {
+     "id": "azure-a",
+     "name": "Azure A",
+     "category": "custom"
+    },
+    {
+     "id": "breeze",
+     "name": "Breeze",
+     "category": "custom"
+    },
+    {
+     "id": "ceres",
+     "name": "Ceres",
+     "category": "custom"
+    },
+    {
+     "id": "controls",
+     "name": "Controls",
+     "category": "custom"
+    },
+    {
+     "id": "controls-horizontal",
+     "name": "Controls Horizontal",
+     "category": "custom"
+    },
+    {
+     "id": "counter",
+     "name": "Counter",
+     "category": "custom"
+    },
+    {
+     "id": "cubes",
+     "name": "Cubes",
+     "category": "custom"
+    },
+    {
+     "id": "download",
+     "name": "Download",
+     "category": "custom"
+    },
+    {
+     "id": "error",
+     "name": "Error",
+     "category": "custom"
+    },
+    {
+     "id": "fiji",
+     "name": "Fiji",
+     "category": "custom"
+    },
+    {
+     "id": "file",
+     "name": "File",
+     "category": "custom"
+    },
+    {
+     "id": "folder-blank",
+     "name": "Folder Blank",
+     "category": "custom"
+    },
+    {
+     "id": "folder-website",
+     "name": "Folder Website",
+     "category": "custom"
+    },
+    {
+     "id": "gear",
+     "name": "Gear",
+     "category": "custom"
+    },
+    {
+     "id": "globe-error",
+     "name": "Globe Error",
+     "category": "custom"
+    },
+    {
+     "id": "globe-success",
+     "name": "Globe Success",
+     "category": "custom"
+    },
+    {
+     "id": "globe-warning",
+     "name": "Globe Warning",
+     "category": "custom"
+    },
+    {
+     "id": "heart",
+     "name": "Heart",
+     "category": "custom"
+    },
+    {
+     "id": "image",
+     "name": "Image",
+     "category": "custom"
+    },
+    {
+     "id": "information",
+     "name": "Information",
+     "category": "custom"
+    },
+    {
+     "id": "location",
+     "name": "Location",
+     "category": "custom"
+    },
+    {
+     "id": "media",
+     "name": "Media",
+     "category": "custom"
+    },
+    {
+     "id": "media-file",
+     "name": "Media File",
+     "category": "custom"
+    },
+    {
+     "id": "power",
+     "name": "Power",
+     "category": "custom"
+    },
+    {
+     "id": "power-up",
+     "name": "Power Up",
+     "category": "custom"
+    },
+    {
+     "id": "recent",
+     "name": "Recent",
+     "category": "custom"
+    },
+    {
+     "id": "search",
+     "name": "Search",
+     "category": "custom"
+    },
+    {
+     "id": "search-grid",
+     "name": "Search Grid",
+     "category": "custom"
+    },
+    {
+     "id": "toolbox",
+     "name": "Toolbox",
+     "category": "custom"
+    },
+    {
+     "id": "abs-member",
+     "name": "ABS Member",
+     "category": "databases"
+    },
+    {
+     "id": "arc-postgresql",
+     "name": "Arc PostgreSQL",
+     "category": "databases"
+    },
+    {
+     "id": "arc-sql-managed-instance",
+     "name": "Arc SQL Managed Instance",
+     "category": "databases"
+    },
+    {
+     "id": "arc-sql-server",
+     "name": "Arc SQL Server",
+     "category": "databases"
+    },
+    {
+     "id": "azure-blockchain-service",
+     "name": "Azure Blockchain Service",
+     "category": "databases"
+    },
+    {
+     "id": "azure-cosmos-db",
+     "name": "Azure Cosmos DB",
+     "category": "databases"
+    },
+    {
+     "id": "azure-data-explorer-clusters-databases",
+     "name": "Azure Data Explorer Clusters",
+     "category": "databases"
+    },
+    {
+     "id": "azure-database-mariadb-server",
+     "name": "Azure Database MariaDB Server",
+     "category": "databases"
+    },
+    {
+     "id": "azure-database-migration-services",
+     "name": "Azure Database Migration Services",
+     "category": "databases"
+    },
+    {
+     "id": "azure-database-mysql-server",
+     "name": "Azure Database MySQL Server",
+     "category": "databases"
+    },
+    {
+     "id": "azure-database-postgresql-server",
+     "name": "Azure Database PostgreSQL Server",
+     "category": "databases"
+    },
+    {
+     "id": "azure-database-postgresql-server-group",
+     "name": "Azure Database PostgreSQL Server Group",
+     "category": "databases"
+    },
+    {
+     "id": "azure-documentdb",
+     "name": "Azure DocumentDB",
+     "category": "databases"
+    },
+    {
+     "id": "azure-managed-redis",
+     "name": "Azure Managed Redis",
+     "category": "databases"
+    },
+    {
+     "id": "azure-sql",
+     "name": "Azure SQL",
+     "category": "databases"
+    },
+    {
+     "id": "azure-sql-edge",
+     "name": "Azure SQL Edge",
+     "category": "databases"
+    },
+    {
+     "id": "azure-sql-server-stretch-databases",
+     "name": "Azure SQL Server Stretch Databases",
+     "category": "databases"
+    },
+    {
+     "id": "azure-sql-vm",
+     "name": "Azure SQL VM",
+     "category": "databases"
+    },
+    {
+     "id": "azure-synapse-analytics-databases",
+     "name": "Azure Synapse Analytics",
+     "category": "databases"
+    },
+    {
+     "id": "azure-token-service",
+     "name": "Azure Token Service",
+     "category": "databases"
+    },
+    {
+     "id": "blockchain-applications",
+     "name": "Blockchain Applications",
+     "category": "databases"
+    },
+    {
+     "id": "cache",
+     "name": "Cache",
+     "category": "databases"
+    },
+    {
+     "id": "cache-redis",
+     "name": "Cache Redis",
+     "category": "databases"
+    },
+    {
+     "id": "consortium",
+     "name": "Consortium",
+     "category": "databases"
+    },
+    {
+     "id": "data-factories-databases",
+     "name": "Data Factories",
+     "category": "databases"
+    },
+    {
+     "id": "database-instance-for-sap",
+     "name": "Database Instance For SAP",
+     "category": "databases"
+    },
+    {
+     "id": "elastic-job-agents",
+     "name": "Elastic Job Agents",
+     "category": "databases"
+    },
+    {
+     "id": "fhir-service",
+     "name": "FHIR Service",
+     "category": "databases"
+    },
+    {
+     "id": "instance-pools",
+     "name": "Instance Pools",
+     "category": "databases"
+    },
+    {
+     "id": "managed-database",
+     "name": "Managed Database",
+     "category": "databases"
+    },
+    {
+     "id": "managed-instance-apache-cassandra",
+     "name": "Managed Instance Apache Cassandra",
+     "category": "databases"
+    },
+    {
+     "id": "oracle-database",
+     "name": "Oracle Database",
+     "category": "databases"
+    },
+    {
+     "id": "outbound-connection",
+     "name": "Outbound Connection",
+     "category": "databases"
+    },
+    {
+     "id": "production-ready-database",
+     "name": "Production Ready Database",
+     "category": "databases"
+    },
+    {
+     "id": "sql-data-warehouses",
+     "name": "SQL Data Warehouses",
+     "category": "databases"
+    },
+    {
+     "id": "sql-database",
+     "name": "SQL Database",
+     "category": "databases"
+    },
+    {
+     "id": "sql-database-fleet-manager",
+     "name": "SQL Database Fleet Manager",
+     "category": "databases"
+    },
+    {
+     "id": "sql-elastic-pools",
+     "name": "SQL Elastic Pools",
+     "category": "databases"
+    },
+    {
+     "id": "sql-managed-instance",
+     "name": "SQL Managed Instance",
+     "category": "databases"
+    },
+    {
+     "id": "sql-server",
+     "name": "SQL Server",
+     "category": "databases"
+    },
+    {
+     "id": "sql-server-registries",
+     "name": "SQL Server Registries",
+     "category": "databases"
+    },
+    {
+     "id": "ssis-lift-and-shift-ir",
+     "name": "SSIS Lift And Shift IR",
+     "category": "databases"
+    },
+    {
+     "id": "virtual-clusters",
+     "name": "Virtual Clusters",
+     "category": "databases"
+    },
+    {
+     "id": "api-connections",
+     "name": "API Connections",
+     "category": "devops"
+    },
+    {
+     "id": "api-management-services",
+     "name": "API Management Services",
+     "category": "devops"
+    },
+    {
+     "id": "application-insights",
+     "name": "Application Insights",
+     "category": "devops"
+    },
+    {
+     "id": "azure-app-testing",
+     "name": "Azure App Testing",
+     "category": "devops"
+    },
+    {
+     "id": "azure-chaos-studio",
+     "name": "Azure Chaos Studio",
+     "category": "devops"
+    },
+    {
+     "id": "azure-cloud-shell",
+     "name": "Azure Cloud Shell",
+     "category": "devops"
+    },
+    {
+     "id": "azure-deployment-environments",
+     "name": "Azure Deployment Environments",
+     "category": "devops"
+    },
+    {
+     "id": "azure-dev-tunnels",
+     "name": "Azure Dev Tunnels",
+     "category": "devops"
+    },
+    {
+     "id": "azure-devops",
+     "name": "Azure DevOps",
+     "category": "devops"
+    },
+    {
+     "id": "azure-load-testing",
+     "name": "Azure Load Testing",
+     "category": "devops"
+    },
+    {
+     "id": "azurite",
+     "name": "Azurite",
+     "category": "devops"
+    },
+    {
+     "id": "backlog",
+     "name": "Backlog",
+     "category": "devops"
+    },
+    {
+     "id": "branch",
+     "name": "Branch",
+     "category": "devops"
+    },
+    {
+     "id": "bug",
+     "name": "Bug",
+     "category": "devops"
+    },
+    {
+     "id": "builds",
+     "name": "Builds",
+     "category": "devops"
+    },
+    {
+     "id": "change-analysis",
+     "name": "Change Analysis",
+     "category": "devops"
+    },
+    {
+     "id": "cloudtest",
+     "name": "CloudTest",
+     "category": "devops"
+    },
+    {
+     "id": "code",
+     "name": "Code",
+     "category": "devops"
+    },
+    {
+     "id": "code-optimization",
+     "name": "Code Optimization",
+     "category": "devops"
+    },
+    {
+     "id": "commit",
+     "name": "Commit",
+     "category": "devops"
+    },
+    {
+     "id": "dev-console",
+     "name": "Dev Console",
+     "category": "devops"
+    },
+    {
+     "id": "devops-starter",
+     "name": "DevOps Starter",
+     "category": "devops"
+    },
+    {
+     "id": "devtest-labs",
+     "name": "DevTest Labs",
+     "category": "devops"
+    },
+    {
+     "id": "extensions",
+     "name": "Extensions",
+     "category": "devops"
+    },
+    {
+     "id": "lab-accounts",
+     "name": "Lab Accounts",
+     "category": "devops"
+    },
+    {
+     "id": "lab-services",
+     "name": "Lab Services",
+     "category": "devops"
+    },
+    {
+     "id": "load-test",
+     "name": "Load Test",
+     "category": "devops"
+    },
+    {
+     "id": "load-testing",
+     "name": "Load Testing",
+     "category": "devops"
+    },
+    {
+     "id": "managed-devops-pools",
+     "name": "Managed DevOps Pools",
+     "category": "devops"
+    },
+    {
+     "id": "microsoft-dev-box",
+     "name": "Microsoft Dev Box",
+     "category": "devops"
+    },
+    {
+     "id": "module",
+     "name": "Module",
+     "category": "devops"
+    },
+    {
+     "id": "osconfig",
+     "name": "OSConfig",
+     "category": "devops"
+    },
+    {
+     "id": "powershell",
+     "name": "Powershell",
+     "category": "devops"
+    },
+    {
+     "id": "process-explorer",
+     "name": "Process Explorer",
+     "category": "devops"
+    },
+    {
+     "id": "targets-management",
+     "name": "Targets Management",
+     "category": "devops"
+    },
+    {
+     "id": "template-specs",
+     "name": "Template Specs",
+     "category": "devops"
+    },
+    {
+     "id": "templates",
+     "name": "Templates",
+     "category": "devops"
+    },
+    {
+     "id": "test-base",
+     "name": "Test Base",
+     "category": "devops"
+    },
+    {
+     "id": "tfs-vc-repository",
+     "name": "TFS VC Repository",
+     "category": "devops"
+    },
+    {
+     "id": "toolchain-orchestrator",
+     "name": "Toolchain Orchestrator",
+     "category": "devops"
+    },
+    {
+     "id": "update-management-center",
+     "name": "Update Management Center",
+     "category": "devops"
+    },
+    {
+     "id": "versions",
+     "name": "Versions",
+     "category": "devops"
+    },
+    {
+     "id": "web-test",
+     "name": "Web Test",
+     "category": "devops"
+    },
+    {
+     "id": "workspace-gateway",
+     "name": "Workspace Gateway",
+     "category": "devops"
+    },
+    {
+     "id": "030777508-icon-service-service-group-relationships",
+     "name": "Service Group Relationships",
+     "category": "governance"
+    },
+    {
+     "id": "activity-log",
+     "name": "Activity Log",
+     "category": "governance"
+    },
+    {
+     "id": "advisor",
+     "name": "Advisor",
+     "category": "governance"
+    },
+    {
+     "id": "alerts",
+     "name": "Alerts",
+     "category": "governance"
+    },
+    {
+     "id": "all-resources",
+     "name": "All Resources",
+     "category": "governance"
+    },
+    {
+     "id": "app-compliance-automation",
+     "name": "App Compliance Automation",
+     "category": "governance"
+    },
+    {
+     "id": "application-insights-management-governance",
+     "name": "Application Insights",
+     "category": "governance"
+    },
+    {
+     "id": "arc-machines",
+     "name": "Arc Machines",
+     "category": "governance"
+    },
+    {
+     "id": "automation-accounts",
+     "name": "Automation Accounts",
+     "category": "governance"
+    },
+    {
+     "id": "azure-arc",
+     "name": "Azure Arc",
+     "category": "governance"
+    },
+    {
+     "id": "azure-consumption-commitment",
+     "name": "Azure Consumption Commitment",
+     "category": "governance"
+    },
+    {
+     "id": "azure-lighthouse",
+     "name": "Azure Lighthouse",
+     "category": "governance"
+    },
+    {
+     "id": "azure-quotas",
+     "name": "Azure Quotas",
+     "category": "governance"
+    },
+    {
+     "id": "azure-support-center-blue",
+     "name": "Azure Support Center Blue",
+     "category": "governance"
+    },
+    {
+     "id": "azure-sustainability",
+     "name": "Azure Sustainability",
+     "category": "governance"
+    },
+    {
+     "id": "blueprints",
+     "name": "Blueprints",
+     "category": "governance"
+    },
+    {
+     "id": "compliance",
+     "name": "Compliance",
+     "category": "governance"
+    },
+    {
+     "id": "compliance-center",
+     "name": "Compliance Center",
+     "category": "governance"
+    },
+    {
+     "id": "cost-alerts",
+     "name": "Cost Alerts",
+     "category": "governance"
+    },
+    {
+     "id": "cost-analysis",
+     "name": "Cost Analysis",
+     "category": "governance"
+    },
+    {
+     "id": "cost-budgets",
+     "name": "Cost Budgets",
+     "category": "governance"
+    },
+    {
+     "id": "cost-export",
+     "name": "Cost Export",
+     "category": "governance"
+    },
+    {
+     "id": "cost-management",
+     "name": "Cost Management",
+     "category": "governance"
+    },
+    {
+     "id": "cost-management-and-billing",
+     "name": "Cost Management and Billing",
+     "category": "governance"
+    },
+    {
+     "id": "cost-management-and-billing-management-governance",
+     "name": "Cost Management and Billing",
+     "category": "governance"
+    },
+    {
+     "id": "customer-lockbox-for-microsoft-azure",
+     "name": "Customer Lockbox for Microsoft Azure",
+     "category": "governance"
+    },
+    {
+     "id": "dashboard-hub",
+     "name": "Dashboard Hub",
+     "category": "governance"
+    },
+    {
+     "id": "diagnostics-settings",
+     "name": "Diagnostics Settings",
+     "category": "governance"
+    },
+    {
+     "id": "education",
+     "name": "Education",
+     "category": "governance"
+    },
+    {
+     "id": "feature-previews",
+     "name": "Feature Previews",
+     "category": "governance"
+    },
+    {
+     "id": "free-services",
+     "name": "Free Services",
+     "category": "governance"
+    },
+    {
+     "id": "guide",
+     "name": "Guide",
+     "category": "governance"
+    },
+    {
+     "id": "help-and-support",
+     "name": "Help and Support",
+     "category": "governance"
+    },
+    {
+     "id": "icm-troubleshooting",
+     "name": "IcM Troubleshooting",
+     "category": "governance"
+    },
+    {
+     "id": "intune-trends",
+     "name": "Intune Trends",
+     "category": "governance"
+    },
+    {
+     "id": "journey-hub",
+     "name": "Journey Hub",
+     "category": "governance"
+    },
+    {
+     "id": "landing-zone",
+     "name": "Landing Zone",
+     "category": "governance"
+    },
+    {
+     "id": "launch-portal",
+     "name": "Launch Portal",
+     "category": "governance"
+    },
+    {
+     "id": "learn",
+     "name": "Learn",
+     "category": "governance"
+    },
+    {
+     "id": "log-analytics-workspaces-management-governance",
+     "name": "Log Analytics Workspaces",
+     "category": "governance"
+    },
+    {
+     "id": "machinesazurearc",
+     "name": "Machines Azure Arc",
+     "category": "governance"
+    },
+    {
+     "id": "managed-applications-center",
+     "name": "Managed Applications Center",
+     "category": "governance"
+    },
+    {
+     "id": "managed-desktop",
+     "name": "Managed Desktop",
+     "category": "governance"
+    },
+    {
+     "id": "management-groups",
+     "name": "Management Groups",
+     "category": "governance"
+    },
+    {
+     "id": "management-portal",
+     "name": "Management Portal",
+     "category": "governance"
+    },
+    {
+     "id": "marketplace",
+     "name": "Marketplace",
+     "category": "governance"
+    },
+    {
+     "id": "marketplace-management",
+     "name": "Marketplace Management",
+     "category": "governance"
+    },
+    {
+     "id": "metrics",
+     "name": "Metrics",
+     "category": "governance"
+    },
+    {
+     "id": "mission-landing-zone",
+     "name": "Mission Landing Zone",
+     "category": "governance"
+    },
+    {
+     "id": "monitor",
+     "name": "Monitor",
+     "category": "governance"
+    },
+    {
+     "id": "my-customers",
+     "name": "My Customers",
+     "category": "governance"
+    },
+    {
+     "id": "operation-log-classic",
+     "name": "Operation Log (Classic)",
+     "category": "governance"
+    },
+    {
+     "id": "policy",
+     "name": "Policy",
+     "category": "governance"
+    },
+    {
+     "id": "preview-features",
+     "name": "Preview Features",
+     "category": "governance"
+    },
+    {
+     "id": "quickstart-center",
+     "name": "Quickstart Center",
+     "category": "governance"
+    },
+    {
+     "id": "recovery-services-vaults",
+     "name": "Recovery Services Vaults",
+     "category": "governance"
+    },
+    {
+     "id": "region-management",
+     "name": "Region Management",
+     "category": "governance"
+    },
+    {
+     "id": "reservations",
+     "name": "Reservations",
+     "category": "governance"
+    },
+    {
+     "id": "reserved-capacity",
+     "name": "Reserved Capacity",
+     "category": "governance"
+    },
+    {
+     "id": "resiliency",
+     "name": "Resiliency",
+     "category": "governance"
+    },
+    {
+     "id": "resource-explorer",
+     "name": "Resource Explorer",
+     "category": "governance"
+    },
+    {
+     "id": "resource-graph-explorer",
+     "name": "Resource Graph Explorer",
+     "category": "governance"
+    },
+    {
+     "id": "resource-group-list",
+     "name": "Resource Group List",
+     "category": "governance"
+    },
+    {
+     "id": "resource-groups",
+     "name": "Resource Groups",
+     "category": "governance"
+    },
+    {
+     "id": "resource-linked",
+     "name": "Resource Linked",
+     "category": "governance"
+    },
+    {
+     "id": "resources-provider",
+     "name": "Resources Provider",
+     "category": "governance"
+    },
+    {
+     "id": "savings-plans",
+     "name": "Savings Plans",
+     "category": "governance"
+    },
+    {
+     "id": "scheduler-job-collections",
+     "name": "Scheduler Job Collections",
+     "category": "governance"
+    },
+    {
+     "id": "service-catalog-mad",
+     "name": "Service Catalog MAD",
+     "category": "governance"
+    },
+    {
+     "id": "service-group-relationships",
+     "name": "Service Group Relationships",
+     "category": "governance"
+    },
+    {
+     "id": "service-health",
+     "name": "Service Health",
+     "category": "governance"
+    },
+    {
+     "id": "service-providers",
+     "name": "Service Providers",
+     "category": "governance"
+    },
+    {
+     "id": "solutions",
+     "name": "Solutions",
+     "category": "governance"
+    },
+    {
+     "id": "subscriptions",
+     "name": "Subscriptions",
+     "category": "governance"
+    },
+    {
+     "id": "tag",
+     "name": "Tag",
+     "category": "governance"
+    },
+    {
+     "id": "tags",
+     "name": "Tags",
+     "category": "governance"
+    },
+    {
+     "id": "troubleshoot",
+     "name": "Troubleshoot",
+     "category": "governance"
+    },
+    {
+     "id": "universal-print",
+     "name": "Universal Print",
+     "category": "governance"
+    },
+    {
+     "id": "user-privacy",
+     "name": "User Privacy",
+     "category": "governance"
+    },
+    {
+     "id": "ai-at-edge",
+     "name": "AI at Edge",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "arc-data-services",
+     "name": "Arc Data services",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "arc-kubernetes",
+     "name": "Arc Kubernetes",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-database-migration-services-migration",
+     "name": "Azure Database Migration Services",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-databox-gateway-migrate",
+     "name": "Azure Databox Gateway",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-edge-hardware-center",
+     "name": "Azure Edge Hardware Center",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-local",
+     "name": "Azure Local",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-migrate",
+     "name": "Azure Migrate",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-monitor-pipeline",
+     "name": "Azure Monitor Pipeline",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-operator-5g-core",
+     "name": "Azure Operator 5G Core",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-operator-insights",
+     "name": "Azure Operator Insights",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-operator-nexus",
+     "name": "Azure Operator Nexus",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-operator-service-manager",
+     "name": "Azure Operator Service Manager",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "azure-programmable-connectivity",
+     "name": "Azure Programmable Connectivity",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "cost-management-and-billing-migrate",
+     "name": "Cost Management and Billing",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "data-box",
+     "name": "Data Box",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "disconnected-operations",
+     "name": "Disconnected Operations",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "edge-management",
+     "name": "Edge Management",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "edge-storage-accelerator",
+     "name": "Edge Storage Accelerator",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "modular-data-center",
+     "name": "Modular Data Center",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "recovery-services-vaults-migrate",
+     "name": "Recovery Services Vaults",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "resource-mover",
+     "name": "Resource Mover",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "scvmm-management-servers",
+     "name": "SCVMM Management Servers",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "wac",
+     "name": "WAC",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "wac-installer",
+     "name": "WAC Installer",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "workload-orchestration",
+     "name": "Workload Orchestration",
+     "category": "hybrid-multicloud"
+    },
+    {
+     "id": "active-directory-connect-health",
+     "name": "Active Directory Connect Health",
+     "category": "identity"
+    },
+    {
+     "id": "administrative-units",
+     "name": "Administrative Units",
+     "category": "identity"
+    },
+    {
+     "id": "api-proxy",
+     "name": "API Proxy",
+     "category": "identity"
+    },
+    {
+     "id": "app-registrations",
+     "name": "App Registrations",
+     "category": "identity"
+    },
+    {
+     "id": "app-registrations-other",
+     "name": "App Registrations",
+     "category": "identity"
+    },
+    {
+     "id": "azure-ad-b2c",
+     "name": "Azure AD B2C",
+     "category": "identity"
+    },
+    {
+     "id": "azure-information-protection",
+     "name": "Azure Information Protection",
+     "category": "identity"
+    },
+    {
+     "id": "enterprise-applications",
+     "name": "Enterprise Applications",
+     "category": "identity"
+    },
+    {
+     "id": "entra-connect",
+     "name": "Entra Connect",
+     "category": "identity"
+    },
+    {
+     "id": "entra-connect-health",
+     "name": "Entra Connect Health",
+     "category": "identity"
+    },
+    {
+     "id": "entra-connect-sync",
+     "name": "Entra Connect Sync",
+     "category": "identity"
+    },
+    {
+     "id": "entra-domain-services",
+     "name": "Entra Domain Services",
+     "category": "identity"
+    },
+    {
+     "id": "entra-global-secure-access",
+     "name": "Entra Global Secure Access",
+     "category": "identity"
+    },
+    {
+     "id": "entra-id",
+     "name": "Entra ID",
+     "category": "identity"
+    },
+    {
+     "id": "entra-id-governance",
+     "name": "Entra ID Governance",
+     "category": "identity"
+    },
+    {
+     "id": "entra-id-protection",
+     "name": "Entra ID Protection",
+     "category": "identity"
+    },
+    {
+     "id": "entra-identity-custom-roles",
+     "name": "Entra Identity Custom Roles",
+     "category": "identity"
+    },
+    {
+     "id": "entra-identity-licenses",
+     "name": "Entra Identity Licenses",
+     "category": "identity"
+    },
+    {
+     "id": "entra-identity-licenses-other",
+     "name": "Entra Identity Licenses",
+     "category": "identity"
+    },
+    {
+     "id": "entra-identity-roles-and-administrators",
+     "name": "Entra Identity Roles and Administrators",
+     "category": "identity"
+    },
+    {
+     "id": "entra-internet-access",
+     "name": "Entra Internet Access",
+     "category": "identity"
+    },
+    {
+     "id": "entra-managed-identities",
+     "name": "Entra Managed Identities",
+     "category": "identity"
+    },
+    {
+     "id": "entra-private-access",
+     "name": "Entra Private Access",
+     "category": "identity"
+    },
+    {
+     "id": "entra-privleged-identity-management",
+     "name": "Entra Privleged Identity Management",
+     "category": "identity"
+    },
+    {
+     "id": "entra-verified-id",
+     "name": "Entra Verified ID",
+     "category": "identity"
+    },
+    {
+     "id": "entra-workload-id",
+     "name": "Entra Workload ID",
+     "category": "identity"
+    },
+    {
+     "id": "exchange-on-premises-access",
+     "name": "Exchange On Premises Access",
+     "category": "identity"
+    },
+    {
+     "id": "external-id",
+     "name": "external id",
+     "category": "identity"
+    },
+    {
+     "id": "external-id-modified",
+     "name": "external id modified",
+     "category": "identity"
+    },
+    {
+     "id": "external-identities",
+     "name": "External Identities",
+     "category": "identity"
+    },
+    {
+     "id": "groups",
+     "name": "Groups",
+     "category": "identity"
+    },
+    {
+     "id": "identity-governance",
+     "name": "Identity Governance",
+     "category": "identity"
+    },
+    {
+     "id": "managed-identities",
+     "name": "Managed Identities",
+     "category": "identity"
+    },
+    {
+     "id": "multi-factor-authentication",
+     "name": "Multi Factor Authentication",
+     "category": "identity"
+    },
+    {
+     "id": "multi-tenancy",
+     "name": "Multi Tenancy",
+     "category": "identity"
+    },
+    {
+     "id": "security",
+     "name": "Security",
+     "category": "identity"
+    },
+    {
+     "id": "tenant-properties",
+     "name": "Tenant Properties",
+     "category": "identity"
+    },
+    {
+     "id": "user-settings",
+     "name": "User Settings",
+     "category": "identity"
+    },
+    {
+     "id": "user-subscriptions",
+     "name": "User Subscriptions",
+     "category": "identity"
+    },
+    {
+     "id": "users",
+     "name": "Users",
+     "category": "identity"
+    },
+    {
+     "id": "verifiable-credentials",
+     "name": "Verifiable Credentials",
+     "category": "identity"
+    },
+    {
+     "id": "verification-as-a-service",
+     "name": "Verification As A Service",
+     "category": "identity"
+    },
+    {
+     "id": "ai-gateway",
+     "name": "AI Gateway",
+     "category": "integration"
+    },
+    {
+     "id": "api-connections-integration",
+     "name": "API Connections",
+     "category": "integration"
+    },
+    {
+     "id": "api-management-services-integration",
+     "name": "API Management Services",
+     "category": "integration"
+    },
+    {
+     "id": "app-configuration",
+     "name": "App Configuration",
+     "category": "integration"
+    },
+    {
+     "id": "applens",
+     "name": "Applens",
+     "category": "integration"
+    },
+    {
+     "id": "azure-api-for-fhir",
+     "name": "Azure API for FHIR",
+     "category": "integration"
+    },
+    {
+     "id": "azure-communication-services",
+     "name": "Azure Communication Services",
+     "category": "integration"
+    },
+    {
+     "id": "azure-data-catalog",
+     "name": "Azure Data Catalog",
+     "category": "integration"
+    },
+    {
+     "id": "azure-data-transfer",
+     "name": "Azure Data Transfer",
+     "category": "integration"
+    },
+    {
+     "id": "azure-databox-gateway",
+     "name": "Azure Databox Gateway",
+     "category": "integration"
+    },
+    {
+     "id": "azure-hybrid-center",
+     "name": "Azure Hybrid Center",
+     "category": "integration"
+    },
+    {
+     "id": "azure-service-bus",
+     "name": "Azure Service Bus",
+     "category": "integration"
+    },
+    {
+     "id": "azure-sql-server-stretch-databases-integration",
+     "name": "Azure SQL Server Stretch Databases",
+     "category": "integration"
+    },
+    {
+     "id": "biz-talk",
+     "name": "Biz Talk",
+     "category": "integration"
+    },
+    {
+     "id": "business-process-tracking",
+     "name": "Business Process Tracking",
+     "category": "integration"
+    },
+    {
+     "id": "collaborative-service",
+     "name": "Collaborative Service",
+     "category": "integration"
+    },
+    {
+     "id": "data-factories-integration",
+     "name": "Data Factories",
+     "category": "integration"
+    },
+    {
+     "id": "event-grid-domains",
+     "name": "Event Grid Domains",
+     "category": "integration"
+    },
+    {
+     "id": "event-grid-subscriptions",
+     "name": "Event Grid Subscriptions",
+     "category": "integration"
+    },
+    {
+     "id": "event-grid-topics",
+     "name": "Event Grid Topics",
+     "category": "integration"
+    },
+    {
+     "id": "ftp",
+     "name": "FTP",
+     "category": "integration"
+    },
+    {
+     "id": "input-output",
+     "name": "Input Output",
+     "category": "integration"
+    },
+    {
+     "id": "integration-accounts",
+     "name": "Integration Accounts",
+     "category": "integration"
+    },
+    {
+     "id": "integration-environments",
+     "name": "Integration Environments",
+     "category": "integration"
+    },
+    {
+     "id": "integration-service-environments",
+     "name": "Integration Service Environments",
+     "category": "integration"
+    },
+    {
+     "id": "logic-apps",
+     "name": "Logic Apps",
+     "category": "integration"
+    },
+    {
+     "id": "logic-apps-custom-connector",
+     "name": "Logic Apps Custom Connector",
+     "category": "integration"
+    },
+    {
+     "id": "logic-apps-template",
+     "name": "Logic Apps Template",
+     "category": "integration"
+    },
+    {
+     "id": "open-supply-chain-platform",
+     "name": "Open Supply Chain Platform",
+     "category": "integration"
+    },
+    {
+     "id": "partner-namespace",
+     "name": "Partner Namespace",
+     "category": "integration"
+    },
+    {
+     "id": "partner-registration",
+     "name": "Partner Registration",
+     "category": "integration"
+    },
+    {
+     "id": "partner-topic",
+     "name": "Partner Topic",
+     "category": "integration"
+    },
+    {
+     "id": "pubsub",
+     "name": "pubsub",
+     "category": "integration"
+    },
+    {
+     "id": "relays",
+     "name": "Relays",
+     "category": "integration"
+    },
+    {
+     "id": "scheduler",
+     "name": "Scheduler",
+     "category": "integration"
+    },
+    {
+     "id": "sendgrid-accounts",
+     "name": "SendGrid Accounts",
+     "category": "integration"
+    },
+    {
+     "id": "software-as-a-service",
+     "name": "Software as a Service",
+     "category": "integration"
+    },
+    {
+     "id": "sql-data-warehouses-integration",
+     "name": "SQL Data Warehouses",
+     "category": "integration"
+    },
+    {
+     "id": "storsimple-device-managers",
+     "name": "StorSimple Device Managers",
+     "category": "integration"
+    },
+    {
+     "id": "system-topic",
+     "name": "System Topic",
+     "category": "integration"
+    },
+    {
+     "id": "virtual-visits-builder",
+     "name": "Virtual Visits Builder",
+     "category": "integration"
+    },
+    {
+     "id": "workflow",
+     "name": "Workflow",
+     "category": "integration"
+    },
+    {
+     "id": "azure-cosmos-db-iot",
+     "name": "Azure Cosmos DB",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "azure-databox-gateway-iot",
+     "name": "Azure Databox Gateway",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "azure-iot-operations",
+     "name": "Azure IoT Operations",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "azure-maps-accounts",
+     "name": "Azure Maps Accounts",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "azure-sphere",
+     "name": "Azure Sphere",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "azure-stack-hci-sizer",
+     "name": "Azure Stack HCI Sizer",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "connected-vehicle-platform",
+     "name": "Connected Vehicle Platform",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-cm-local-manager",
+     "name": "Defender CM Local Manager",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-dcs-controller",
+     "name": "Defender DCS Controller",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-distributer-control-system",
+     "name": "Defender Distributer Control System",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-engineering-station",
+     "name": "Defender Engineering Station",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-external-management",
+     "name": "Defender External Management",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-freezer-monitor",
+     "name": "Defender Freezer Monitor",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-historian",
+     "name": "Defender Historian",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-hmi",
+     "name": "Defender HMI",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-industrial-packaging-system",
+     "name": "Defender Industrial Packaging System",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-industrial-printer",
+     "name": "Defender Industrial Printer",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-industrial-robot",
+     "name": "Defender Industrial Robot",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-industrial-scale-system",
+     "name": "Defender Industrial Scale System",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-marquee",
+     "name": "Defender Marquee",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-meter",
+     "name": "Defender Meter",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-plc",
+     "name": "Defender PLC",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-pneumatic-device",
+     "name": "Defender Pneumatic Device",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-programable-board",
+     "name": "Defender Programable Board",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-relay",
+     "name": "Defender Relay",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-robot-controller",
+     "name": "Defender Robot Controller",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-rtu",
+     "name": "Defender RTU",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-sensor",
+     "name": "Defender Sensor",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-slot",
+     "name": "Defender Slot",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "defender-web-guiding-system",
+     "name": "Defender Web Guiding System",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "device-provisioning-services",
+     "name": "Device Provisioning Services",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "device-update-iot-hub",
+     "name": "Device Update IoT Hub",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "digital-twins",
+     "name": "Digital Twins",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "event-grid-subscriptions-iot",
+     "name": "Event Grid Subscriptions",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "event-hub-clusters-iot",
+     "name": "Event Hub Clusters",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "event-hubs-iot",
+     "name": "Event Hubs",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "function-apps-iot",
+     "name": "Function Apps",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "hybrid-connectivity-hub",
+     "name": "Hybrid Connectivity Hub",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "industrial-iot",
+     "name": "Industrial IoT",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "iot-central-applications",
+     "name": "IoT Central Applications",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "iot-edge",
+     "name": "IoT Edge",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "iot-hub",
+     "name": "IoT Hub",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "logic-apps-iot",
+     "name": "Logic Apps",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "machine-learning-studio-classic-web-services-iot",
+     "name": "Machine Learning Studio (Classic) Web Services",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "machine-learning-studio-web-service-plans-iot",
+     "name": "Machine Learning Studio Web Service Plans",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "machine-learning-studio-workspaces-iot",
+     "name": "Machine Learning Studio Workspaces",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "medtech-service",
+     "name": "MedTech Service",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "notification-hub-namespaces",
+     "name": "Notification Hub Namespaces",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "notification-hubs-iot",
+     "name": "Notification Hubs",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "stack-hci-premium",
+     "name": "Stack HCI Premium",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "stream-analytics-jobs-iot",
+     "name": "Stream Analytics Jobs",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "time-series-data-sets",
+     "name": "Time Series Data Sets",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "time-series-insights-access-policies",
+     "name": "Time Series Insights Access Policies",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "time-series-insights-environments",
+     "name": "Time Series Insights Environments",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "time-series-insights-event-sources",
+     "name": "Time Series Insights Event Sources",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "windows10-core-services",
+     "name": "Windows10 Core Services",
+     "category": "internet-of-things"
+    },
+    {
+     "id": "app-services-mobile",
+     "name": "App Services",
+     "category": "mobile"
+    },
+    {
+     "id": "client-apps",
+     "name": "Client Apps",
+     "category": "mobile"
+    },
+    {
+     "id": "device-compliance",
+     "name": "Device Compliance",
+     "category": "mobile"
+    },
+    {
+     "id": "device-configuration",
+     "name": "Device Configuration",
+     "category": "mobile"
+    },
+    {
+     "id": "device-enrollment",
+     "name": "Device Enrollment",
+     "category": "mobile"
+    },
+    {
+     "id": "device-security-apple",
+     "name": "Device Security Apple",
+     "category": "mobile"
+    },
+    {
+     "id": "device-security-google",
+     "name": "Device Security Google",
+     "category": "mobile"
+    },
+    {
+     "id": "device-security-windows",
+     "name": "Device Security Windows",
+     "category": "mobile"
+    },
+    {
+     "id": "devices",
+     "name": "Devices",
+     "category": "mobile"
+    },
+    {
+     "id": "ebooks",
+     "name": "eBooks",
+     "category": "mobile"
+    },
+    {
+     "id": "engage-center-connect",
+     "name": "Engage Center Connect",
+     "category": "mobile"
+    },
+    {
+     "id": "entra-identity-roles-and-administrators-intune",
+     "name": "Entra Identity Roles and Administrators",
+     "category": "mobile"
+    },
+    {
+     "id": "exchange-access",
+     "name": "Exchange Access",
+     "category": "mobile"
+    },
+    {
+     "id": "intune",
+     "name": "Intune",
+     "category": "mobile"
+    },
+    {
+     "id": "intune-app-protection",
+     "name": "Intune App Protection",
+     "category": "mobile"
+    },
+    {
+     "id": "intune-for-education",
+     "name": "Intune For Education",
+     "category": "mobile"
+    },
+    {
+     "id": "mindaro",
+     "name": "Mindaro",
+     "category": "mobile"
+    },
+    {
+     "id": "mobile",
+     "name": "Mobile",
+     "category": "mobile"
+    },
+    {
+     "id": "mobile-engagement",
+     "name": "Mobile Engagement",
+     "category": "mobile"
+    },
+    {
+     "id": "notification-hubs-mobile",
+     "name": "Notification Hubs",
+     "category": "mobile"
+    },
+    {
+     "id": "remote-rendering",
+     "name": "Remote Rendering",
+     "category": "mobile"
+    },
+    {
+     "id": "security-baselines",
+     "name": "Security Baselines",
+     "category": "mobile"
+    },
+    {
+     "id": "software-updates",
+     "name": "Software Updates",
+     "category": "mobile"
+    },
+    {
+     "id": "spatial-anchor-accounts",
+     "name": "Spatial Anchor Accounts",
+     "category": "mobile"
+    },
+    {
+     "id": "tenant-status",
+     "name": "Tenant Status",
+     "category": "mobile"
+    },
+    {
+     "id": "windows-notification-services",
+     "name": "Windows Notification Services",
+     "category": "mobile"
+    },
+    {
+     "id": "application-gateway-containers",
+     "name": "Application Gateway Containers",
+     "category": "networking"
+    },
+    {
+     "id": "application-gateways",
+     "name": "Application Gateways",
+     "category": "networking"
+    },
+    {
+     "id": "atm-multistack",
+     "name": "ATM Multistack",
+     "category": "networking"
+    },
+    {
+     "id": "azure-access-point",
+     "name": "Azure Access Point",
+     "category": "networking"
+    },
+    {
+     "id": "azure-communications-gateway",
+     "name": "Azure Communications Gateway",
+     "category": "networking"
+    },
+    {
+     "id": "azure-firewall-manager",
+     "name": "Azure Firewall Manager",
+     "category": "networking"
+    },
+    {
+     "id": "azure-firewall-policy",
+     "name": "Azure Firewall Policy",
+     "category": "networking"
+    },
+    {
+     "id": "azure-network-function-manager",
+     "name": "Azure Network Function Manager",
+     "category": "networking"
+    },
+    {
+     "id": "azure-network-function-manager-functions",
+     "name": "Azure Network Function Manager Functions",
+     "category": "networking"
+    },
+    {
+     "id": "azure-orbital",
+     "name": "Azure Orbital",
+     "category": "networking"
+    },
+    {
+     "id": "bastions",
+     "name": "Bastions",
+     "category": "networking"
+    },
+    {
+     "id": "cdn-profiles-networking",
+     "name": "CDN Profiles",
+     "category": "networking"
+    },
+    {
+     "id": "connected-cache",
+     "name": "Connected Cache",
+     "category": "networking"
+    },
+    {
+     "id": "connections",
+     "name": "Connections",
+     "category": "networking"
+    },
+    {
+     "id": "custom-ip-prefix",
+     "name": "Custom IP Prefix",
+     "category": "networking"
+    },
+    {
+     "id": "ddos-custom-policy",
+     "name": "DDoS Custom Policy",
+     "category": "networking"
+    },
+    {
+     "id": "ddos-protection-plans",
+     "name": "DDoS Protection Plans",
+     "category": "networking"
+    },
+    {
+     "id": "dns-multistack",
+     "name": "DNS Multistack",
+     "category": "networking"
+    },
+    {
+     "id": "dns-private-resolver",
+     "name": "DNS Private Resolver",
+     "category": "networking"
+    },
+    {
+     "id": "dns-security-policy",
+     "name": "DNS Security Policy",
+     "category": "networking"
+    },
+    {
+     "id": "dns-zones",
+     "name": "DNS Zones",
+     "category": "networking"
+    },
+    {
+     "id": "edge-actions",
+     "name": "Edge Actions",
+     "category": "networking"
+    },
+    {
+     "id": "express-route-traffic-collector",
+     "name": "Express Route Traffic Collector",
+     "category": "networking"
+    },
+    {
+     "id": "expressroute-circuits",
+     "name": "ExpressRoute Circuits",
+     "category": "networking"
+    },
+    {
+     "id": "expressroute-direct",
+     "name": "ExpressRoute Direct",
+     "category": "networking"
+    },
+    {
+     "id": "firewalls",
+     "name": "Firewalls",
+     "category": "networking"
+    },
+    {
+     "id": "front-door-and-cdn-profiles",
+     "name": "Front Door and CDN Profiles",
+     "category": "networking"
+    },
+    {
+     "id": "internet-analyzer-profiles",
+     "name": "Internet Analyzer Profiles",
+     "category": "networking"
+    },
+    {
+     "id": "ip-address-manager",
+     "name": "IP Address manager",
+     "category": "networking"
+    },
+    {
+     "id": "ip-groups",
+     "name": "IP Groups",
+     "category": "networking"
+    },
+    {
+     "id": "load-balancer-hub",
+     "name": "Load Balancer Hub",
+     "category": "networking"
+    },
+    {
+     "id": "load-balancers",
+     "name": "Load Balancers",
+     "category": "networking"
+    },
+    {
+     "id": "local-network-gateways",
+     "name": "Local Network Gateways",
+     "category": "networking"
+    },
+    {
+     "id": "local-network-gateways-other",
+     "name": "Local Network Gateways",
+     "category": "networking"
+    },
+    {
+     "id": "mobile-networks",
+     "name": "Mobile Networks",
+     "category": "networking"
+    },
+    {
+     "id": "nat",
+     "name": "NAT",
+     "category": "networking"
+    },
+    {
+     "id": "network-foundation-hub",
+     "name": "Network Foundation Hub",
+     "category": "networking"
+    },
+    {
+     "id": "network-interfaces",
+     "name": "Network Interfaces",
+     "category": "networking"
+    },
+    {
+     "id": "network-managers",
+     "name": "Network Managers",
+     "category": "networking"
+    },
+    {
+     "id": "network-security-groups",
+     "name": "Network Security Groups",
+     "category": "networking"
+    },
+    {
+     "id": "network-security-hub",
+     "name": "Network Security Hub",
+     "category": "networking"
+    },
+    {
+     "id": "network-watcher-networking",
+     "name": "Network Watcher",
+     "category": "networking"
+    },
+    {
+     "id": "on-premises-data-gateways",
+     "name": "On Premises Data Gateways",
+     "category": "networking"
+    },
+    {
+     "id": "peering-service",
+     "name": "Peering Service",
+     "category": "networking"
+    },
+    {
+     "id": "peerings",
+     "name": "Peerings",
+     "category": "networking"
+    },
+    {
+     "id": "private-endpoints",
+     "name": "Private Endpoints",
+     "category": "networking"
+    },
+    {
+     "id": "private-link",
+     "name": "Private Link",
+     "category": "networking"
+    },
+    {
+     "id": "private-link-service",
+     "name": "Private Link Service",
+     "category": "networking"
+    },
+    {
+     "id": "private-link-services-networking",
+     "name": "Private Link Services",
+     "category": "networking"
+    },
+    {
+     "id": "proximity-placement-groups",
+     "name": "Proximity Placement Groups",
+     "category": "networking"
+    },
+    {
+     "id": "public-ip-addresses",
+     "name": "Public IP Addresses",
+     "category": "networking"
+    },
+    {
+     "id": "public-ip-addresses-classic",
+     "name": "Public IP Addresses (Classic)",
+     "category": "networking"
+    },
+    {
+     "id": "public-ip-prefixes",
+     "name": "Public IP Prefixes",
+     "category": "networking"
+    },
+    {
+     "id": "reserved-ip-addresses-classic",
+     "name": "Reserved IP Addresses (Classic)",
+     "category": "networking"
+    },
+    {
+     "id": "resource-management-private-link",
+     "name": "Resource Management Private Link",
+     "category": "networking"
+    },
+    {
+     "id": "route-filters",
+     "name": "Route Filters",
+     "category": "networking"
+    },
+    {
+     "id": "route-tables",
+     "name": "Route Tables",
+     "category": "networking"
+    },
+    {
+     "id": "service-endpoint-policies",
+     "name": "Service Endpoint Policies",
+     "category": "networking"
+    },
+    {
+     "id": "sonic-dash",
+     "name": "Sonic Dash",
+     "category": "networking"
+    },
+    {
+     "id": "spot-vm",
+     "name": "Spot VM",
+     "category": "networking"
+    },
+    {
+     "id": "spot-vmss",
+     "name": "Spot VMSS",
+     "category": "networking"
+    },
+    {
+     "id": "subnet",
+     "name": "Subnet",
+     "category": "networking"
+    },
+    {
+     "id": "traffic-manager-profiles",
+     "name": "Traffic Manager Profiles",
+     "category": "networking"
+    },
+    {
+     "id": "virtual-network-gateways",
+     "name": "Virtual Network Gateways",
+     "category": "networking"
+    },
+    {
+     "id": "virtual-networks",
+     "name": "Virtual Networks",
+     "category": "networking"
+    },
+    {
+     "id": "virtual-networks-classic",
+     "name": "Virtual Networks (Classic)",
+     "category": "networking"
+    },
+    {
+     "id": "virtual-router",
+     "name": "Virtual Router",
+     "category": "networking"
+    },
+    {
+     "id": "virtual-wan-hub",
+     "name": "Virtual WAN Hub",
+     "category": "networking"
+    },
+    {
+     "id": "virtual-wans",
+     "name": "Virtual WANs",
+     "category": "networking"
+    },
+    {
+     "id": "vnet-appliance",
+     "name": "VNet Appliance",
+     "category": "networking"
+    },
+    {
+     "id": "vpnclientwindows",
+     "name": "VPN Client Windows",
+     "category": "networking"
+    },
+    {
+     "id": "web-application-firewall-policies-waf",
+     "name": "Web Application Firewall Policies(WAF)",
+     "category": "networking"
+    },
+    {
+     "id": "power-platform",
+     "name": "Power Platform",
+     "category": "power-platform"
+    },
+    {
+     "id": "power-platform-integration",
+     "name": "Power Platform",
+     "category": "power-platform"
+    },
+    {
+     "id": "power-platform-mobile",
+     "name": "Power Platform",
+     "category": "power-platform"
+    },
+    {
+     "id": "power-platform-web",
+     "name": "Power Platform",
+     "category": "power-platform"
+    },
+    {
+     "id": "application-security-groups",
+     "name": "Application Security Groups",
+     "category": "security"
+    },
+    {
+     "id": "azure-enclaves",
+     "name": "Azure Enclaves",
+     "category": "security"
+    },
+    {
+     "id": "azure-information-protection-security",
+     "name": "Azure Information Protection",
+     "category": "security"
+    },
+    {
+     "id": "azure-sentinel",
+     "name": "Azure Sentinel",
+     "category": "security"
+    },
+    {
+     "id": "azureattestation",
+     "name": "Azure Attestation",
+     "category": "security"
+    },
+    {
+     "id": "conditional-access",
+     "name": "Conditional Access",
+     "category": "security"
+    },
+    {
+     "id": "confidential-ledgers",
+     "name": "Confidential Ledgers",
+     "category": "security"
+    },
+    {
+     "id": "dedicated-hsm",
+     "name": "Dedicated HSM",
+     "category": "security"
+    },
+    {
+     "id": "detonation",
+     "name": "Detonation",
+     "category": "security"
+    },
+    {
+     "id": "entra-identity-risky-signins",
+     "name": "Entra Identity Risky Signins",
+     "category": "security"
+    },
+    {
+     "id": "entra-identity-risky-users",
+     "name": "Entra Identity Risky Users",
+     "category": "security"
+    },
+    {
+     "id": "extendedsecurityupdates",
+     "name": "Extended Security Updates",
+     "category": "security"
+    },
+    {
+     "id": "identity-secure-score",
+     "name": "Identity Secure Score",
+     "category": "security"
+    },
+    {
+     "id": "key-vaults",
+     "name": "Key Vaults",
+     "category": "security"
+    },
+    {
+     "id": "keys",
+     "name": "Keys",
+     "category": "security"
+    },
+    {
+     "id": "microsoft-defender-easm",
+     "name": "Microsoft Defender EASM",
+     "category": "security"
+    },
+    {
+     "id": "microsoft-defender-for-cloud",
+     "name": "Microsoft Defender for Cloud",
+     "category": "security"
+    },
+    {
+     "id": "microsoft-defender-for-iot",
+     "name": "Microsoft Defender for IoT",
+     "category": "security"
+    },
+    {
+     "id": "multifactor-authentication",
+     "name": "Multifactor Authentication",
+     "category": "security"
+    },
+    {
+     "id": "network-security-perimeters",
+     "name": "Network Security Perimeters",
+     "category": "security"
+    },
+    {
+     "id": "resource-guard",
+     "name": "Resource Guard",
+     "category": "security"
+    },
+    {
+     "id": "ssh-keys",
+     "name": "SSH Keys",
+     "category": "security"
+    },
+    {
+     "id": "user-settings-security",
+     "name": "User Settings",
+     "category": "security"
+    },
+    {
+     "id": "azure-backup-center",
+     "name": "Azure Backup Center",
+     "category": "storage"
+    },
+    {
+     "id": "azure-databox-gateway-storage",
+     "name": "Azure Databox Gateway",
+     "category": "storage"
+    },
+    {
+     "id": "azure-fileshares",
+     "name": "Azure Fileshares",
+     "category": "storage"
+    },
+    {
+     "id": "azure-hcp-cache",
+     "name": "Azure HCP Cache",
+     "category": "storage"
+    },
+    {
+     "id": "azure-netapp-files",
+     "name": "Azure NetApp Files",
+     "category": "storage"
+    },
+    {
+     "id": "azure-storage-mover",
+     "name": "Azure Storage Mover",
+     "category": "storage"
+    },
+    {
+     "id": "backup-vault",
+     "name": "Backup Vault",
+     "category": "storage"
+    },
+    {
+     "id": "blob-block",
+     "name": "Blob Block",
+     "category": "storage"
+    },
+    {
+     "id": "blob-page",
+     "name": "Blob Page",
+     "category": "storage"
+    },
+    {
+     "id": "data-box-storage",
+     "name": "Data Box",
+     "category": "storage"
+    },
+    {
+     "id": "data-lake-storage-gen1",
+     "name": "Data Lake Storage Gen1",
+     "category": "storage"
+    },
+    {
+     "id": "data-share-invitations",
+     "name": "Data Share Invitations",
+     "category": "storage"
+    },
+    {
+     "id": "data-shares",
+     "name": "Data Shares",
+     "category": "storage"
+    },
+    {
+     "id": "data-virtualization",
+     "name": "Data Virtualization",
+     "category": "storage"
+    },
+    {
+     "id": "disk-pool",
+     "name": "Disk Pool",
+     "category": "storage"
+    },
+    {
+     "id": "elastic-san",
+     "name": "Elastic SAN",
+     "category": "storage"
+    },
+    {
+     "id": "files",
+     "name": "Files",
+     "category": "storage"
+    },
+    {
+     "id": "import-export-jobs",
+     "name": "Import Export Jobs",
+     "category": "storage"
+    },
+    {
+     "id": "managed-file-shares",
+     "name": "Managed File Shares",
+     "category": "storage"
+    },
+    {
+     "id": "recovery-services-vaults-storage",
+     "name": "Recovery Services Vaults",
+     "category": "storage"
+    },
+    {
+     "id": "ssd",
+     "name": "SSD",
+     "category": "storage"
+    },
+    {
+     "id": "storage-accounts",
+     "name": "Storage Accounts",
+     "category": "storage"
+    },
+    {
+     "id": "storage-accounts-classic",
+     "name": "Storage Accounts (Classic)",
+     "category": "storage"
+    },
+    {
+     "id": "storage-actions",
+     "name": "Storage Actions",
+     "category": "storage"
+    },
+    {
+     "id": "storage-azure-files",
+     "name": "Storage Azure Files",
+     "category": "storage"
+    },
+    {
+     "id": "storage-container",
+     "name": "Storage Container",
+     "category": "storage"
+    },
+    {
+     "id": "storage-explorer",
+     "name": "Storage Explorer",
+     "category": "storage"
+    },
+    {
+     "id": "storage-functions",
+     "name": "Storage Functions",
+     "category": "storage"
+    },
+    {
+     "id": "storage-hubs",
+     "name": "Storage Hubs",
+     "category": "storage"
+    },
+    {
+     "id": "storage-queue",
+     "name": "Storage Queue",
+     "category": "storage"
+    },
+    {
+     "id": "storage-sync-services",
+     "name": "Storage Sync Services",
+     "category": "storage"
+    },
+    {
+     "id": "storsimple-data-managers",
+     "name": "StorSimple Data Managers",
+     "category": "storage"
+    },
+    {
+     "id": "storsimple-device-managers-storage",
+     "name": "StorSimple Device Managers",
+     "category": "storage"
+    },
+    {
+     "id": "table",
+     "name": "Table",
+     "category": "storage"
+    },
+    {
+     "id": "agentic-web-apps",
+     "name": "Agentic Web Apps",
+     "category": "web"
+    },
+    {
+     "id": "api-center",
+     "name": "API Center",
+     "category": "web"
+    },
+    {
+     "id": "api-connections-web",
+     "name": "API Connections",
+     "category": "web"
+    },
+    {
+     "id": "api-management-services-web",
+     "name": "API Management Services",
+     "category": "web"
+    },
+    {
+     "id": "app-service-certificates",
+     "name": "App Service Certificates",
+     "category": "web"
+    },
+    {
+     "id": "app-service-certificates-web",
+     "name": "App Service Certificates",
+     "category": "web"
+    },
+    {
+     "id": "app-service-domains",
+     "name": "App Service Domains",
+     "category": "web"
+    },
+    {
+     "id": "app-service-domains-web",
+     "name": "App Service Domains",
+     "category": "web"
+    },
+    {
+     "id": "app-service-environments",
+     "name": "App Service Environments",
+     "category": "web"
+    },
+    {
+     "id": "app-service-environments-web",
+     "name": "App Service Environments",
+     "category": "web"
+    },
+    {
+     "id": "app-service-plans",
+     "name": "App Service Plans",
+     "category": "web"
+    },
+    {
+     "id": "app-service-plans-web",
+     "name": "App Service Plans",
+     "category": "web"
+    },
+    {
+     "id": "app-services",
+     "name": "App Services",
+     "category": "web"
+    },
+    {
+     "id": "app-services-web",
+     "name": "App Services",
+     "category": "web"
+    },
+    {
+     "id": "app-space",
+     "name": "App Space",
+     "category": "web"
+    },
+    {
+     "id": "app-space-component",
+     "name": "App Space Component",
+     "category": "web"
+    },
+    {
+     "id": "azure-media-service",
+     "name": "Azure Media Service",
+     "category": "web"
+    },
+    {
+     "id": "azure-spring-apps-web",
+     "name": "Azure Spring Apps",
+     "category": "web"
+    },
+    {
+     "id": "browser",
+     "name": "Browser",
+     "category": "web"
+    },
+    {
+     "id": "cdn-profiles",
+     "name": "CDN Profiles",
+     "category": "web"
+    },
+    {
+     "id": "cognitive-search-app-services",
+     "name": "Cognitive Search",
+     "category": "web"
+    },
+    {
+     "id": "cognitive-search-web",
+     "name": "Cognitive Search",
+     "category": "web"
+    },
+    {
+     "id": "cognitive-services-web",
+     "name": "Cognitive Services",
+     "category": "web"
+    },
+    {
+     "id": "front-door-and-cdn-profiles-web",
+     "name": "Front Door and CDN Profiles",
+     "category": "web"
+    },
+    {
+     "id": "notification-hub-namespaces-web",
+     "name": "Notification Hub Namespaces",
+     "category": "web"
+    },
+    {
+     "id": "notification-hubs",
+     "name": "Notification Hubs",
+     "category": "web"
+    },
+    {
+     "id": "server-farm",
+     "name": "Server Farm",
+     "category": "web"
+    },
+    {
+     "id": "signalr",
+     "name": "SignalR",
+     "category": "web"
+    },
+    {
+     "id": "static-apps",
+     "name": "Static Apps",
+     "category": "web"
+    },
+    {
+     "id": "web-app-database",
+     "name": "Web App + Database",
+     "category": "web"
+    },
+    {
+     "id": "web-jobs",
+     "name": "Web Jobs",
+     "category": "web"
+    },
+    {
+     "id": "web-slots",
+     "name": "Web Slots",
+     "category": "web"
+    },
+    {
+     "id": "website-power",
+     "name": "Website Power",
+     "category": "web"
+    },
+    {
+     "id": "website-staging",
+     "name": "Website Staging",
+     "category": "web"
+    }
+   ],
+   "frames": [
+    {
+     "id": "custom-boundary-azure-cloud",
+     "name": "Microsoft Azure",
+     "category": "custom",
+     "kind": "cloud",
+     "level": 0
+    },
+    {
+     "id": "custom-boundary-azure-tenant",
+     "name": "Microsoft Entra tenant",
+     "category": "custom",
+     "kind": "organization",
+     "level": 0
+    },
+    {
+     "id": "custom-boundary-azure-management-group",
+     "name": "Azure management group",
+     "category": "custom",
+     "kind": "management-group",
+     "level": 1
+    },
+    {
+     "id": "custom-boundary-azure-subscription",
+     "name": "Azure subscription",
+     "category": "custom",
+     "kind": "subscription",
+     "level": 1
+    },
+    {
+     "id": "custom-boundary-azure-resource-group",
+     "name": "Azure resource group",
+     "category": "custom",
+     "kind": "resource-group",
+     "level": 2
+    },
+    {
+     "id": "custom-boundary-azure-region",
+     "name": "Azure region",
+     "category": "custom",
+     "kind": "region",
+     "level": 3
+    },
+    {
+     "id": "custom-boundary-azure-vnet",
+     "name": "Azure virtual network",
+     "category": "custom",
+     "kind": "network",
+     "level": 4
+    },
+    {
+     "id": "custom-boundary-azure-zone",
+     "name": "Azure availability zone",
+     "category": "custom",
+     "kind": "zone",
+     "level": 5
+    },
+    {
+     "id": "custom-boundary-azure-public-subnet",
+     "name": "Azure public subnet",
+     "category": "custom",
+     "kind": "subnet-public",
+     "level": 6
+    },
+    {
+     "id": "custom-boundary-azure-subnet",
+     "name": "Azure subnet",
+     "category": "custom",
+     "kind": "subnet-private",
+     "level": 6
+    },
+    {
+     "id": "custom-boundary-azure-aks",
+     "name": "Azure Kubernetes Service cluster",
+     "category": "custom",
+     "kind": "cluster",
+     "level": 7
+    }
+   ],
+   "starter_stack": {
+    "id": "azure-landing-zone",
+    "label": "Azure landing zone",
+    "frames": [
+     "custom-boundary-azure-tenant",
+     "custom-boundary-azure-management-group",
+     "custom-boundary-azure-subscription",
+     "custom-boundary-azure-resource-group",
+     "custom-boundary-azure-vnet",
+     "custom-boundary-azure-subnet"
+    ]
+   }
+  },
+  {
+   "id": "kubernetes",
+   "display_name": "Kubernetes",
+   "kind": "platform",
+   "coverage": "reviewed",
+   "mark_only": false,
+   "icons": 34,
+   "unmapped": 0,
+   "categories": {
+    "containers": 34
+   },
+   "components": [
+    {
+     "id": "c-role",
+     "name": "ClusterRole",
+     "category": "containers"
+    },
+    {
+     "id": "cm",
+     "name": "ConfigMap",
+     "category": "containers"
+    },
+    {
+     "id": "control-plane",
+     "name": "Control plane",
+     "category": "containers"
+    },
+    {
+     "id": "crb",
+     "name": "ClusterRoleBinding",
+     "category": "containers"
+    },
+    {
+     "id": "crd",
+     "name": "CustomResourceDefinition",
+     "category": "containers"
+    },
+    {
+     "id": "cronjob",
+     "name": "CronJob",
+     "category": "containers"
+    },
+    {
+     "id": "deploy",
+     "name": "Deployment",
+     "category": "containers"
+    },
+    {
+     "id": "ds",
+     "name": "DaemonSet",
+     "category": "containers"
+    },
+    {
+     "id": "ep",
+     "name": "Endpoints",
+     "category": "containers"
+    },
+    {
+     "id": "etcd",
+     "name": "etcd",
+     "category": "containers"
+    },
+    {
+     "id": "group",
+     "name": "Group",
+     "category": "containers"
+    },
+    {
+     "id": "hpa",
+     "name": "HorizontalPodAutoscaler",
+     "category": "containers"
+    },
+    {
+     "id": "ing",
+     "name": "Ingress",
+     "category": "containers"
+    },
+    {
+     "id": "job",
+     "name": "Job",
+     "category": "containers"
+    },
+    {
+     "id": "kubernetes",
+     "name": "Kubernetes",
+     "category": "containers"
+    },
+    {
+     "id": "limits",
+     "name": "LimitRange",
+     "category": "containers"
+    },
+    {
+     "id": "netpol",
+     "name": "NetworkPolicy",
+     "category": "containers"
+    },
+    {
+     "id": "node",
+     "name": "Node",
+     "category": "containers"
+    },
+    {
+     "id": "ns",
+     "name": "Namespace",
+     "category": "containers"
+    },
+    {
+     "id": "pod",
+     "name": "Pod",
+     "category": "containers"
+    },
+    {
+     "id": "psp",
+     "name": "PodSecurityPolicy",
+     "category": "containers"
+    },
+    {
+     "id": "pv",
+     "name": "PersistentVolume",
+     "category": "containers"
+    },
+    {
+     "id": "pvc",
+     "name": "PersistentVolumeClaim",
+     "category": "containers"
+    },
+    {
+     "id": "quota",
+     "name": "ResourceQuota",
+     "category": "containers"
+    },
+    {
+     "id": "rb",
+     "name": "RoleBinding",
+     "category": "containers"
+    },
+    {
+     "id": "role",
+     "name": "Role",
+     "category": "containers"
+    },
+    {
+     "id": "rs",
+     "name": "ReplicaSet",
+     "category": "containers"
+    },
+    {
+     "id": "sa",
+     "name": "ServiceAccount",
+     "category": "containers"
+    },
+    {
+     "id": "sc",
+     "name": "StorageClass",
+     "category": "containers"
+    },
+    {
+     "id": "secret",
+     "name": "Secret",
+     "category": "containers"
+    },
+    {
+     "id": "sts",
+     "name": "StatefulSet",
+     "category": "containers"
+    },
+    {
+     "id": "svc",
+     "name": "Service",
+     "category": "containers"
+    },
+    {
+     "id": "user",
+     "name": "User",
+     "category": "containers"
+    },
+    {
+     "id": "vol",
+     "name": "Volume",
+     "category": "containers"
+    }
+   ],
+   "frames": [
+    {
+     "id": "custom-boundary-kubernetes-cluster",
+     "name": "Kubernetes cluster",
+     "category": "custom",
+     "kind": "cluster",
+     "level": 7
+    },
+    {
+     "id": "custom-boundary-kubernetes-namespace",
+     "name": "Kubernetes namespace",
+     "category": "custom",
+     "kind": "namespace",
+     "level": 8
+    },
+    {
+     "id": "custom-boundary-kubernetes-node-pool",
+     "name": "Kubernetes node pool",
+     "category": "custom",
+     "kind": "node-pool",
+     "level": 8
+    },
+    {
+     "id": "custom-boundary-kubernetes-workload",
+     "name": "Kubernetes workload",
+     "category": "custom",
+     "kind": "group",
+     "level": 8
+    }
+   ],
+   "starter_stack": {
+    "id": "kubernetes-workload",
+    "label": "Kubernetes workload",
+    "frames": [
+     "custom-boundary-kubernetes-cluster",
+     "custom-boundary-kubernetes-namespace",
+     "custom-boundary-kubernetes-workload"
+    ]
+   }
+  },
+  {
+   "id": "databricks",
+   "display_name": "Databricks",
+   "kind": "platform",
+   "coverage": "reviewed",
+   "mark_only": false,
+   "icons": 78,
+   "unmapped": 0,
+   "categories": {
+    "ai-machine-learning": 17,
+    "analytics": 18,
+    "devops": 11,
+    "governance": 9,
+    "integration": 15,
+    "storage": 8
+   },
+   "components": [
+    {
+     "id": "agent-bricks",
+     "name": "Agent Bricks",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "ai-functions",
+     "name": "AI Functions",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "ai-search",
+     "name": "Databricks AI Search",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "automl",
+     "name": "Databricks AutoML",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "customerlake",
+     "name": "CustomerLake",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "document-intelligence",
+     "name": "Document Intelligence",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "feature-store",
+     "name": "Databricks Feature Store",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "genie",
+     "name": "Databricks Genie",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "genie-agents",
+     "name": "Genie Agents",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "genie-code",
+     "name": "Genie Code",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "genie-deep-research",
+     "name": "Genie Deep Research",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "genie-one",
+     "name": "Genie One",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "logo-mlflow",
+     "name": "MLflow logo",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "mlflow",
+     "name": "Managed MLflow",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "model-serving",
+     "name": "Databricks Model Serving",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "model-training",
+     "name": "Databricks Model Training",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "unity-ai-gateway",
+     "name": "Unity AI Gateway",
+     "category": "ai-machine-learning"
+    },
+    {
+     "id": "ai-bi",
+     "name": "Databricks AI/BI",
+     "category": "analytics"
+    },
+    {
+     "id": "ai-bi-dashboards",
+     "name": "AI/BI Dashboards",
+     "category": "analytics"
+    },
+    {
+     "id": "apache-spark",
+     "name": "Apache Spark",
+     "category": "analytics"
+    },
+    {
+     "id": "compute-clusters",
+     "name": "Compute (Clusters)",
+     "category": "analytics"
+    },
+    {
+     "id": "data-intelligence-platform",
+     "name": "Data Intelligence Platform",
+     "category": "analytics"
+    },
+    {
+     "id": "data-warehousing",
+     "name": "Databricks Lakehouse (Data Warehousing)",
+     "category": "analytics"
+    },
+    {
+     "id": "databricks",
+     "name": "Databricks",
+     "category": "analytics"
+    },
+    {
+     "id": "databricks-runtime",
+     "name": "Databricks Runtime",
+     "category": "analytics"
+    },
+    {
+     "id": "databricks-sql",
+     "name": "Databricks SQL",
+     "category": "analytics"
+    },
+    {
+     "id": "lakehouse",
+     "name": "Lakehouse Architecture",
+     "category": "analytics"
+    },
+    {
+     "id": "lakehouse-federation",
+     "name": "Lakehouse Federation",
+     "category": "analytics"
+    },
+    {
+     "id": "lakehouse-rt",
+     "name": "Lakehouse//RT",
+     "category": "analytics"
+    },
+    {
+     "id": "logo-apache-spark",
+     "name": "Apache Spark logo",
+     "category": "analytics"
+    },
+    {
+     "id": "multicloud",
+     "name": "Multicloud Deployment",
+     "category": "analytics"
+    },
+    {
+     "id": "photon",
+     "name": "Photon",
+     "category": "analytics"
+    },
+    {
+     "id": "serverless-compute",
+     "name": "Serverless Compute",
+     "category": "analytics"
+    },
+    {
+     "id": "spark-real-time-mode",
+     "name": "Real-Time Mode for Apache Spark",
+     "category": "analytics"
+    },
+    {
+     "id": "sql-warehouse",
+     "name": "SQL Warehouse",
+     "category": "analytics"
+    },
+    {
+     "id": "asset-bundles",
+     "name": "Databricks Asset Bundles",
+     "category": "devops"
+    },
+    {
+     "id": "databricks-apps",
+     "name": "Databricks Apps",
+     "category": "devops"
+    },
+    {
+     "id": "databricks-cli",
+     "name": "Databricks CLI",
+     "category": "devops"
+    },
+    {
+     "id": "databricks-connect",
+     "name": "Databricks Connect",
+     "category": "devops"
+    },
+    {
+     "id": "git-folders",
+     "name": "Git Folders (Repos)",
+     "category": "devops"
+    },
+    {
+     "id": "ide-integrations",
+     "name": "IDE Integrations",
+     "category": "devops"
+    },
+    {
+     "id": "logo-terraform",
+     "name": "Terraform logo",
+     "category": "devops"
+    },
+    {
+     "id": "notebooks",
+     "name": "Databricks Notebooks",
+     "category": "devops"
+    },
+    {
+     "id": "rest-api",
+     "name": "REST API & SDKs",
+     "category": "devops"
+    },
+    {
+     "id": "terraform-provider",
+     "name": "Databricks Terraform Provider",
+     "category": "devops"
+    },
+    {
+     "id": "workspace",
+     "name": "Databricks Workspace",
+     "category": "devops"
+    },
+    {
+     "id": "abac",
+     "name": "Attribute-Based Access Control",
+     "category": "governance"
+    },
+    {
+     "id": "data-lineage",
+     "name": "Data & AI Lineage",
+     "category": "governance"
+    },
+    {
+     "id": "data-quality-monitoring",
+     "name": "Data Quality Monitoring",
+     "category": "governance"
+    },
+    {
+     "id": "enterprise-security",
+     "name": "Enterprise Security",
+     "category": "governance"
+    },
+    {
+     "id": "lakewatch",
+     "name": "Lakewatch",
+     "category": "governance"
+    },
+    {
+     "id": "logo-unity-catalog",
+     "name": "Unity Catalog logo",
+     "category": "governance"
+    },
+    {
+     "id": "system-tables",
+     "name": "System Tables",
+     "category": "governance"
+    },
+    {
+     "id": "unity-catalog",
+     "name": "Unity Catalog",
+     "category": "governance"
+    },
+    {
+     "id": "unity-catalog-semantics",
+     "name": "Unity Catalog Semantics",
+     "category": "governance"
+    },
+    {
+     "id": "auto-loader",
+     "name": "Auto Loader",
+     "category": "integration"
+    },
+    {
+     "id": "clean-rooms",
+     "name": "Databricks Clean Rooms",
+     "category": "integration"
+    },
+    {
+     "id": "delta-sharing",
+     "name": "Delta Sharing",
+     "category": "integration"
+    },
+    {
+     "id": "lakebridge",
+     "name": "Lakebridge",
+     "category": "integration"
+    },
+    {
+     "id": "lakeflow",
+     "name": "Lakeflow",
+     "category": "integration"
+    },
+    {
+     "id": "lakeflow-connect",
+     "name": "Lakeflow Connect",
+     "category": "integration"
+    },
+    {
+     "id": "lakeflow-designer",
+     "name": "Lakeflow Designer",
+     "category": "integration"
+    },
+    {
+     "id": "lakeflow-jobs",
+     "name": "Lakeflow Jobs",
+     "category": "integration"
+    },
+    {
+     "id": "logo-delta-sharing",
+     "name": "Delta Sharing logo",
+     "category": "integration"
+    },
+    {
+     "id": "marketplace",
+     "name": "Databricks Marketplace",
+     "category": "integration"
+    },
+    {
+     "id": "opensharing",
+     "name": "OpenSharing",
+     "category": "integration"
+    },
+    {
+     "id": "partner-connect",
+     "name": "Partner Connect",
+     "category": "integration"
+    },
+    {
+     "id": "spark-declarative-pipelines",
+     "name": "Apache Spark Declarative Pipelines",
+     "category": "integration"
+    },
+    {
+     "id": "structured-streaming",
+     "name": "Structured Streaming",
+     "category": "integration"
+    },
+    {
+     "id": "zerobus-ingest",
+     "name": "Zerobus Ingest",
+     "category": "integration"
+    },
+    {
+     "id": "apache-iceberg",
+     "name": "Apache Iceberg",
+     "category": "storage"
+    },
+    {
+     "id": "delta-lake",
+     "name": "Delta Lake",
+     "category": "storage"
+    },
+    {
+     "id": "lakebase",
+     "name": "Lakebase",
+     "category": "storage"
+    },
+    {
+     "id": "lakehouse-storage",
+     "name": "Lakehouse Storage (Managed Tables)",
+     "category": "storage"
+    },
+    {
+     "id": "liquid-clustering",
+     "name": "Liquid Clustering",
+     "category": "storage"
+    },
+    {
+     "id": "logo-apache-iceberg",
+     "name": "Apache Iceberg logo",
+     "category": "storage"
+    },
+    {
+     "id": "logo-delta-lake",
+     "name": "Delta Lake logo",
+     "category": "storage"
+    },
+    {
+     "id": "predictive-optimization",
+     "name": "Predictive Optimization",
+     "category": "storage"
+    }
+   ],
+   "frames": [
+    {
+     "id": "custom-boundary-databricks-account",
+     "name": "Databricks account",
+     "category": "custom",
+     "kind": "account",
+     "level": 1
+    },
+    {
+     "id": "custom-boundary-databricks-workspace",
+     "name": "Databricks workspace",
+     "category": "custom",
+     "kind": "project",
+     "level": 2
+    },
+    {
+     "id": "custom-boundary-databricks-compute",
+     "name": "Databricks compute",
+     "category": "custom",
+     "kind": "cluster",
+     "level": 7
+    },
+    {
+     "id": "custom-boundary-databricks-unity-catalog",
+     "name": "Unity Catalog",
+     "category": "custom",
+     "kind": "group",
+     "level": 8
+    }
+   ],
+   "starter_stack": {
+    "id": "databricks-workspace",
+    "label": "Databricks workspace",
+    "frames": [
+     "custom-boundary-databricks-account",
+     "custom-boundary-databricks-workspace",
+     "custom-boundary-databricks-compute"
+    ]
+   }
+  }
+ ],
+ "core_frames": [
+  {
+   "id": "custom-boundary-cloud",
+   "name": "Cloud boundary",
+   "category": "custom",
+   "kind": "cloud",
+   "level": 0
+  },
+  {
+   "id": "custom-boundary-organization",
+   "name": "Organization",
+   "category": "custom",
+   "kind": "organization",
+   "level": 0
+  },
+  {
+   "id": "custom-section",
+   "name": "Section",
+   "category": "custom",
+   "kind": "group",
+   "level": 0
+  },
+  {
+   "id": "custom-boundary-account",
+   "name": "Account",
+   "category": "custom",
+   "kind": "account",
+   "level": 1
+  },
+  {
+   "id": "custom-boundary-environment",
+   "name": "Environment",
+   "category": "custom",
+   "kind": "environment",
+   "level": 1
+  },
+  {
+   "id": "custom-boundary-project",
+   "name": "Project",
+   "category": "custom",
+   "kind": "project",
+   "level": 2
+  },
+  {
+   "id": "custom-boundary-campus",
+   "name": "Campus / building",
+   "category": "custom",
+   "kind": "campus",
+   "level": 3
+  },
+  {
+   "id": "custom-boundary-on-premises",
+   "name": "On-premises site",
+   "category": "custom",
+   "kind": "site",
+   "level": 3
+  },
+  {
+   "id": "custom-boundary-region-generic",
+   "name": "Region",
+   "category": "custom",
+   "kind": "region",
+   "level": 3
+  },
+  {
+   "id": "custom-boundary-hub-network",
+   "name": "Hub network",
+   "category": "custom",
+   "kind": "hub",
+   "level": 4
+  },
+  {
+   "id": "custom-boundary-management-network",
+   "name": "Management network",
+   "category": "custom",
+   "kind": "management",
+   "level": 4
+  },
+  {
+   "id": "custom-boundary-network",
+   "name": "Network boundary",
+   "category": "custom",
+   "kind": "network",
+   "level": 4
+  },
+  {
+   "id": "custom-boundary-spoke-network",
+   "name": "Spoke network",
+   "category": "custom",
+   "kind": "spoke",
+   "level": 4
+  },
+  {
+   "id": "custom-boundary-storage-fabric",
+   "name": "Storage fabric",
+   "category": "custom",
+   "kind": "storage-fabric",
+   "level": 4
+  },
+  {
+   "id": "custom-boundary-wiring-closet",
+   "name": "Wiring closet",
+   "category": "custom",
+   "kind": "closet",
+   "level": 5
+  },
+  {
+   "id": "custom-boundary-zone-generic",
+   "name": "Availability zone",
+   "category": "custom",
+   "kind": "zone",
+   "level": 5
+  },
+  {
+   "id": "custom-boundary-dmz",
+   "name": "DMZ",
+   "category": "custom",
+   "kind": "dmz",
+   "level": 6
+  },
+  {
+   "id": "custom-boundary-private-subnet-generic",
+   "name": "Private subnet",
+   "category": "custom",
+   "kind": "subnet-private",
+   "level": 6
+  },
+  {
+   "id": "custom-boundary-public-subnet-generic",
+   "name": "Public subnet",
+   "category": "custom",
+   "kind": "subnet-public",
+   "level": 6
+  },
+  {
+   "id": "custom-boundary-cluster",
+   "name": "Cluster boundary",
+   "category": "custom",
+   "kind": "cluster",
+   "level": 7
+  },
+  {
+   "id": "custom-boundary-security-zone",
+   "name": "Security zone",
+   "category": "custom",
+   "kind": "security-zone",
+   "level": 7
+  }
+ ],
+ "shared_primitives": [
+  {
+   "id": "automation-agent",
+   "name": "Automation agent",
+   "category": "ai-machine-learning"
+  },
+  {
+   "id": "brand-langchain",
+   "name": "LangChain",
+   "category": "ai-machine-learning"
+  },
+  {
+   "id": "brand-ollama",
+   "name": "Ollama",
+   "category": "ai-machine-learning"
+  },
+  {
+   "id": "data-jupyter",
+   "name": "Jupyter",
+   "category": "ai-machine-learning"
+  },
+  {
+   "id": "brand-airbyte",
+   "name": "Airbyte",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-checkmk",
+   "name": "Checkmk",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-cloudera",
+   "name": "Cloudera",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-fluent-bit",
+   "name": "Fluent Bit",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-hadoop",
+   "name": "Apache Hadoop",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-hive",
+   "name": "Apache Hive",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-icinga",
+   "name": "Icinga",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-kibana",
+   "name": "Kibana",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-logstash",
+   "name": "Logstash",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-microstrategy",
+   "name": "MicroStrategy",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-netdata",
+   "name": "Netdata",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-opsgenie",
+   "name": "Opsgenie",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-pagerduty",
+   "name": "PagerDuty",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-parquet",
+   "name": "Apache Parquet",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-qlik",
+   "name": "Qlik",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-snowflake",
+   "name": "Snowflake",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-spark",
+   "name": "Apache Spark",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-starrocks",
+   "name": "StarRocks",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-sumo-logic",
+   "name": "Sumo Logic",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-teradata",
+   "name": "Teradata",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-uptime-kuma",
+   "name": "Uptime Kuma",
+   "category": "analytics"
+  },
+  {
+   "id": "brand-victoriametrics",
+   "name": "VictoriaMetrics",
+   "category": "analytics"
+  },
+  {
+   "id": "data-pentaho",
+   "name": "Pentaho",
+   "category": "analytics"
+  },
+  {
+   "id": "data-power-bi",
+   "name": "Power BI",
+   "category": "analytics"
+  },
+  {
+   "id": "data-redash",
+   "name": "Redash",
+   "category": "analytics"
+  },
+  {
+   "id": "data-superset",
+   "name": "Apache Superset",
+   "category": "analytics"
+  },
+  {
+   "id": "data-tableau",
+   "name": "Tableau",
+   "category": "analytics"
+  },
+  {
+   "id": "data-trino",
+   "name": "Trino",
+   "category": "analytics"
+  },
+  {
+   "id": "language-r",
+   "name": "R",
+   "category": "analytics"
+  },
+  {
+   "id": "log-stream",
+   "name": "Log / event stream",
+   "category": "analytics"
+  },
+  {
+   "id": "monitoring",
+   "name": "Monitoring",
+   "category": "analytics"
+  },
+  {
+   "id": "monitoring-probe",
+   "name": "Monitoring probe",
+   "category": "analytics"
+  },
+  {
+   "id": "statistics-qgis",
+   "name": "QGIS",
+   "category": "analytics"
+  },
+  {
+   "id": "statistics-rstudio",
+   "name": "RStudio",
+   "category": "analytics"
+  },
+  {
+   "id": "statistics-sas",
+   "name": "SAS",
+   "category": "analytics"
+  },
+  {
+   "id": "statistics-spss",
+   "name": "SPSS",
+   "category": "analytics"
+  },
+  {
+   "id": "statistics-stata",
+   "name": "Stata",
+   "category": "analytics"
+  },
+  {
+   "id": "blade-chassis",
+   "name": "Blade chassis",
+   "category": "compute"
+  },
+  {
+   "id": "brand-almalinux",
+   "name": "AlmaLinux",
+   "category": "compute"
+  },
+  {
+   "id": "brand-alpine-linux",
+   "name": "Alpine Linux",
+   "category": "compute"
+  },
+  {
+   "id": "brand-anydesk",
+   "name": "AnyDesk",
+   "category": "compute"
+  },
+  {
+   "id": "brand-arch-linux",
+   "name": "Arch Linux",
+   "category": "compute"
+  },
+  {
+   "id": "brand-citrix",
+   "name": "Citrix",
+   "category": "compute"
+  },
+  {
+   "id": "brand-cloudstack",
+   "name": "Apache CloudStack",
+   "category": "compute"
+  },
+  {
+   "id": "brand-dell",
+   "name": "Dell",
+   "category": "compute"
+  },
+  {
+   "id": "brand-fedora",
+   "name": "Fedora",
+   "category": "compute"
+  },
+  {
+   "id": "brand-freebsd",
+   "name": "FreeBSD",
+   "category": "compute"
+  },
+  {
+   "id": "brand-hp",
+   "name": "HP",
+   "category": "compute"
+  },
+  {
+   "id": "brand-intel",
+   "name": "Intel",
+   "category": "compute"
+  },
+  {
+   "id": "brand-lenovo",
+   "name": "Lenovo",
+   "category": "compute"
+  },
+  {
+   "id": "brand-macos",
+   "name": "macOS",
+   "category": "compute"
+  },
+  {
+   "id": "brand-nixos",
+   "name": "NixOS",
+   "category": "compute"
+  },
+  {
+   "id": "brand-nutanix",
+   "name": "Nutanix",
+   "category": "compute"
+  },
+  {
+   "id": "brand-nvidia",
+   "name": "NVIDIA",
+   "category": "compute"
+  },
+  {
+   "id": "brand-openbsd",
+   "name": "OpenBSD",
+   "category": "compute"
+  },
+  {
+   "id": "brand-opennebula",
+   "name": "OpenNebula",
+   "category": "compute"
+  },
+  {
+   "id": "brand-opensuse",
+   "name": "openSUSE",
+   "category": "compute"
+  },
+  {
+   "id": "brand-qemu",
+   "name": "QEMU / KVM",
+   "category": "compute"
+  },
+  {
+   "id": "brand-red-hat",
+   "name": "Red Hat",
+   "category": "compute"
+  },
+  {
+   "id": "brand-rocky-linux",
+   "name": "Rocky Linux",
+   "category": "compute"
+  },
+  {
+   "id": "brand-rustdesk",
+   "name": "RustDesk",
+   "category": "compute"
+  },
+  {
+   "id": "brand-supermicro",
+   "name": "Supermicro",
+   "category": "compute"
+  },
+  {
+   "id": "brand-suse",
+   "name": "SUSE",
+   "category": "compute"
+  },
+  {
+   "id": "brand-teamviewer",
+   "name": "TeamViewer",
+   "category": "compute"
+  },
+  {
+   "id": "brand-virtualbox",
+   "name": "VirtualBox",
+   "category": "compute"
+  },
+  {
+   "id": "brand-webassembly",
+   "name": "WebAssembly",
+   "category": "compute"
+  },
+  {
+   "id": "console-server",
+   "name": "Console server",
+   "category": "compute"
+  },
+  {
+   "id": "cooling",
+   "name": "Cooling / HVAC",
+   "category": "compute"
+  },
+  {
+   "id": "desktop-client",
+   "name": "Desktop client",
+   "category": "compute"
+  },
+  {
+   "id": "failover-pair",
+   "name": "Failover pair",
+   "category": "compute"
+  },
+  {
+   "id": "fire-suppression",
+   "name": "Fire suppression",
+   "category": "compute"
+  },
+  {
+   "id": "generator",
+   "name": "Generator",
+   "category": "compute"
+  },
+  {
+   "id": "gpu-server",
+   "name": "GPU server",
+   "category": "compute"
+  },
+  {
+   "id": "ha-cluster",
+   "name": "HA cluster",
+   "category": "compute"
+  },
+  {
+   "id": "hpc-node",
+   "name": "HPC node",
+   "category": "compute"
+  },
+  {
+   "id": "kvm-console",
+   "name": "KVM console",
+   "category": "compute"
+  },
+  {
+   "id": "mainframe",
+   "name": "Mainframe",
+   "category": "compute"
+  },
+  {
+   "id": "pdu",
+   "name": "PDU",
+   "category": "compute"
+  },
+  {
+   "id": "physical-server",
+   "name": "Physical server",
+   "category": "compute"
+  },
+  {
+   "id": "print-server",
+   "name": "Print server",
+   "category": "compute"
+  },
+  {
+   "id": "printer",
+   "name": "Printer",
+   "category": "compute"
+  },
+  {
+   "id": "thin-client",
+   "name": "Thin client",
+   "category": "compute"
+  },
+  {
+   "id": "unix-server",
+   "name": "UNIX server",
+   "category": "compute"
+  },
+  {
+   "id": "ups",
+   "name": "UPS",
+   "category": "compute"
+  },
+  {
+   "id": "utility-power",
+   "name": "Utility power",
+   "category": "compute"
+  },
+  {
+   "id": "virtual-machine",
+   "name": "Virtual machine",
+   "category": "compute"
+  },
+  {
+   "id": "windows-server",
+   "name": "Windows Server",
+   "category": "compute"
+  },
+  {
+   "id": "brand-docker",
+   "name": "Docker",
+   "category": "containers"
+  },
+  {
+   "id": "brand-helm",
+   "name": "Helm",
+   "category": "containers"
+  },
+  {
+   "id": "brand-kubernetes",
+   "name": "Kubernetes",
+   "category": "containers"
+  },
+  {
+   "id": "brand-openshift",
+   "name": "Red Hat OpenShift",
+   "category": "containers"
+  },
+  {
+   "id": "brand-podman",
+   "name": "Podman",
+   "category": "containers"
+  },
+  {
+   "id": "brand-portainer",
+   "name": "Portainer",
+   "category": "containers"
+  },
+  {
+   "id": "brand-rancher",
+   "name": "Rancher",
+   "category": "containers"
+  },
+  {
+   "id": "brand-talos",
+   "name": "Talos Linux",
+   "category": "containers"
+  },
+  {
+   "id": "generic-container",
+   "name": "Container",
+   "category": "containers"
+  },
+  {
+   "id": "kubernetes-deployment",
+   "name": "Kubernetes deployment",
+   "category": "containers"
+  },
+  {
+   "id": "kubernetes-ingress",
+   "name": "Kubernetes ingress",
+   "category": "containers"
+  },
+  {
+   "id": "kubernetes-node",
+   "name": "Kubernetes node",
+   "category": "containers"
+  },
+  {
+   "id": "kubernetes-pod",
+   "name": "Kubernetes pod",
+   "category": "containers"
+  },
+  {
+   "id": "kubernetes-service",
+   "name": "Kubernetes service",
+   "category": "containers"
+  },
+  {
+   "id": "custom-3d",
+   "name": "3D render",
+   "category": "custom"
+  },
+  {
+   "id": "custom-annotation",
+   "name": "Annotation",
+   "category": "custom"
+  },
+  {
+   "id": "custom-label",
+   "name": "Label",
+   "category": "custom"
+  },
+  {
+   "id": "custom-resource",
+   "name": "Custom Resource",
+   "category": "custom"
+  },
+  {
+   "id": "custom-shape",
+   "name": "Shape",
+   "category": "custom"
+  },
+  {
+   "id": "brand-arangodb",
+   "name": "ArangoDB",
+   "category": "databases"
+  },
+  {
+   "id": "brand-elasticsearch",
+   "name": "Elasticsearch",
+   "category": "databases"
+  },
+  {
+   "id": "brand-meilisearch",
+   "name": "Meilisearch",
+   "category": "databases"
+  },
+  {
+   "id": "brand-milvus",
+   "name": "Milvus",
+   "category": "databases"
+  },
+  {
+   "id": "brand-mysql",
+   "name": "MySQL",
+   "category": "databases"
+  },
+  {
+   "id": "brand-opensearch",
+   "name": "OpenSearch",
+   "category": "databases"
+  },
+  {
+   "id": "brand-oracle",
+   "name": "Oracle",
+   "category": "databases"
+  },
+  {
+   "id": "brand-postgres",
+   "name": "PostgreSQL",
+   "category": "databases"
+  },
+  {
+   "id": "brand-redis",
+   "name": "Redis",
+   "category": "databases"
+  },
+  {
+   "id": "brand-scylladb",
+   "name": "ScyllaDB",
+   "category": "databases"
+  },
+  {
+   "id": "brand-sql-server",
+   "name": "SQL Server",
+   "category": "databases"
+  },
+  {
+   "id": "brand-sqlite",
+   "name": "SQLite",
+   "category": "databases"
+  },
+  {
+   "id": "brand-tidb",
+   "name": "TiDB",
+   "category": "databases"
+  },
+  {
+   "id": "brand-timescale",
+   "name": "TimescaleDB",
+   "category": "databases"
+  },
+  {
+   "id": "brand-vitess",
+   "name": "Vitess",
+   "category": "databases"
+  },
+  {
+   "id": "generic-cache",
+   "name": "Cache",
+   "category": "databases"
+  },
+  {
+   "id": "generic-database",
+   "name": "Database",
+   "category": "databases"
+  },
+  {
+   "id": "language-sql",
+   "name": "SQL",
+   "category": "databases"
+  },
+  {
+   "id": "search-index",
+   "name": "Search index",
+   "category": "databases"
+  },
+  {
+   "id": "approval-gate",
+   "name": "Approval gate",
+   "category": "devops"
+  },
+  {
+   "id": "brand-atlassian",
+   "name": "Atlassian",
+   "category": "devops"
+  },
+  {
+   "id": "brand-backstage",
+   "name": "Backstage",
+   "category": "devops"
+  },
+  {
+   "id": "brand-bitbucket",
+   "name": "Bitbucket",
+   "category": "devops"
+  },
+  {
+   "id": "brand-chef",
+   "name": "Chef",
+   "category": "devops"
+  },
+  {
+   "id": "brand-coder",
+   "name": "Coder",
+   "category": "devops"
+  },
+  {
+   "id": "brand-dependabot",
+   "name": "Dependabot",
+   "category": "devops"
+  },
+  {
+   "id": "brand-forgejo",
+   "name": "Forgejo",
+   "category": "devops"
+  },
+  {
+   "id": "brand-gitea",
+   "name": "Gitea",
+   "category": "devops"
+  },
+  {
+   "id": "brand-github",
+   "name": "GitHub",
+   "category": "devops"
+  },
+  {
+   "id": "brand-github-actions",
+   "name": "GitHub Actions",
+   "category": "devops"
+  },
+  {
+   "id": "brand-gitpod",
+   "name": "Gitpod",
+   "category": "devops"
+  },
+  {
+   "id": "brand-hashicorp",
+   "name": "HashiCorp",
+   "category": "devops"
+  },
+  {
+   "id": "brand-jira",
+   "name": "Jira",
+   "category": "devops"
+  },
+  {
+   "id": "brand-octopus-deploy",
+   "name": "Octopus Deploy",
+   "category": "devops"
+  },
+  {
+   "id": "brand-packer",
+   "name": "Packer",
+   "category": "devops"
+  },
+  {
+   "id": "brand-renovate",
+   "name": "Renovate",
+   "category": "devops"
+  },
+  {
+   "id": "brand-rundeck",
+   "name": "Rundeck",
+   "category": "devops"
+  },
+  {
+   "id": "brand-salt",
+   "name": "Salt",
+   "category": "devops"
+  },
+  {
+   "id": "brand-sonarqube",
+   "name": "SonarQube Server",
+   "category": "devops"
+  },
+  {
+   "id": "brand-sonatype-nexus",
+   "name": "Sonatype Nexus",
+   "category": "devops"
+  },
+  {
+   "id": "brand-terraform",
+   "name": "Terraform",
+   "category": "devops"
+  },
+  {
+   "id": "brand-vagrant",
+   "name": "Vagrant",
+   "category": "devops"
+  },
+  {
+   "id": "ci-cd-pipeline",
+   "name": "CI/CD pipeline",
+   "category": "devops"
+  },
+  {
+   "id": "ci-runner",
+   "name": "Runner",
+   "category": "devops"
+  },
+  {
+   "id": "git-branch",
+   "name": "Git branch",
+   "category": "devops"
+  },
+  {
+   "id": "itsm",
+   "name": "ITSM / service desk",
+   "category": "devops"
+  },
+  {
+   "id": "language-python",
+   "name": "Python",
+   "category": "devops"
+  },
+  {
+   "id": "signed-artifact",
+   "name": "Signed artifact",
+   "category": "devops"
+  },
+  {
+   "id": "software-defect",
+   "name": "Bug / defect",
+   "category": "devops"
+  },
+  {
+   "id": "terminal",
+   "name": "Terminal",
+   "category": "devops"
+  },
+  {
+   "id": "test-runner",
+   "name": "Test",
+   "category": "devops"
+  },
+  {
+   "id": "cmdb",
+   "name": "CMDB / asset inventory",
+   "category": "governance"
+  },
+  {
+   "id": "brand-aws",
+   "name": "Amazon Web Services",
+   "category": "hybrid-multicloud"
+  },
+  {
+   "id": "brand-azure",
+   "name": "Microsoft Azure",
+   "category": "hybrid-multicloud"
+  },
+  {
+   "id": "brand-digitalocean",
+   "name": "DigitalOcean",
+   "category": "hybrid-multicloud"
+  },
+  {
+   "id": "brand-gcp",
+   "name": "Google Cloud",
+   "category": "hybrid-multicloud"
+  },
+  {
+   "id": "generic-cloud",
+   "name": "Cloud",
+   "category": "hybrid-multicloud"
+  },
+  {
+   "id": "administrator",
+   "name": "Administrator",
+   "category": "identity"
+  },
+  {
+   "id": "brand-active-directory",
+   "name": "Active Directory",
+   "category": "identity"
+  },
+  {
+   "id": "brand-auth0",
+   "name": "Auth0",
+   "category": "identity"
+  },
+  {
+   "id": "brand-authelia",
+   "name": "Authelia",
+   "category": "identity"
+  },
+  {
+   "id": "brand-authentik",
+   "name": "authentik",
+   "category": "identity"
+  },
+  {
+   "id": "brand-facebook",
+   "name": "Facebook",
+   "category": "identity"
+  },
+  {
+   "id": "brand-keycloak",
+   "name": "Keycloak",
+   "category": "identity"
+  },
+  {
+   "id": "brand-okta",
+   "name": "Okta",
+   "category": "identity"
+  },
+  {
+   "id": "brand-x",
+   "name": "X",
+   "category": "identity"
+  },
+  {
+   "id": "brand-yubico",
+   "name": "Yubico",
+   "category": "identity"
+  },
+  {
+   "id": "domain-controller",
+   "name": "Domain controller",
+   "category": "identity"
+  },
+  {
+   "id": "identity-provider",
+   "name": "Identity provider",
+   "category": "identity"
+  },
+  {
+   "id": "oidc-token",
+   "name": "OIDC token",
+   "category": "identity"
+  },
+  {
+   "id": "public-user",
+   "name": "User",
+   "category": "identity"
+  },
+  {
+   "id": "public-users",
+   "name": "Public users",
+   "category": "identity"
+  },
+  {
+   "id": "radius-server",
+   "name": "RADIUS / TACACS+ server",
+   "category": "identity"
+  },
+  {
+   "id": "api-endpoint",
+   "name": "API endpoint",
+   "category": "integration"
+  },
+  {
+   "id": "bpm",
+   "name": "Workflow / BPM engine",
+   "category": "integration"
+  },
+  {
+   "id": "brand-bigbluebutton",
+   "name": "BigBlueButton",
+   "category": "integration"
+  },
+  {
+   "id": "brand-camunda",
+   "name": "Camunda",
+   "category": "integration"
+  },
+  {
+   "id": "brand-discord",
+   "name": "Discord",
+   "category": "integration"
+  },
+  {
+   "id": "brand-dovecot",
+   "name": "Dovecot",
+   "category": "integration"
+  },
+  {
+   "id": "brand-erpnext",
+   "name": "ERPNext",
+   "category": "integration"
+  },
+  {
+   "id": "brand-graphql",
+   "name": "GraphQL",
+   "category": "integration"
+  },
+  {
+   "id": "brand-hubspot",
+   "name": "HubSpot",
+   "category": "integration"
+  },
+  {
+   "id": "brand-ibm",
+   "name": "IBM",
+   "category": "integration"
+  },
+  {
+   "id": "brand-jitsi",
+   "name": "Jitsi",
+   "category": "integration"
+  },
+  {
+   "id": "brand-matrix",
+   "name": "Matrix",
+   "category": "integration"
+  },
+  {
+   "id": "brand-mattermost",
+   "name": "Mattermost",
+   "category": "integration"
+  },
+  {
+   "id": "brand-mqtt",
+   "name": "MQTT",
+   "category": "integration"
+  },
+  {
+   "id": "brand-n8n",
+   "name": "n8n",
+   "category": "integration"
+  },
+  {
+   "id": "brand-node-red",
+   "name": "Node-RED",
+   "category": "integration"
+  },
+  {
+   "id": "brand-odoo",
+   "name": "Odoo",
+   "category": "integration"
+  },
+  {
+   "id": "brand-paypal",
+   "name": "PayPal",
+   "category": "integration"
+  },
+  {
+   "id": "brand-pulsar",
+   "name": "Apache Pulsar",
+   "category": "integration"
+  },
+  {
+   "id": "brand-rocket-chat",
+   "name": "Rocket.Chat",
+   "category": "integration"
+  },
+  {
+   "id": "brand-roundcube",
+   "name": "Roundcube",
+   "category": "integration"
+  },
+  {
+   "id": "brand-sap",
+   "name": "SAP",
+   "category": "integration"
+  },
+  {
+   "id": "brand-stripe",
+   "name": "Stripe",
+   "category": "integration"
+  },
+  {
+   "id": "brand-talend",
+   "name": "Talend",
+   "category": "integration"
+  },
+  {
+   "id": "brand-telegram",
+   "name": "Telegram",
+   "category": "integration"
+  },
+  {
+   "id": "brand-thunderbird",
+   "name": "Thunderbird",
+   "category": "integration"
+  },
+  {
+   "id": "brand-twilio",
+   "name": "Twilio",
+   "category": "integration"
+  },
+  {
+   "id": "brand-zapier",
+   "name": "Zapier",
+   "category": "integration"
+  },
+  {
+   "id": "brand-zendesk",
+   "name": "Zendesk",
+   "category": "integration"
+  },
+  {
+   "id": "brand-zoom",
+   "name": "Zoom",
+   "category": "integration"
+  },
+  {
+   "id": "cdc",
+   "name": "Change data capture",
+   "category": "integration"
+  },
+  {
+   "id": "crm",
+   "name": "CRM",
+   "category": "integration"
+  },
+  {
+   "id": "data-airflow",
+   "name": "Apache Airflow",
+   "category": "integration"
+  },
+  {
+   "id": "data-dagster",
+   "name": "Dagster",
+   "category": "integration"
+  },
+  {
+   "id": "data-hop",
+   "name": "Apache Hop",
+   "category": "integration"
+  },
+  {
+   "id": "data-nifi",
+   "name": "Apache NiFi",
+   "category": "integration"
+  },
+  {
+   "id": "esb",
+   "name": "Integration platform / ESB",
+   "category": "integration"
+  },
+  {
+   "id": "file-transfer",
+   "name": "Managed file transfer",
+   "category": "integration"
+  },
+  {
+   "id": "inbound-response",
+   "name": "Inbound response",
+   "category": "integration"
+  },
+  {
+   "id": "mail-relay",
+   "name": "Mail relay / gateway",
+   "category": "integration"
+  },
+  {
+   "id": "mail-server",
+   "name": "Mail server",
+   "category": "integration"
+  },
+  {
+   "id": "message-queue",
+   "name": "Message queue",
+   "category": "integration"
+  },
+  {
+   "id": "microsoft-teams",
+   "name": "Microsoft Teams",
+   "category": "integration"
+  },
+  {
+   "id": "outbound-request",
+   "name": "Outbound request",
+   "category": "integration"
+  },
+  {
+   "id": "payment-gateway",
+   "name": "Payment gateway",
+   "category": "integration"
+  },
+  {
+   "id": "slack",
+   "name": "Slack",
+   "category": "integration"
+  },
+  {
+   "id": "sync-process",
+   "name": "Sync / reconcile",
+   "category": "integration"
+  },
+  {
+   "id": "webhook",
+   "name": "Webhook",
+   "category": "integration"
+  },
+  {
+   "id": "barcode-scanner",
+   "name": "Barcode scanner",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "bluetooth-beacon",
+   "name": "Bluetooth beacon",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "brand-arduino",
+   "name": "Arduino",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "brand-esphome",
+   "name": "ESPHome",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "brand-frigate",
+   "name": "Frigate",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "brand-home-assistant",
+   "name": "Home Assistant",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "brand-openhab",
+   "name": "openHAB",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "brand-raspberry-pi",
+   "name": "Raspberry Pi",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "brand-zigbee",
+   "name": "Zigbee",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "hmi",
+   "name": "HMI",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "iot-gateway",
+   "name": "IoT gateway",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "lpwan-radio",
+   "name": "LPWAN radio",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "plc",
+   "name": "PLC",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "rfid-reader",
+   "name": "RFID / NFC reader",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "scada",
+   "name": "SCADA / RTU",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "sensor",
+   "name": "Sensor",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "single-board-computer",
+   "name": "Single-board computer",
+   "category": "internet-of-things"
+  },
+  {
+   "id": "kiosk",
+   "name": "Kiosk / digital signage",
+   "category": "mobile"
+  },
+  {
+   "id": "mobile-client",
+   "name": "Mobile client",
+   "category": "mobile"
+  },
+  {
+   "id": "access-switch",
+   "name": "Access switch",
+   "category": "networking"
+  },
+  {
+   "id": "brand-adguard",
+   "name": "AdGuard Home",
+   "category": "networking"
+  },
+  {
+   "id": "brand-asterisk",
+   "name": "Asterisk",
+   "category": "networking"
+  },
+  {
+   "id": "brand-cisco",
+   "name": "Cisco",
+   "category": "networking"
+  },
+  {
+   "id": "brand-f5",
+   "name": "F5",
+   "category": "networking"
+  },
+  {
+   "id": "brand-fastly",
+   "name": "Fastly",
+   "category": "networking"
+  },
+  {
+   "id": "brand-huawei",
+   "name": "Huawei",
+   "category": "networking"
+  },
+  {
+   "id": "brand-juniper",
+   "name": "Juniper Networks",
+   "category": "networking"
+  },
+  {
+   "id": "brand-netgear",
+   "name": "NETGEAR",
+   "category": "networking"
+  },
+  {
+   "id": "brand-nginx",
+   "name": "NGINX",
+   "category": "networking"
+  },
+  {
+   "id": "brand-nginx-proxy-manager",
+   "name": "Nginx Proxy Manager",
+   "category": "networking"
+  },
+  {
+   "id": "brand-openvpn",
+   "name": "OpenVPN",
+   "category": "networking"
+  },
+  {
+   "id": "brand-openwrt",
+   "name": "OpenWrt",
+   "category": "networking"
+  },
+  {
+   "id": "brand-pihole",
+   "name": "Pi-hole",
+   "category": "networking"
+  },
+  {
+   "id": "brand-strongswan",
+   "name": "strongSwan",
+   "category": "networking"
+  },
+  {
+   "id": "brand-tailscale",
+   "name": "Tailscale",
+   "category": "networking"
+  },
+  {
+   "id": "brand-tp-link",
+   "name": "TP-Link",
+   "category": "networking"
+  },
+  {
+   "id": "brand-ubiquiti",
+   "name": "Ubiquiti",
+   "category": "networking"
+  },
+  {
+   "id": "brand-wireguard",
+   "name": "WireGuard",
+   "category": "networking"
+  },
+  {
+   "id": "brand-wireshark",
+   "name": "Wireshark",
+   "category": "networking"
+  },
+  {
+   "id": "brand-zerotier",
+   "name": "ZeroTier",
+   "category": "networking"
+  },
+  {
+   "id": "cdn-edge",
+   "name": "CDN / edge",
+   "category": "networking"
+  },
+  {
+   "id": "core-switch",
+   "name": "Core switch",
+   "category": "networking"
+  },
+  {
+   "id": "dhcp-server",
+   "name": "DHCP server",
+   "category": "networking"
+  },
+  {
+   "id": "dns-service",
+   "name": "DNS",
+   "category": "networking"
+  },
+  {
+   "id": "edge-router",
+   "name": "Edge router",
+   "category": "networking"
+  },
+  {
+   "id": "generic-load-balancer",
+   "name": "Load balancer",
+   "category": "networking"
+  },
+  {
+   "id": "ip-phone",
+   "name": "IP desk phone",
+   "category": "networking"
+  },
+  {
+   "id": "ipam",
+   "name": "IPAM / DCIM",
+   "category": "networking"
+  },
+  {
+   "id": "isp-uplink",
+   "name": "ISP uplink",
+   "category": "networking"
+  },
+  {
+   "id": "network-cable",
+   "name": "Cable / structured cabling",
+   "category": "networking"
+  },
+  {
+   "id": "network-gateway",
+   "name": "Network gateway",
+   "category": "networking"
+  },
+  {
+   "id": "network-tap",
+   "name": "Network TAP",
+   "category": "networking"
+  },
+  {
+   "id": "ntp-server",
+   "name": "NTP server",
+   "category": "networking"
+  },
+  {
+   "id": "overlay-network",
+   "name": "Overlay network",
+   "category": "networking"
+  },
+  {
+   "id": "patch-panel",
+   "name": "Patch panel",
+   "category": "networking"
+  },
+  {
+   "id": "pbx",
+   "name": "PBX",
+   "category": "networking"
+  },
+  {
+   "id": "proxy",
+   "name": "Proxy",
+   "category": "networking"
+  },
+  {
+   "id": "public-internet",
+   "name": "Public Internet",
+   "category": "networking"
+  },
+  {
+   "id": "routing-protocol",
+   "name": "Routing protocol",
+   "category": "networking"
+  },
+  {
+   "id": "satellite-terminal",
+   "name": "Satellite terminal",
+   "category": "networking"
+  },
+  {
+   "id": "vpn-tunnel",
+   "name": "VPN tunnel",
+   "category": "networking"
+  },
+  {
+   "id": "wan-link",
+   "name": "WAN link",
+   "category": "networking"
+  },
+  {
+   "id": "wireless-access-point",
+   "name": "Wireless access point",
+   "category": "networking"
+  },
+  {
+   "id": "wlan-controller",
+   "name": "WLAN controller",
+   "category": "networking"
+  },
+  {
+   "id": "access-lock",
+   "name": "Lock / authentication",
+   "category": "security"
+  },
+  {
+   "id": "air-gap",
+   "name": "Air-gapped segment",
+   "category": "security"
+  },
+  {
+   "id": "badge-reader",
+   "name": "Access control",
+   "category": "security"
+  },
+  {
+   "id": "brand-1password",
+   "name": "1Password",
+   "category": "security"
+  },
+  {
+   "id": "brand-burp-suite",
+   "name": "Burp Suite",
+   "category": "security"
+  },
+  {
+   "id": "brand-falco",
+   "name": "Falco",
+   "category": "security"
+  },
+  {
+   "id": "brand-fortinet",
+   "name": "Fortinet",
+   "category": "security"
+  },
+  {
+   "id": "brand-guacamole",
+   "name": "Apache Guacamole",
+   "category": "security"
+  },
+  {
+   "id": "brand-kali-linux",
+   "name": "Kali Linux",
+   "category": "security"
+  },
+  {
+   "id": "brand-keepassxc",
+   "name": "KeePassXC",
+   "category": "security"
+  },
+  {
+   "id": "brand-metasploit",
+   "name": "Metasploit",
+   "category": "security"
+  },
+  {
+   "id": "brand-palo-alto",
+   "name": "Palo Alto Networks",
+   "category": "security"
+  },
+  {
+   "id": "brand-parrot-security",
+   "name": "Parrot Security",
+   "category": "security"
+  },
+  {
+   "id": "brand-qualys",
+   "name": "Qualys",
+   "category": "security"
+  },
+  {
+   "id": "brand-snort",
+   "name": "Snort",
+   "category": "security"
+  },
+  {
+   "id": "brand-snyk",
+   "name": "Snyk",
+   "category": "security"
+  },
+  {
+   "id": "brand-sonicwall",
+   "name": "SonicWall",
+   "category": "security"
+  },
+  {
+   "id": "brand-vaultwarden",
+   "name": "Vaultwarden",
+   "category": "security"
+  },
+  {
+   "id": "brand-virustotal",
+   "name": "VirusTotal",
+   "category": "security"
+  },
+  {
+   "id": "dlp",
+   "name": "Data loss prevention",
+   "category": "security"
+  },
+  {
+   "id": "endpoint-protection",
+   "name": "Endpoint protection",
+   "category": "security"
+  },
+  {
+   "id": "firewall",
+   "name": "Firewall",
+   "category": "security"
+  },
+  {
+   "id": "honeypot",
+   "name": "Honeypot",
+   "category": "security"
+  },
+  {
+   "id": "hsm",
+   "name": "Hardware security module",
+   "category": "security"
+  },
+  {
+   "id": "ids-ips",
+   "name": "IDS / IPS",
+   "category": "security"
+  },
+  {
+   "id": "jump-host",
+   "name": "Bastion / jump host",
+   "category": "security"
+  },
+  {
+   "id": "nac",
+   "name": "Network access control",
+   "category": "security"
+  },
+  {
+   "id": "pki",
+   "name": "PKI / certificate authority",
+   "category": "security"
+  },
+  {
+   "id": "privileged-access",
+   "name": "Privileged access management",
+   "category": "security"
+  },
+  {
+   "id": "secret-key",
+   "name": "Key / secret",
+   "category": "security"
+  },
+  {
+   "id": "security-alert",
+   "name": "Alert",
+   "category": "security"
+  },
+  {
+   "id": "security-camera",
+   "name": "Security camera",
+   "category": "security"
+  },
+  {
+   "id": "vpn-concentrator",
+   "name": "VPN concentrator",
+   "category": "security"
+  },
+  {
+   "id": "waf",
+   "name": "WAF",
+   "category": "security"
+  },
+  {
+   "id": "zero-trust-gateway",
+   "name": "Zero-trust access",
+   "category": "security"
+  },
+  {
+   "id": "backup-recovery",
+   "name": "Backup / recovery",
+   "category": "storage"
+  },
+  {
+   "id": "brand-borgbackup",
+   "name": "BorgBackup",
+   "category": "storage"
+  },
+  {
+   "id": "brand-hitachi",
+   "name": "Hitachi Vantara",
+   "category": "storage"
+  },
+  {
+   "id": "brand-longhorn",
+   "name": "Longhorn",
+   "category": "storage"
+  },
+  {
+   "id": "brand-minio",
+   "name": "MinIO",
+   "category": "storage"
+  },
+  {
+   "id": "brand-netapp",
+   "name": "NetApp",
+   "category": "storage"
+  },
+  {
+   "id": "brand-openmediavault",
+   "name": "openmediavault",
+   "category": "storage"
+  },
+  {
+   "id": "brand-owncloud",
+   "name": "ownCloud",
+   "category": "storage"
+  },
+  {
+   "id": "brand-qnap",
+   "name": "QNAP",
+   "category": "storage"
+  },
+  {
+   "id": "brand-rclone",
+   "name": "rclone",
+   "category": "storage"
+  },
+  {
+   "id": "brand-rook",
+   "name": "Rook",
+   "category": "storage"
+  },
+  {
+   "id": "brand-seafile",
+   "name": "Seafile",
+   "category": "storage"
+  },
+  {
+   "id": "brand-syncthing",
+   "name": "Syncthing",
+   "category": "storage"
+  },
+  {
+   "id": "brand-synology",
+   "name": "Synology",
+   "category": "storage"
+  },
+  {
+   "id": "brand-truenas",
+   "name": "TrueNAS",
+   "category": "storage"
+  },
+  {
+   "id": "brand-unraid",
+   "name": "Unraid",
+   "category": "storage"
+  },
+  {
+   "id": "brand-veeam",
+   "name": "Veeam",
+   "category": "storage"
+  },
+  {
+   "id": "brand-veritas",
+   "name": "Veritas",
+   "category": "storage"
+  },
+  {
+   "id": "disk-shelf",
+   "name": "Disk shelf",
+   "category": "storage"
+  },
+  {
+   "id": "format-csv",
+   "name": "CSV file",
+   "category": "storage"
+  },
+  {
+   "id": "format-excel",
+   "name": "Excel workbook",
+   "category": "storage"
+  },
+  {
+   "id": "format-text",
+   "name": "Text file",
+   "category": "storage"
+  },
+  {
+   "id": "generic-file",
+   "name": "File",
+   "category": "storage"
+  },
+  {
+   "id": "nas",
+   "name": "NAS filer",
+   "category": "storage"
+  },
+  {
+   "id": "object-storage",
+   "name": "Object storage",
+   "category": "storage"
+  },
+  {
+   "id": "persistent-volume",
+   "name": "Persistent volume",
+   "category": "storage"
+  },
+  {
+   "id": "san-switch",
+   "name": "SAN fabric switch",
+   "category": "storage"
+  },
+  {
+   "id": "storage-array",
+   "name": "Storage array",
+   "category": "storage"
+  },
+  {
+   "id": "tape-library",
+   "name": "Tape library",
+   "category": "storage"
+  },
+  {
+   "id": "brand-bookstack",
+   "name": "BookStack",
+   "category": "web"
+  },
+  {
+   "id": "brand-confluence",
+   "name": "Confluence",
+   "category": "web"
+  },
+  {
+   "id": "brand-drupal",
+   "name": "Drupal",
+   "category": "web"
+  },
+  {
+   "id": "brand-gitbook",
+   "name": "GitBook",
+   "category": "web"
+  },
+  {
+   "id": "brand-jellyfin",
+   "name": "Jellyfin",
+   "category": "web"
+  },
+  {
+   "id": "brand-paperless",
+   "name": "Paperless-ngx",
+   "category": "web"
+  },
+  {
+   "id": "brand-shopify",
+   "name": "Shopify",
+   "category": "web"
+  },
+  {
+   "id": "brand-wiki-js",
+   "name": "Wiki.js",
+   "category": "web"
+  },
+  {
+   "id": "brand-woocommerce",
+   "name": "WooCommerce",
+   "category": "web"
+  },
+  {
+   "id": "browser-client",
+   "name": "Browser client",
+   "category": "web"
+  },
+  {
+   "id": "microsoft-365",
+   "name": "Microsoft 365",
+   "category": "web"
+  }
+ ],
+ "templates": [
+  {
+   "file": "azure-aks-baseline.infragram.json",
+   "slug": "azure-aks-baseline",
+   "title": "AKS production baseline",
+   "kind": "single-cloud",
+   "libraries": [
+    "azure"
+   ],
+   "elements": 32,
+   "frames": 15,
+   "connections": 19
+  },
+  {
+   "file": "azure-api.infragram.json",
+   "slug": "azure-api-reference",
+   "title": "Azure API reference",
+   "kind": "single-cloud",
+   "libraries": [
+    "azure"
+   ],
+   "elements": 4,
+   "frames": 0,
+   "connections": 3
+  },
+  {
+   "file": "azure-hub-spoke-landing-zone.infragram.json",
+   "slug": "azure-hub-spoke-landing-zone",
+   "title": "Azure hub-and-spoke landing zone",
+   "kind": "single-cloud",
+   "libraries": [
+    "azure"
+   ],
+   "elements": 51,
+   "frames": 24,
+   "connections": 29
+  },
+  {
+   "file": "azure-web-app-front-door.infragram.json",
+   "slug": "azure-web-app-front-door",
+   "title": "Zone-redundant web app behind Front Door",
+   "kind": "single-cloud",
+   "libraries": [
+    "azure"
+   ],
+   "elements": 27,
+   "frames": 11,
+   "connections": 18
+  }
+ ]
+}

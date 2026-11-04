@@ -1,0 +1,6 @@
+/* ---- Empty state: an icon, a headline and one line of guidance ---- */
+.md-empty-state{display:grid;justify-items:center;gap:4px;padding:48px 16px 32px;text-align:center}
+.md-empty-state__icon{display:grid;width:40px;height:40px;place-items:center;margin-bottom:8px;color:var(--md-sys-color-on-surface-variant)}
+.md-empty-state__icon .md-icon{width:28px;height:28px}
+.md-empty-state__headline{color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
+.md-empty-state__supporting{max-width:248px;color:var(--md-sys-color-on-surface-variant);text-wrap:pretty;font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}

@@ -1,0 +1,60 @@
+{
+ "schema_version": 1,
+ "slug": "databricks",
+ "name": "Databricks",
+ "title": "Databricks Data Intelligence Platform",
+ "mark": "marks/databricks.svg",
+ "mark_color": "#ff3621",
+ "icons": {
+  "categories": [
+   "analytics",
+   "compute",
+   "containers",
+   "data",
+   "integration",
+   "networking",
+   "security",
+   "storage"
+  ],
+  "items": []
+ },
+ "theme": {
+  "paper": "#ffffff",
+  "paper_2": "#f9f7f4",
+  "ink": "#1b3139",
+  "muted": "#303f47",
+  "soft": "#5a6f77",
+  "accent": "#ff3621",
+  "link": "#2272b4"
+ },
+ "icon_palette": [
+  "#ff3621"
+ ],
+ "services": {
+  "entry": {
+   "name": "Databricks Apps",
+   "detail": "apps · APIs"
+  },
+  "app": {
+   "name": "Lakeflow Jobs",
+   "detail": "orchestrated pipelines"
+  },
+  "object_store": {
+   "name": "Delta Lake",
+   "detail": "open table storage"
+  },
+  "database": {
+   "name": "Lakebase",
+   "detail": "managed Postgres"
+  }
+ },
+ "boundaries": {
+  "color": "#ff3621",
+  "icons": {
+   "account": "databricks:databricks",
+   "project": "databricks:workspace",
+   "cluster": "databricks:compute-clusters",
+   "group": "databricks:unity-catalog"
+  }
+ }
+}

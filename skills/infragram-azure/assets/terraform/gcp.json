@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "provider": "gcp",
+  "about": "What each Google Cloud frame kind and component is written as by the Terraform export (infragram.terraform). A component missing here is written as a comment the README lists. Arguments follow the Google provider's schema; a $ value is filled from where the element sits (see infragram/terraform/mapping.py). Each resource names its project, so a diagram of several projects stays explicit.",
+  "terraform": {"name": "google", "source": "hashicorp/google", "version": "~> 7.0"},
+  "frames": {
+    "group": {"role": "none"},
+    "organization": {"role": "account", "note": "A Google Cloud organization: the provider's credentials and the resource hierarchy are managed outside this configuration."},
+    "folder": {"role": "account", "note": "A folder: create it with google_folder where the resource hierarchy is managed."},
+    "project": {"role": "project"},
+    "region": {"role": "region"},
+    "zone": {"role": "zone"},
+    "vpc": {
+      "role": "network",
+      "resources": [
+        {"type": "google_compute_network", "args": {"name": "$name:lower63", "project": "$project", "auto_create_subnetworks": false, "routing_mode": "GLOBAL"}}
+      ]
+    },
+    "subnet-private": {
+      "role": "subnet",
+      "resources": [
+        {"type": "google_compute_subnetwork", "args": {"name": "$name:lower63", "project": "$project", "region": "$region", "network": "$network.id", "ip_cidr_range": "$cidr", "private_ip_google_access": true}}
+      ]
+    },
+    "subnet-public": {
+      "role": "subnet",
+      "resources": [
+        {"type": "google_compute_subnetwork", "args": {"name": "$name:lower63", "project": "$project", "region": "$region", "network": "$network.id", "ip_cidr_range": "$cidr"}}
+      ]
+    },
+    "cluster": {
+      "role": "cluster",
+      "resources": [
+        {"type": "google_container_cluster", "args": {"name": "$name:lower40", "project": "$project", "location": "$region", "network": "$network.id?", "subnetwork": "$subnet.id?", "enable_autopilot": true, "resource_labels": "$labels"}}
+      ]
+    }
+  },
+  "components": {
+    "google-kubernetes-engine": {
+      "step": "compute", "category": "containers", "item": "gke_cluster", "api": "container.googleapis.com", "output": "endpoint", "ci_access": {"roles": ["roles/container.developer"]},
+      "resources": [
+        {"type": "google_container_cluster", "args": {"name": "$name:lower40", "project": "$project", "location": "$region", "network": "$network.id?", "subnetwork": "$subnet.id?", "enable_autopilot": true, "resource_labels": "$labels"}}
+      ]
+    },
+    "compute-engine": {
+      "step": "compute", "category": "compute", "item": "compute_instance", "requires": "subnet", "security_group": true, "api": "compute.googleapis.com", "output": "self_link",
+      "resources": [
+        {"type": "google_compute_instance", "args": {"name": "$name:lower63", "project": "$project", "zone": "$zone:b", "machine_type": "$var:machine_type=e2-medium", "tags": "$network_tags", "boot_disk": {"$block": {"initialize_params": {"$block": {"image": "$var:image=debian-cloud/debian-12"}}}}, "network_interface": {"$block": {"subnetwork": "$subnet.id", "access_config": {"$block": {}, "$when": "internet"}}}, "labels": "$labels"}}
+      ],
+      "scaled": [
+        {"key": "template", "type": "google_compute_instance_template", "comment": "What each of them boots: the managed instance group below keeps the count.", "args": {"name_prefix": "$name:lower37", "project": "$project", "region": "$region", "machine_type": "$var:machine_type=e2-medium", "tags": "$network_tags", "disk": {"$block": {"source_image": "$var:image=debian-cloud/debian-12", "auto_delete": true, "boot": true}}, "network_interface": {"$block": {"subnetwork": "$subnet.id"}}, "lifecycle": {"$block": {"create_before_destroy": true}}, "labels": "$labels"}},
+        {"type": "google_compute_region_instance_group_manager", "args": {"name": "$name:lower63", "project": "$project", "region": "$region", "base_instance_name": "$name:lower50", "target_size": "$var:target_size:number=2", "version": {"$block": {"instance_template": "$self.template.self_link_unique"}}, "named_port": {"$block": {"name": "http", "port": "$serving_port"}}}}
+      ]
+    },
+    "cloud-run": {
+      "step": "compute", "category": "containers", "item": "cloud_run_service", "api": "run.googleapis.com", "output": "uri", "ci_access": {"roles": ["roles/run.developer", "roles/iam.serviceAccountUser"]},
+      "resources": [
+        {"type": "google_cloud_run_v2_service", "args": {"name": "$name:lower49", "project": "$project", "location": "$region", "ingress": "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER", "template": {"$block": {"containers": {"$block": {"image": "$var:image"}}}}, "labels": "$labels"},
+         "module": "gcp-cloud-run", "module_args": {"service_name": "$name:lower49", "project_id": "$project", "location": "$region", "ingress": "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER", "containers": [{"container_image": "$var:image"}], "service_labels": "$labels"}}
+      ]
+    },
+    "cloud-nat": {
+      "step": "network", "category": "network", "item": "cloud_nat", "requires": "network",
+      "resources": [
+        {"key": "router", "type": "google_compute_router", "in_modules": false, "args": {"name": "$name:lower63", "project": "$project", "region": "$region", "network": "$network.id"}},
+        {"type": "google_compute_router_nat", "args": {"name": "$name:lower63", "project": "$project", "region": "$region", "router": "$self.router.name", "nat_ip_allocate_option": "AUTO_ONLY", "source_subnetwork_ip_ranges_to_nat": "ALL_SUBNETWORKS_ALL_IP_RANGES"},
+         "module": "gcp-cloud-nat", "module_args": {"name": "$name:lower63", "project_id": "$project", "region": "$region", "create_router": true, "router": "$name:lower63", "network": "$network.id"}}
+      ]
+    },
+    "cloud-load-balancing": {
+      "step": "edge", "category": "edge", "item": "load_balancer_address", "api": "compute.googleapis.com", "output": "address", "note": "Its health checks, backend services, URL map, proxy and forwarding rule follow the wires out of it, to a managed instance group, an instance or Cloud Run.",
+      "resources": [
+        {"type": "google_compute_global_address", "args": {"name": "$name:lower63", "project": "$project", "labels": "$labels"},
+         "module": "gcp-address", "module_args": {"names": ["$name:lower63"], "project_id": "$project", "region": "$region", "global": true, "address_type": "EXTERNAL", "labels": "$labels"}}
+      ]
+    },
+    "cloud-armor": {
+      "step": "security", "category": "security", "item": "security_policy", "api": "compute.googleapis.com",
+      "resources": [
+        {"type": "google_compute_security_policy", "args": {"name": "$name:lower63", "project": "$project"},
+         "module": "gcp-cloud-armor", "module_args": {"name": "$name:lower63", "project_id": "$project", "default_rule_action": "allow", "type": "CLOUD_ARMOR"}}
+      ]
+    },
+    "cloud-cdn": {"step": "edge", "category": "edge", "item": "cdn_backend", "note": "Cloud CDN is switched on in the load balancer's backend service (enable_cdn)."},
+    "cloud-sql": {
+      "step": "data", "category": "database", "item": "sql_instance", "api": "sqladmin.googleapis.com", "output": "connection_name",
+      "resources": [
+        {"type": "google_sql_database_instance", "args": {"name": "$name:lower63", "project": "$project", "region": "$region", "database_version": "$var:database_version=POSTGRES_16", "settings": {"$block": {"tier": "$var:tier=db-custom-2-7680", "availability_type": "$var:availability_type=ZONAL", "user_labels": "$labels", "ip_configuration": {"$block": {"ipv4_enabled": false, "private_network": "$network.private_services?"}}}}},
+         "module": "gcp-sql-postgresql", "module_args": {"name": "$name:lower63", "project_id": "$project", "region": "$region", "database_version": "$var:database_version=POSTGRES_16", "tier": "$var:tier=db-custom-2-7680", "availability_type": "$var:availability_type=ZONAL", "ip_configuration": {"ipv4_enabled": false, "private_network": "$network.private_services?"}, "user_labels": "$labels"}}
+      ]
+    },
+    "memorystore": {
+      "step": "data", "category": "database", "item": "redis_instance", "api": "redis.googleapis.com", "output": "host",
+      "resources": [
+        {"type": "google_redis_instance", "args": {"name": "$name:lower40", "project": "$project", "region": "$region", "tier": "STANDARD_HA", "memory_size_gb": "$var:memory_size_gb:number=1", "authorized_network": "$network.id?", "labels": "$labels"},
+         "module": "gcp-memorystore", "module_args": {"name": "$name:lower40", "project_id": "$project", "region": "$region", "tier": "STANDARD_HA", "memory_size_gb": "$var:memory_size_gb:number=1", "authorized_network": "$network.id?", "enable_apis": false, "labels": "$labels"}}
+      ]
+    },
+    "cloud-storage": {
+      "step": "data", "category": "storage", "item": "storage_bucket", "api": "storage.googleapis.com", "output": "url", "ci_access": {"roles": ["roles/storage.objectAdmin"]},
+      "resources": [
+        {"type": "google_storage_bucket", "args": {"name": "$name:lower63", "project": "$project", "location": "$var:location=US", "uniform_bucket_level_access": true, "versioning": {"$block": {"enabled": true}}, "labels": "$labels"},
+         "module": "gcp-storage-bucket", "module_args": {"name": "$name:lower63", "project_id": "$project", "location": "$var:location=US", "bucket_policy_only": true, "versioning": true, "labels": "$labels"}}
+      ]
+    },
+    "secret-manager": {
+      "step": "security", "category": "security", "item": "secret", "api": "secretmanager.googleapis.com", "ci_access": {"roles": ["roles/secretmanager.secretAccessor"]},
+      "resources": [
+        {"type": "google_secret_manager_secret", "args": {"secret_id": "$name", "project": "$project", "replication": {"$block": {"auto": {"$block": {}}}}, "labels": "$labels"},
+         "module": "gcp-secret-manager", "module_args": {"project_id": "$project", "secrets": [{"name": "$name", "create_version": false}]}}
+      ]
+    },
+    "cloud-logging": {"step": "observability", "category": "observability", "item": "log_sink", "note": "Cloud Logging is on for every project; route logs elsewhere with google_logging_project_sink."},
+    "cloud-monitoring": {"step": "observability", "category": "observability", "item": "alert_policy", "note": "Cloud Monitoring is on for every project; add alert policies with google_monitoring_alert_policy."},
+    "artifact-registry": {
+      "step": "compute", "category": "containers", "item": "artifact_repository", "api": "artifactregistry.googleapis.com", "output": "id", "ci_access": {"roles": ["roles/artifactregistry.writer"]},
+      "resources": [
+        {"type": "google_artifact_registry_repository", "args": {"repository_id": "$name:lower63", "project": "$project", "location": "$region", "format": "$var:format=DOCKER", "labels": "$labels"}}
+      ]
+    },
+    "workload-identity-pool": {
+      "step": "security", "category": "security", "item": "workload_identity_pool", "api": "iam.googleapis.com", "output": "name", "plumbing": "github_oidc",
+      "resources": [
+        {"type": "google_iam_workload_identity_pool", "args": {"workload_identity_pool_id": "$github.pool_id", "project": "$project", "display_name": "$caption"}}
+      ],
+      "federated": [
+        {"type": "google_iam_workload_identity_pool", "args": {"workload_identity_pool_id": "$github.pool_id", "project": "$project", "display_name": "$caption"}},
+        {"key": "provider", "type": "google_iam_workload_identity_pool_provider", "comment": "GitHub's issuer, trusted for the repository's workflows only.", "args": {"workload_identity_pool_id": "$self.main.workload_identity_pool_id", "workload_identity_pool_provider_id": "github-actions", "project": "$project", "attribute_mapping": {"google.subject": "assertion.sub", "attribute.repository": "assertion.repository", "attribute.ref": "assertion.ref", "attribute.environment": "assertion.environment"}, "attribute_condition": "$github.condition", "oidc": {"$block": {"issuer_uri": "https://token.actions.githubusercontent.com"}}}},
+        {"key": "account", "type": "google_service_account", "comment": "What the workflows act as: the roles its wires grant are this account's.", "args": {"account_id": "$name:lower30", "project": "$project", "display_name": "$caption"}},
+        {"key": "binding", "type": "google_service_account_iam_member", "args": {"service_account_id": "$self.account.name", "role": "roles/iam.workloadIdentityUser", "member": "$github.principal_set"}}
+      ]
+    }
+  },
+  "import": {
+    "about": "What import:terraform and discover:gcp draw each resource type as, beyond the frame and component resources above read the other way; the keys mean what they mean in aws.json.",
+    "components": {
+      "google_container_cluster": "google-kubernetes-engine",
+      "google_compute_instance": "compute-engine",
+      "google_compute_instance_group_manager": "compute-engine",
+      "google_compute_region_instance_group_manager": "compute-engine",
+      "google_compute_instance_template": null,
+      "google_compute_disk": "persistent-disk",
+      "google_cloud_run_service": "cloud-run",
+      "google_cloudfunctions_function": "cloud-functions",
+      "google_cloudfunctions2_function": "cloud-functions",
+      "google_app_engine_application": "app-engine",
+      "google_pubsub_topic": "pubsub",
+      "google_bigquery_dataset": "bigquery",
+      "google_firestore_database": "firestore",
+      "google_spanner_instance": "cloud-spanner",
+      "google_bigtable_instance": "bigtable",
+      "google_alloydb_cluster": "alloydb",
+      "google_filestore_instance": "filestore",
+      "google_artifact_registry_repository": "artifact-registry",
+      "google_dns_managed_zone": "cloud-dns",
+      "google_compute_vpn_gateway": "cloud-vpn",
+      "google_compute_ha_vpn_gateway": "cloud-vpn",
+      "google_compute_interconnect_attachment": "cloud-interconnect",
+      "google_kms_crypto_key": "key-management-service",
+      "google_cloud_scheduler_job": "cloud-scheduler",
+      "google_cloud_tasks_queue": "cloud-tasks",
+      "google_workflows_workflow": "workflows",
+      "google_dataflow_job": "dataflow",
+      "google_dataproc_cluster": "dataproc",
+      "google_composer_environment": "cloud-composer",
+      "google_eventarc_trigger": "eventarc",
+      "google_api_gateway_gateway": "cloud-api-gateway",
+      "google_vertex_ai_endpoint": "vertex-ai"
+    },
+    "owners": {
+      "google_container_node_pool": "cluster",
+      "google_sql_database": "instance",
+      "google_sql_user": "instance",
+      "google_bigquery_table": "dataset_id",
+      "google_dns_record_set": "managed_zone",
+      "google_compute_global_forwarding_rule": "ip_address",
+      "google_compute_forwarding_rule": "ip_address",
+      "google_pubsub_subscription": "topic"
+    },
+    "edges": {
+      "google_compute_network_peering": {"from": "network", "to": ["peer_network"], "label": "peering"},
+      "google_pubsub_subscription": {"from": "topic", "to": ["push_config.push_endpoint"], "label": "push"}
+    },
+    "ignore_when": {
+      "google_compute_global_address": {"purpose": "VPC_PEERING"}
+    },
+    "collapse": {
+      "google_logging_project_sink": "cloud-logging",
+      "google_monitoring_alert_policy": "cloud-monitoring"
+    },
+    "ignore": [
+      "google_project_service", "google_project_iam_", "google_service_account", "google_storage_bucket_",
+      "google_secret_manager_secret_version", "google_secret_manager_secret_iam_", "google_kms_key_ring",
+      "google_kms_crypto_key_iam_", "google_compute_firewall", "google_compute_route", "google_compute_address",
+      "google_compute_target_", "google_compute_url_map", "google_compute_backend_", "google_compute_health_check",
+      "google_compute_region_", "google_compute_managed_ssl_certificate", "google_compute_ssl_",
+      "google_compute_instance_group", "google_compute_router_interface",
+      "google_compute_router_peer", "google_compute_vpn_tunnel", "google_compute_subnetwork_iam_", "google_cloud_run_service_iam_",
+      "google_cloud_run_v2_service_iam_", "google_cloudfunctions_function_iam_", "google_pubsub_topic_iam_",
+      "google_bigquery_dataset_iam_", "google_client_config", "google_project", "google_folder", "google_organization",
+      "google_billing_", "google_logging_", "google_monitoring_", "google_vpc_access_connector", "google_service_networking_connection"
+    ],
+    "fallback": "cloud-generic"
+  }
+}

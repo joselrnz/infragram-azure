@@ -1,0 +1,20 @@
+/* ---- List: two-line 56px, --dense one-line 40px, --static for rows holding controls ---- */
+.md-list{display:grid;gap:2px}
+.md-list-item{display:flex;width:100%;min-width:0;min-height:56px;align-items:center;gap:16px;padding:8px 16px 8px 12px;border:0;border-radius:var(--ui-radius);background:transparent;color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);text-align:left;cursor:pointer}
+.md-list-item--dense{min-height:var(--ui-h-md);gap:10px;padding:0 10px}
+.md-list-item--static{cursor:default}
+.md-list-item[aria-pressed="true"],.md-list-item[aria-checked="true"]{background:var(--md-sys-color-secondary-container);color:var(--md-sys-color-on-secondary-container)}
+.md-list-item:disabled{color:var(--md-disabled-content);cursor:not-allowed}
+.md-list-item__leading{display:grid;flex:none;place-items:center;color:var(--md-sys-color-on-surface-variant)}
+.md-list-item__text{display:block;min-width:0;flex:1 1 auto}
+.md-list-item__headline,.md-list-item__supporting{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.md-list-item__supporting{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.md-list-item__trailing{flex:none;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-small);letter-spacing:var(--md-sys-typescale-label-small-tracking);font-variant-numeric:tabular-nums}
+.md-list-item[aria-pressed="true"] :is(.md-list-item__supporting,.md-list-item__trailing,.md-list-item__leading),.md-list-item[aria-checked="true"] .md-list-item__trailing{color:inherit}
+.md-list-item--danger{color:var(--md-sys-color-error)}
+.md-list-item--danger:disabled{color:var(--md-disabled-content)}
+.md-subheader{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-title-small);letter-spacing:var(--md-sys-typescale-title-small-tracking)}
+.md-expand-icon{width:20px;height:20px;flex:none;transition:transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard)}
+details[open]>summary .md-expand-icon{transform:rotate(180deg)}
+.md-divider{height:1px;margin:4px 0;border:0;background:var(--md-sys-color-outline-variant)}
+

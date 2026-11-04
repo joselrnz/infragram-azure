@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "providers": [
+    {
+      "id": "azure",
+      "display_name": "Azure",
+      "short_name": "AZ",
+      "kind": "cloud",
+      "coverage": "full",
+      "source_url": "https://learn.microsoft.com/en-us/azure/architecture/icons/",
+      "terms_url": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "terms": "Microsoft permits the reviewed service artwork for architecture diagrams, training materials, and documentation; do not alter the artwork.",
+      "attribution": "Microsoft Azure service artwork. Microsoft trademark and product-icon terms apply.",
+      "license_basis": "provider-terms",
+      "quick_filter": true,
+      "chip_name": "Azure"
+    },
+    {
+      "id": "kubernetes",
+      "display_name": "Kubernetes",
+      "short_name": "K8S",
+      "kind": "platform",
+      "coverage": "reviewed",
+      "source_url": "https://github.com/kubernetes/community",
+      "terms_url": "https://www.linuxfoundation.org/legal/trademark-usage",
+      "terms": "Reviewed artwork comes from an Apache-2.0 repository; CNCF and Linux Foundation trademark policies apply to the Kubernetes marks.",
+      "attribution": "Kubernetes project artwork. CNCF and Linux Foundation trademark policies apply.",
+      "license_basis": "upstream-permissive",
+      "quick_filter": true
+    },
+    {
+      "id": "databricks",
+      "display_name": "Databricks",
+      "short_name": "DBX",
+      "kind": "platform",
+      "coverage": "reviewed",
+      "source_url": "https://brand.databricks.com/",
+      "terms_url": "https://www.databricks.com/legal/terms-of-use",
+      "terms": "Reviewed artwork is vendored in this repository, built from Databricks' official SVGs and MIT-licensed (the notice ships as assets/icons/vendors/databricks/LICENSE); the license grants no trademark rights: Databricks, its logo and product names are trademarks of Databricks, Inc., which does not sponsor or endorse the set.",
+      "attribution": "Databricks architecture icons (c) 2026 Eduardo Rabelo (MIT), from Databricks' official artwork. Databricks trademarks apply.",
+      "license_basis": "upstream-permissive"
+    }
+  ]
+}

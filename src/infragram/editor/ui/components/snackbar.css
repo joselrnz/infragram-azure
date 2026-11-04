@@ -1,0 +1,4 @@
+/* ---- Snackbar: brief feedback on what the last action did ---- */
+@keyframes md-snackbar-enter{from{opacity:0;translate:0 8px}}
+.md-snackbar{position:fixed;z-index:90;display:flex;min-height:40px;max-width:min(560px,calc(100vw - 32px));align-items:center;padding:10px 14px;border-radius:var(--ui-radius);background:var(--md-sys-color-inverse-surface);color:var(--md-sys-color-inverse-on-surface);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);box-shadow:var(--ui-shadow-menu);transform:translateX(-50%);pointer-events:none;animation:md-snackbar-enter var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate)}
+.md-snackbar[hidden]{display:none}

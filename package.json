@@ -1,0 +1,52 @@
+{
+  "name": "infragram-azure",
+  "version": "0.1.71",
+  "description": "Interactive, local-first infrastructure diagram editor and exporter for Azure, Kubernetes and Databricks. Design and import architecture diagrams, retain editable source in exported images, compare revisions, estimate costs, check policies, and export Terraform skeletons. Discover Azure subscriptions and Kubernetes clusters read-only, or redraw saved Azure snapshots offline.",
+  "license": "MIT",
+  "author": "Infragram Azure",
+  "keywords": [
+    "pi-package",
+    "claude-code-plugin",
+    "codex-plugin",
+    "agent-skills",
+    "infrastructure",
+    "diagrams",
+    "architecture",
+    "cloud",
+    "azure",
+    "aks",
+    "kubernetes",
+    "databricks",
+    "editor",
+    "svg",
+    "png",
+    "terraform",
+    "mcp"
+  ],
+  "files": [
+    ".claude-plugin/",
+    ".codex-plugin/",
+    ".agents/",
+    "plugin.json",
+    ".mcp.json",
+    "mcp.json",
+    "skills/",
+    "agents/",
+    "hooks/",
+    "examples/",
+    "src/infragram/",
+    "pyproject.toml",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_LICENSES.md",
+    "licenses/",
+    "!**/__pycache__/**",
+    "!**/*.pyc",
+    "scripts/export/"
+  ],
+  "pi": {
+    "skills": [
+      "./skills"
+    ]
+  }
+}

@@ -1,0 +1,363 @@
+{
+ "schema_version": 1,
+ "collection": "vendors/kubernetes",
+ "generated_by": "scripts/import-official-icons.py",
+ "source": {
+  "url": "https://github.com/kubernetes/community",
+  "release": "kubernetes/community icons (Apache-2.0; Kubernetes trademark policy applies)",
+  "archive": null,
+  "terms": "Apache-2.0 repository; CNCF/Linux Foundation trademark policy applies to the marks."
+ },
+ "counts": {
+  "icons": 33,
+  "by_category": {
+   "infrastructure-components": 3,
+   "resources": 30
+  }
+ },
+ "icons": [
+  {
+   "id": "control-plane",
+   "name": "Control plane",
+   "aliases": [],
+   "category": "infrastructure-components",
+   "file": "infrastructure-components/control-plane.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/infrastructure_components/unlabeled/control-plane.svg",
+   "sha256": "781a768bc7c6f6fcf796e9bebc10692fbabcf3f680945191e6cedc5819ac03e2"
+  },
+  {
+   "id": "etcd",
+   "name": "etcd",
+   "aliases": [],
+   "category": "infrastructure-components",
+   "file": "infrastructure-components/etcd.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/infrastructure_components/unlabeled/etcd.svg",
+   "sha256": "d700f6d4ca360656b29138fe3424ead6d7e89ce46f2eb3b932df92e67e378d0e"
+  },
+  {
+   "id": "node",
+   "name": "Node",
+   "aliases": [],
+   "category": "infrastructure-components",
+   "file": "infrastructure-components/node.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/infrastructure_components/unlabeled/node.svg",
+   "sha256": "a99367b8a805d9bbc91ef82cf47c8a243fe4e6dd8ff2ce4342f597c2cbec965a"
+  },
+  {
+   "id": "c-role",
+   "name": "ClusterRole",
+   "aliases": [
+    "c role"
+   ],
+   "category": "resources",
+   "file": "resources/c-role.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/c-role.svg",
+   "sha256": "d3c575d16b61b1ec9f4d7c5a053d23a8e259798dc479a3783b7d2af1709c0a8f"
+  },
+  {
+   "id": "cm",
+   "name": "ConfigMap",
+   "aliases": [
+    "cm"
+   ],
+   "category": "resources",
+   "file": "resources/cm.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/cm.svg",
+   "sha256": "79cd881b717aed580d90a83f4c67c7f2c2b5672a26669ef61d0ddd2da6aac2af"
+  },
+  {
+   "id": "crb",
+   "name": "ClusterRoleBinding",
+   "aliases": [
+    "crb"
+   ],
+   "category": "resources",
+   "file": "resources/crb.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/crb.svg",
+   "sha256": "43c8ee863fc6d3a690fce223f6e173bed3f988f147370d65e0d15b1c376aafd4"
+  },
+  {
+   "id": "crd",
+   "name": "CustomResourceDefinition",
+   "aliases": [
+    "crd"
+   ],
+   "category": "resources",
+   "file": "resources/crd.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/crd.svg",
+   "sha256": "099c4a2f555134b9cdb2ead2d5d5c2c78da84516c5f0f7c2b2e88d7e9fc825f4"
+  },
+  {
+   "id": "cronjob",
+   "name": "CronJob",
+   "aliases": [],
+   "category": "resources",
+   "file": "resources/cronjob.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/cronjob.svg",
+   "sha256": "7cbd1aba0bfd3570e512ab1a0f1f4ecf11c1148bb96a3e38d93fa0a0ef51f262"
+  },
+  {
+   "id": "deploy",
+   "name": "Deployment",
+   "aliases": [
+    "deploy"
+   ],
+   "category": "resources",
+   "file": "resources/deploy.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/deploy.svg",
+   "sha256": "d96f6e93a0f57ca9583b2120e3ddb4453afb5a29aa6d8c1360e8eb8e458489f7"
+  },
+  {
+   "id": "ds",
+   "name": "DaemonSet",
+   "aliases": [
+    "ds"
+   ],
+   "category": "resources",
+   "file": "resources/ds.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/ds.svg",
+   "sha256": "5acb397d5b55f6a4c1fb6750a7ff5faa6f846f4d82b59ec06f0b80faebfcd19d"
+  },
+  {
+   "id": "ep",
+   "name": "Endpoints",
+   "aliases": [
+    "ep"
+   ],
+   "category": "resources",
+   "file": "resources/ep.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/ep.svg",
+   "sha256": "98f6e8adc3859cc625ee5ea67d3858b05dd4841dd8583b195a171c92a6b79bd4"
+  },
+  {
+   "id": "group",
+   "name": "Group",
+   "aliases": [],
+   "category": "resources",
+   "file": "resources/group.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/group.svg",
+   "sha256": "6227f0fc2b0bfbbd8268828b15c57db15e6faa76ecb3092390e70c6a9ae43e8a"
+  },
+  {
+   "id": "hpa",
+   "name": "HorizontalPodAutoscaler",
+   "aliases": [
+    "hpa"
+   ],
+   "category": "resources",
+   "file": "resources/hpa.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/hpa.svg",
+   "sha256": "7b92a11ab6050825927bc91bf654499a02e8f8488b059d2578ab22037900fbed"
+  },
+  {
+   "id": "ing",
+   "name": "Ingress",
+   "aliases": [
+    "ing"
+   ],
+   "category": "resources",
+   "file": "resources/ing.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/ing.svg",
+   "sha256": "66ac75442eff83ef51a8d1ef01edd858cc621b0f43ff60e2170f1d10c4d49813"
+  },
+  {
+   "id": "job",
+   "name": "Job",
+   "aliases": [],
+   "category": "resources",
+   "file": "resources/job.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/job.svg",
+   "sha256": "1f0f273f4271b2a5b22c1422d82187579f548619c8c030f9e2226bccfb3ce67f"
+  },
+  {
+   "id": "limits",
+   "name": "LimitRange",
+   "aliases": [
+    "limits"
+   ],
+   "category": "resources",
+   "file": "resources/limits.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/limits.svg",
+   "sha256": "5fc6beb333b380c11a38dddb6a94a0b18bb1d4c74f095de1497dcf67c05d9728"
+  },
+  {
+   "id": "netpol",
+   "name": "NetworkPolicy",
+   "aliases": [
+    "netpol"
+   ],
+   "category": "resources",
+   "file": "resources/netpol.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/netpol.svg",
+   "sha256": "99ec4a960470a6cc38cb78eb571d8f6f39f41622d03e1fc85dadd4a6608e9d3d"
+  },
+  {
+   "id": "ns",
+   "name": "Namespace",
+   "aliases": [
+    "ns"
+   ],
+   "category": "resources",
+   "file": "resources/ns.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/ns.svg",
+   "sha256": "6539e288ca6f5ce9c88aedf8520301618d0b1e0115783483104096b0c5a8ad19"
+  },
+  {
+   "id": "pod",
+   "name": "Pod",
+   "aliases": [],
+   "category": "resources",
+   "file": "resources/pod.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/pod.svg",
+   "sha256": "3356f7ca970f811da2b1aa34a0f13e846255378727809ab6629837a842db0a2d"
+  },
+  {
+   "id": "psp",
+   "name": "PodSecurityPolicy",
+   "aliases": [
+    "psp"
+   ],
+   "category": "resources",
+   "file": "resources/psp.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/psp.svg",
+   "sha256": "69b1f56421c4b4a6c35858e22e7465dd138c99f38f22aeae02f56fd8a6455485"
+  },
+  {
+   "id": "pv",
+   "name": "PersistentVolume",
+   "aliases": [
+    "pv"
+   ],
+   "category": "resources",
+   "file": "resources/pv.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/pv.svg",
+   "sha256": "93d6ccca227c8631eaac916fc37911d5c16e07607cbd4bfb8825e2972c22ad66"
+  },
+  {
+   "id": "pvc",
+   "name": "PersistentVolumeClaim",
+   "aliases": [
+    "pvc"
+   ],
+   "category": "resources",
+   "file": "resources/pvc.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/pvc.svg",
+   "sha256": "1be3839623947b0c6d3283538f213c2793398c720dc8f739436371e96462bb26"
+  },
+  {
+   "id": "quota",
+   "name": "ResourceQuota",
+   "aliases": [
+    "quota"
+   ],
+   "category": "resources",
+   "file": "resources/quota.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/quota.svg",
+   "sha256": "106a65ac31e998a35316e37a46a531faa2475d3546043c93b418a867fc8f8dd5"
+  },
+  {
+   "id": "rb",
+   "name": "RoleBinding",
+   "aliases": [
+    "rb"
+   ],
+   "category": "resources",
+   "file": "resources/rb.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/rb.svg",
+   "sha256": "68e9b6ec0f9771ddca87dab21dfc7c66866c1837fa62e703e45a206adfa21f7f"
+  },
+  {
+   "id": "role",
+   "name": "Role",
+   "aliases": [],
+   "category": "resources",
+   "file": "resources/role.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/role.svg",
+   "sha256": "4b3c4407e2ffe7fac8599aea02e0f45c720ba81a6891c37f1678ba89c75048e6"
+  },
+  {
+   "id": "rs",
+   "name": "ReplicaSet",
+   "aliases": [
+    "rs"
+   ],
+   "category": "resources",
+   "file": "resources/rs.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/rs.svg",
+   "sha256": "234adcccb525efccc79dd996bdc18d73b5ac57c74beb8ee8549726f6b2beb5a7"
+  },
+  {
+   "id": "sa",
+   "name": "ServiceAccount",
+   "aliases": [
+    "sa"
+   ],
+   "category": "resources",
+   "file": "resources/sa.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/sa.svg",
+   "sha256": "fd113e685c6842c074f8916cdd2424241fcaa64dabddce82f9ad60f9b1d93285"
+  },
+  {
+   "id": "sc",
+   "name": "StorageClass",
+   "aliases": [
+    "sc"
+   ],
+   "category": "resources",
+   "file": "resources/sc.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/sc.svg",
+   "sha256": "829f6a257572269ab97e6967aeabef76dd9ab23d93cfcc4d5f43dd754a8162c6"
+  },
+  {
+   "id": "secret",
+   "name": "Secret",
+   "aliases": [],
+   "category": "resources",
+   "file": "resources/secret.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/secret.svg",
+   "sha256": "144fb9972d456ef172fcebbe6a6d7d4921254c6586b0381962c9add0b34468c2"
+  },
+  {
+   "id": "sts",
+   "name": "StatefulSet",
+   "aliases": [
+    "sts"
+   ],
+   "category": "resources",
+   "file": "resources/sts.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/sts.svg",
+   "sha256": "a35e5fafa0d5d642eeb5edbe4692716e95a763188ef16d0ec1476b7e082ece27"
+  },
+  {
+   "id": "svc",
+   "name": "Service",
+   "aliases": [
+    "svc"
+   ],
+   "category": "resources",
+   "file": "resources/svc.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/svc.svg",
+   "sha256": "a86fad881253c4d7abbe7413c0efbca2e7dde7e54a55774f79349494bd823990"
+  },
+  {
+   "id": "user",
+   "name": "User",
+   "aliases": [],
+   "category": "resources",
+   "file": "resources/user.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/user.svg",
+   "sha256": "be727f58f91ef61aebf1b1bda24fb8efff18bc106a9fc260ddfdb8dc10f5b25f"
+  },
+  {
+   "id": "vol",
+   "name": "Volume",
+   "aliases": [
+    "vol"
+   ],
+   "category": "resources",
+   "file": "resources/vol.svg",
+   "source_path": "cncf-kubernetes/kubernetes-community/icons/svg/resources/unlabeled/vol.svg",
+   "sha256": "07624349d456d064e411b3a3710370be6487568808b72e2dfc97ca5c78f5d020"
+  }
+ ]
+}

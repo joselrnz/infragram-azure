@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "about": "The faces the editor page and the standalone SVG carry inline, so a picture draws the same anywhere, with no network. Subsetted woff2 as served by the Google Fonts CSS API for a current Chrome; latin and latin-ext only. Each face is one @font-face block: the variable files cover the weight range. Regenerate only from the URLs recorded here; never hand-edit a font.",
+  "source": {
+    "api": "https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Geist+Mono:wght@400;500;600&display=swap",
+    "fetched": "2026-10-28 (Inter); 2026-09-13 (Geist Mono)",
+    "license": "SIL Open Font License 1.1 for both families; the notices are the OFL-*.txt files beside the fonts",
+    "license_urls": {
+      "Inter": "https://github.com/google/fonts/blob/main/ofl/inter/OFL.txt",
+      "Geist Mono": "https://github.com/google/fonts/blob/main/ofl/geistmono/OFL.txt"
+    }
+  },
+  "counts": {
+    "faces": 4,
+    "files": 4,
+    "bytes": 171148
+  },
+  "faces": [
+    {
+      "family": "Inter",
+      "style": "normal",
+      "subset": "latin",
+      "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "file": "inter-normal-latin.woff2",
+      "source_url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+      "weight": "400 700",
+      "sha256": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62",
+      "bytes": 48256,
+      "license_file": "OFL-inter.txt"
+    },
+    {
+      "family": "Inter",
+      "style": "normal",
+      "subset": "latin-ext",
+      "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "file": "inter-normal-latin-ext.woff2",
+      "source_url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa25L7SUc.woff2",
+      "weight": "400 700",
+      "sha256": "34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956",
+      "bytes": 85068,
+      "license_file": "OFL-inter.txt"
+    },
+    {
+      "family": "Geist Mono",
+      "style": "normal",
+      "subset": "latin",
+      "unicode_range": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "file": "geist-mono-normal-latin.woff2",
+      "source_url": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrcdmg.woff2",
+      "weight": "400 600",
+      "sha256": "684ad5b531f81d43c1e8c7038262d5db7cdc1f68006e04d6c7769efa8d33c8cc",
+      "bytes": 23128,
+      "license_file": "OFL-geist-mono.txt"
+    },
+    {
+      "family": "Geist Mono",
+      "style": "normal",
+      "subset": "latin-ext",
+      "unicode_range": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "file": "geist-mono-normal-latin-ext.woff2",
+      "source_url": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrkdmgPn.woff2",
+      "weight": "400 600",
+      "sha256": "1a189eb997c3e2ece68373e387afaec9e8617424186c4b1ab3cff7c54ba6223b",
+      "bytes": 14696,
+      "license_file": "OFL-geist-mono.txt"
+    }
+  ]
+}

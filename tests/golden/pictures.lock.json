@@ -1,0 +1,23 @@
+{
+  "note": "sha256 of render_project_svg(look_variant(template, look)) per look. Regenerate with `python -m infragram verify:pictures --update` when a picture is meant to change; the diff of this file is the review.",
+  "pictures": {
+    "azure-aks-baseline": {
+      "card": "6fee6f75082d1a3f9037e51986a312780c549983f1222f022dc021c4827eba78",
+      "icon": "306cc2b1e761409d643d1139dca280d83ccb80aaca4bea5493b73b7b1ff30df5"
+    },
+    "azure-api-reference": {
+      "card": "637664dd2deb55fc6a2970163c0c0d61e28e4dd36c07cf165f320bb62a48d1e6",
+      "icon": "4e8984c79c71c1451f9c9048f963b53a15e1570e909559644d45054d35343a67"
+    },
+    "azure-hub-spoke-landing-zone": {
+      "card": "ad76c6857fabc642b8c1d9f6ae1353750053f108327140449ee5a96a570bf74c",
+      "icon": "fee84da444c1e0e7ea80b683984da54c7a853d8a6313a10341985aa8e1888a81"
+    },
+    "azure-web-app-front-door": {
+      "card": "f3a3b443da6931f9f3cd31551dd0bd5ba7396c824c72dccb061cbecb3ba84c93",
+      "icon": "d21907769c5dcd583396c0933d8959412f1157719defc68a7191f7c6f2309dc2"
+    }
+  },
+  "renderer": "static",
+  "schema": 1
+}

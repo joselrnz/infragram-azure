@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "comment": "Source-of-truth manifest for official vendor icon collections. scripts/import-official-icons.py reads this; add or change a vendor here, not in code. 'format' selects the pack-layout parser; 'root' is relative to cloud-diagram-sources/.",
+  "vendors": {
+    "azure": {
+      "format": "azure-v24",
+      "root": "azure/official-architecture-icons-v24/Azure_Public_Service_Icons_V24/Azure_Public_Service_Icons/Icons",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/icons/",
+      "release": "Azure Public Service Icons V24",
+      "archive": "azure/official-architecture-icons-v24/Azure_Public_Service_Icons_V24.zip",
+      "terms": "Microsoft permits use in architecture diagrams, training materials, and documentation; do not alter the artwork."
+    },
+    "kubernetes": {
+      "format": "k8s-community",
+      "root": "cncf-kubernetes/kubernetes-community/icons/svg",
+      "url": "https://github.com/kubernetes/community",
+      "release": "kubernetes/community icons (Apache-2.0; Kubernetes trademark policy applies)",
+      "archive": null,
+      "terms": "Apache-2.0 repository; CNCF/Linux Foundation trademark policy applies to the marks."
+    },
+    "databricks": {
+      "format": "databricks-icons",
+      "root": "databricks",
+      "license_file": "LICENSE",
+      "url": "https://brand.databricks.com/",
+      "release": "Databricks architecture icons, vendored: built from Databricks' official SVGs by Eduardo Rabelo (MIT, the notice in LICENSE beside the icons)",
+      "archive": null,
+      "terms": "MIT (LICENSE beside the icons); the license grants no trademark rights. Databricks, the Databricks logo and the product names are trademarks of Databricks, Inc., which does not sponsor or endorse the set."
+    }
+  }
+}

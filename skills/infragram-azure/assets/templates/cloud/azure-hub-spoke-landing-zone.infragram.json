@@ -1,0 +1,1172 @@
+{
+  "schema_version": 2,
+  "kind": "single-cloud",
+  "slug": "azure-hub-spoke-landing-zone",
+  "title": "Azure hub-and-spoke landing zone",
+  "description": "A connectivity subscription hosts the hub: ExpressRoute and VPN gateways, Azure Firewall Premium, Bastion and private DNS. Production and development landing zones peer their spokes into the hub and send every flow through the firewall; data services are reached over private endpoints. A management subscription holds Log Analytics, Defender for Cloud, Sentinel, Azure Policy and the Recovery Services vault.",
+  "template_brief": "",
+  "providers": [
+    {
+      "id": "azure",
+      "enabled": true
+    }
+  ],
+  "default_library": "azure",
+  "layers": [],
+  "presentation": {
+    "size": "fit",
+    "detail": "balanced",
+    "audience": "mixed",
+    "eyebrow": "Architecture",
+    "heading": "",
+    "legend": []
+  },
+  "topology": {
+    "id": "root",
+    "name": "Azure hub-and-spoke landing zone",
+    "type": "group",
+    "attributes": {},
+    "children": [
+      {
+        "id": "corporate-data-centre",
+        "name": "Corporate data centre",
+        "type": "site",
+        "component": {
+          "provider": "infragram",
+          "service_id": "custom-boundary-on-premises",
+          "icon_ref": "infragram:custom-boundary-on-premises"
+        },
+        "attributes": {
+          "flow": "column",
+          "editor_frame_group": "generic"
+        },
+        "children": [
+          {
+            "id": "customer-edge-routers",
+            "name": "Customer edge routers",
+            "type": "Edge router",
+            "component": {
+              "provider": "infragram",
+              "service_id": "edge-router",
+              "icon_ref": "infragram:edge-router"
+            },
+            "attributes": {
+              "detail": "BGP · redundant pair",
+              "icon": "edge-router",
+              "collection": "infragram",
+              "category": "networking"
+            },
+            "children": [],
+            "connections": [
+              {
+                "target": "expressroute-circuit",
+                "kind": "solid",
+                "label": "ExpressRoute private peering",
+                "direction": "forward"
+              },
+              {
+                "target": "vpn-gateway",
+                "kind": "dashed",
+                "label": "IPsec S2S · failover",
+                "direction": "forward"
+              }
+            ],
+            "badges": []
+          },
+          {
+            "id": "legacy-application-servers",
+            "name": "Legacy application servers",
+            "type": "Physical server",
+            "component": {
+              "provider": "infragram",
+              "service_id": "physical-server",
+              "icon_ref": "infragram:physical-server"
+            },
+            "attributes": {
+              "detail": "migrating to spokes",
+              "icon": "physical-server",
+              "collection": "infragram",
+              "category": "compute"
+            },
+            "children": [],
+            "connections": [
+              {
+                "target": "customer-edge-routers",
+                "kind": "solid",
+                "label": "",
+                "direction": "forward"
+              }
+            ],
+            "badges": []
+          },
+          {
+            "id": "domain-controllers",
+            "name": "Domain controllers",
+            "type": "Domain controller",
+            "component": {
+              "provider": "infragram",
+              "service_id": "domain-controller",
+              "icon_ref": "infragram:domain-controller"
+            },
+            "attributes": {
+              "detail": "AD DS",
+              "icon": "domain-controller",
+              "collection": "infragram",
+              "category": "identity"
+            },
+            "children": [],
+            "connections": [
+              {
+                "target": "customer-edge-routers",
+                "kind": "solid",
+                "label": "",
+                "direction": "forward"
+              },
+              {
+                "target": "dns-private-resolver",
+                "kind": "dotted",
+                "label": "conditional forwarders",
+                "direction": "forward"
+              }
+            ],
+            "badges": []
+          }
+        ],
+        "connections": [],
+        "badges": []
+      },
+      {
+        "id": "platform-operators",
+        "name": "Platform operators",
+        "type": "Administrator",
+        "component": {
+          "provider": "infragram",
+          "service_id": "administrator",
+          "icon_ref": "infragram:administrator"
+        },
+        "attributes": {
+          "detail": "Bastion sessions",
+          "icon": "administrator",
+          "collection": "infragram",
+          "category": "identity"
+        },
+        "children": [],
+        "connections": [
+          {
+            "target": "azure-bastion",
+            "kind": "solid",
+            "label": "RDP/SSH over TLS 443",
+            "direction": "forward"
+          }
+        ],
+        "badges": []
+      },
+      {
+        "id": "internet",
+        "name": "Internet",
+        "type": "Public Internet",
+        "component": {
+          "provider": "infragram",
+          "service_id": "public-internet",
+          "icon_ref": "infragram:public-internet"
+        },
+        "attributes": {
+          "detail": "egress via firewall",
+          "icon": "public-internet",
+          "collection": "infragram",
+          "category": "networking"
+        },
+        "children": [],
+        "connections": [],
+        "badges": []
+      },
+      {
+        "id": "microsoft-azure",
+        "name": "Microsoft Azure",
+        "type": "cloud",
+        "component": {
+          "provider": "infragram",
+          "service_id": "custom-boundary-azure-cloud",
+          "icon_ref": "infragram:custom-boundary-azure-cloud"
+        },
+        "attributes": {
+          "arrange": "manual",
+          "flow": "column",
+          "editor_frame_group": "azure"
+        },
+        "children": [
+          {
+            "id": "connectivity-subscription",
+            "name": "Connectivity subscription",
+            "type": "subscription",
+            "component": {
+              "provider": "infragram",
+              "service_id": "custom-boundary-azure-subscription",
+              "icon_ref": "infragram:custom-boundary-azure-subscription"
+            },
+            "attributes": {
+              "flow": "column",
+              "editor_frame_group": "azure"
+            },
+            "children": [
+              {
+                "id": "east-us-2",
+                "name": "East US 2",
+                "type": "region",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-azure-region",
+                  "icon_ref": "infragram:custom-boundary-azure-region"
+                },
+                "attributes": {
+                  "editor_frame_group": "azure"
+                },
+                "children": [
+                  {
+                    "id": "rg-connectivity-hub",
+                    "name": "rg-connectivity-hub",
+                    "type": "resource-group",
+                    "component": {
+                      "provider": "infragram",
+                      "service_id": "custom-boundary-azure-resource-group",
+                      "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                    },
+                    "attributes": {
+                      "arrange": "manual",
+                      "flow": "column",
+                      "editor_frame_group": "azure"
+                    },
+                    "children": [
+                      {
+                        "id": "expressroute-circuit",
+                        "name": "ExpressRoute circuit",
+                        "type": "ExpressRoute Circuits",
+                        "component": {
+                          "provider": "azure",
+                          "service_id": "expressroute-circuits",
+                          "icon_ref": "azure:expressroute-circuits"
+                        },
+                        "attributes": {
+                          "detail": "1 Gbps · private peering",
+                          "icon": "expressroute-circuits",
+                          "collection": "azure",
+                          "category": "networking"
+                        },
+                        "children": [],
+                        "connections": [
+                          {
+                            "target": "expressroute-gateway",
+                            "kind": "solid",
+                            "label": "BGP · 10.0.0.0/8",
+                            "direction": "forward"
+                          }
+                        ],
+                        "badges": []
+                      },
+                      {
+                        "id": "hub-vnet-10-0-0-0-16",
+                        "name": "Hub VNet · 10.0.0.0/16",
+                        "type": "network",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-vnet",
+                          "icon_ref": "infragram:custom-boundary-azure-vnet"
+                        },
+                        "attributes": {
+                          "arrange": "manual",
+                          "flow": "row",
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "gatewaysubnet",
+                            "name": "GatewaySubnet",
+                            "type": "subnet-private",
+                            "component": {
+                              "provider": "infragram",
+                              "service_id": "custom-boundary-azure-subnet",
+                              "icon_ref": "infragram:custom-boundary-azure-subnet"
+                            },
+                            "attributes": {
+                              "flow": "column",
+                              "editor_frame_group": "azure"
+                            },
+                            "children": [
+                              {
+                                "id": "expressroute-gateway",
+                                "name": "ExpressRoute gateway",
+                                "type": "Virtual Network Gateways",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "virtual-network-gateways",
+                                  "icon_ref": "azure:virtual-network-gateways"
+                                },
+                                "attributes": {
+                                  "detail": "ErGw2AZ · zone redundant",
+                                  "icon": "virtual-network-gateways",
+                                  "collection": "azure",
+                                  "category": "networking"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "azure-firewall-premium",
+                                    "kind": "solid",
+                                    "label": "UDR · all traffic",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              },
+                              {
+                                "id": "vpn-gateway",
+                                "name": "VPN gateway",
+                                "type": "Virtual Network Gateways",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "virtual-network-gateways",
+                                  "icon_ref": "azure:virtual-network-gateways"
+                                },
+                                "attributes": {
+                                  "detail": "VpnGw2AZ · S2S failover",
+                                  "icon": "virtual-network-gateways",
+                                  "collection": "azure",
+                                  "category": "networking"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "azure-firewall-premium",
+                                    "kind": "solid",
+                                    "label": "",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              }
+                            ],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "azurefirewallsubnet",
+                            "name": "AzureFirewallSubnet",
+                            "type": "subnet-private",
+                            "component": {
+                              "provider": "infragram",
+                              "service_id": "custom-boundary-azure-subnet",
+                              "icon_ref": "infragram:custom-boundary-azure-subnet"
+                            },
+                            "attributes": {
+                              "editor_frame_group": "azure"
+                            },
+                            "children": [
+                              {
+                                "id": "azure-firewall-premium",
+                                "name": "Azure Firewall Premium",
+                                "type": "Firewalls",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "firewalls",
+                                  "icon_ref": "azure:firewalls"
+                                },
+                                "attributes": {
+                                  "detail": "TLS inspection · IDPS · FQDN rules",
+                                  "icon": "firewalls",
+                                  "collection": "azure",
+                                  "category": "networking"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "internet",
+                                    "kind": "solid",
+                                    "label": "egress · allow-list",
+                                    "direction": "forward"
+                                  },
+                                  {
+                                    "target": "internal-load-balancer",
+                                    "kind": "dashed",
+                                    "label": "VNet peering · UDR 0.0.0.0/0",
+                                    "direction": "forward"
+                                  },
+                                  {
+                                    "target": "dev-application-vms",
+                                    "kind": "dashed",
+                                    "label": "VNet peering · UDR 0.0.0.0/0",
+                                    "direction": "forward"
+                                  },
+                                  {
+                                    "target": "log-analytics-workspace",
+                                    "kind": "dotted",
+                                    "label": "firewall logs",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              }
+                            ],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "azurebastionsubnet",
+                            "name": "AzureBastionSubnet",
+                            "type": "subnet-private",
+                            "component": {
+                              "provider": "infragram",
+                              "service_id": "custom-boundary-azure-subnet",
+                              "icon_ref": "infragram:custom-boundary-azure-subnet"
+                            },
+                            "attributes": {
+                              "editor_frame_group": "azure"
+                            },
+                            "children": [
+                              {
+                                "id": "azure-bastion",
+                                "name": "Azure Bastion",
+                                "type": "Bastions",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "bastions",
+                                  "icon_ref": "azure:bastions"
+                                },
+                                "attributes": {
+                                  "detail": "Standard · no public IPs on VMs",
+                                  "icon": "bastions",
+                                  "collection": "azure",
+                                  "category": "networking"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "vm-scale-set",
+                                    "kind": "dotted",
+                                    "label": "private IP only",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              }
+                            ],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "snet-dns",
+                            "name": "snet-dns",
+                            "type": "subnet-private",
+                            "component": {
+                              "provider": "infragram",
+                              "service_id": "custom-boundary-azure-subnet",
+                              "icon_ref": "infragram:custom-boundary-azure-subnet"
+                            },
+                            "attributes": {
+                              "flow": "column",
+                              "editor_frame_group": "azure"
+                            },
+                            "children": [
+                              {
+                                "id": "dns-private-resolver",
+                                "name": "DNS Private Resolver",
+                                "type": "DNS Private Resolver",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "dns-private-resolver",
+                                  "icon_ref": "azure:dns-private-resolver"
+                                },
+                                "attributes": {
+                                  "detail": "inbound + outbound endpoints",
+                                  "icon": "dns-private-resolver",
+                                  "collection": "azure",
+                                  "category": "networking"
+                                },
+                                "children": [],
+                                "connections": [
+                                  {
+                                    "target": "private-dns-zones",
+                                    "kind": "dotted",
+                                    "label": "resolves privatelink.*",
+                                    "direction": "forward"
+                                  }
+                                ],
+                                "badges": []
+                              },
+                              {
+                                "id": "private-dns-zones",
+                                "name": "Private DNS zones",
+                                "type": "DNS Zones",
+                                "component": {
+                                  "provider": "azure",
+                                  "service_id": "dns-zones",
+                                  "icon_ref": "azure:dns-zones"
+                                },
+                                "attributes": {
+                                  "detail": "privatelink.* · linked to every VNet",
+                                  "icon": "dns-zones",
+                                  "collection": "azure",
+                                  "category": "networking"
+                                },
+                                "children": [],
+                                "connections": [],
+                                "badges": []
+                              }
+                            ],
+                            "connections": [],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      }
+                    ],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              }
+            ],
+            "connections": [],
+            "badges": []
+          },
+          {
+            "id": "landing-zones",
+            "name": "Landing zones",
+            "type": "environment",
+            "component": {
+              "provider": "infragram",
+              "service_id": "custom-boundary-environment",
+              "icon_ref": "infragram:custom-boundary-environment"
+            },
+            "attributes": {
+              "arrange": "manual",
+              "flow": "row",
+              "editor_frame_group": "generic"
+            },
+            "children": [
+              {
+                "id": "landing-zone-production",
+                "name": "Landing zone · production",
+                "type": "subscription",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-azure-subscription",
+                  "icon_ref": "infragram:custom-boundary-azure-subscription"
+                },
+                "attributes": {
+                  "flow": "column",
+                  "editor_frame_group": "azure"
+                },
+                "children": [
+                  {
+                    "id": "east-us-2-2",
+                    "name": "East US 2",
+                    "type": "region",
+                    "component": {
+                      "provider": "infragram",
+                      "service_id": "custom-boundary-azure-region",
+                      "icon_ref": "infragram:custom-boundary-azure-region"
+                    },
+                    "attributes": {
+                      "editor_frame_group": "azure"
+                    },
+                    "children": [
+                      {
+                        "id": "rg-prod-app",
+                        "name": "rg-prod-app",
+                        "type": "resource-group",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-resource-group",
+                          "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                        },
+                        "attributes": {
+                          "arrange": "manual",
+                          "flow": "column",
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "spoke-vnet-10-1-0-0-16",
+                            "name": "Spoke VNet · 10.1.0.0/16",
+                            "type": "network",
+                            "component": {
+                              "provider": "infragram",
+                              "service_id": "custom-boundary-azure-vnet",
+                              "icon_ref": "infragram:custom-boundary-azure-vnet"
+                            },
+                            "attributes": {
+                              "flow": "row",
+                              "editor_frame_group": "azure"
+                            },
+                            "children": [
+                              {
+                                "id": "snet-app",
+                                "name": "snet-app",
+                                "type": "subnet-private",
+                                "component": {
+                                  "provider": "infragram",
+                                  "service_id": "custom-boundary-azure-subnet",
+                                  "icon_ref": "infragram:custom-boundary-azure-subnet"
+                                },
+                                "attributes": {
+                                  "flow": "column",
+                                  "editor_frame_group": "azure"
+                                },
+                                "children": [
+                                  {
+                                    "id": "internal-load-balancer",
+                                    "name": "Internal load balancer",
+                                    "type": "Load Balancers",
+                                    "component": {
+                                      "provider": "azure",
+                                      "service_id": "load-balancers",
+                                      "icon_ref": "azure:load-balancers"
+                                    },
+                                    "attributes": {
+                                      "detail": "Standard · zone redundant",
+                                      "icon": "load-balancers",
+                                      "collection": "azure",
+                                      "category": "networking"
+                                    },
+                                    "children": [],
+                                    "connections": [
+                                      {
+                                        "target": "vm-scale-set",
+                                        "kind": "solid",
+                                        "label": "HTTPS",
+                                        "direction": "forward"
+                                      }
+                                    ],
+                                    "badges": []
+                                  },
+                                  {
+                                    "id": "vm-scale-set",
+                                    "name": "VM scale set",
+                                    "type": "VM Scale Sets",
+                                    "component": {
+                                      "provider": "azure",
+                                      "service_id": "vm-scale-sets",
+                                      "icon_ref": "azure:vm-scale-sets"
+                                    },
+                                    "attributes": {
+                                      "detail": "app tier · 3-12 instances · zones 1-3",
+                                      "icon": "vm-scale-sets",
+                                      "collection": "azure",
+                                      "category": "compute"
+                                    },
+                                    "children": [],
+                                    "connections": [
+                                      {
+                                        "target": "private-endpoints",
+                                        "kind": "solid",
+                                        "label": "private DNS",
+                                        "direction": "forward"
+                                      },
+                                      {
+                                        "target": "log-analytics-workspace",
+                                        "kind": "dotted",
+                                        "label": "diagnostics",
+                                        "direction": "forward"
+                                      },
+                                      {
+                                        "target": "managed-identities",
+                                        "kind": "dotted",
+                                        "label": "",
+                                        "direction": "forward"
+                                      }
+                                    ],
+                                    "badges": []
+                                  }
+                                ],
+                                "connections": [],
+                                "badges": []
+                              },
+                              {
+                                "id": "snet-data",
+                                "name": "snet-data",
+                                "type": "subnet-private",
+                                "component": {
+                                  "provider": "infragram",
+                                  "service_id": "custom-boundary-azure-subnet",
+                                  "icon_ref": "infragram:custom-boundary-azure-subnet"
+                                },
+                                "attributes": {
+                                  "flow": "column",
+                                  "editor_frame_group": "azure"
+                                },
+                                "children": [
+                                  {
+                                    "id": "private-endpoints",
+                                    "name": "Private endpoints",
+                                    "type": "Private Endpoints",
+                                    "component": {
+                                      "provider": "azure",
+                                      "service_id": "private-endpoints",
+                                      "icon_ref": "azure:private-endpoints"
+                                    },
+                                    "attributes": {
+                                      "detail": "SQL · Storage · Key Vault",
+                                      "icon": "private-endpoints",
+                                      "collection": "azure",
+                                      "category": "other"
+                                    },
+                                    "children": [],
+                                    "connections": [
+                                      {
+                                        "target": "azure-sql-database",
+                                        "kind": "dotted",
+                                        "label": "",
+                                        "direction": "forward"
+                                      },
+                                      {
+                                        "target": "storage-account",
+                                        "kind": "dotted",
+                                        "label": "",
+                                        "direction": "forward"
+                                      },
+                                      {
+                                        "target": "key-vault",
+                                        "kind": "dotted",
+                                        "label": "",
+                                        "direction": "forward"
+                                      }
+                                    ],
+                                    "badges": []
+                                  }
+                                ],
+                                "connections": [],
+                                "badges": []
+                              }
+                            ],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "azure-sql-database",
+                            "name": "Azure SQL Database",
+                            "type": "SQL Database",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "sql-database",
+                              "icon_ref": "azure:sql-database"
+                            },
+                            "attributes": {
+                              "detail": "Business Critical · zone redundant",
+                              "icon": "sql-database",
+                              "collection": "azure",
+                              "category": "databases"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "storage-account",
+                            "name": "Storage account",
+                            "type": "Storage Accounts",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "storage-accounts",
+                              "icon_ref": "azure:storage-accounts"
+                            },
+                            "attributes": {
+                              "detail": "ZRS · private access only",
+                              "icon": "storage-accounts",
+                              "collection": "azure",
+                              "category": "storage"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "key-vault",
+                            "name": "Key Vault",
+                            "type": "Key Vaults",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "key-vaults",
+                              "icon_ref": "azure:key-vaults"
+                            },
+                            "attributes": {
+                              "detail": "Premium · RBAC",
+                              "icon": "key-vaults",
+                              "collection": "azure",
+                              "category": "security"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      }
+                    ],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              },
+              {
+                "id": "landing-zone-development",
+                "name": "Landing zone · development",
+                "type": "subscription",
+                "component": {
+                  "provider": "infragram",
+                  "service_id": "custom-boundary-azure-subscription",
+                  "icon_ref": "infragram:custom-boundary-azure-subscription"
+                },
+                "attributes": {
+                  "flow": "column",
+                  "editor_frame_group": "azure"
+                },
+                "children": [
+                  {
+                    "id": "east-us-2-3",
+                    "name": "East US 2",
+                    "type": "region",
+                    "component": {
+                      "provider": "infragram",
+                      "service_id": "custom-boundary-azure-region",
+                      "icon_ref": "infragram:custom-boundary-azure-region"
+                    },
+                    "attributes": {
+                      "editor_frame_group": "azure"
+                    },
+                    "children": [
+                      {
+                        "id": "rg-dev-app",
+                        "name": "rg-dev-app",
+                        "type": "resource-group",
+                        "component": {
+                          "provider": "infragram",
+                          "service_id": "custom-boundary-azure-resource-group",
+                          "icon_ref": "infragram:custom-boundary-azure-resource-group"
+                        },
+                        "attributes": {
+                          "arrange": "manual",
+                          "flow": "column",
+                          "editor_frame_group": "azure"
+                        },
+                        "children": [
+                          {
+                            "id": "spoke-vnet-10-2-0-0-16",
+                            "name": "Spoke VNet · 10.2.0.0/16",
+                            "type": "network",
+                            "component": {
+                              "provider": "infragram",
+                              "service_id": "custom-boundary-azure-vnet",
+                              "icon_ref": "infragram:custom-boundary-azure-vnet"
+                            },
+                            "attributes": {
+                              "flow": "row",
+                              "editor_frame_group": "azure"
+                            },
+                            "children": [
+                              {
+                                "id": "snet-app-2",
+                                "name": "snet-app",
+                                "type": "subnet-private",
+                                "component": {
+                                  "provider": "infragram",
+                                  "service_id": "custom-boundary-azure-subnet",
+                                  "icon_ref": "infragram:custom-boundary-azure-subnet"
+                                },
+                                "attributes": {
+                                  "editor_frame_group": "azure"
+                                },
+                                "children": [
+                                  {
+                                    "id": "dev-application-vms",
+                                    "name": "Dev application VMs",
+                                    "type": "Virtual Machine",
+                                    "component": {
+                                      "provider": "azure",
+                                      "service_id": "virtual-machine",
+                                      "icon_ref": "azure:virtual-machine"
+                                    },
+                                    "attributes": {
+                                      "detail": "B-series · auto-shutdown",
+                                      "icon": "virtual-machine",
+                                      "collection": "azure",
+                                      "category": "compute"
+                                    },
+                                    "children": [],
+                                    "connections": [
+                                      {
+                                        "target": "private-endpoints-2",
+                                        "kind": "solid",
+                                        "label": "private DNS",
+                                        "direction": "forward"
+                                      }
+                                    ],
+                                    "badges": []
+                                  }
+                                ],
+                                "connections": [],
+                                "badges": []
+                              },
+                              {
+                                "id": "snet-data-2",
+                                "name": "snet-data",
+                                "type": "subnet-private",
+                                "component": {
+                                  "provider": "infragram",
+                                  "service_id": "custom-boundary-azure-subnet",
+                                  "icon_ref": "infragram:custom-boundary-azure-subnet"
+                                },
+                                "attributes": {
+                                  "editor_frame_group": "azure"
+                                },
+                                "children": [
+                                  {
+                                    "id": "private-endpoints-2",
+                                    "name": "Private endpoints",
+                                    "type": "Private Endpoints",
+                                    "component": {
+                                      "provider": "azure",
+                                      "service_id": "private-endpoints",
+                                      "icon_ref": "azure:private-endpoints"
+                                    },
+                                    "attributes": {
+                                      "detail": "SQL · Storage",
+                                      "icon": "private-endpoints",
+                                      "collection": "azure",
+                                      "category": "other"
+                                    },
+                                    "children": [],
+                                    "connections": [
+                                      {
+                                        "target": "azure-sql-database-2",
+                                        "kind": "dotted",
+                                        "label": "",
+                                        "direction": "forward"
+                                      }
+                                    ],
+                                    "badges": []
+                                  }
+                                ],
+                                "connections": [],
+                                "badges": []
+                              }
+                            ],
+                            "connections": [],
+                            "badges": []
+                          },
+                          {
+                            "id": "azure-sql-database-2",
+                            "name": "Azure SQL Database",
+                            "type": "SQL Database",
+                            "component": {
+                              "provider": "azure",
+                              "service_id": "sql-database",
+                              "icon_ref": "azure:sql-database"
+                            },
+                            "attributes": {
+                              "detail": "General Purpose · serverless",
+                              "icon": "sql-database",
+                              "collection": "azure",
+                              "category": "databases"
+                            },
+                            "children": [],
+                            "connections": [],
+                            "badges": []
+                          }
+                        ],
+                        "connections": [],
+                        "badges": []
+                      }
+                    ],
+                    "connections": [],
+                    "badges": []
+                  }
+                ],
+                "connections": [],
+                "badges": []
+              }
+            ],
+            "connections": [],
+            "badges": []
+          },
+          {
+            "id": "management-subscription",
+            "name": "Management subscription",
+            "type": "subscription",
+            "component": {
+              "provider": "infragram",
+              "service_id": "custom-boundary-azure-subscription",
+              "icon_ref": "infragram:custom-boundary-azure-subscription"
+            },
+            "attributes": {
+              "arrange": "manual",
+              "flow": "row",
+              "editor_frame_group": "azure"
+            },
+            "children": [
+              {
+                "id": "log-analytics-workspace",
+                "name": "Log Analytics workspace",
+                "type": "Log Analytics Workspaces",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "log-analytics-workspaces-monitor",
+                  "icon_ref": "azure:log-analytics-workspaces-monitor"
+                },
+                "attributes": {
+                  "detail": "all diagnostics · 90 days",
+                  "icon": "log-analytics-workspaces-monitor",
+                  "collection": "azure",
+                  "category": "monitor"
+                },
+                "children": [],
+                "connections": [
+                  {
+                    "target": "microsoft-sentinel",
+                    "kind": "dotted",
+                    "label": "",
+                    "direction": "forward"
+                  }
+                ],
+                "badges": []
+              },
+              {
+                "id": "defender-for-cloud",
+                "name": "Defender for Cloud",
+                "type": "Microsoft Defender for Cloud",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "microsoft-defender-for-cloud",
+                  "icon_ref": "azure:microsoft-defender-for-cloud"
+                },
+                "attributes": {
+                  "detail": "servers · SQL · storage plans",
+                  "icon": "microsoft-defender-for-cloud",
+                  "collection": "azure",
+                  "category": "security"
+                },
+                "children": [],
+                "connections": [
+                  {
+                    "target": "azure-sql-database",
+                    "kind": "dotted",
+                    "label": "",
+                    "direction": "forward"
+                  }
+                ],
+                "badges": []
+              },
+              {
+                "id": "microsoft-sentinel",
+                "name": "Microsoft Sentinel",
+                "type": "Azure Sentinel",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "azure-sentinel",
+                  "icon_ref": "azure:azure-sentinel"
+                },
+                "attributes": {
+                  "detail": "analytics rules · SOC",
+                  "icon": "azure-sentinel",
+                  "collection": "azure",
+                  "category": "security"
+                },
+                "children": [],
+                "connections": [],
+                "badges": []
+              },
+              {
+                "id": "azure-policy",
+                "name": "Azure Policy",
+                "type": "Policy",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "policy",
+                  "icon_ref": "azure:policy"
+                },
+                "attributes": {
+                  "detail": "landing-zone guardrails",
+                  "icon": "policy",
+                  "collection": "azure",
+                  "category": "management-governance"
+                },
+                "children": [],
+                "connections": [
+                  {
+                    "target": "vm-scale-set",
+                    "kind": "dotted",
+                    "label": "deny public IPs · require tags",
+                    "direction": "forward"
+                  },
+                  {
+                    "target": "dev-application-vms",
+                    "kind": "dotted",
+                    "label": "allowed SKUs · auto-shutdown",
+                    "direction": "forward"
+                  }
+                ],
+                "badges": []
+              },
+              {
+                "id": "recovery-services-vault",
+                "name": "Recovery Services vault",
+                "type": "Recovery Services Vaults",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "recovery-services-vaults",
+                  "icon_ref": "azure:recovery-services-vaults"
+                },
+                "attributes": {
+                  "detail": "VM backup · 35-day retention",
+                  "icon": "recovery-services-vaults",
+                  "collection": "azure",
+                  "category": "management-governance"
+                },
+                "children": [],
+                "connections": [
+                  {
+                    "target": "vm-scale-set",
+                    "kind": "dotted",
+                    "label": "backup",
+                    "direction": "forward"
+                  }
+                ],
+                "badges": []
+              },
+              {
+                "id": "managed-identities",
+                "name": "Managed identities",
+                "type": "Managed Identities",
+                "component": {
+                  "provider": "azure",
+                  "service_id": "managed-identities",
+                  "icon_ref": "azure:managed-identities"
+                },
+                "attributes": {
+                  "detail": "no credentials in code",
+                  "icon": "managed-identities",
+                  "collection": "azure",
+                  "category": "identity"
+                },
+                "children": [],
+                "connections": [],
+                "badges": []
+              }
+            ],
+            "connections": [],
+            "badges": []
+          }
+        ],
+        "connections": [],
+        "badges": []
+      }
+    ],
+    "connections": [],
+    "badges": []
+  }
+}

@@ -1,0 +1,457 @@
+{
+  "schema_version": 1,
+  "provider": "azure",
+  "about": "What each Azure frame kind and component is written as by the Terraform export (infragram.terraform). A component missing here is written as a comment the README lists. Arguments follow the AzureRM provider's schema; a $ value is filled from where the element sits (see infragram/terraform/mapping.py).",
+  "terraform": {"name": "azurerm", "source": "hashicorp/azurerm", "version": "~> 4.0"},
+  "companions": [{"name": "azuread", "source": "hashicorp/azuread", "version": "~> 3.0", "prefix": "azuread_"}],
+  "frames": {
+    "group": {"role": "none"},
+    "cloud": {"role": "none"},
+    "organization": {"role": "account", "note": "A Microsoft Entra tenant: the provider's credentials choose it."},
+    "management-group": {"role": "account", "note": "A management group: create it with azurerm_management_group, and move the subscriptions under it, where the platform team manages the hierarchy."},
+    "subscription": {"role": "subscription"},
+    "region": {"role": "region"},
+    "zone": {"role": "none"},
+    "resource-group": {
+      "role": "resource_group",
+      "resources": [
+        {"type": "azurerm_resource_group", "args": {"name": "$caption_id", "location": "$location", "tags": "$tags"},
+         "module": "azure-resource-group", "module_args": {"name": "$caption_id", "location": "$location", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "network": {
+      "role": "network",
+      "resources": [
+        {"type": "azurerm_virtual_network", "args": {"name": "$caption_id", "location": "$location", "resource_group_name": "$resource_group", "address_space": ["$cidr"], "tags": "$tags"}}
+      ]
+    },
+    "subnet-private": {
+      "role": "subnet",
+      "resources": [
+        {"type": "azurerm_subnet", "args": {"name": "$caption_id", "resource_group_name": "$resource_group", "virtual_network_name": "$network.name", "address_prefixes": ["$cidr"]}}
+      ]
+    },
+    "subnet-public": {
+      "role": "subnet",
+      "resources": [
+        {"type": "azurerm_subnet", "args": {"name": "$caption_id", "resource_group_name": "$resource_group", "virtual_network_name": "$network.name", "address_prefixes": ["$cidr"]}}
+      ]
+    },
+    "cluster": {
+      "role": "cluster",
+      "resources": [
+        {"type": "azurerm_kubernetes_cluster", "args": {
+          "name": "$name", "location": "$location", "resource_group_name": "$resource_group", "dns_prefix": "$name:lower54",
+          "default_node_pool": {"$block": {"name": "$pool", "vm_size": "$var:vm_size=Standard_D4ds_v5", "node_count": "$var:node_count:number=3", "vnet_subnet_id": "$subnet.id?"}},
+          "identity": {"$block": {"type": "SystemAssigned"}},
+          "tags": "$tags"},
+         "module": "azure-kubernetes-cluster", "module_args": {"name": "$name", "location": "$location", "parent_id": "$resource_group.id", "dns_prefix": "$name:lower54", "default_agent_pool": {"name": "$pool", "vm_size": "$var:vm_size=Standard_D4ds_v5", "count_of": "$var:node_count:number=3", "vnet_subnet_id": "$subnet.id?"}, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    }
+  },
+  "components": {
+    "kubernetes-services": {
+      "step": "compute", "category": "containers", "item": "kubernetes_node_pool", "plumbing": "node_pool",
+      "resources": [
+        {"type": "azurerm_kubernetes_cluster_node_pool", "args": {"name": "$pool", "kubernetes_cluster_id": "$cluster.id", "vm_size": "$var:vm_size=Standard_D4ds_v5", "node_count": "$var:node_count:number=3", "vnet_subnet_id": "$subnet.id?", "tags": "$tags"}}
+      ]
+    },
+    "virtual-machine": {
+      "step": "compute", "category": "compute", "item": "virtual_machine", "requires": "subnet", "security_group": true, "output": "private_ip_address",
+      "resources": [
+        {"key": "nic", "type": "azurerm_network_interface", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "ip_configuration": {"$block": {"name": "internal", "subnet_id": "$subnet.id", "private_ip_address_allocation": "Dynamic"}}, "tags": "$tags"}},
+        {"type": "azurerm_linux_virtual_machine", "args": {
+          "name": "$name", "location": "$location", "resource_group_name": "$resource_group", "size": "$var:size=Standard_D2s_v5",
+          "admin_username": "$var:admin_username=azureuser", "network_interface_ids": ["$self.nic.id"],
+          "admin_ssh_key": {"$block": {"username": "$var:admin_username=azureuser", "public_key": "$var:ssh_public_key"}},
+          "os_disk": {"$block": {"caching": "ReadWrite", "storage_account_type": "Premium_LRS"}},
+          "source_image_reference": {"$block": {"publisher": "Canonical", "offer": "ubuntu-24_04-lts", "sku": "server", "version": "latest"}},
+          "tags": "$tags"}},
+        {"key": "nsg", "type": "azurerm_network_security_group", "comment": "Its own network security group: the wires to it are its inbound rules.", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "tags": "$tags"},
+         "module": "azure-network-security-group", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "enable_telemetry": false, "tags": "$tags"}},
+        {"key": "nsg_link", "type": "azurerm_network_interface_security_group_association", "args": {"network_interface_id": "$self.nic.id", "network_security_group_id": "$self.nsg.id"}},
+        {"key": "asg", "type": "azurerm_application_security_group", "comment": "Its own application security group: the rules its wires write name it.", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "tags": "$tags"}},
+        {"key": "asg_link", "type": "azurerm_network_interface_application_security_group_association", "args": {"network_interface_id": "$self.nic.id", "application_security_group_id": "$self.asg.id"}}
+      ]
+    },
+    "vm-scale-sets": {
+      "step": "compute", "category": "compute", "item": "vm_scale_set", "requires": "subnet", "security_group": true,
+      "resources": [
+        {"key": "nsg", "type": "azurerm_network_security_group", "comment": "Its own network security group: the wires to it are its inbound rules.", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "tags": "$tags"},
+         "module": "azure-network-security-group", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "enable_telemetry": false, "tags": "$tags"}},
+        {"key": "asg", "type": "azurerm_application_security_group", "comment": "Its own application security group: the rules its wires write name it.", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "tags": "$tags"}},
+        {"type": "azurerm_linux_virtual_machine_scale_set", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "sku": "$var:sku=Standard_D2s_v5", "instances": "$var:instances:number=2", "admin_username": "$var:admin_username=azureuser", "admin_ssh_key": {"$block": {"username": "$var:admin_username=azureuser", "public_key": "$var:ssh_public_key"}}, "source_image_reference": {"$block": {"publisher": "Canonical", "offer": "ubuntu-24_04-lts", "sku": "server", "version": "latest"}}, "os_disk": {"$block": {"caching": "ReadWrite", "storage_account_type": "Premium_LRS"}}, "network_interface": {"$block": {"name": "nic", "primary": true, "ip_configuration": {"$block": {"name": "internal", "primary": true, "subnet_id": "$subnet.id", "application_security_group_ids": ["$self.asg.id"], "application_gateway_backend_address_pool_ids": "$backend_pools?"}}, "network_security_group_id": "$self.nsg.id"}}, "tags": "$tags"}}
+      ]
+    },
+    "app-services": {
+      "step": "compute", "category": "compute", "item": "app_service", "output": "default_hostname", "private_link": {"subresource": "sites", "zone": "privatelink.azurewebsites.net"}, "ci_access": {"roles": ["Website Contributor"]},
+      "resources": [
+        {"key": "plan", "type": "azurerm_service_plan", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "os_type": "Linux", "sku_name": "$var:sku_name=P1v3", "tags": "$tags"},
+         "module": "azure-service-plan", "module_args": {"name": "$name", "location": "$location", "parent_id": "$resource_group.id", "os_type": "Linux", "sku_name": "$var:sku_name=P1v3", "worker_count": 1, "zone_balancing_enabled": false, "enable_telemetry": false, "tags": "$tags"}},
+        {"type": "azurerm_linux_web_app", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "service_plan_id": "$self.plan.id", "https_only": true, "site_config": {"$block": {}}, "tags": "$tags"},
+         "module": "azure-web-site", "module_args": {"name": "$name", "location": "$location", "parent_id": "$resource_group.id", "service_plan_resource_id": "$self.plan.id", "kind": "webapp", "os_type": "Linux", "https_only": true, "public_network_access_enabled": true, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "load-balancers": {
+      "step": "edge", "category": "edge", "item": "load_balancer", "requires": "subnet", "output": "private_ip_address",
+      "resources": [
+        {"type": "azurerm_lb", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "sku": "Standard", "frontend_ip_configuration": {"$block": {"name": "frontend", "subnet_id": "$subnet.id", "private_ip_address_allocation": "Dynamic"}}, "tags": "$tags"},
+         "module": "azure-load-balancer", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "frontend_ip_configurations": {"frontend": {"name": "frontend", "frontend_private_ip_subnet_resource_id": "$subnet.id", "frontend_private_ip_address_allocation": "Dynamic", "zones": ["None"]}}, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "application-gateways": {
+      "step": "edge", "category": "edge", "item": "application_gateway", "requires": "subnet", "plumbing": "application_gateway",
+      "resources": [
+        {"key": "ip", "type": "azurerm_public_ip", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "allocation_method": "Static", "sku": "Standard", "tags": "$tags"},
+         "module": "azure-public-ip", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "allocation_method": "Static", "sku": "Standard", "zones": null, "enable_telemetry": false, "tags": "$tags"}},
+        {"type": "azurerm_application_gateway", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "firewall_policy_id": "$gateway.waf_policy?", "sku": {"$block": {"name": "$gateway.tier", "tier": "$gateway.tier", "capacity": "$var:capacity:number=2"}}, "identity": {"$block": {"type": "UserAssigned", "identity_ids": ["$var:identity_id"]}, "$when": "https"}, "gateway_ip_configuration": {"$block": {"name": "gateway", "subnet_id": "$subnet.id"}}, "frontend_port": {"$block": {"name": "$gateway.listener", "port": "$gateway.listener_port"}}, "frontend_ip_configuration": {"$block": {"name": "public", "public_ip_address_id": "$self.ip.id"}}, "backend_address_pool": {"$block": {"name": "backend"}}, "backend_http_settings": {"$block": {"name": "backend", "cookie_based_affinity": "Disabled", "port": "$gateway.backend_port", "protocol": "$gateway.backend_protocol", "request_timeout": 60}}, "ssl_certificate": {"$block": {"name": "tls", "key_vault_secret_id": "$var:certificate_secret_id"}, "$when": "https"}, "http_listener": {"$block": {"name": "$gateway.listener", "frontend_ip_configuration_name": "public", "frontend_port_name": "$gateway.listener", "protocol": "$gateway.listener_protocol", "ssl_certificate_name": "$gateway.certificate?"}}, "request_routing_rule": {"$block": {"name": "default", "priority": 100, "rule_type": "Basic", "http_listener_name": "$gateway.listener", "backend_address_pool_name": "backend", "backend_http_settings_name": "backend"}}, "tags": "$tags"}}
+      ]
+    },
+    "firewalls": {
+      "step": "security", "category": "security", "item": "firewall", "requires": "subnet", "subnet_name": "AzureFirewallSubnet",
+      "resources": [
+        {"key": "ip", "type": "azurerm_public_ip", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "allocation_method": "Static", "sku": "Standard", "tags": "$tags"},
+         "module": "azure-public-ip", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "allocation_method": "Static", "sku": "Standard", "zones": null, "enable_telemetry": false, "tags": "$tags"}},
+        {"type": "azurerm_firewall", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "sku_name": "AZFW_VNet", "sku_tier": "$var:sku_tier=Standard", "ip_configuration": {"$block": {"name": "configuration", "subnet_id": "$subnet.id", "public_ip_address_id": "$self.ip.id"}}, "tags": "$tags"},
+         "module": "azure-firewall", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "firewall_sku_name": "AZFW_VNet", "firewall_sku_tier": "$var:sku_tier=Standard", "firewall_ip_configuration": [{"name": "configuration", "subnet_id": "$subnet.id", "public_ip_address_id": "$self.ip.id"}], "firewall_zones": null, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "bastions": {
+      "step": "security", "category": "security", "item": "bastion_host", "requires": "subnet", "subnet_name": "AzureBastionSubnet",
+      "resources": [
+        {"key": "ip", "type": "azurerm_public_ip", "in_modules": false, "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "allocation_method": "Static", "sku": "Standard", "tags": "$tags"}},
+        {"type": "azurerm_bastion_host", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "ip_configuration": {"$block": {"name": "configuration", "subnet_id": "$subnet.id", "public_ip_address_id": "$self.ip.id"}}, "tags": "$tags"},
+         "module": "azure-bastion", "module_args": {"name": "$name", "location": "$location", "parent_id": "$resource_group.id", "ip_configuration": {"name": "configuration", "subnet_id": "$subnet.id", "create_public_ip": true, "public_ip_address_name": "$name"}, "zones": [], "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "virtual-network-gateways": {
+      "step": "network", "category": "network", "item": "virtual_network_gateway", "requires": "subnet", "subnet_name": "GatewaySubnet", "note": "Its type is Vpn or ExpressRoute.",
+      "resources": [
+        {"key": "ip", "type": "azurerm_public_ip", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "allocation_method": "Static", "sku": "Standard", "tags": "$tags"},
+         "module": "azure-public-ip", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "allocation_method": "Static", "sku": "Standard", "zones": null, "enable_telemetry": false, "tags": "$tags"}},
+        {"type": "azurerm_virtual_network_gateway", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "type": "$var:type=Vpn", "sku": "$var:sku=VpnGw1AZ", "ip_configuration": {"$block": {"name": "configuration", "subnet_id": "$subnet.id", "public_ip_address_id": "$self.ip.id"}}, "tags": "$tags"}}
+      ]
+    },
+    "expressroute-circuits": {
+      "step": "network", "category": "network", "item": "expressroute_circuit",
+      "resources": [
+        {"type": "azurerm_express_route_circuit", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "service_provider_name": "$var:service_provider_name", "peering_location": "$var:peering_location", "bandwidth_in_mbps": "$var:bandwidth_in_mbps:number=1000", "sku": {"$block": {"tier": "Standard", "family": "MeteredData"}}, "tags": "$tags"},
+         "module": "azure-expressroute-circuit", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "service_provider_name": "$var:service_provider_name", "peering_location": "$var:peering_location", "bandwidth_in_mbps": "$var:bandwidth_in_mbps:number=1000", "sku": {"tier": "Standard", "family": "MeteredData"}, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "private-endpoints": {
+      "step": "network", "category": "network", "item": "private_endpoint", "requires": "subnet", "plumbing": "private_endpoint",
+      "resources": [
+        {"type": "azurerm_private_endpoint", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "subnet_id": "$subnet.id", "private_service_connection": {"$block": {"name": "connection", "is_manual_connection": false, "private_connection_resource_id": "$link.id", "subresource_names": "$link.subresources"}}, "private_dns_zone_group": {"$block": {"name": "default", "private_dns_zone_ids": "$link.zones"}, "$when": "link"}, "tags": "$tags"},
+         "module": "azure-private-endpoint", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "subnet_resource_id": "$subnet.id", "network_interface_name": "$name", "private_connection_resource_id": "$link.id", "subresource_names": "$link.subresources", "private_dns_zone_resource_ids": "$link.zones?", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "dns-private-resolver": {
+      "step": "network", "category": "dns", "item": "private_dns_resolver", "requires": "network",
+      "resources": [
+        {"type": "azurerm_private_dns_resolver", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "virtual_network_id": "$network.id", "tags": "$tags"},
+         "module": "azure-dns-resolver", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "virtual_network_resource_id": "$network.id", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "dns-zones": {
+      "step": "edge", "category": "dns", "item": "dns_zone", "note": "A private link zone is an azurerm_private_dns_zone instead.",
+      "resources": [
+        {"type": "azurerm_dns_zone", "args": {"name": "$var:domain_name", "resource_group_name": "$resource_group", "tags": "$tags"},
+         "module": "azure-dns-zone", "module_args": {"name": "$var:domain_name", "resource_group_name": "$resource_group", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "front-door-and-cdn-profiles": {
+      "step": "edge", "category": "edge", "item": "front_door_profile",
+      "resources": [
+        {"type": "azurerm_cdn_frontdoor_profile", "args": {"name": "$name", "resource_group_name": "$resource_group", "sku_name": "$var:sku_name=Standard_AzureFrontDoor", "tags": "$tags"},
+         "module": "azure-cdn-profile", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "sku": "$var:sku_name=Standard_AzureFrontDoor", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "ddos-protection-plans": {
+      "step": "security", "category": "security", "item": "ddos_protection_plan",
+      "resources": [
+        {"type": "azurerm_network_ddos_protection_plan", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "tags": "$tags"},
+         "module": "azure-ddos-protection-plan", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "key-vaults": {
+      "step": "security", "category": "security", "item": "key_vault", "output": "vault_uri", "private_link": {"subresource": "vault", "zone": "privatelink.vaultcore.azure.net"}, "ci_access": {"roles": ["Key Vault Secrets User"]},
+      "resources": [
+        {"type": "azurerm_key_vault", "args": {"name": "$name:lower24", "location": "$location", "resource_group_name": "$resource_group", "tenant_id": "$tenant_id", "sku_name": "standard", "purge_protection_enabled": true, "tags": "$tags"},
+         "module": "azure-key-vault", "module_args": {"name": "$name:lower24", "location": "$location", "resource_group_name": "$resource_group", "tenant_id": "$tenant_id", "sku_name": "standard", "purge_protection_enabled": true, "network_acls": null, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "managed-identities": {
+      "step": "security", "category": "security", "item": "managed_identity", "output": "client_id", "plumbing": "github_oidc",
+      "resources": [
+        {"type": "azurerm_user_assigned_identity", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "tags": "$tags"},
+         "module": "azure-user-assigned-identity", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "enable_telemetry": false, "tags": "$tags"}}
+      ],
+      "federated": [
+        {"type": "azurerm_user_assigned_identity", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "tags": "$tags"},
+         "module": "azure-user-assigned-identity", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "enable_telemetry": false, "tags": "$tags"}},
+        {"key": "github", "type": "azurerm_federated_identity_credential", "comment": "GitHub's workflows sign in as it: a token from its issuer, no secret.", "args": {"name": "github-actions", "audience": ["api://AzureADTokenExchange"], "issuer": "https://token.actions.githubusercontent.com", "subject": "$github.subject", "user_assigned_identity_id": "$self.main.id"}}
+      ]
+    },
+    "entra-id": {
+      "step": "security", "category": "security", "item": "entra_tenant", "resources": [],
+      "note": "The tenant is there already: Terraform signs in to it and writes the app registrations and service principals drawn in it."
+    },
+    "app-registrations": {
+      "step": "security", "category": "security", "item": "app_registration", "output": "client_id", "plumbing": "github_oidc", "principal": "",
+      "resources": [
+        {"type": "azuread_application", "args": {"display_name": "$name"}}
+      ],
+      "federated": [
+        {"type": "azuread_application", "args": {"display_name": "$name"}},
+        {"key": "github", "type": "azuread_application_federated_identity_credential", "comment": "GitHub's workflows sign in as it: a token from its issuer, no secret.", "args": {"application_id": "$self.main.id", "display_name": "github-actions", "audiences": ["api://AzureADTokenExchange"], "issuer": "https://token.actions.githubusercontent.com", "subject": "$github.subject"}}
+      ]
+    },
+    "enterprise-applications": {
+      "step": "security", "category": "security", "item": "service_principal", "output": "object_id", "plumbing": "service_principal", "principal": "object_id",
+      "resources": [
+        {"type": "azuread_service_principal", "comment": "The app registration's identity in the tenant: the roles are assigned to it.", "args": {"client_id": "$wired.app-registrations.main.client_id"}}
+      ]
+    },
+    "microsoft-defender-for-cloud": {
+      "step": "security", "category": "security", "item": "defender_plan",
+      "resources": [
+        {"type": "azurerm_security_center_subscription_pricing", "args": {"tier": "Standard", "resource_type": "$var:resource_type=VirtualMachines"}}
+      ]
+    },
+    "policy": {
+      "step": "security", "category": "security", "item": "policy_assignment", "note": "Assign each built-in or custom definition the diagram's policy stands for.",
+      "resources": [
+        {"type": "azurerm_subscription_policy_assignment", "args": {"name": "$name", "policy_definition_id": "$var:policy_definition_id", "subscription_id": "$var:subscription_resource_id"}}
+      ]
+    },
+    "azure-sentinel": {
+      "step": "security", "category": "security", "item": "sentinel_workspace",
+      "resources": [
+        {"type": "azurerm_sentinel_log_analytics_workspace_onboarding", "args": {"workspace_id": "$var:workspace_id"}}
+      ]
+    },
+    "sql-database": {
+      "step": "data", "category": "database", "item": "sql_server", "output": "server.fully_qualified_domain_name",
+      "private_link": {"resource": "server", "subresource": "sqlServer", "zone": "privatelink.database.windows.net"},
+      "resources": [
+        {"key": "server", "type": "azurerm_mssql_server", "in_modules": false, "args": {"name": "$name:lower63", "location": "$location", "resource_group_name": "$resource_group", "version": "12.0", "administrator_login": "$var:administrator_login=sqladmin", "administrator_login_password": "$secret:administrator_login_password", "minimum_tls_version": "1.2", "public_network_access_enabled": false, "tags": "$tags"}},
+        {"type": "azurerm_mssql_database", "args": {"name": "$name", "server_id": "$self.server.id", "sku_name": "$var:sku_name=S0", "tags": "$tags"},
+         "module": "azure-sql-server", "module_args": {"name": "$name:lower63", "location": "$location", "resource_group_name": "$resource_group", "server_version": "12.0", "administrator_login": "$var:administrator_login=sqladmin", "administrator_login_password": "$secret:administrator_login_password", "public_network_access_enabled": false, "databases": {"main": {"name": "$name", "sku_name": "$var:sku_name=S0"}}, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "storage-accounts": {
+      "step": "data", "category": "storage", "item": "storage_account", "output": "primary_blob_endpoint", "private_link": {"subresource": "blob", "zone": "privatelink.blob.core.windows.net"}, "ci_access": {"roles": ["Storage Blob Data Contributor"]},
+      "resources": [
+        {"type": "azurerm_storage_account", "args": {"name": "$name:alnum24", "location": "$location", "resource_group_name": "$resource_group", "account_tier": "Standard", "account_replication_type": "$var:replication_type=ZRS", "min_tls_version": "TLS1_2", "tags": "$tags"},
+         "module": "azure-storage-account", "module_args": {"name": "$name:alnum24", "location": "$location", "parent_id": "$resource_group.id", "account_tier": "Standard", "account_replication_type": "$var:replication_type=ZRS", "min_tls_version": "TLS1_2", "public_network_access_enabled": true, "network_rules": null, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "azure-fileshares": {
+      "step": "data", "category": "storage", "item": "file_share",
+      "private_link": {"resource": "account", "subresource": "file", "zone": "privatelink.file.core.windows.net"},
+      "resources": [
+        {"key": "account", "type": "azurerm_storage_account", "in_modules": false, "args": {"name": "$name:alnum24", "location": "$location", "resource_group_name": "$resource_group", "account_tier": "Standard", "account_replication_type": "$var:replication_type=ZRS", "min_tls_version": "TLS1_2", "tags": "$tags"}},
+        {"type": "azurerm_storage_share", "args": {"name": "$name:lower63", "storage_account_id": "$self.account.id", "quota": "$var:quota_gb:number=100"},
+         "module": "azure-storage-account", "module_args": {"name": "$name:alnum24", "location": "$location", "parent_id": "$resource_group.id", "account_tier": "Standard", "account_replication_type": "$var:replication_type=ZRS", "min_tls_version": "TLS1_2", "public_network_access_enabled": true, "network_rules": null, "shares": {"main": {"name": "$name:lower63", "quota": "$var:quota_gb:number=100"}}, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "azure-cosmos-db": {
+      "step": "data", "category": "database", "item": "cosmosdb_account", "output": "endpoint",
+      "private_link": {"subresource": "Sql", "zone": "privatelink.documents.azure.com"},
+      "resources": [
+        {"type": "azurerm_cosmosdb_account", "args": {"name": "$name:lower44", "location": "$location", "resource_group_name": "$resource_group", "offer_type": "Standard", "consistency_policy": {"$block": {"consistency_level": "Session"}}, "geo_location": {"$block": {"location": "$location", "failover_priority": 0}}, "tags": "$tags"},
+         "module": "azure-cosmos-db", "module_args": {"name": "$name:lower44", "location": "$location", "resource_group_name": "$resource_group", "public_network_access_enabled": true, "consistency_policy": {"consistency_level": "Session"}, "geo_locations": [{"location": "$location", "failover_priority": 0, "zone_redundant": false}], "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "cache-redis": {
+      "step": "data", "category": "database", "item": "redis_cache", "output": "hostname",
+      "private_link": {"subresource": "redisCache", "zone": "privatelink.redis.cache.windows.net"},
+      "resources": [
+        {"type": "azurerm_redis_cache", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "capacity": "$var:capacity:number=1", "family": "C", "sku_name": "Standard", "minimum_tls_version": "1.2", "tags": "$tags"},
+         "module": "azure-redis-cache", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "sku_name": "Standard", "capacity": "$var:capacity:number=1", "zones": null, "minimum_tls_version": "1.2", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "azure-data-explorer-clusters": {
+      "step": "data", "category": "analytics", "item": "data_explorer_cluster", "output": "uri",
+      "resources": [
+        {"type": "azurerm_kusto_cluster", "args": {"name": "$name:alnum22", "location": "$location", "resource_group_name": "$resource_group", "sku": {"$block": {"name": "$var:sku_name=Dev(No SLA)_Standard_E2a_v4", "capacity": 1}}, "tags": "$tags"}}
+      ]
+    },
+    "stream-analytics-jobs": {
+      "step": "data", "category": "analytics", "item": "stream_analytics_job",
+      "resources": [
+        {"type": "azurerm_stream_analytics_job", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "transformation_query": "$var:query=SELECT * INTO [output] FROM [input]", "tags": "$tags"}}
+      ]
+    },
+    "container-registries": {
+      "step": "compute", "category": "containers", "item": "container_registry", "output": "login_server", "private_link": {"subresource": "registry", "zone": "privatelink.azurecr.io"}, "ci_access": {"roles": ["AcrPush"]},
+      "resources": [
+        {"type": "azurerm_container_registry", "args": {"name": "$name:alnum50", "location": "$location", "resource_group_name": "$resource_group", "sku": "$var:sku=Premium", "admin_enabled": false, "tags": "$tags"},
+         "module": "azure-container-registry", "module_args": {"name": "$name:alnum50", "location": "$location", "resource_group_name": "$resource_group", "sku": "$var:sku=Premium", "admin_enabled": false, "zone_redundancy_enabled": false, "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "iot-hub": {
+      "step": "compute", "category": "messaging", "item": "iot_hub", "output": "hostname",
+      "resources": [
+        {"type": "azurerm_iothub", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "sku": {"$block": {"name": "S1", "capacity": 1}}, "tags": "$tags"}}
+      ]
+    },
+    "digital-twins": {
+      "step": "compute", "category": "analytics", "item": "digital_twins_instance", "output": "host_name",
+      "resources": [
+        {"type": "azurerm_digital_twins_instance", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "tags": "$tags"}}
+      ]
+    },
+    "azure-virtual-desktop": {
+      "step": "compute", "category": "compute", "item": "virtual_desktop_host_pool",
+      "resources": [
+        {"type": "azurerm_virtual_desktop_host_pool", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "type": "Pooled", "load_balancer_type": "BreadthFirst", "tags": "$tags"},
+         "module": "azure-virtual-desktop-host-pool", "module_args": {"virtual_desktop_host_pool_name": "$name", "virtual_desktop_host_pool_location": "$location", "virtual_desktop_host_pool_resource_group_name": "$resource_group", "resource_group_name": "$resource_group", "virtual_desktop_host_pool_type": "Pooled", "virtual_desktop_host_pool_load_balancer_type": "BreadthFirst", "enable_telemetry": false, "virtual_desktop_host_pool_tags": "$tags"}}
+      ]
+    },
+    "log-analytics-workspaces-monitor": {
+      "step": "observability", "category": "observability", "item": "log_analytics_workspace", "output": "workspace_id",
+      "resources": [
+        {"type": "azurerm_log_analytics_workspace", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "sku": "PerGB2018", "retention_in_days": "$var:retention_in_days:number=30", "tags": "$tags"},
+         "module": "azure-log-analytics-workspace", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "log_analytics_workspace_sku": "PerGB2018", "log_analytics_workspace_retention_in_days": "$var:retention_in_days:number=30", "log_analytics_workspace_internet_ingestion_enabled": "true", "log_analytics_workspace_internet_query_enabled": "true", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "application-insights-monitor": {
+      "step": "observability", "category": "observability", "item": "application_insights", "output": "connection_string", "output_sensitive": true,
+      "resources": [
+        {"type": "azurerm_application_insights", "args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "application_type": "web", "tags": "$tags"},
+         "module": "azure-application-insights", "module_args": {"name": "$name", "location": "$location", "resource_group_name": "$resource_group", "application_type": "web", "workspace_id": "$var:workspace_id", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "recovery-services-vaults": {
+      "step": "data", "category": "storage", "item": "recovery_services_vault",
+      "resources": [
+        {"type": "azurerm_recovery_services_vault", "args": {"name": "$name:max50", "location": "$location", "resource_group_name": "$resource_group", "sku": "Standard", "tags": "$tags"},
+         "module": "azure-recovery-services-vault", "module_args": {"name": "$name:max50", "location": "$location", "resource_group_name": "$resource_group", "sku": "Standard", "enable_telemetry": false, "tags": "$tags"}}
+      ]
+    },
+    "mobile": {"step": "compute", "category": "compute", "item": "mobile_app", "note": "A mobile client is the app, not a resource."}
+  },
+  "import": {
+    "about": "What import:terraform and discover:azure draw each resource type as, beyond the frame and component resources above read the other way; the keys mean what they mean in aws.json.",
+    "components": {
+      "azurerm_windows_virtual_machine": "virtual-machine",
+      "azurerm_virtual_machine": "virtual-machine",
+      "azurerm_windows_virtual_machine_scale_set": "vm-scale-sets",
+      "azurerm_orchestrated_virtual_machine_scale_set": "vm-scale-sets",
+      "azurerm_windows_web_app": "app-services",
+      "azurerm_app_service": "app-services",
+      "azurerm_linux_function_app": "function-apps",
+      "azurerm_windows_function_app": "function-apps",
+      "azurerm_function_app": "function-apps",
+      "azurerm_static_web_app": "static-apps",
+      "azurerm_container_app": "worker-container-app",
+      "azurerm_container_app_environment": "container-apps-environments",
+      "azurerm_container_group": "container-instances",
+      "azurerm_spring_cloud_service": "azure-spring-apps",
+      "azurerm_servicebus_namespace": "azure-service-bus",
+      "azurerm_eventhub_namespace": "event-hubs",
+      "azurerm_eventgrid_topic": "event-grid-topics",
+      "azurerm_eventgrid_domain": "event-grid-domains",
+      "azurerm_logic_app_workflow": "logic-apps",
+      "azurerm_api_management": "api-management-services",
+      "azurerm_app_configuration": "app-configuration",
+      "azurerm_signalr_service": "signalr",
+      "azurerm_notification_hub_namespace": "notification-hub-namespaces",
+      "azurerm_cognitive_account": "cognitive-services",
+      "azurerm_search_service": "cognitive-search",
+      "azurerm_cdn_profile": "cdn-profiles",
+      "azurerm_traffic_manager_profile": "traffic-manager-profiles",
+      "azurerm_nat_gateway": "nat",
+      "azurerm_local_network_gateway": "local-network-gateways",
+      "azurerm_private_link_service": "private-link-service",
+      "azurerm_private_dns_zone": "dns-zones",
+      "azurerm_postgresql_flexible_server": "azure-database-postgresql-server",
+      "azurerm_postgresql_server": "azure-database-postgresql-server",
+      "azurerm_mysql_flexible_server": "azure-database-mysql-server",
+      "azurerm_mssql_managed_instance": "sql-managed-instance",
+      "azurerm_data_factory": "data-factories",
+      "azurerm_databricks_workspace": "azure-databricks",
+      "azurerm_synapse_workspace": "azure-synapse-analytics",
+      "azurerm_automation_account": "automation-accounts",
+      "azurerm_data_protection_backup_vault": "backup-vault",
+      "azurerm_managed_redis": "azure-managed-redis",
+      "azurerm_cdn_frontdoor_firewall_policy": "web-application-firewall-policies-waf"
+    },
+    "owners": {
+      "azurerm_storage_container": ["storage_account_id", "storage_account_name"],
+      "azurerm_key_vault_secret": "key_vault_id",
+      "azurerm_key_vault_key": "key_vault_id",
+      "azurerm_virtual_desktop_host_pool_registration_info": "hostpool_id",
+      "azurerm_cdn_frontdoor_endpoint": "cdn_frontdoor_profile_id",
+      "azurerm_cdn_frontdoor_origin_group": "cdn_frontdoor_profile_id",
+      "azurerm_cdn_frontdoor_origin": "cdn_frontdoor_origin_group_id",
+      "azurerm_cdn_frontdoor_route": "cdn_frontdoor_endpoint_id",
+      "azurerm_cdn_frontdoor_rule_set": "cdn_frontdoor_profile_id",
+      "azurerm_cdn_frontdoor_batch_rule_set": "cdn_frontdoor_profile_id",
+      "azurerm_cdn_frontdoor_rule": "cdn_frontdoor_rule_set_id",
+      "azurerm_cdn_frontdoor_custom_domain": "cdn_frontdoor_profile_id",
+      "azurerm_cdn_frontdoor_custom_domain_association": "cdn_frontdoor_custom_domain_id",
+      "azurerm_cdn_frontdoor_secret": "cdn_frontdoor_profile_id",
+      "azurerm_cdn_frontdoor_security_policy": "cdn_frontdoor_profile_id"
+    },
+    "edges": {
+      "azurerm_virtual_network_peering": {"from": "virtual_network_name", "to": ["remote_virtual_network_id"], "label": "peering"},
+      "azurerm_virtual_network_gateway_connection": {"from": "virtual_network_gateway_id", "to": ["local_network_gateway_id", "express_route_circuit_id", "peer_virtual_network_gateway_id"], "label_from": "type"},
+      "azurerm_eventgrid_event_subscription": {"from": "scope", "to": ["azure_function_endpoint.function_id", "service_bus_queue_endpoint_id", "storage_queue_endpoint.storage_account_id", "webhook_endpoint.url"], "label": "events"}
+    },
+    "collapse": {},
+    "ignore_when": {
+      "azurerm_private_dns_zone": {"name": "privatelink.*"}
+    },
+    "not_drawn": ["azuread_application", "azuread_service_principal"],
+    "ignore": [
+      "azurerm_role_", "azurerm_key_vault_access_policy", "azurerm_network_security_", "azurerm_subnet_network_security_group_association",
+      "azurerm_network_interface_security_group_association", "azurerm_network_interface_backend_address_pool_association",
+      "azurerm_application_security_group", "azurerm_network_interface_application_security_group_association",
+      "azurerm_route_table", "azurerm_route", "azurerm_subnet_route_table_association", "azurerm_subnet_nat_gateway_association",
+      "azurerm_nat_gateway_public_ip_association", "azurerm_private_dns_zone_virtual_network_link", "azurerm_private_dns_a_record",
+      "azurerm_dns_", "azurerm_monitor_", "azurerm_storage_blob", "azurerm_storage_queue", "azurerm_storage_table",
+      "azurerm_storage_management_policy", "azurerm_mssql_firewall_rule", "azurerm_mssql_virtual_network_rule",
+      "azurerm_postgresql_flexible_server_", "azurerm_mysql_flexible_server_", "azurerm_lb_", "azurerm_application_insights_",
+      "azurerm_log_analytics_solution", "azurerm_client_config", "azurerm_subscription", "azurerm_resource_provider_registration",
+      "azurerm_management_lock", "azurerm_policy_", "azurerm_servicebus_queue", "azurerm_servicebus_topic",
+      "azurerm_servicebus_subscription", "azurerm_eventhub", "azurerm_app_service_", "azurerm_linux_web_app_slot",
+      "azurerm_windows_web_app_slot", "azurerm_function_app_", "azurerm_cosmosdb_sql_", "azurerm_cosmosdb_mongo_",
+      "azurerm_redis_firewall_rule", "azurerm_user_assigned_identity", "azurerm_federated_identity_credential",
+      "azurerm_firewall_policy", "azurerm_firewall_policy_rule_collection_group", "azurerm_web_application_firewall_policy",
+      "azurerm_virtual_machine_extension", "azurerm_managed_disk", "azurerm_virtual_machine_data_disk_attachment",
+      "azurerm_private_endpoint_application_security_group_association"
+    ],
+    "fallback": "all-resources",
+    "azapi": {
+      "Microsoft.Resources/resourceGroups": {"as": "azurerm_resource_group"},
+      "Microsoft.Network/virtualNetworks": {"as": "azurerm_virtual_network", "parent": "resource_group_name", "values": {"address_space": "body.properties.addressSpace.addressPrefixes"}},
+      "Microsoft.Network/virtualNetworks/subnets": {"as": "azurerm_subnet", "parent": "virtual_network_name", "values": {"address_prefixes": "body.properties.addressPrefixes", "address_prefix": "body.properties.addressPrefix"}},
+      "Microsoft.Network/networkSecurityGroups": {"as": "azurerm_network_security_group", "parent": "resource_group_name"},
+      "Microsoft.Network/natGateways": {"as": "azurerm_nat_gateway", "parent": "resource_group_name"},
+      "Microsoft.Network/publicIPAddresses": {"as": "azurerm_public_ip", "parent": "resource_group_name"},
+      "Microsoft.Network/privateEndpoints": {"as": "azurerm_private_endpoint", "parent": "resource_group_name"},
+      "Microsoft.Network/bastionHosts": {"as": "azurerm_bastion_host", "parent": "resource_group_name"},
+      "Microsoft.Network/azureFirewalls": {"as": "azurerm_firewall", "parent": "resource_group_name"},
+      "Microsoft.Network/applicationGateways": {"as": "azurerm_application_gateway", "parent": "resource_group_name"},
+      "Microsoft.Network/loadBalancers": {"as": "azurerm_lb", "parent": "resource_group_name"},
+      "Microsoft.Network/networkInterfaces": {"as": "azurerm_network_interface", "parent": "resource_group_name"},
+      "Microsoft.Compute/virtualMachines": {"as": "azurerm_linux_virtual_machine", "parent": "resource_group_name"},
+      "Microsoft.Compute/virtualMachineScaleSets": {"as": "azurerm_linux_virtual_machine_scale_set", "parent": "resource_group_name"},
+      "Microsoft.ContainerService/managedClusters": {"as": "azurerm_kubernetes_cluster", "parent": "resource_group_name"},
+      "Microsoft.KeyVault/vaults": {"as": "azurerm_key_vault", "parent": "resource_group_name"},
+      "Microsoft.Storage/storageAccounts": {"as": "azurerm_storage_account", "parent": "resource_group_name"},
+      "Microsoft.Sql/servers": {"as": "azurerm_mssql_server", "parent": "resource_group_name"},
+      "Microsoft.DocumentDB/databaseAccounts": {"as": "azurerm_cosmosdb_account", "parent": "resource_group_name"},
+      "Microsoft.ContainerRegistry/registries": {"as": "azurerm_container_registry", "parent": "resource_group_name"},
+      "Microsoft.Web/sites": {"as": "azurerm_linux_web_app", "parent": "resource_group_name"},
+      "Microsoft.OperationalInsights/workspaces": {"as": "azurerm_log_analytics_workspace", "parent": "resource_group_name"},
+      "Microsoft.Cdn/profiles": {"as": "azurerm_cdn_frontdoor_profile", "parent": "resource_group_name"},
+      "Microsoft.RecoveryServices/vaults": {"as": "azurerm_recovery_services_vault", "parent": "resource_group_name"},
+      "Microsoft.Web/serverfarms": {"as": "azurerm_service_plan", "parent": "resource_group_name"},
+      "Microsoft.Storage/storageAccounts/fileServices/shares": {"as": "azurerm_storage_share", "parent": "storage_account_id"}
+    }
+  }
+}

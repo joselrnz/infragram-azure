@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "slug": "generic",
+  "name": "Core frames",
+  "title": "The neutral theme the provider-neutral core frames draw in",
+  "theme": {
+    "paper": "#ffffff",
+    "paper_2": "#f2f4f7",
+    "ink": "#16191f",
+    "muted": "#4a5568",
+    "soft": "#5f6b7a",
+    "link": "#2e5aa8",
+    "accent": "#bdbdbd"
+  },
+  "boundaries": {
+    "color": "#bdbdbd"
+  }
+}

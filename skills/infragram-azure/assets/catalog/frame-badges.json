@@ -1,0 +1,78 @@
+{
+  "note": "What every containment frame draws in its title tab. The rule is one line: a frame's badge is the vendor's own artwork for that boundary, and where the vendor ships none the frame takes the generic tab. A near-miss icon is worse than no icon -- it states something false, the way Azure's Availability Sets mark did when it stood in for an Availability Zone. Every blank below is a recorded decision with its reason, not an oversight.",
+  "source_of_truth": "The themes under assets/themes/*.json carry boundaries.icons, which is what the renderers read. This file is the reviewed record of that map, and tests/unit/test_frame_badges.py fails when the two disagree, so a theme cannot gain or lose a badge without somebody deciding to.",
+  "libraries": {
+    "generic": {
+      "blank": {
+        "account": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "campus": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "closet": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "cloud": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "cluster": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "dmz": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "environment": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "hub": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "management": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "network": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "organization": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "project": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "region": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "security-zone": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "site": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "spoke": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "storage-fabric": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "subnet-private": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "subnet-public": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "zone": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon"
+      }
+    },
+    "azure": {
+      "badges": {
+        "cloud": "azure:azure-a",
+        "cluster": "azure:kubernetes-services-containers",
+        "management-group": "azure:management-groups",
+        "network": "azure:virtual-networks",
+        "organization": "azure:tenant-properties",
+        "region": "azure:region-management",
+        "resource-group": "azure:resource-groups",
+        "subnet-private": "azure:subnet",
+        "subnet-public": "azure:subnet",
+        "subscription": "azure:subscriptions"
+      },
+      "reasons": {
+        "subnet-public": "Azure ships one Subnet mark and no public/private pair, and a public subnet is a subnet -- the same boundary, differing in what routes to it, not in what it is. Wearing the deck's own subnet artwork is the vendor's artwork for that boundary, not a near-miss: the two frames are told apart by the fill, which the private one keeps"
+      },
+      "blank": {
+        "zone": "Azure ships Availability Sets artwork and no Availability Zone artwork, and the two are different things: a set spreads across fault domains inside one datacenter, a zone is a separate datacenter. Drawing a zone with the set icon states something false"
+      }
+    },
+    "kubernetes": {
+      "blank": {
+        "group": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "namespace": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon",
+        "node-pool": "the vendor ships no artwork for its own boundaries, so every frame here takes the generic tab rather than borrowing a similarly named service icon"
+      },
+      "badges": {
+        "cluster": "logos:kubernetes#mono"
+      },
+      "reasons": {
+        "cluster": "the vendor ships no cluster boundary artwork; the cluster is a Kubernetes cluster and wears the Kubernetes mark, which is the boundary's own"
+      }
+    },
+    "databricks": {
+      "blank": {},
+      "badges": {
+        "account": "databricks:databricks",
+        "project": "databricks:workspace",
+        "cluster": "databricks:compute-clusters",
+        "group": "databricks:unity-catalog"
+      },
+      "reasons": {
+        "account": "the account is the Databricks platform itself and wears the Databricks mark",
+        "project": "a workspace is the set's own Workspace artwork, the boundary Databricks draws",
+        "cluster": "a compute frame holds clusters and wears the set's Compute (Clusters) artwork",
+        "group": "a Unity Catalog frame groups what one metastore governs and wears its artwork"
+      }
+    }
+  }
+}

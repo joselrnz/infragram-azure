@@ -1,0 +1,434 @@
+{
+  "schema_version": 1,
+  "slug": "azure",
+  "name": "Azure",
+  "title": "Azure application delivery",
+  "mark": "logos:microsoft-azure#default",
+  "icons": {
+    "categories": [
+      "analytics",
+      "compute",
+      "containers",
+      "data",
+      "integration",
+      "networking",
+      "security",
+      "storage"
+    ],
+    "items": [
+      {
+        "id": "virtual-machine",
+        "name": "Azure Virtual Machine",
+        "category": "compute",
+        "aliases": [
+          "vm"
+        ],
+        "asset_ref": "vendors/azure/virtual-machine"
+      },
+      {
+        "id": "function-app",
+        "name": "Azure Functions",
+        "category": "compute",
+        "aliases": [
+          "function",
+          "serverless function"
+        ],
+        "asset_ref": "vendors/azure/function-apps-iot"
+      },
+      {
+        "id": "app-service",
+        "name": "Azure App Service",
+        "category": "compute",
+        "aliases": [
+          "web app"
+        ],
+        "asset_ref": "vendors/azure/app-services-web"
+      },
+      {
+        "id": "kubernetes-service",
+        "name": "Azure Kubernetes Service",
+        "category": "containers",
+        "aliases": [
+          "aks",
+          "kubernetes"
+        ],
+        "asset_ref": "vendors/azure/kubernetes-services-containers"
+      },
+      {
+        "id": "container-registry",
+        "name": "Azure Container Registry",
+        "category": "containers",
+        "aliases": [
+          "acr"
+        ],
+        "asset_ref": "vendors/azure/container-registries"
+      },
+      {
+        "id": "virtual-network",
+        "name": "Azure Virtual Network",
+        "category": "networking",
+        "aliases": [
+          "vnet"
+        ],
+        "asset_ref": "vendors/azure/virtual-networks"
+      },
+      {
+        "id": "load-balancer",
+        "name": "Azure Load Balancer",
+        "category": "networking",
+        "aliases": [
+          "lb"
+        ],
+        "asset_ref": "vendors/azure/load-balancers"
+      },
+      {
+        "id": "application-gateway",
+        "name": "Azure Application Gateway",
+        "category": "networking",
+        "aliases": [
+          "app gateway"
+        ],
+        "asset_ref": "vendors/azure/application-gateways"
+      },
+      {
+        "id": "vpn-gateway",
+        "name": "Azure VPN Gateway",
+        "category": "networking",
+        "aliases": [
+          "virtual network gateway",
+          "vpn"
+        ],
+        "asset_ref": "vendors/azure/virtual-network-gateways"
+      },
+      {
+        "id": "front-door",
+        "name": "Azure Front Door",
+        "category": "networking",
+        "aliases": [
+          "cdn"
+        ],
+        "asset_ref": "vendors/azure/front-door-and-cdn-profiles-web"
+      },
+      {
+        "id": "network-security-group",
+        "name": "Network Security Group",
+        "category": "security",
+        "aliases": [
+          "nsg"
+        ],
+        "asset_ref": "vendors/azure/network-security-groups"
+      },
+      {
+        "id": "storage-accounts",
+        "name": "Azure Storage Account",
+        "category": "storage",
+        "aliases": [
+          "blob",
+          "object storage"
+        ],
+        "asset_ref": "vendors/azure/storage-accounts"
+      },
+      {
+        "id": "sql-database",
+        "name": "Azure SQL Database",
+        "category": "data",
+        "aliases": [
+          "sql db"
+        ],
+        "asset_ref": "vendors/azure/sql-database"
+      },
+      {
+        "id": "cosmos-db",
+        "name": "Azure Cosmos DB",
+        "category": "data",
+        "aliases": [
+          "cosmos",
+          "nosql"
+        ],
+        "asset_ref": "vendors/azure/azure-cosmos-db-iot"
+      },
+      {
+        "id": "key-vault",
+        "name": "Azure Key Vault",
+        "category": "security",
+        "aliases": [
+          "secrets"
+        ],
+        "asset_ref": "vendors/azure/key-vaults"
+      },
+      {
+        "id": "databricks",
+        "name": "Azure Databricks",
+        "category": "analytics",
+        "aliases": [
+          "spark"
+        ],
+        "asset_ref": "vendors/azure/azure-databricks"
+      }
+    ]
+  },
+  "theme": {
+    "paper": "#ffffff",
+    "paper_2": "#f2f7fc",
+    "ink": "#0f1b2a",
+    "muted": "#44576b",
+    "soft": "#5d7284",
+    "accent": "#0078d4",
+    "link": "#0a5fa8"
+  },
+  "icon_palette": [
+    "#ff3621",
+    "#198ab3",
+    "#50e6ff",
+    "#1490df",
+    "#86d633",
+    "#0078d4",
+    "#6bb9f2",
+    "#7a7a7a",
+    "#57a300",
+    "#3999c6",
+    "#238ab0",
+    "#9cebff",
+    "#e6e6e6",
+    "#37c2b1",
+    "#258277",
+    "#5ea0ef",
+    "#f2f2f2",
+    "#cccccc",
+    "#fcfcfc",
+    "#b3b3b3",
+    "#c1c1c1",
+    "#087bd6",
+    "#22a5cb",
+    "#2387de",
+    "#29bade",
+    "#2ec9eb",
+    "#31d1f3",
+    "#32bedd",
+    "#32d4f5",
+    "#3990e4",
+    "#3e3f3f",
+    "#4a4b4c",
+    "#4a97e9",
+    "#559ced",
+    "#5c9fee",
+    "#5e9624",
+    "#6e7071",
+    "#707070",
+    "#76bc2d",
+    "#821010",
+    "#83b9f9",
+    "#848688",
+    "#8c8e90",
+    "#a171c8",
+    "#a99548",
+    "#ac8b32",
+    "#b012de",
+    "#b1ebad",
+    "#b3c2bc",
+    "#bd7305",
+    "#bdb45a",
+    "#c3f1ff",
+    "#e62323",
+    "#e900c3",
+    "#f020fb",
+    "#f04049",
+    "#f34d95",
+    "#fb6a68",
+    "#ff7381",
+    "#6fb02a",
+    "#7cc52f",
+    "#83d232",
+    "#bceb60",
+    "#003067",
+    "#003f7c",
+    "#004f90",
+    "#00589d",
+    "#005ba1",
+    "#0060a9",
+    "#0071c8",
+    "#1988d9",
+    "#198bb4",
+    "#27b2d7",
+    "#2fcbed",
+    "#333132",
+    "#341a6e",
+    "#54aef0",
+    "#5b5a5c",
+    "#5f9724",
+    "#6dad2a",
+    "#767676",
+    "#773adc",
+    "#949494",
+    "#a3a3a3",
+    "#a67af4",
+    "#b4ec36",
+    "#b77af4",
+    "#b796f9",
+    "#d7d7d7",
+    "#e8e8e8",
+    "#ebebeb",
+    "#f8f8f8",
+    "#fea11b",
+    "#feac19",
+    "#ff9300",
+    "#ffcb12",
+    "#ffd70f",
+    "#999999",
+    "#ffffff",
+    "#32caea",
+    "#32d2f2",
+    "#c87e0e",
+    "#e6ad10",
+    "#f6d751",
+    "#f78d1e",
+    "#f9e589",
+    "#faa21d",
+    "#ffb34d",
+    "#0669bc",
+    "#114a8b",
+    "#2892df",
+    "#3ccbf4",
+    "#00adef",
+    "#706d6e",
+    "#80cc28",
+    "#f1511b",
+    "#fbbc09",
+    "#0055c5",
+    "#0294e4",
+    "#041642",
+    "#090c7f",
+    "#0a0b7e",
+    "#1380da",
+    "#141698",
+    "#151698",
+    "#201ba6",
+    "#225086",
+    "#282ac4",
+    "#2a93e0",
+    "#2d29c7",
+    "#302ec9",
+    "#3530c3",
+    "#365615",
+    "#3b3b3b",
+    "#3c91e5",
+    "#41a2e9",
+    "#44dbf9",
+    "#4fabee",
+    "#53b1e0",
+    "#559cec",
+    "#5e9641",
+    "#624fd0",
+    "#629c25",
+    "#66ddff",
+    "#6baa42",
+    "#6d71d1",
+    "#6dae2a",
+    "#73b743",
+    "#7559d8",
+    "#76bb43",
+    "#7f7eaf",
+    "#7fcb30",
+    "#897bdc",
+    "#8b7ddc",
+    "#8e8ff4",
+    "#9267e4",
+    "#a095e1",
+    "#a672ed",
+    "#a7a6f7",
+    "#b378f2",
+    "#b4abe5",
+    "#c0bff5",
+    "#c4bee8",
+    "#cacafb",
+    "#cbf8ff",
+    "#cecece",
+    "#d3ceeb",
+    "#dedbee",
+    "#dfa500",
+    "#e3e4ff",
+    "#e7e5f0",
+    "#ededf1",
+    "#f1f1f2",
+    "#fea61a",
+    "#feb517",
+    "#ffca00",
+    "#ffcc11",
+    "#ffd400",
+    "#7aa116",
+    "#8c4fff",
+    "#ed7100"
+  ],
+  "service_icons": {
+    "entry": "front-door",
+    "app": "app-service",
+    "object_store": "storage-accounts",
+    "database": "cosmos-db"
+  },
+  "services": {
+    "entry": {
+      "name": "Azure Front Door",
+      "detail": "CDN · WAF"
+    },
+    "app": {
+      "name": "App Service",
+      "detail": "managed runtime"
+    },
+    "object_store": {
+      "name": "Blob Storage",
+      "detail": "static · objects"
+    },
+    "database": {
+      "name": "Cosmos DB",
+      "detail": "managed data"
+    }
+  },
+  "boundaries": {
+    "icons": {
+      "cloud": "azure:azure-a",
+      "organization": "azure:tenant-properties",
+      "management-group": "azure:management-groups",
+      "subscription": "azure:subscriptions",
+      "resource-group": "azure:resource-groups",
+      "region": "azure:region-management",
+      "network": "azure:virtual-networks",
+      "subnet-private": "azure:subnet",
+      "subnet-public": "azure:subnet",
+      "cluster": "azure:kubernetes-services-containers"
+    },
+    "colors": {
+      "cloud": "#0078d4",
+      "organization": "#005ba1",
+      "management-group": "#37c2b1",
+      "subscription": "#ffcb12",
+      "resource-group": "#949494",
+      "region": "#ef7100",
+      "zone": "#ef7100",
+      "network": "#1490df",
+      "subnet-private": "#1490df",
+      "subnet-public": "#1490df",
+      "cluster": "#341a6e"
+    },
+    "fills": {
+      "subnet-private": "#50e6ff"
+    },
+    "dashes": {
+      "region": "2,3",
+      "zone": "5,4",
+      "organization": "5,4"
+    },
+    "tab_fill": "paper",
+    "color": "#479ef5"
+  },
+  "typography": {
+    "font": "'Inter', sans-serif",
+    "weight": 600
+  },
+  "dots": false,
+  "brand": "logos:microsoft#wordmark",
+  "step_color": "#107c10",
+  "step_second": {
+    "color": "#4672c4",
+    "shape": "square"
+  }
+}

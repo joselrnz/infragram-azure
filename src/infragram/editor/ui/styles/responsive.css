@@ -1,0 +1,102 @@
+/* ---- Responsive ---- */
+@media(max-width:1100px){
+  .editor-workbench{grid-template-columns:minmax(600px,1fr) 56px}
+  .right-inspector{width:56px}
+  .md-tabs,.inspector-body{display:none}
+  .inspector-header{border-bottom:0}
+  .inspector-toggle{position:absolute;top:8px;left:8px;margin:0}
+}
+@media(max-width:900px){
+  .workspace{width:100vw;min-width:0;grid-template-columns:48px minmax(0,1fr)}
+  .provider-sidebar{width:48px}
+  body.sidebar-collapsed .workspace{grid-template-columns:48px minmax(0,1fr)}
+  body.sidebar-collapsed .provider-sidebar{width:48px}
+  body:not(.sidebar-collapsed) .provider-sidebar,
+  body.sidebar-collapsed.sidebar-preview .provider-sidebar{position:absolute;inset:0 auto 0 0;width:min(340px,calc(100vw - 40px));height:100vh;border-radius:0 var(--ui-radius-lg) var(--ui-radius-lg) 0;box-shadow:var(--ui-shadow-raised)}
+  .provider-header{padding:0}
+  .provider-brand{width:48px;padding:0}
+  .category>summary{width:48px;margin:0;padding:0;justify-content:center}
+  body:not(.sidebar-collapsed) .provider-header,
+  body.sidebar-collapsed.sidebar-preview .provider-header{padding:0 12px}
+  body:not(.sidebar-collapsed) .provider-brand,
+  body.sidebar-collapsed.sidebar-preview .provider-brand{width:100%;padding:0 4px 0 0}
+  body:not(.sidebar-collapsed) .category>summary,
+  body.sidebar-collapsed.sidebar-preview .category>summary{width:auto;margin:0 12px;padding:0 16px 0 12px;justify-content:flex-start}
+  .editor-main{grid-column:2;grid-template-rows:104px minmax(0,1fr)}
+  .editor-header{grid-template-rows:52px 52px}
+  .document-bar{gap:6px;padding:0 6px 0 10px}
+  .document-copy{gap:0}
+  .document-copy strong{font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
+  .document-copy small{display:none}
+  .document-actions,.document-views{gap:4px}
+  .md-button,.md-icon-button{min-width:44px;height:44px}
+  .md-icon-button{width:44px}
+  .editor-toolbar{height:auto;overflow-x:auto;padding:4px 6px;scrollbar-width:none}
+  .editor-toolbar::-webkit-scrollbar{display:none}
+  .editor-workbench{grid-template-columns:minmax(0,1fr) 48px;gap:4px;padding:0 4px 4px 0}
+  .right-inspector,body.inspector-collapsed .right-inspector{width:48px}
+  .inspector-toggle,body.inspector-collapsed .inspector-toggle{top:4px;left:4px}
+  .selection-toolbar{max-width:calc(100vw - 68px);overflow-x:auto}
+  .canvas-help{max-width:calc(100vw - 112px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .diagram-stage svg{min-width:0}
+}
+/* The Components button is the phone's way to the library; everywhere else the rail is. */
+[data-editor-action="library"]{display:none}
+/* Narrower than the inspector beside the drawing: expanded, it opens over the drawing. */
+@media(max-width:1100px){
+  .editor-workbench{position:relative}
+  body:not(.inspector-collapsed) .right-inspector{position:absolute;top:0;right:8px;bottom:8px;z-index:30;width:min(360px,calc(100vw - 96px));box-shadow:var(--ui-shadow-menu)}
+  body:not(.inspector-collapsed) .right-inspector .md-tabs{display:flex}
+  body:not(.inspector-collapsed) .right-inspector .inspector-body{display:block}
+  body:not(.inspector-collapsed) .right-inspector .inspector-header{border-bottom:1px solid var(--md-sys-color-surface-container-highest)}
+  body:not(.inspector-collapsed) .right-inspector .inspector-toggle{position:static;margin:0 8px 0 4px}
+}
+/* A phone: the drawing is the screen. The library is a drawer the Components
+   button opens, the inspector a sheet from the bottom that a double tap
+   opens, and the toolbar keeps what a finger uses. */
+@media(max-width:599px){
+  .app-mascot{width:32px;height:32px}
+  body.welcome-examples-open .bottom-drawer{display:grid;position:fixed;inset:auto 0 0;z-index:45;max-height:60dvh;background:var(--md-sys-color-surface-container);border-radius:var(--ui-radius-lg) var(--ui-radius-lg) 0 0;box-shadow:var(--ui-shadow-menu)}
+  .workspace,body.sidebar-collapsed .workspace{grid-template-columns:minmax(0,1fr)}
+  .provider-sidebar,body.sidebar-collapsed .provider-sidebar{position:fixed;inset:0 auto 0 0;z-index:40;width:min(340px,88vw);height:100dvh;border-radius:0 var(--ui-radius-lg) var(--ui-radius-lg) 0;box-shadow:var(--ui-shadow-menu);transform:translateX(-104%);transition:transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized)}
+  body:not(.sidebar-collapsed) .provider-sidebar{transform:none}
+  body.sidebar-collapsed.sidebar-preview .provider-sidebar{transform:translateX(-104%)}
+  .editor-main{grid-column:1;grid-template-rows:auto minmax(0,1fr)}
+  .editor-header{grid-template-rows:48px auto}
+  .local-state,.canvas-help,.bottom-drawer{display:none}
+  .download-menu>summary{gap:0;padding:0 12px}
+  .download-menu__label,.download-menu>summary .md-expand-icon{display:none}
+  .download-resolution .md-segmented>button{height:44px}
+  .editor-toolbar [data-editor-action="library"]{display:inline-flex}
+  [data-editor-action="shortcuts"],[data-editor-action="zoom-reset"],[data-editor-action="toggle-grid"]{display:none}
+  .editor-toolbar{width:auto;max-width:none;gap:0;margin:0 4px 6px;padding:4px;justify-content:space-between}
+  .editor-toolbar .toolbar-group{gap:0}
+  /* the grid button it stood before is not on a phone's toolbar */
+  .editor-toolbar .toolbar-group:last-of-type::after{display:none}
+  .editor-toolbar .md-icon-button{width:40px;min-width:40px}
+  /* the sheet takes its room from the drawing, which refits above it, so
+     what was just selected stays in view and under the finger */
+  .editor-workbench,body.inspector-collapsed .editor-workbench{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:0;padding:0}
+  .canvas-viewport{border-radius:0}
+  .right-inspector,body.inspector-collapsed .right-inspector,body:not(.inspector-collapsed) .right-inspector{position:static;grid-row:2;width:auto;height:min(46dvh,420px);border-radius:var(--ui-radius-lg) var(--ui-radius-lg) 0 0;box-shadow:var(--ui-shadow-menu)}
+  body.inspector-collapsed .right-inspector{display:none}
+  body:not(.inspector-collapsed) .right-inspector .md-tabs{display:flex;overflow-x:auto;scrollbar-width:none}
+  body:not(.inspector-collapsed) .right-inspector .inspector-body{display:block;height:calc(100% - 48px)}
+  .inspector-toggle,body.inspector-collapsed .inspector-toggle,body:not(.inspector-collapsed) .right-inspector .inspector-toggle{position:static;margin:0 8px 0 4px;rotate:90deg}
+  /* A card's info (its table, price and links) has no room beside the card
+     on a phone and would cover it: it docks along the bottom instead, and
+     steps aside while the inspector's sheet is open for editing. */
+  .canvas-popup{position:fixed!important;inset:auto 0 0 0!important;width:auto!important;min-width:0;max-width:none;max-height:40dvh;overflow:auto;border-radius:var(--ui-radius-lg) var(--ui-radius-lg) 0 0}
+  body:not(.inspector-collapsed) .canvas-popup{display:none!important}
+  /* the legend keeps two rows under the sheet (Show legend still shows it):
+     at its full height it left the map a strip to edit in */
+  body:not(.inspector-collapsed) .diagram-legend{max-height:min(88px,12dvh)}
+  /* a phone zooms the page to a field set smaller than 16px */
+  input,select,textarea{font:var(--md-sys-typescale-body-large);letter-spacing:var(--md-sys-typescale-body-large-tracking)}
+}
+/* A finger's targets, on any screen whose pointer is one. */
+@media(pointer:coarse){
+  .md-button,.md-icon-button{min-width:44px;min-height:44px}
+  .md-icon-button{width:44px;height:44px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
