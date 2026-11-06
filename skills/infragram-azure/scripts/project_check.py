@@ -40,6 +40,8 @@ DIAGRAM_SVG = re.compile(r"<svg\b[^>]*\bdata-[a-z]+-diagram\b", re.IGNORECASE)
 EMBEDDED_PROJECT = re.compile(
     r'<script\b[^>]*\bid="[a-z]+-project"[^>]*>(.*?)</script>', re.IGNORECASE | re.DOTALL
 )
+#: The page's own code and styles, set aside before its markup is checked.
+PAGE_CODE = re.compile(r"<(script|style)\b[^>]*>.*?</\1\s*>", re.IGNORECASE | re.DOTALL)
 EMBEDDED_STATE = re.compile(r'<script\b[^>]*\bid="[a-z]+-editor-state"', re.IGNORECASE)
 REMOTE_SCRIPT = re.compile(r'<script\b[^>]*\bsrc\s*=\s*["\']?\s*(?:https?:)?//', re.IGNORECASE)
 # Loaded resources only: src= on any element and href= on <link>. Ordinary
@@ -57,7 +59,7 @@ ALLOWED_HOSTS = ("https://fonts.googleapis.com/", "https://fonts.gstatic.com/")
 UNSAFE_MARKUP = re.compile(
     r"<(?:script|foreignobject|iframe|object|embed)\b"
     r"|javascript:"
-    r"|\bon[a-z]+\s*="
+    r"|(?<![\w-])on[a-z]+\s*="
     r"|<!ENTITY\b"
     r"|@import\b"
     r"|\burl\(\s*[\"']?\s*(?:https?:)?//",
@@ -288,6 +290,8 @@ def check_project(payload: object, errors: list[str]) -> dict[str, object]:
         if layer_id is not None and version != 1 and layer_id not in layer_ids:
             errors.append(f"{path}.layer_id references unknown layer {layer_id!r}")
 
+        _check_paint(element.get("attributes"), path, errors)
+
         for index, connection in enumerate(element.get("connections", []) or []):
             if not isinstance(connection, dict) or not isinstance(connection.get("target"), str):
                 errors.append(f"{path}.connections[{index}] must be an object with a target id")
@@ -333,6 +337,37 @@ def check_project(payload: object, errors: list[str]) -> dict[str, object]:
     summary["elements"] = len(ids)
     summary["connections"] = len(connections)
     return summary
+
+
+#: A colour a document may paint with (the package's verification.SAFE_COLOUR).
+SAFE_COLOUR = re.compile(r"#[0-9a-fA-F]{3,8}|[A-Za-z]{3,24}|(?:rgb|rgba|hsl|hsla)\([0-9.,\s%]+\)")
+#: The stored-style keys whose values are written into a colour attribute.
+PAINT_KEYS = ("fill", "stroke", "label", "labelColor", "tabFill", "color")
+
+
+def _check_paint(attributes: object, path: str, errors: list[str]) -> None:
+    """A stored colour must be a colour: it is written into an attribute.
+
+    The package drops one that is not, so a crafted fill such as
+    ``red" onmouseover="...`` paints nothing; the checker says so rather
+    than let the document pass.
+    """
+    if not isinstance(attributes, dict):
+        return
+    styles: list[tuple[str, object]] = [
+        (f"{path}.attributes.{key}", attributes.get(key))
+        for key in ("editor_style", "editor_boundary_style")
+    ]
+    edges = attributes.get("editor_edge_styles")
+    if isinstance(edges, dict):
+        styles += [(f"{path}.attributes.editor_edge_styles.{k}", v) for k, v in edges.items()]
+    for where, style in styles:
+        if not isinstance(style, dict):
+            continue
+        for key in PAINT_KEYS:
+            value = style.get(key)
+            if value is not None and not (isinstance(value, str) and SAFE_COLOUR.fullmatch(value)):
+                errors.append(f"{where}.{key} is not a colour: {str(value)[:60]!r}")
 
 
 def _check_markup_safety(text: str, errors: list[str]) -> None:
@@ -409,6 +444,9 @@ def check_html(text: str, errors: list[str]) -> dict[str, object]:
         errors.append("no embedded editor state script")
     if REMOTE_SCRIPT.search(text):
         errors.append("page loads a remote script; exports must work offline")
+    # The page's own code sits in <script> and <style> elements; the rest is
+    # markup drawn from the document, and must carry nothing that runs.
+    _check_markup_safety(PAGE_CODE.sub("", text), errors)
     for src_url, link_url in REMOTE_SRC.findall(text):
         url = src_url or link_url
         if not url.startswith(ALLOWED_HOSTS):

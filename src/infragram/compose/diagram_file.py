@@ -81,7 +81,11 @@ def _bound(tree: ast.Module) -> tuple[set[str], bool]:
 
 def _ours(name: str) -> bool:
     """The infragram package itself: a module merely named ``infragram_x`` is
-    the user's, and reading a diagram file never runs the user's code."""
+    the user's, and reading a diagram file never runs the user's code. Its
+    ``__main__`` is the command line, which runs when imported: a file that
+    names it is not let stop the check by doing so."""
+    if "__main__" in name.split("."):
+        return False
     return name == "infragram" or name.startswith("infragram.")
 
 
@@ -90,7 +94,7 @@ def _module(name: str):
         return None
     try:
         return importlib.import_module(name)
-    except Exception:  # noqa: BLE001 - a module that does not import is named, not a crash
+    except (Exception, SystemExit):  # noqa: BLE001 - a module that does not import is named, not a crash
         return None
 
 

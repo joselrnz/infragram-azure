@@ -259,6 +259,9 @@ def _node(node: Node, scene: Scene, icon_ids: dict[int, str]) -> str:
     # A card's own colours, as the editor paints them (editor/state.py
     # carries the same fill and stroke into the page).
     fill, border = node.fill or fill, node.stroke or border
+    # the document's colours were checked when the scene was built; escaping
+    # them too keeps an attribute an attribute whatever reaches it
+    fill, border = escape(fill, quote=True), escape(border, quote=True)
     # A native tooltip on the group: SVG viewers show a <title> on hover, so
     # the exported file explains a card without any script behind it.
     tooltip = escape(" · ".join(part for part in (node.name, node.detail) if part))

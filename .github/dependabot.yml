@@ -1,0 +1,11 @@
+# Keeps the GitHub Actions the workflows use up to date. Python packages are
+# left to the maintainer: the gates pin what the pictures are checked against.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]

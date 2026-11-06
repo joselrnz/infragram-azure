@@ -38,6 +38,7 @@ from ..models import ProviderIcon
 from ..models.topology import TopologyElement
 from ..paths import skill_assets
 from ..themes import StepMark, Theme, TypeStyle, theme_manifest
+from ..verification import safe_colour
 from .panels import panel_of
 from .render import render, render_svg
 from .saved_geometry import apply_to_scene
@@ -60,10 +61,6 @@ from .scene import (
 
 #: The sides a wire's ends may be pinned to (``source_port``/``target_port``).
 _SIDES = ("top", "right", "bottom", "left")
-#: A wire colour a document may set: a hex, a CSS colour name, or a
-#: functional colour. Anything else came from somewhere untrusted and is
-#: not written into an attribute.
-_SAFE_COLOUR = re.compile(r"#[0-9a-fA-F]{3,8}|[A-Za-z]{3,24}|(?:rgb|rgba|hsl|hsla)\([0-9.,\s%]+\)")
 
 __all__ = [
     "Canvas",
@@ -397,7 +394,8 @@ def _card_colours(element: TopologyElement) -> dict[str, str]:
 
     style = element.attributes.get("editor_style")
     style = style if isinstance(style, dict) else style_of(element.attributes) or {}
-    return {key: str(style[key]) for key in ("fill", "stroke") if style.get(key)}
+    # a colour that is not one never reaches an attribute (verification.SAFE_COLOUR)
+    return {key: value for key in ("fill", "stroke") if (value := safe_colour(style.get(key)))}
 
 
 #: Types a document leaves at the generic word: they draw no subtitle.
@@ -661,9 +659,7 @@ def from_topology(
                 ),
                 arrow=edge_style.get("arrow"),
                 corners=edge_style.get("corners"),
-                stroke=stroke
-                if isinstance(stroke, str) and _SAFE_COLOUR.fullmatch(stroke)
-                else None,
+                stroke=safe_colour(stroke),
                 width=float(width) if isinstance(width, (int, float)) and 0 < width <= 40 else None,
                 **sides,
             )

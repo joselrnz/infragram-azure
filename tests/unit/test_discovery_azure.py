@@ -595,6 +595,38 @@ def test_the_command_draws_both_views_from_a_saved_snapshot(tmp_path: Path, caps
     assert "4 resource(s) placed in a subnet" in capsys.readouterr().out
 
 
+#: A file of the user's own that --snapshot-out names by mistake.
+MINE = '{"mine": true}\n'
+
+
+def test_snapshot_out_refuses_a_file_this_tool_did_not_write(tmp_path: Path, capsys) -> None:
+    script = Path(__file__).resolve().parents[2] / "scripts" / "export" / "azure.py"
+    spec = importlib.util.spec_from_file_location("_export_azure_script", script)
+    command = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(command)
+    source = save_snapshot(snapshot(), tmp_path / "estate.json")
+    notes = tmp_path / "notes.json"
+    notes.write_text(MINE, encoding="utf-8")
+    args = [
+        "--from-snapshot",
+        str(source),
+        "--formats",
+        "template",
+        "--output-dir",
+        str(tmp_path / "out"),
+        "--snapshot-out",
+        str(notes),
+    ]
+    assert command.main(args) == 2
+    assert "refusing to overwrite" in capsys.readouterr().err
+    assert notes.read_text(encoding="utf-8") == MINE
+    assert not (tmp_path / "out").exists(), "refused before anything was written"
+    assert command.main([*args, "--force"]) == 0, capsys.readouterr().err
+    assert load_snapshot(notes) == load_snapshot(source)
+    # the file it wrote is its own now: the next run replaces it without --force
+    assert command.main(args) == 0, capsys.readouterr().err
+
+
 # -- networks in other subscriptions --------------------------------------
 
 HUB_SUB = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"

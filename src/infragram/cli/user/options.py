@@ -234,8 +234,8 @@ def add_export_options(
     parser.add_argument(
         "--offline",
         action="store_true",
-        help="load nothing remote while drawing (the page's web fonts included); the same as "
-        "INFRAGRAM_RENDER_OFFLINE=1",
+        help="kept for older scripts: a render never loads anything from another machine "
+        "(INFRAGRAM_RENDER_OFFLINE=1 is accepted too)",
     )
     parser.add_argument(
         "--timeout",

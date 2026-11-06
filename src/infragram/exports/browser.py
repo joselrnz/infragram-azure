@@ -30,6 +30,7 @@ __all__ = [
     "playwright_static_png_renderer",
     "playwright_svg_renderer",
     "prepare_page",
+    "remote_url",
     "render_offline",
     "render_timeout_ms",
 ]
@@ -602,28 +603,45 @@ def render_offline() -> bool:
     machine without a reliable route there -- the CI runner -- can sit on
     that request until the page never reaches ``networkidle``, so two passes
     of one render could differ by whether the fonts arrived.
-    ``INFRAGRAM_RENDER_OFFLINE=1`` blocks the font hosts, so such a page
-    settles at once and every pass draws with the same faces.
+    Every render now refuses those hosts and every other machine
+    (:func:`prepare_page`), so ``INFRAGRAM_RENDER_OFFLINE=1`` and ``--offline``
+    change nothing; they are read so older scripts keep working.
     """
     import os
 
     return os.environ.get("INFRAGRAM_RENDER_OFFLINE", "").strip() == "1"
 
 
-#: The hosts a render reaches for when it is allowed to.
+#: The hosts pages from older versions loaded their fonts from.
 FONT_HOSTS = re.compile(r"^https?://fonts\.(googleapis|gstatic)\.com/")
 
 
+#: What a render may load: the page and its inline parts, and this machine
+#: (the 3D items are drawn from a page served on 127.0.0.1).
+_LOCAL_URL = re.compile(
+    r"^(?:file|data|blob|about):|^https?://(?:127\.0\.0\.1|localhost|\[::1\])(?::\d+)?/", re.I
+)
+
+
+def remote_url(url: str) -> bool:
+    """Whether loading *url* would reach another machine.
+
+    A page draws from what it carries. A request anywhere else came from
+    the document (an ``<image href>`` in a shared file, say), and would tell
+    that server who drew it and when, so every render refuses it.
+    """
+    return not _LOCAL_URL.match(url)
+
+
 def prepare_page(page) -> None:
-    """Give a freshly opened page the render budget, and cut it off from the
-    network when the environment says so. The exporter and every browser
+    """Give a freshly opened page the render budget, and cut it off from
+    every other machine. The exporter and every browser
     suite open their pages through this, so one policy covers all of them.
     Navigation waits (``goto``, load states) have their own budget and, on
     older Playwright releases, do not inherit the default one."""
     page.set_default_timeout(render_timeout_ms())
     page.set_default_navigation_timeout(render_timeout_ms())
-    if render_offline():
-        page.route(FONT_HOSTS, lambda route: route.abort())
+    page.route(remote_url, lambda route: route.abort())
 
 
 #: How long a page gets to announce its editor runtime before the exporter

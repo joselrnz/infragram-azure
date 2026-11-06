@@ -158,7 +158,7 @@ _EXPORT = {
         'where the drawing stands, drawn on the picture: "CURRENT -- verified <date>", "TARGET", '
         '"PROPOSED"'
     ),
-    "offline": _flag("load nothing remote while drawing (INFRAGRAM_RENDER_OFFLINE=1)"),
+    "offline": _flag("kept for older callers: a render never loads anything from another machine"),
     "timeout": {
         "type": "number",
         "exclusiveMinimum": 0,

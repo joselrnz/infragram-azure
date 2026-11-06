@@ -18,7 +18,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path
 
-from . import xmlsafe
+from . import bounded, xmlsafe
 from .model import Bounds, Hint, Link, Shape, Sketch, split_label, words
 from .nesting import nest_by_bounds, snap
 
@@ -51,7 +51,7 @@ def _rels(archive: zipfile.ZipFile, part: str) -> dict[str, str]:
     path = posixpath.join(folder, "_rels", f"{name}.rels")
     if path not in archive.namelist():
         return {}
-    root = xmlsafe.parse(archive.read(path))
+    root = xmlsafe.parse(bounded.read_part(archive, path, VisioError))
     return {
         rel.get("Id", ""): posixpath.normpath(posixpath.join(folder, rel.get("Target", "")))
         for rel in root.iter(f"{_PKG}Relationship")
@@ -82,13 +82,17 @@ class _Masters:
         if part not in archive.namelist():
             return
         rels = _rels(archive, part)
-        for master in xmlsafe.parse(archive.read(part)).iter(f"{_V}Master"):
+        for master in xmlsafe.parse(bounded.read_part(archive, part, VisioError)).iter(
+            f"{_V}Master"
+        ):
             key = master.get("ID", "")
             self.names[key] = master.get("NameU") or master.get("Name") or ""
             rel = master.find(f"{_V}Rel")
             target = rels.get(rel.get(f"{_R}id", "")) if rel is not None else None
             if target and target in archive.namelist():
-                top = xmlsafe.parse(archive.read(target)).find(f".//{_V}Shape")
+                top = xmlsafe.parse(bounded.read_part(archive, target, VisioError)).find(
+                    f".//{_V}Shape"
+                )
                 if top is not None:
                     self.shapes[key] = top
 
@@ -131,7 +135,7 @@ def _hints_and_kind(name: str) -> tuple[str, list[Hint]]:
 def _page(
     archive: zipfile.ZipFile, part: str, masters: _Masters, *, title: str, origin: str, where: str
 ) -> Sketch:
-    root = xmlsafe.parse(archive.read(part))
+    root = xmlsafe.parse(bounded.read_part(archive, part, VisioError))
     sketch = Sketch(title=title, origin=origin, format="visio")
     connectors: dict[str, tuple[ET.Element, dict[str, str], str]] = {}
     shapes_node = root.find(f"{_V}Shapes")
@@ -228,6 +232,7 @@ def read_visio(path: Path) -> list[Sketch]:
     except zipfile.BadZipFile as error:
         raise VisioError(f"{path.name} is not a .vsdx (a zip of Visio XML): {error}") from error
     with archive:
+        bounded.check_archive(archive, VisioError)
         index = "visio/pages/pages.xml"
         if index not in archive.namelist():
             raise VisioError(
@@ -237,7 +242,9 @@ def read_visio(path: Path) -> list[Sketch]:
         rels = _rels(archive, index)
         pages = [
             page
-            for page in xmlsafe.parse(archive.read(index)).iter(f"{_V}Page")
+            for page in xmlsafe.parse(bounded.read_part(archive, index, VisioError)).iter(
+                f"{_V}Page"
+            )
             if page.get("Background") != "1"
         ]
         stem = re.sub(r"\.vsdx$", "", path.name, flags=re.IGNORECASE)

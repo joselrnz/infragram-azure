@@ -26,7 +26,7 @@ import xml.etree.ElementTree as ET
 import zlib
 from pathlib import Path
 
-from . import xmlsafe
+from . import bounded, xmlsafe
 from .model import Bounds, Hint, Link, Shape, Sketch, split_label, words
 from .nesting import nest_by_bounds, snap
 
@@ -115,7 +115,9 @@ def _png_text(data: bytes) -> str | None:
         elif kind == b"zTXt":
             key, _, rest = body.partition(b"\0")
             if key in (b"mxfile", b"mxGraphModel"):
-                return urllib.parse.unquote(zlib.decompress(rest[1:]).decode("latin-1"))
+                return urllib.parse.unquote(
+                    bounded.inflate(rest[1:], 15, DrawioError).decode("latin-1")
+                )
         elif kind == b"iTXt":
             key, _, rest = body.partition(b"\0")
             if key in (b"mxfile", b"mxGraphModel"):
@@ -123,7 +125,7 @@ def _png_text(data: bytes) -> str | None:
                 rest = rest[2:]
                 _lang, _, rest = rest.partition(b"\0")
                 _translated, _, text = rest.partition(b"\0")
-                raw = zlib.decompress(text) if compressed else text
+                raw = bounded.inflate(text, 15, DrawioError) if compressed else text
                 return urllib.parse.unquote(raw.decode("utf-8"))
         elif kind == b"IEND":
             break
@@ -141,7 +143,7 @@ def _inflate(text: str) -> ET.Element:
         raise DrawioError(f"a page is neither XML nor compressed XML ({error})") from error
     for wbits in (-15, 15):
         try:
-            inflated = zlib.decompress(raw, wbits).decode("utf-8")
+            inflated = bounded.inflate(raw, wbits, DrawioError).decode("utf-8")
             break
         except (zlib.error, UnicodeDecodeError):
             continue

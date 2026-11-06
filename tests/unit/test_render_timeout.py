@@ -45,22 +45,39 @@ class _Page:
         self.calls.append(("navigation", value))
 
     def route(self, pattern, handler) -> None:
-        self.calls.append(("route", pattern.pattern))
+        self.calls.append(("route", pattern))
 
 
-def test_a_prepared_page_gets_both_budgets_and_the_font_hosts_blocked_only_offline(
+def test_every_prepared_page_gets_both_budgets_and_refuses_other_machines(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     monkeypatch.setenv("INFRAGRAM_RENDER_TIMEOUT_MS", "240000")
-    monkeypatch.delenv("INFRAGRAM_RENDER_OFFLINE", raising=False)
-    page = _Page()
-    exports.prepare_page(page)
-    assert page.calls == [("timeout", 240_000), ("navigation", 240_000)]
-    monkeypatch.setenv("INFRAGRAM_RENDER_OFFLINE", "1")
-    page = _Page()
-    exports.prepare_page(page)
-    assert page.calls[:2] == [("timeout", 240_000), ("navigation", 240_000)]
-    assert page.calls[2][0] == "route"
-    assert exports.FONT_HOSTS.match("https://fonts.googleapis.com/css2?family=Geist")
+    for offline in (None, "1"):
+        if offline is None:
+            monkeypatch.delenv("INFRAGRAM_RENDER_OFFLINE", raising=False)
+        else:
+            monkeypatch.setenv("INFRAGRAM_RENDER_OFFLINE", offline)
+        page = _Page()
+        exports.prepare_page(page)
+        assert page.calls[:2] == [("timeout", 240_000), ("navigation", 240_000)]
+        assert page.calls[2] == ("route", exports.remote_url)
+    # a shared document's <image href> must not reach its server
+    for url in (
+        "https://fonts.googleapis.com/css2?family=Geist",
+        "https://attacker.example/pixel.png",
+        "http://169.254.169.254/latest/meta-data/",
+        "//attacker.example/x",
+        "wss://attacker.example/socket",
+    ):
+        assert exports.remote_url(url), url
+    # the page itself, what it carries, and the 3D page served on this machine
+    for url in (
+        "file:///tmp/page.html",
+        "data:image/png;base64,AAAA",
+        "blob:null/1234",
+        "about:blank",
+        "http://127.0.0.1:51234/render.html",
+        "http://localhost:8000/x",
+    ):
+        assert not exports.remote_url(url), url
     assert exports.FONT_HOSTS.match("https://fonts.gstatic.com/s/geist/v1/x.woff2")
-    assert not exports.FONT_HOSTS.match("file:///tmp/page.html")

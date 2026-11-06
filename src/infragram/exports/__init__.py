@@ -30,6 +30,7 @@ from .browser import (
     playwright_static_png_renderer,
     playwright_svg_renderer,
     prepare_page,
+    remote_url,
     render_offline,
     render_timeout_ms,
 )
@@ -87,6 +88,7 @@ __all__ = [
     "playwright_static_png_renderer",
     "playwright_svg_renderer",
     "prepare_page",
+    "remote_url",
     "render_offline",
     "render_project_html",
     "render_project_svg",

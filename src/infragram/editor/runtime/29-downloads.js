@@ -247,6 +247,12 @@
     const parents = new Map();
     const frames = new Map(state.boundaries.filter(boundaryIsVisible).map(frame => [frame.id, frame]));
     const parentFor = id => frames.has(id) ? `frame:${id}` : '1';
+    // The first of these that is a colour (verification.SAFE_COLOUR): a
+    // stored style came from a shared file, and draw.io reads ';' and '='
+    // in a style string as more keys.
+    const SAFE_PAINT = /^(?:#[0-9a-fA-F]{3,8}|[A-Za-z]{3,24}|(?:rgb|rgba|hsl|hsla)\([0-9.,\s%]+\))$/;
+    const paintOf = (...values) => values.find(value => typeof value === 'string' && SAFE_PAINT.test(value)) || 'none';
+    const styleWord = value => String(value).replace(/[;=]/g, '');
     const originFor = parent => {
       const frame = frames.get(parent.slice(6));
       return frame ? {x: frame.x, y: frame.y} : {x: 0, y: 0};
@@ -275,8 +281,8 @@
       vertex(frame, `frame:${frame.id}`, parentFor(frame.parentId), frame,
         'html=1;whiteSpace=wrap;container=1;collapsible=0;recursiveResize=0;'
         + `verticalAlign=top;align=left;spacing=8;fontSize=${frame.labelSize || 10};`
-        + `strokeColor=${frame.style?.stroke || frame.stroke || colors.border};`
-        + `fillColor=${frame.style?.fill || frame.fill || 'none'};fontColor=${frame.style?.label || frame.labelColor || colors.text};`
+        + `strokeColor=${paintOf(frame.style?.stroke, frame.stroke, colors.border)};`
+        + `fillColor=${paintOf(frame.style?.fill, frame.fill)};fontColor=${paintOf(frame.style?.label, frame.labelColor, colors.text)};`
         + (frame.dash ? `dashed=1;dashPattern=${frame.dash.replace(/,/g, ' ')};` : ''));
     });
     // a panel's shape, as draw.io names it (builders/panels.py)
@@ -299,7 +305,7 @@
         const tone = toneOf(node.attributes?.tone);
         vertex(node, `node:${node.id}`, parentFor(node.boundaryId), box,
           `html=1;whiteSpace=wrap;verticalAlign=top;spacingTop=6;${PANEL_DRAWIO[panelShape(node)]}`
-          + `fillColor=${node.style?.fill || tone?.[0] || colors.card};strokeColor=${node.style?.stroke || tone?.[1] || colors.border};`
+          + `fillColor=${paintOf(node.style?.fill, tone?.[0], colors.card)};strokeColor=${paintOf(node.style?.stroke, tone?.[1], colors.border)};`
           + `fontColor=${colors.text};fontSize=11;fontFamily=Inter;`);
         return;
       }
@@ -307,8 +313,8 @@
         'html=1;whiteSpace=wrap;'
         + (art ? `${icon ? 'shape=image;imageAspect=1;aspect=fixed;' : 'shape=label;imageWidth=32;imageHeight=32;imageAlign=left;spacingLeft=48;'}image=${art};` : 'shape=rect;')
         + (icon ? `verticalLabelPosition=bottom;verticalAlign=top;labelWidth=${node.width};fillColor=none;strokeColor=none;`
-          : `rounded=1;fillColor=${node.style?.fill || colors.card};strokeColor=${node.style?.stroke || colors.border};`)
-        + `fontColor=${text.textColor || colors.text};fontSize=${text.fontSize || 12};fontFamily=${text.fontFamily || 'Inter'};`
+          : `rounded=1;fillColor=${paintOf(node.style?.fill, colors.card)};strokeColor=${paintOf(node.style?.stroke, colors.border)};`)
+        + `fontColor=${paintOf(text.textColor, colors.text)};fontSize=${Number(text.fontSize) || 12};fontFamily=${styleWord(text.fontFamily || 'Inter')};`
         + `fontStyle=${Number(text.fontWeight || 600) >= 600 ? 1 : 0};rotation=${Number(node.angle) || 0};`
         + `flipH=${node.flipX ? 1 : 0};flipV=${node.flipY ? 1 : 0};`);
     });

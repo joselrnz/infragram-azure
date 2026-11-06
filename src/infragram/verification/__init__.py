@@ -92,6 +92,18 @@ def is_unsafe_svg(text: str) -> bool:
     return unsafe_svg_match(text) is not None
 
 
+#: A colour a document may paint a card, frame or wire with: a hex, a CSS
+#: colour name, or a functional colour. A document is shared as a file, so
+#: anything else came from somewhere untrusted and is never written into an
+#: attribute (``red" onmouseover="..."`` would be markup, not a colour).
+SAFE_COLOUR = re.compile(r"#[0-9a-fA-F]{3,8}|[A-Za-z]{3,24}|(?:rgb|rgba|hsl|hsla)\([0-9.,\s%]+\)")
+
+
+def safe_colour(value: object) -> str | None:
+    """*value* when it is a colour a picture may carry, else None."""
+    return value if isinstance(value, str) and SAFE_COLOUR.fullmatch(value) else None
+
+
 #: Six-digit hex color, the only color form provider manifests may declare.
 HEX_COLOR = re.compile(r"^#[0-9a-fA-F]{6}$")
 

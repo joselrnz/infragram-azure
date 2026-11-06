@@ -15,6 +15,7 @@ from ..catalog import ARCHITECTURE_BOUNDARY_SPECS, ink, load_default_provider_re
 from ..models.changes import style_of
 from ..projects import CloudProject
 from ..projects.document import _is_platform
+from ..verification import safe_colour
 from .artwork import (
     _boundary_component_style,
     _data_uri,
@@ -24,6 +25,24 @@ from .artwork import (
 
 #: The sides a wire's end may be pinned to; anything else is "auto".
 _PINNED_SIDES = ("top", "right", "bottom", "left")
+
+
+#: The keys of a stored style that the page writes into a colour attribute
+#: (and the draw.io download into a style string).
+_PAINT_KEYS = frozenset({"fill", "stroke", "label", "labelColor", "tabFill", "color"})
+
+
+def _paint_checked(style: dict[str, Any]) -> dict[str, Any]:
+    """A stored style without any colour that is not a colour.
+
+    A document is shared as a file: a fill of ``red" onload="...`` came
+    from someone else and is dropped, so the card takes the library's look.
+    """
+    return {
+        key: value
+        for key, value in style.items()
+        if key not in _PAINT_KEYS or value is None or safe_colour(value) is not None
+    }
 
 
 def _pinned_side(element, connection, key: str) -> str:
@@ -190,12 +209,12 @@ def _editor_state(
             **visual,
         }
         if isinstance(element.attributes.get("editor_style"), dict):
-            boundary_state["style"] = dict(element.attributes["editor_style"])
+            boundary_state["style"] = _paint_checked(element.attributes["editor_style"])
         if isinstance(element.attributes.get("editor_boundary_style"), dict):
             # A stored style is a cache of the library look, not an override:
             # the theme owns every key the visual carries, so a document saved
             # under an older rule cannot drag stale paint into the picture.
-            stored = dict(element.attributes["editor_boundary_style"])
+            stored = _paint_checked(element.attributes["editor_boundary_style"])
             boundary_state.update(
                 {key: value for key, value in stored.items() if key not in visual}
             )
@@ -362,7 +381,7 @@ def _editor_state(
             "attributes": dict(element.attributes),
         }
         if isinstance(element.attributes.get("editor_style"), dict):
-            node_state["style"] = dict(element.attributes["editor_style"])
+            node_state["style"] = _paint_checked(element.attributes["editor_style"])
         elif style_of(element.attributes):
             # a plan's change paints the card; the static picture reads the
             # same colours (builders/architecture.py _card_colours)

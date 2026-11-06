@@ -343,9 +343,12 @@ def _subscription(entry: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def save_snapshot(snapshot: dict[str, Any], path: Path) -> Path:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(snapshot, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+def save_snapshot(snapshot: dict[str, Any], path: Path, *, force: bool = True) -> Path:
+    """Write *snapshot* to *path*. Without *force*, a file this tool did not
+    write, or one edited since, is refused (ValueError), as an export is."""
+    from ..exports.written import write_side_file
+
+    write_side_file(path, json.dumps(snapshot, indent=2, sort_keys=True) + "\n", force=force)
     return path
 
 

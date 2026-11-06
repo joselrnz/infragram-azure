@@ -41,7 +41,7 @@ assets, so it needs no plugin folder.
 | `--terraform-zip` | | off | with `terraform` or `terraform-modules`: each skeleton as `<slug>-terraform.zip`, laid out as the page's Download menu gives it, instead of a folder |
 | `--title` | text | the document's | the title the exported diagram carries |
 | `--status` | text | the document's | where the drawing stands, saved as metadata (below) |
-| `--offline` | | off | load nothing remote while drawing; the same as `INFRAGRAM_RENDER_OFFLINE=1` |
+| `--offline` | | off | kept for older scripts: a render never loads anything from another machine |
 | `--timeout` | seconds | 120 | how long a page may take to draw; the same as `INFRAGRAM_RENDER_TIMEOUT_MS` |
 | `--force` | | off | replace files the command refuses: written elsewhere, or edited since the last export; only when the user means it |
 
@@ -385,9 +385,10 @@ keeps the whole canvas rather than guessing a crop.
 Two settings shape a browser render, as flags or as environment variables.
 `--timeout SECONDS` (`INFRAGRAM_RENDER_TIMEOUT_MS`) is how long a page load
 or a script may take (120 s by default; a slow machine needs more).
-`--offline` (`INFRAGRAM_RENDER_OFFLINE=1`) keeps a render off the network
-altogether; nothing a page needs is out there, so it is a guard for a machine
-without a reliable route out.
+A render never loads anything from another machine: the browser refuses
+every request that is not the page, what it carries, or this machine, so a
+shared document cannot make it call out. `--offline`
+(`INFRAGRAM_RENDER_OFFLINE=1`) is still accepted and changes nothing.
 
 ## The provider mark
 

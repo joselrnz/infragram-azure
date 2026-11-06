@@ -49,6 +49,7 @@ from infragram.discovery import (  # noqa: E402
     save_snapshot,
 )
 from infragram.exports import ExportError  # noqa: E402
+from infragram.exports.written import blocking  # noqa: E402
 from infragram.patterns import PatternError  # noqa: E402
 
 
@@ -194,6 +195,12 @@ def main(argv: list[str] | None = None) -> int:
         print("NOTE     --view both appends -network and -groups to --slug", file=sys.stderr)
     try:
         apply_render_settings(options)
+        # refuse before reading Azure, not after: the read can take minutes
+        if options.snapshot_out and not options.force and blocking([options.snapshot_out]):
+            raise ValueError(
+                f"refusing to overwrite {options.snapshot_out}: this tool did not write it, "
+                "or it was edited since (pass --force to replace it)"
+            )
         if options.from_snapshot:
             snapshot = load_snapshot(options.from_snapshot)
         else:
@@ -219,7 +226,8 @@ def main(argv: list[str] | None = None) -> int:
             )
             snapshot = session.snapshot(chosen, changes=options.changes, findings=options.findings)
         if options.snapshot_out:
-            print(f"SNAPSHOT {save_snapshot(snapshot, options.snapshot_out)}")
+            saved = save_snapshot(snapshot, options.snapshot_out, force=options.force)
+            print(f"SNAPSHOT {saved}")
 
         clean = True
         for view in views:
