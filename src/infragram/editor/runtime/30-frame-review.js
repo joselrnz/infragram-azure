@@ -118,6 +118,11 @@
         setFrameHighlight(frame.id, !frame.highlight);
         return;
       }
+      if (event.target.closest('[data-frame-review-drill]')) {
+        closeFrameReview();
+        openFrame(frame.id);
+        return;
+      }
       const display = event.target.closest('[data-frame-review-display]');
       if (display) {
         setFrameDisplayMode(frame.id, display.dataset.frameReviewDisplay);

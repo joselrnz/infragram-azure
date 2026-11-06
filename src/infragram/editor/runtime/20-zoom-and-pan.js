@@ -40,8 +40,18 @@
   const fitBounds = () => {
     let bounds = contentBounds();
     // the brand mark under the drawing is part of the picture, though it
-    // can sit well left of the cards: fit it too, as the export frames it
-    const mark = diagram.querySelector('[data-brand-mark]');
+    // can sit well left of the cards: fit it too, as the export frames it.
+    // An open frame (34-drill-down) is fitted alone.
+    const mark = drillPath.length ? null : diagram.querySelector('[data-brand-mark]');
+    // and with the names of what its wires reach, which stand outside it
+    const stubs = drillPath.length ? diagram.querySelector('[data-drill-stub-layer]') : null;
+    if (bounds && stubs?.childElementCount) {
+      const box = stubs.getBBox();
+      bounds = {
+        left: Math.min(bounds.left, box.x), top: Math.min(bounds.top, box.y),
+        right: Math.max(bounds.right, box.x + box.width), bottom: Math.max(bounds.bottom, box.y + box.height),
+      };
+    }
     if (bounds && mark?.getClientRects().length) {
       const [x, y, width, height] = ['x', 'y', 'width', 'height'].map(name => Number(mark.getAttribute(name)));
       if ([x, y, width, height].every(Number.isFinite) && width > 0 && height > 0) {

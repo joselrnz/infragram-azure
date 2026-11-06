@@ -73,6 +73,9 @@ body[data-workspace-theme="dark"] .diagram-stage [data-step-list]>rect{fill:var(
 [data-edge-group][data-focus-dimmed="true"],[data-edge-label][data-focus-dimmed="true"]{opacity:.2}
 [data-step-list] [data-step-row]{cursor:pointer}
 [data-step-row][data-focus-dimmed="true"]{opacity:.35}
+[data-drill-hidden]{display:none}
+[data-step-row][data-drill-away]{opacity:.35}
+[data-drill-stub] text:hover{text-decoration:underline}
 @keyframes edge-flow{to{stroke-dashoffset:-12}}
 [data-boundary-resize]{cursor:nwse-resize}
 [data-node-resize="e"]{cursor:ew-resize}

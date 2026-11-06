@@ -534,7 +534,11 @@
     const drawnX = Number(list.getAttribute('data-drawn-x')) || 0;
     const bounds = contentBounds();
     const x = bounds ? Math.max(drawnX, bounds.right + STEP.listGap) : drawnX;
-    const transform = x > drawnX ? `translate(${x - drawnX} 0)` : '';
+    // beside an open frame (34-drill-down), level with its top
+    const drilled = drillPath.length && bounds;
+    const transform = drilled
+      ? `translate(${bounds.right + STEP.listGap - drawnX} ${bounds.top - list.getBBox().y})`
+      : x > drawnX ? `translate(${x - drawnX} 0)` : '';
     if ((list.getAttribute('transform') || '') === transform) return;
     if (transform) list.setAttribute('transform', transform);
     else list.removeAttribute('transform');

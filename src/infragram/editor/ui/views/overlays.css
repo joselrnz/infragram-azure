@@ -94,3 +94,9 @@
 .context-submenu__chevron{display:grid;place-items:center;padding-left:16px}
 .context-submenu__chevron .md-icon{width:16px;height:16px}
 .canvas-context-menu [data-context-submenu-toggle][aria-expanded="true"]{background:var(--md-sys-color-surface-container-high)}
+.drill-path{position:absolute;top:12px;left:12px;z-index:5;max-width:calc(100% - 24px);overflow-x:auto;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking)}
+.drill-path ol{display:flex;align-items:center;gap:4px;margin:0;padding:4px 10px;list-style:none;white-space:nowrap}
+.drill-path li+li::before{content:'\203A';margin-right:4px;color:var(--md-sys-color-on-surface-variant)}
+.drill-path button{padding:4px 2px;border:0;background:none;color:var(--md-sys-color-primary);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.drill-path button:focus-visible{outline:2px solid var(--md-sys-color-primary);outline-offset:2px;border-radius:4px}
+.drill-path [aria-current]{font-weight:600}

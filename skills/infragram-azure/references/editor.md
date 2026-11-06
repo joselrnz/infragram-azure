@@ -94,8 +94,17 @@ component inside to put it in; drag it out, or **Detach**, to take it out.
 | Call one out | Right-click, **More actions**, **Highlight frame** -- an accent ring, drawn in the picture too |
 | Switch its contents | Right-click, **More actions**, **Show contents as icons** / **as cards**, or the **Style** tab's *Contents* |
 | Review what is inside | Right-click, **Review components** -- every component in the frame, in one list, where each can be switched or selected |
+| See it alone | Right-click, **Open this frame**, or **Open** in its review -- only the frame and what it holds, fitted to the screen |
 | Fit it to its contents | Right-click, **More actions**, **Shrink frame to fit** |
 | Group a selection | **Ctrl+G**; **Ctrl+Shift+G** detaches |
+
+An open frame is a view, like the zoom. The breadcrumb over the canvas
+(*Whole diagram > region > network*) goes back to any level above. A wire
+that leaves the open frame ends at its border, with the name of the card it
+reaches just outside; click the name to open the frame that holds that card.
+The inventory and the costs count what the open frame holds, and the steps
+its wires do not carry step back. Nothing of it is saved, and a download,
+whatever is open, is the whole diagram.
 
 ## What it costs
 

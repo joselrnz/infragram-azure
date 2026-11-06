@@ -428,6 +428,7 @@
     else if (action === 'frame-display-icon') setFrameDisplayMode(item?.id, 'icon');
     else if (action === 'frame-display-card') setFrameDisplayMode(item?.id, 'card');
     else if (action === 'frame-review') openFrameReview(item?.id);
+    else if (action === 'frame-open') openFrame(item?.id);
     else if (action === 'delete') deleteSelection();
     else arrangeSelection(action);
   });

@@ -1,4 +1,4 @@
-// @module 34-api-and-start: window.infragramEditor and start-up
+// @module 35-api-and-start: window.infragramEditor and start-up
   const editorApi = Object.freeze({
     setDisplayMode: mode => applyProjectDisplayMode(mode, {persist: false}),
     // the library payload as the page inflated it (the script element carries it deflated)

@@ -110,6 +110,7 @@ def context_menu() -> str:
             {menu_item("center", "Center on item", attrs="data-context-center", glyph="center")}
             {menu_item("lens-dependents", "Show what depends on this", attrs="data-context-node-only", role="menuitemcheckbox", glyph="dependents")}
             {menu_item("toggle-parts", "Show attached on canvas", attrs="data-context-node-only data-context-parts hidden", glyph="show-cards")}
+            {menu_item("frame-open", "Open this frame", attrs="data-context-frame-only", glyph="expand")}
             {menu_item("frame-review", "Review components…", attrs="data-context-frame-only", glyph="table")}
             {menu_item("edge-reverse", "Reverse direction", attrs="data-context-edge-only hidden", glyph="swap")}
             {menu_item("edge-reset-route", "Reset route", attrs="data-context-edge-only hidden", glyph="route-reset")}
@@ -245,6 +246,7 @@ def frame_review() -> str:
               <button type="button" class="md-chip" data-frame-review-highlight aria-pressed="false">Highlighted</button>
               {button("Icons", variant="tonal", attrs='data-frame-review-display="icon" title="Show every component in this frame as an icon"')}
               {button("Cards", variant="outlined", attrs='data-frame-review-display="card" title="Show every component in this frame as a card"')}
+              {button("Open", variant="outlined", attrs='data-frame-review-drill title="Show this frame alone"')}
             </div>
             <div class="md-list frame-review__list" data-frame-review-list></div>
           </section>"""
@@ -270,6 +272,7 @@ def canvas(diagram: str) -> str:
           <p class="canvas-help" data-editor-help>Click to see the flow · double-click to edit · pinch or wheel to zoom · drag empty canvas or middle-drag to pan</p>
 {context_menu()}
         </section>
+        <nav class="drill-path" data-drill-path aria-label="Open frame" hidden></nav>
         <section class="canvas-welcome" data-canvas-welcome aria-labelledby="welcome-title" hidden>
           <img src="{mascot_uri()}" width="160" height="160" alt="Infragram's friendly pangolin architect">
           <h2 id="welcome-title">Create a diagram</h2>

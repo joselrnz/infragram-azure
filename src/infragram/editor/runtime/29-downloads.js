@@ -38,6 +38,8 @@
     } finally { holder.remove(); }
   };
   const exportSvg = ({includeLegend = legendEnabled('exportLegend'), background} = {}) => {
+    // an open frame is a view: the picture is always the whole diagram
+    if (drillPath.length) return wholeDrawing(() => exportSvg({includeLegend, background}));
     const copy = diagram.cloneNode(true);
     copy.setAttribute('xmlns', SVG_NS);
     copy.removeAttribute('tabindex');
@@ -210,6 +212,7 @@
   // Editable draw.io cells use the current geometry, not the original project.
   // XML attributes are written through the DOM so names and labels stay data.
   const exportDrawio = ({includeLegend = legendEnabled('exportLegend')} = {}) => {
+    if (drillPath.length) return wholeDrawing(() => exportDrawio({includeLegend}));
     const xml = document.implementation.createDocument('', 'mxfile');
     const append = (parent, tag, attrs = {}) => {
       const element = xml.createElement(tag);

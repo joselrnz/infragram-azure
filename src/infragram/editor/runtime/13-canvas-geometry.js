@@ -1,12 +1,26 @@
 // @module 13-canvas-geometry: visibility, canvas extent and alignment guides
+  // With a frame open (34-drill-down) only it and what it holds are drawn:
+  // the walk up from a frame must reach the open one, not the top.
   const boundaryIsVisible = boundary => {
     if (!boundary || !isLayerVisible(boundary.layerId)) return false;
-    return !boundary.parentId || boundaryIsVisible(boundaryById(boundary.parentId));
+    const open = drillPath.at(-1);
+    if (open && boundary.id === open) return true;
+    if (!boundary.parentId) return !open;
+    return boundaryIsVisible(boundaryById(boundary.parentId));
+  };
+  const openFrameId = () => drillPath.at(-1) || null;
+  // A card the open frame holds, whatever its layer; every card when none is
+  // open. The inventory and the costs count these (33-costs); 34-drill-down
+  // opens and closes frames.
+  const nodeInOpenFrame = node => {
+    const open = openFrameId();
+    return !open || Boolean(node?.boundaryId && isBoundaryDescendant(node.boundaryId, open));
   };
   const nodeIsVisible = node => (
     Boolean(node)
     && isLayerVisible(node.layerId)
-    && (!node.boundaryId || boundaryIsVisible(boundaryById(node.boundaryId)))
+    // a card in no frame sits outside any frame that is open
+    && (node.boundaryId ? boundaryIsVisible(boundaryById(node.boundaryId)) : !openFrameId())
   );
   const CANVAS_GROWTH = 400;
   const CANVAS_MARGIN = 320;

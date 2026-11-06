@@ -48,8 +48,10 @@
     + `<td>${escapeText(money(Number(item.amount), price.currency))}</td></tr>`).join('');
   const syncCosts = () => {
     if (!costPanel) return;
-    const priced = state.nodes.map(costOf).filter(Boolean);
-    const unpriced = state.nodes.filter(node => !costOf(node) && typeof node.attributes?.unpriced === 'string');
+    // with a frame open the sum is of what it holds (34-drill-down)
+    const shown = state.nodes.filter(nodeInOpenFrame);
+    const priced = shown.map(costOf).filter(Boolean);
+    const unpriced = shown.filter(node => !costOf(node) && typeof node.attributes?.unpriced === 'string');
     const free = unpriced.filter(node => node.attributes.unpriced.startsWith('free: '));
     const missing = unpriced.filter(node => !node.attributes.unpriced.startsWith('free: '));
     const totals = sumBy(priced, item => item.monthly);
@@ -235,7 +237,7 @@
     return row ? String(row[1] ?? '') : '';
   };
   const resourceRows = () => {
-    const nodes = state.nodes.map(node => {
+    const nodes = state.nodes.filter(nodeInOpenFrame).map(node => {
       const definition = componentDefinitions.get(node.componentQualifiedId) || {};
       const frames = framesOf(node);
       const group = tableValue(node, 'Resource group')

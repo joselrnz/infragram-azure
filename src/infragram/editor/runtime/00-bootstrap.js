@@ -71,6 +71,10 @@
   // deleted or restyled through it; a double click selects for that
   // (04-model showFlow, selectForEditing).
   let flowFocus = null;
+  // The frames opened to see one of them alone, outermost first, or none
+  // for the whole diagram (34-drill-down). A view, like the zoom: never
+  // saved, never exported.
+  let drillPath = [];
   // What the flow lights, worked out once per drawing (04-model flowLit).
   let currentFlow = null;
   // A press on an item not selected for editing, waiting to learn whether it
