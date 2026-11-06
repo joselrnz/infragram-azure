@@ -1,5 +1,5 @@
 {
- "description": "Where each shipped icon's ink begins. 'profiles' is the ink's bounding box as fractions of its square, [left, right, top, bottom]; 'edges' is where the ink begins along 33 lines across each side, one character per line in 64ths of the square ('A' = 0, '/' = 63, '.' = no ink), sides joined by '|' in the same order (see plugin/src/infragram/catalog/ink.py). Keyed by the sha1 of the artwork's shape (first 12 hex digits); an icon that fills its square has no entry. Both renderers seat a wire's end on the ink and the checker holds them to it (ADR 0006, rule 1). 'ports' is where a side's connection point sits for the drawings the rule places badly, as a fraction along the side, set by hand in scripts/tools/ink-profiles.py (a person's body, not the neck).",
+ "description": "Where each shipped icon's ink begins. 'profiles' is the ink's bounding box as fractions of its square, [left, right, top, bottom]; 'edges' is where the ink begins along 33 lines across each side, one character per line in 64ths of the square ('A' = 0, '/' = 63, '.' = no ink), sides joined by '|' in the same order (see plugin/src/infragram/catalog/ink.py). Keyed by the sha1 of the artwork's shape (first 12 hex digits); an icon that fills its square has no entry. Both renderers seat a wire's end on the ink and the checker holds them to it. 'ports' is where a side's connection point sits for the drawings the rule places badly, as a fraction along the side, set by hand in scripts/tools/ink-profiles.py (a person's body, not the neck).",
  "lines": 33,
  "profiles": {
   "00090e236729": [
@@ -13886,6 +13886,12 @@
    0.07,
    0.055
   ],
+  "c2ff62706a53": [
+   0.07,
+   0.094,
+   0.031,
+   0.023
+  ],
   "c31abed26757": [
    0.031,
    0.031,
@@ -20962,6 +20968,7 @@
   "c2c8eb21c269": "kjig.........................aZZc|aYYY.........................ggij|..............MJGEBAB............|............aBACGIL..............",
   "c2cb0645f8e8": ".cZWSOLIGEEEEEEEEEEEEEEEGILOSWZc.|.cZWSOLIGEEEEEEEEEEEEEEEGILOSWZc.|..UQOMMKKIHGEECCCCCEEGHIKKMMOQU..|..UQOMMKJIHGEECCCCCEEGHIKKMMOQU..",
   "c2d62e2e8c0a": "...cccccccccceeeeffffffdaXUUYcg..|...cccccccccceeeeffffffeAATWYad..|..........0yxwIFEFIwwyyyyyyyyxwww|..........KJIHGFEEFGIKLMMNNOOOONN",
+  "c2ff62706a53": ".ebYUQNKGEEEEEEEEEEEEEEEHKNWWXad.|.gcYVSOLIGGGGGGGGGGGGGGGGKNQUYbe.|...QPOMMKKIHGEECCDEGGIJKLMOOQR...|...QQONMuXWGGEDCCCEEGHIKKMMOPQ...",
   "c31abed26757": ".CDEFGHIJKLMNOPQRSSUUWXYYaacceeg.|.CCEFGGIIKLMMOPQRSSUUWWYYaacceeg.|.CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC.|.+62ytqmieZWSNJFCFJNRVYdhkpsw148.",
   "c32ea893fbbd": "...fdcaYWVUSQQOOMMMLLMMMOPQSVa...|...fdcaYWVUSRQOOMMMLMMMMOPQSVa...|......gcZWTQOMKHGHKMOQTWZch......|......UPMKJIGGGGFGGGGIJKMPU......",
   "c33295f44678": ".....KIHGGGGGGHIKIHGGGGGGHIK.....|.....KIHGGGGGGHIKIHGGGGGGHIK.....|...QMKJIIIIIIIIIIIIIIIIIIIJKMQ...|...QMKJIIIIIIIIIIIIIIIIIIIJKMQ...",
@@ -21521,6 +21528,7 @@
   "ead8eace93d1": "20ywusqomIGFGIKMOQSUWWUSQOMKIGEGI|IGEGIKMOQSUWWUSQOMKIGEGImoqsuwy02|...USSUWYacegikm.USQOMKIGECAAC...|...CABDFHJLNPRTV.mkigecaYWUSSU...",
   "eadea9fc920b": "..EEEEEEEEEEEEEEEEEEEEEEEQQQQQQ..|..QQQQ55EEEEEEEEEEEEEEEEEEEEEEE..|..EEEEEEEEEEEEEEEEEEEEEEEQQQQQQ..|..QQQQ55EEEEEEEEEEEEEEEEEEEEEEE..",
   "eadf32fd9f16": "........USQQMIGGEEEEEFGIL........|........fcTRQLIGFEEEEFGIL........|..idaZYXUSQQPOOPQQSSSTUVXaaacej..|..ZUSQQPPPPPPPPPPPPPPPPPPPQQSUY..",
+  "eb0257052969": "cUQNKIHGEDCCBAAAAAAABCCDEFGIKNQUb|cUQNKIHGEDCCBAAAAAAABCCDEGGIKNQUb|bUQNKIGFEDCCBAAAAAAABCCDEFGIKNQUc|cUQNKIHGEDCCBAAAAAAABCCDEGHIKNQUc",
   "eb0fe1cebcb3": "..EDCDE.....xyyy0yy......MEDCDE..|..0z........GECCEFM......zyzyz0..|..EDCDEGG................YYYYYa..|..EDCDEM.................cceeef..",
   "eb143b093d4f": "..NMMMLLLKECCCCCCCCCCCCCCCCC6JJ..|..onooqTSSKKJCCCCCCCCCCCCCCCCCC..|..US..FEEEEEE.SSOOOOOOOQSSSU6aa..|..KKKCCCCCCCCCCCCCCCCCCCCCCCCCC..",
   "eb1cb560e690": "..KFECCCCCCCCCCCCCCCCCCCCCCCEGJ..|..eaYWWWOKECEEFGGHIIKKLMMOPSUWY..|..HGEEEDDCCCCCDDEEFGIdYTQQRSSUU..|..HGEEEDDCCCCCDEE..CEGIKLNRWbgl..",
@@ -22547,6 +22555,7 @@
   "6dadc535b760": 0.01,
   "c2c8eb21c269": 0,
   "ceb5c2569393": 0.058,
+  "e9d9e9c81735": 0.01,
   "c31abed26757": 0,
   "c45b1d6f7089": 0.01,
   "2338af8dd1aa": 0.01,
@@ -22714,6 +22723,7 @@
   "ba88a6052c03": 0.01,
   "eac6910354d4": 0.083,
   "eadf32fd9f16": 0.027,
+  "571c9889e8c5": 0.01,
   "eb2784f116e4": 0,
   "ec066f6b36a2": 0,
   "7db735c38243": 0.027,

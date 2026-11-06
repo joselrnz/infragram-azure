@@ -25,7 +25,7 @@ def _component_map(provider: str, owner: str) -> dict[str, object]:
 def test_shared_primitive_library_exposes_every_shipped_architecture_icon() -> None:
     # A pinned count, so adding or losing a primitive is a decision somebody
     # made rather than a drift nobody noticed.
-    assert len(SHARED_PRIMITIVE_SPECS) == 365
+    assert len(SHARED_PRIMITIVE_SPECS) == 367
     assert {
         "public-users",
         "browser-client",
@@ -49,6 +49,8 @@ def test_shared_primitive_library_exposes_every_shipped_architecture_icon() -> N
         "language-python",
         "statistics-qgis",
         "format-excel",
+        "brand-valkey",
+        "brand-redpanda",
     } <= {spec.service_id for spec in SHARED_PRIMITIVE_SPECS}
 
 

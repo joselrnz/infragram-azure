@@ -4,7 +4,7 @@
   "libraries": 3,
   "vendor_icons": 827,
   "unmapped": 30,
-  "shared_primitives": 370,
+  "shared_primitives": 372,
   "frames": 40,
   "frame_groups": 4,
   "starter_stacks": 3,
@@ -5174,6 +5174,11 @@
    "category": "databases"
   },
   {
+   "id": "brand-valkey",
+   "name": "Valkey",
+   "category": "databases"
+  },
+  {
    "id": "brand-vitess",
    "name": "Vitess",
    "category": "databases"
@@ -5561,6 +5566,11 @@
   {
    "id": "brand-pulsar",
    "name": "Apache Pulsar",
+   "category": "integration"
+  },
+  {
+   "id": "brand-redpanda",
+   "name": "Redpanda",
    "category": "integration"
   },
   {

@@ -60,11 +60,35 @@ The MIT license is reproduced in full at https://github.com/devicons/devicon/blo
 - **Kubernetes:** project artwork from the Kubernetes community repository (Apache-2.0); CNCF and Linux Foundation trademark policies apply to the marks.
 - **Databricks:** architecture icons built from Databricks' official SVGs (https://brand.databricks.com/), vendored in `assets/icons/vendors/databricks/`. That set is Copyright (c) 2026 Eduardo Rabelo under the MIT License, whose full notice ships beside the icons as `assets/icons/vendors/databricks/LICENSE`; nothing is fetched from its repository. The license grants no trademark rights: Databricks, the Databricks logo and the product names are trademarks of Databricks, Inc., which does not sponsor or endorse the set. The theme mark (`assets/themes/marks/databricks.svg`) is the same logo redrawn in one colour.
 
-These files are provider artwork, not relicensed under Infragram Azure's MIT license. They are bundled only for architecture-diagram and documentation use under the linked provider terms. Their per-file source path, release, terms URL, and SHA-256 digest are recorded in each pack's `catalog.json`. Nothing in this edition is bundled without an established grant: `tests/unit/test_artwork_licensing.py` pins the count of `vendor-unverified` icons at zero.
+These files are provider artwork, not relicensed under Infragram Azure's MIT license. They are bundled only for architecture-diagram and documentation use under the linked provider terms. Their per-file source path, release, terms URL, and SHA-256 digest are recorded in each pack's `catalog.json`. No vendor library in this edition is bundled without an established grant: `tests/unit/test_artwork_licensing.py` pins the count of `vendor-unverified` icons at zero. The one logo without a grant is Redpanda's, under Project logos below.
+
+## Project logos
+
+Two brand marks no icon library carries are taken from the project's own
+repository, pinned to a commit, and kept unmodified in
+`scripts/vendor/icons/official/` (the table is `OFFICIAL` in
+`scripts/build/icons.py`). The gallery draws each in one colour; Redpanda's
+white panda becomes a cut-out of its disc.
+
+- **Valkey** — `static/img/Valkey-logo.svg` from
+  https://github.com/valkey-io/valkey-io.github.io at commit
+  `c2a4d37b33afc4cd879d29857d6c6bf3ae952f97`. BSD-3-Clause (Copyright 2024
+  Linux Foundation or its affiliates); the notice ships as
+  [`licenses/valkey.txt`](licenses/valkey.txt). Valkey is a trademark of the
+  Linux Foundation; the licence grants no trademark rights.
+- **Redpanda** — `docs/icon-redpanda.svg` from
+  https://github.com/redpanda-data/redpanda at commit
+  `10932ba73d4c98eeda85ee55d80f2d6a8e01901c`.
+  - **Rights status:** Redpanda publishes the mark in its repository and in
+    its press media kit, with no explicit redistribution terms. It is bundled
+    at the maintainer's direction for architecture-diagram and documentation
+    use only; it is **not** relicensed under Infragram Azure's MIT
+    license, and Redpanda Data's trademark terms apply. If Redpanda objects
+    or clarifies terms that exclude this use, remove it.
 
 ## One-off sourced icons
 
-None. Five glyphs were once fetched straight from vendor pages -- Apache Hop,
+None besides the two project logos above. Five glyphs were once fetched straight from vendor pages -- Apache Hop,
 Pentaho, Dagster, SAS and Stata -- and carried no established redistribution
 grant. No licence-clean brand mark exists for any of the five, so each now
 carries a generic Tabler glyph describing what the tool does rather than a

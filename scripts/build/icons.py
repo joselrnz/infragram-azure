@@ -55,6 +55,8 @@ def vendor_path(slot: str, source: str, source_id: str) -> pathlib.Path:
     if source.startswith("devicon"):
         variant = source.split(":")[1] if ":" in source else "plain"
         return VENDOR_DIR / "devicon" / f"{source_id}-{variant}.svg"
+    if source == "official":
+        return VENDOR_DIR / "official" / f"{source_id}.svg"
     # "url" source — key by slot name so the cache is human-readable
     safe = re.sub(r"[^\w\-]", "_", slot)
     return VENDOR_DIR / "url" / f"{safe}.svg"
@@ -69,6 +71,27 @@ DEVICON_URL = (
     "https://raw.githubusercontent.com/devicons/devicon/master/icons/{name}/{name}-{variant}.svg"
 )
 # For "url" source: source_id is the full URL; blurb should note license
+
+#: Logos taken from the project's own published files, where no icon library
+#: carries the mark. Each is pinned to the commit it was read at, and kept
+#: unmodified in scripts/vendor/icons/official/. THIRD_PARTY_LICENSES.md says
+#: what each one may be used for; a test holds every entry to that.
+OFFICIAL: dict[str, dict[str, str]] = {
+    "valkey": {
+        "owner": "Valkey",
+        "repository": "valkey-io/valkey-io.github.io",
+        "path": "static/img/Valkey-logo.svg",
+        "commit": "c2a4d37b33afc4cd879d29857d6c6bf3ae952f97",
+        "licence": "BSD-3-Clause",
+    },
+    "redpanda": {
+        "owner": "Redpanda Data",
+        "repository": "redpanda-data/redpanda",
+        "path": "docs/icon-redpanda.svg",
+        "commit": "10932ba73d4c98eeda85ee55d80f2d6a8e01901c",
+        "licence": "Redpanda artwork, no redistribution grant",
+    },
+}
 
 
 # (slot_name, source, source_id, blurb)
@@ -175,6 +198,7 @@ ICONS: dict[str, list[tuple[str, str, str, str]]] = {
         ("gcp", "simple", "googlecloud", "Google Cloud."),
         ("postgres", "simple", "postgresql", "PostgreSQL."),
         ("redis", "logz", "redis", "Redis."),
+        ("valkey", "official", "valkey", "Valkey (the Linux Foundation's Redis fork)."),
         ("nginx", "simple", "nginx", "Nginx."),
         ("gitea", "simple", "gitea", "Gitea self-hosted git."),
         ("keycloak", "simple", "keycloak", "Keycloak identity / SSO."),
@@ -414,6 +438,7 @@ ICONS: dict[str, list[tuple[str, str, str, str]]] = {
         ("apacheguacamole", "simple", "apacheguacamole", "Apache Guacamole."),
         ("apacheparquet", "simple", "apacheparquet", "Apache Parquet."),
         ("apachepulsar", "simple", "apachepulsar", "Apache Pulsar."),
+        ("redpanda", "official", "redpanda", "Redpanda (Kafka-compatible streaming)."),
         ("arangodb", "simple", "arangodb", "ArangoDB."),
         ("archlinux", "simple", "archlinux", "Arch Linux."),
         ("arduino", "simple", "arduino", "Arduino."),
@@ -689,6 +714,49 @@ def normalize_url(raw: str) -> str:
     )
 
 
+_CIRCLE = re.compile(r'cx="(?P<cx>[\d.]+)"\s+cy="(?P<cy>[\d.]+)"\s+r="(?P<r>[\d.]+)"')
+_PATH_DATA = re.compile(r'(?<![\w-])d="([^"]+)"')
+
+
+def _circle_path(attributes: str) -> str:
+    """A ``<circle>`` as path data, so it can share one path with others."""
+    found = _CIRCLE.search(attributes)
+    if found is None:
+        raise ValueError(f"a circle without cx, cy and r: {attributes!r}")
+    cx, cy, r = (float(found.group(name)) for name in ("cx", "cy", "r"))
+    return f"M{cx - r:g} {cy:g}a{r:g} {r:g} 0 1 0 {2 * r:g} 0a{r:g} {r:g} 0 1 0 {-2 * r:g} 0Z"
+
+
+def normalize_official(raw: str) -> str:
+    """A project's own logo, in one colour.
+
+    As :func:`normalize_url`, and a two-colour mark whose second colour is
+    white (a panda on a disc) becomes one shape with the white cut out, so
+    the card shows through it in either theme instead of a white figure on
+    a near-white disc in the dark one.
+    """
+    glyph = normalize_url(raw)
+    if 'fill="#fff"' not in glyph:
+        return glyph
+    whole = re.match(r"(<svg\b[^>]*>)(.*)</svg>$", glyph, flags=re.DOTALL)
+    if whole is None:
+        raise ValueError("no <svg> in payload")
+    head, body = whole.groups()
+    shapes = re.findall(r"<(circle|path)\b([^>]*)/>", body)
+    if not shapes or len(shapes) != len(re.findall(r"<[a-z]", body)):
+        raise ValueError("a two-colour logo of anything but circles and paths")
+    parts = []
+    for kind, attributes in shapes:
+        if kind == "circle":
+            parts.append(_circle_path(attributes))
+        else:
+            data = _PATH_DATA.search(attributes)
+            if data is None:
+                raise ValueError(f"a path without data: {attributes!r}")
+            parts.append(data.group(1))
+    return f'{head}<path fill-rule="evenodd" d="{" ".join(parts)}"/></svg>'
+
+
 def normalize_devicon(raw: str) -> str:
     """Devicon SVGs have colored fills and a 128x128 or 32x32 viewBox.
     Strip fills/classes and rewrite to 24x24 currentColor."""
@@ -763,6 +831,17 @@ def resolve_source(
             normalize_devicon,
             f"Devicon / `{source_id}-{variant}` (MIT)",
             lambda: fetch_devicon(source_id, variant),
+        )
+    if source == "official":
+        entry = OFFICIAL[source_id]
+        url = (
+            f"https://raw.githubusercontent.com/{entry['repository']}/"
+            f"{entry['commit']}/{entry['path']}"
+        )
+        return (
+            normalize_official,
+            f"{entry['owner']} / `{entry['repository']}` `{entry['path']}` ({entry['licence']})",
+            lambda: fetch(url),
         )
     if source == "inline":
         # An original drawing kept in this table: source_id is the SVG body,
@@ -847,8 +926,11 @@ def build() -> tuple[list[str], list[str]]:
         "https://github.com/tabler/tabler-icons\n- **Simple Icons** — CC0 — "
         "https://github.com/simple-icons/simple-icons\n- **Devicon** — MIT "
         "— https://github.com/devicons/devicon\n- **log-z/logos** — MIT — "
-        "https://github.com/log-z/logos\n\nEvery glyph in this gallery comes "
-        "from one of these four libraries, whose licences permit "
+        "https://github.com/log-z/logos\n- **Project logos** — the Valkey "
+        "(BSD-3-Clause) and Redpanda marks, from each project's own "
+        "repository at a pinned commit; THIRD_PARTY_LICENSES.md says what "
+        "each may be used for\n\nEvery other glyph in this gallery comes "
+        "from one of those four libraries, whose licences permit "
         "redistribution, including in this repository's MIT-licensed "
         "source. Where no licence-clean brand mark exists (Apache Hop, "
         "Pentaho, Dagster, SAS, Stata), the component draws a generic "

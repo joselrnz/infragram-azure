@@ -123,3 +123,40 @@ def test_the_gallery_ships_nothing_it_cannot_redistribute() -> None:
     ]
     assert flagged == [], flagged
     assert "Direct fetch /" not in gallery, "a glyph is sourced from a vendor page again"
+
+
+def _official_logos() -> dict[str, dict[str, str]]:
+    """The OFFICIAL table of scripts/build/icons.py, read without running it."""
+    import ast
+
+    source = (ROOT / "scripts/build/icons.py").read_text(encoding="utf-8")
+    for node in ast.parse(source).body:
+        if isinstance(node, ast.AnnAssign) and getattr(node.target, "id", None) == "OFFICIAL":
+            assert node.value is not None
+            table = ast.literal_eval(node.value)
+            assert isinstance(table, dict)
+            return table
+    raise AssertionError("scripts/build/icons.py has no OFFICIAL table")
+
+
+def test_every_project_logo_is_pinned_kept_and_accounted_for() -> None:
+    """A logo taken from a project's own repository is the exception the
+    gallery allows, and only with its paper trail: a pinned commit, the
+    unmodified file kept beside the others, its entry in
+    THIRD_PARTY_LICENSES.md, and the gallery naming where it came from."""
+    logos = _official_logos()
+    assert logos, "no project logos: drop this test with the table"
+    notices = (ROOT / "THIRD_PARTY_LICENSES.md").read_text(encoding="utf-8")
+    gallery = (ROOT / "skills/infragram-azure/references/primitive-icons.md").read_text(
+        encoding="utf-8"
+    )
+    for slot, entry in logos.items():
+        assert len(entry["commit"]) == 40, f"{slot}: pin a full commit, not a branch"
+        assert (ROOT / "scripts/vendor/icons/official" / f"{slot}.svg").is_file(), slot
+        assert entry["commit"] in notices and entry["path"] in notices, (
+            f"{slot} is not recorded in THIRD_PARTY_LICENSES.md"
+        )
+        assert f"`{entry['repository']}` `{entry['path']}`" in gallery, slot
+    # a permissive logo ships its notice; one without a grant says so
+    assert (ROOT / "licenses/valkey.txt").is_file()
+    assert "Rights status:** Redpanda" in notices

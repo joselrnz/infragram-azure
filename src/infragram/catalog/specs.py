@@ -480,7 +480,15 @@ SHARED_PRIMITIVE_SPECS = (
         ("postgres", "sql"),
     ),
     PrimitiveComponentSpec(
-        "brand-redis", "Redis", "Redis-compatible cache", "databases", "redis", ("cache", "valkey")
+        "brand-redis", "Redis", "Redis-compatible cache", "databases", "redis", ("cache",)
+    ),
+    PrimitiveComponentSpec(
+        "brand-valkey",
+        "Valkey",
+        "Redis-compatible in-memory store",
+        "databases",
+        "valkey",
+        ("valkey", "cache", "key value", "redis fork"),
     ),
     PrimitiveComponentSpec(
         "brand-nginx",
@@ -2112,6 +2120,14 @@ SHARED_PRIMITIVE_SPECS = (
         "integration",
         "apachepulsar",
         ("pulsar", "pub/sub", "streaming"),
+    ),
+    PrimitiveComponentSpec(
+        "brand-redpanda",
+        "Redpanda",
+        "Kafka-compatible streaming",
+        "integration",
+        "redpanda",
+        ("redpanda", "kafka compatible", "streaming", "event log"),
     ),
     PrimitiveComponentSpec(
         "brand-arangodb",

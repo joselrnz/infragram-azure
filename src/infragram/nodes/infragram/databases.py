@@ -110,6 +110,13 @@ class BrandTimescale(_Databases):
     TYPE = "TimescaleDB"
 
 
+class BrandValkey(_Databases):
+    """Valkey."""
+
+    ICON = "brand-valkey"
+    TYPE = "Valkey"
+
+
 class BrandVitess(_Databases):
     """Vitess."""
 
@@ -160,6 +167,7 @@ __all__ = [
     "BrandSqlite",
     "BrandTidb",
     "BrandTimescale",
+    "BrandValkey",
     "BrandVitess",
     "GenericCache",
     "GenericDatabase",

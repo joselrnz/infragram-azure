@@ -571,6 +571,15 @@ Redis.
 
 Source: log-z/logos / `redis` (MIT)
 
+### valkey
+Valkey (the Linux Foundation's Redis fork).
+
+```svg
+<svg aria-hidden="true" width="24" height="24" viewBox="0 0 64 73" fill="currentColor"><g id="Group-copy"> <path id="Path" fill="currentColor" fill-rule="evenodd" stroke="none" d="M 13.482285 60.694962 L 0.998384 52.884399 L 0.998384 19.502914 L 31.527868 2.001205 L 61.317604 19.532024 L 61.317604 54.64489 L 31.054855 71.68927 L 20.548372 65.115807 L 20.548372 51.041328 L 20.548372 49.119896 L 14.851504 45.555508 L 14.851504 27.453159 L 31.346497 17.99712 L 47.464485 27.482262 L 47.464485 46.451157 L 34.703495 53.638138 L 34.703495 45.998573 C 38.52874 44.52552 41.274452 40.739189 41.274452 36.270489 C 41.274452 30.510658 36.712814 25.88438 31.158138 25.88438 C 25.603172 25.88438 21.041817 30.510658 21.041817 36.270489 C 21.041817 40.739189 23.787249 44.52552 27.612494 45.998573 L 27.612494 60.473576 L 31.261133 62.756348 L 53.635483 50.15464 L 53.635483 23.924595 L 31.477489 10.884869 L 8.680504 23.953705 L 8.680504 48.628967 L 13.482285 51.633297 L 13.482285 60.694962 Z M 31.158138 31.498383 C 33.671822 31.498383 35.660439 33.664162 35.660439 36.270489 C 35.660439 38.876804 33.671822 41.042587 31.158138 41.042587 C 28.644447 41.042587 26.655558 38.876804 26.655558 36.270489 C 26.655558 33.664162 28.644447 31.498383 31.158138 31.498383 Z" /> </g></svg>
+```
+
+Source: Valkey / `valkey-io/valkey-io.github.io` `static/img/Valkey-logo.svg` (BSD-3-Clause)
+
 ### nginx
 Nginx.
 
@@ -2536,6 +2545,15 @@ Apache Pulsar.
 
 Source: Simple Icons / `apachepulsar` (CC0)
 
+### redpanda
+Redpanda (Kafka-compatible streaming).
+
+```svg
+<svg aria-hidden="true" width="24" height="24" viewBox="0 0 300 300" fill="currentColor"><path fill-rule="evenodd" d="M0 150a150 150 0 1 0 300 0a150 150 0 1 0 -300 0Z M252 85.5363L230.146 73L183.46 99.7789V100.589L150.5 81.6826L117.54 100.589V99.7789L70.8542 73L49 85.5363V155.03V188.778L150.5 247L252 188.778V155.03V85.5363ZM196.728 107.381L230.152 88.2109L238.746 93.1385V132.203L196.735 108.106V107.388L196.728 107.381ZM62.2677 93.1385L70.8608 88.2109L104.285 107.381V108.099L62.2743 132.197V93.1319L62.2677 93.1385ZM177.062 216.545L150.507 231.776L123.951 216.545V191.433L150.507 176.202L177.062 191.433V216.545ZM238.739 181.169L212.091 196.459V165.662L150.507 130.339L88.9224 165.662V196.459L62.2677 181.169V147.513L150.507 96.9L238.746 147.513V181.169H238.739Z"/></svg>
+```
+
+Source: Redpanda Data / `redpanda-data/redpanda` `docs/icon-redpanda.svg` (Redpanda artwork, no redistribution grant)
+
 ### arangodb
 ArangoDB.
 
@@ -3308,7 +3326,8 @@ Source: Tabler Icons / `file-type-txt` (MIT)
 - **Simple Icons** — CC0 — https://github.com/simple-icons/simple-icons
 - **Devicon** — MIT — https://github.com/devicons/devicon
 - **log-z/logos** — MIT — https://github.com/log-z/logos
+- **Project logos** — the Valkey (BSD-3-Clause) and Redpanda marks, from each project's own repository at a pinned commit; THIRD_PARTY_LICENSES.md says what each may be used for
 
-Every glyph in this gallery comes from one of these four libraries, whose licences permit redistribution, including in this repository's MIT-licensed source. Where no licence-clean brand mark exists (Apache Hop, Pentaho, Dagster, SAS, Stata), the component draws a generic glyph that says what the tool does.
+Every other glyph in this gallery comes from one of those four libraries, whose licences permit redistribution, including in this repository's MIT-licensed source. Where no licence-clean brand mark exists (Apache Hop, Pentaho, Dagster, SAS, Stata), the component draws a generic glyph that says what the tool does.
 
 Brand logos retain their respective trademarks; an icon licence never grants trademark rights. This set is for documentation and illustrative use only.

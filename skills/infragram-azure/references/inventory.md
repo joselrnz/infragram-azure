@@ -6,7 +6,7 @@ libraries actually ship, or when any component's artwork fails to decode.
 Do not edit by hand. The same inventory with a picture of every icon and
 frame is kept in the repository's `docs/inventory/` folder.
 
-**3 libraries · 827 vendor icons (30 still in the generic `custom` category) · 370 shared primitives · 40 frames in 4 groups · 3 starter stacks · 4 templates.**
+**3 libraries · 827 vendor icons (30 still in the generic `custom` category) · 372 shared primitives · 40 frames in 4 groups · 3 starter stacks · 4 templates.**
 
 ## Libraries
 
@@ -25,7 +25,7 @@ is catalog work, not missing artwork.
 - **Azure** (715): ai-machine-learning 48, analytics 38, compute 59, containers 15, custom 30, databases 43, devops 44, governance 79, hybrid-multicloud 26, identity 42, integration 42, internet-of-things 56, mobile 26, networking 72, power-platform 4, security 23, storage 34, web 34
 - **Kubernetes** (34): containers 34
 - **Databricks** (78): ai-machine-learning 17, analytics 18, devops 11, governance 9, integration 15, storage 8
-- **Shared primitives** (370, every library): ai-machine-learning 4, analytics 37, compute 50, containers 14, custom 5, databases 19, devops 32, governance 1, hybrid-multicloud 5, identity 16, integration 48, internet-of-things 17, mobile 2, networking 45, security 35, storage 29, web 11
+- **Shared primitives** (372, every library): ai-machine-learning 4, analytics 37, compute 50, containers 14, custom 5, databases 20, devops 32, governance 1, hybrid-multicloud 5, identity 16, integration 49, internet-of-things 17, mobile 2, networking 45, security 35, storage 29, web 11
 
 ## Frames
 

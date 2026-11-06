@@ -145,6 +145,13 @@ class BrandPulsar(_Integration):
     TYPE = "Apache Pulsar"
 
 
+class BrandRedpanda(_Integration):
+    """Redpanda."""
+
+    ICON = "brand-redpanda"
+    TYPE = "Redpanda"
+
+
 class BrandRocketChat(_Integration):
     """Rocket.Chat."""
 
@@ -368,6 +375,7 @@ __all__ = [
     "BrandOdoo",
     "BrandPaypal",
     "BrandPulsar",
+    "BrandRedpanda",
     "BrandRocketChat",
     "BrandRoundcube",
     "BrandSAP",

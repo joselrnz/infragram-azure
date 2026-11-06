@@ -207,6 +207,20 @@ class BrandTimescale(_Databases):
         **attributes: Any,
     ) -> None: ...
 
+class BrandValkey(_Databases):
+    def __init__(
+        self,
+        name: str,
+        detail: str | None = ...,
+        *,
+        role: str | None = ...,
+        id: str | None = ...,
+        icon: str | None = ...,
+        accent: str | None = ...,
+        brand: str | None = ...,
+        **attributes: Any,
+    ) -> None: ...
+
 class BrandVitess(_Databases):
     def __init__(
         self,
