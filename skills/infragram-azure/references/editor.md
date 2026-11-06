@@ -57,6 +57,10 @@ menu entry shows a tick while it is on, and it ends on that entry, on
   components and frames changed in the week before the read, or with a
   Defender for Cloud or Azure Policy finding. Listed only when the page
   holds some.
+- **Show what changed since the last read**, on a page drawn with
+  `export:azure --refresh`: the components and frames added or changed since
+  the read the earlier diagram came from. What was removed has nothing left to
+  light, so the status line names it. Listed only on a refreshed page.
 - A tag, listed as `Show env=prod (2)`: the components wearing it. Up to
   twelve tags are listed, the most worn first. Tags come from `.tags(env="prod")` in a diagram file,
   from a resource's tags on import, and from a Kubernetes workload's labels.

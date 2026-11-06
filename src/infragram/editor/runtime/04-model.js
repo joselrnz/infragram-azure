@@ -69,7 +69,7 @@
   // the way a flow does, and end the way it ends: what depends on a card,
   // what the internet reaches, what is priced, what wears a tag, what an
   // Azure import found changed lately or raised findings about.
-  const LENSES = ['dependents', 'internet', 'cost', 'tag', 'changes', 'findings'];
+  const LENSES = ['dependents', 'internet', 'cost', 'tag', 'changes', 'findings', 'refresh'];
   const INTERNET_COMPONENTS = new Set(['public-users', 'public-user', 'public-internet']);
   const nodeIsInternet = node => INTERNET_COMPONENTS.has(String(node.componentId || '').split(':').pop());
   const nodeTags = node => {
@@ -101,6 +101,18 @@
     return changes.items.some(change => read - Date.parse(change.when) <= RECENT_DAYS * 864e5);
   };
   const hasFindings = item => Boolean(itemFindings(item));
+  // What export:azure --refresh found added or changed since the read the
+  // diagram was drawn from (discovery/refresh.py); what was removed has no
+  // element left, and the document's root lists it.
+  const refreshedSince = item => ['added', 'changed'].includes(item?.attributes?.refresh?.status);
+  const refreshSummary = () => {
+    const account = originalProject?.topology?.attributes?.refresh || {};
+    const removed = Array.isArray(account.removed) ? account.removed : [];
+    const counts = [`${Number(account.added) || 0} added`, `${Number(account.changed) || 0} changed`,
+      `${removed.length} removed`].join(', ');
+    const gone = removed.length ? `: ${removed.slice(0, 5).map(item => item.name).join(', ')}${removed.length > 5 ? ', …' : ''}` : '';
+    return `Since the last read, ${counts}${gone}`;
+  };
   const showLens = lens => {
     clearSelection();
     flowFocus = lens;
@@ -144,8 +156,8 @@
       const most = Math.max(0, ...priced.map(nodeMonthly));
       heat = new Map(priced.map(node => [node.id, most ? nodeMonthly(node) / most : 0]));
       nodes = new Set(heat.keys());
-    } else if (lens.type === 'changes' || lens.type === 'findings') {
-      const lit = lens.type === 'changes' ? changedLately : hasFindings;
+    } else if (lens.type === 'changes' || lens.type === 'findings' || lens.type === 'refresh') {
+      const lit = {changes: changedLately, findings: hasFindings, refresh: refreshedSince}[lens.type];
       nodes = new Set(state.nodes.filter(lit).map(node => node.id));
       ownFrames = state.boundaries.filter(lit).map(frame => frame.id);
     } else {

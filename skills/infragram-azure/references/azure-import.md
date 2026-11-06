@@ -208,6 +208,45 @@ the resource groups and every resource row with its properties, then the
 resource ids, names, tags and configuration, so treat it like the
 subscription's inventory, not like a public file.
 
+## Reading it again
+
+`--refresh` redraws an earlier diagram from a new read and keeps the work
+done on it:
+
+```text
+infragram export:azure --refresh azure-production-network.infragram.json \
+  --since estate.json --snapshot-out estate-2.json
+```
+
+- **What the reader did stays.** A card moved, a frame resized or a style set
+  in the editor is written back into the document, and the refresh gives it to
+  the element drawn for the same resource now, matched by its Resource ID.
+  The earlier diagram can be the `.infragram.json`, or a page or picture saved
+  from the editor, since those carry the document. What is new is laid out as
+  on a first read, so look over where it landed.
+- **What changed is marked.** With `--since`, the snapshot the earlier diagram
+  was drawn from, the two reads are compared resource by resource. Each added
+  or changed element carries `refresh` (a change names its fields, such as
+  `sku` or `properties.networkAcls`), and the root lists what was removed. In
+  the page, **Show what changed since the last read** (right-click empty
+  canvas) lights them. Fields Azure rewrites by itself, such as
+  `provisioningState`, are not counted as changes. Without `--since`, added
+  and removed still show, from the Resource IDs on the earlier cards, but
+  nothing can be called changed.
+- **The same subscriptions are read.** With no subscription named, those in
+  the `--since` snapshot are read again. `--from-snapshot` replays a newer
+  snapshot instead of calling Azure.
+- **One diagram per refresh.** Give the earlier diagram's `--view` (network or
+  groups), not `both`. The new files keep its name. A file edited since it
+  was written is refused unless `--force` is given, or use another
+  `--output-dir`.
+
+The command prints the account (`1 added, 1 changed, 1 removed since …`,
+then a line for each) and exits 4 when anything changed, 0 when nothing did.
+A scheduled job can run it against Azure (without `--from-snapshot`) and act
+on that status. It only reads; nothing in Azure is created, changed or
+deleted.
+
 ## From Python
 
 ```python

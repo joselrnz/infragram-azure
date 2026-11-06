@@ -12,6 +12,11 @@ named, the one ``az account show`` reports is drawn.
     infragram export:azure --list-subscriptions
     infragram export:azure --snapshot-out prod.json         # keep what was read ...
     infragram export:azure --from-snapshot prod.json        # ... and redraw it offline
+    infragram export:azure --refresh prod-network.infragram.json --since prod.json  # read again
+
+Exit status: 0 drawn; 1 the export failed --verify; 2 an option, a file or the
+export was wrong; 3 az failed. With --refresh: 4 drawn, and something changed
+since the earlier read (0 means nothing did), so a scheduled job can tell.
 """
 
 from __future__ import annotations
@@ -32,6 +37,7 @@ if ROOT is not None:
 
 from infragram import compose  # noqa: E402
 from infragram.cli.user.checker import checker  # noqa: E402
+from infragram.cli.user.diff import load_any  # noqa: E402
 from infragram.cli.user.export_project import price_for_export  # noqa: E402
 from infragram.cli.user.options import (  # noqa: E402
     add_export_options,
@@ -48,6 +54,7 @@ from infragram.discovery import (  # noqa: E402
     load_snapshot,
     save_snapshot,
 )
+from infragram.discovery.refresh import carry_layout, compare, mark  # noqa: E402
 from infragram.exports import ExportError  # noqa: E402
 from infragram.exports.written import blocking  # noqa: E402
 from infragram.patterns import PatternError  # noqa: E402
@@ -132,6 +139,24 @@ def build_parser() -> argparse.ArgumentParser:
         help="print the subscriptions az can see and exit",
     )
 
+    again = parser.add_argument_group("reading it again")
+    again.add_argument(
+        "--refresh",
+        type=Path,
+        metavar="DIAGRAM",
+        help="redraw this earlier export:azure diagram (a .infragram.json, or a page or picture "
+        "that carries one) from the new read: what the reader moved or restyled keeps its "
+        "place, what is new is laid out, and what changed is marked; exits 4 when something did",
+    )
+    again.add_argument(
+        "--since",
+        type=Path,
+        metavar="SNAPSHOT",
+        help="the snapshot the earlier diagram was drawn from, so --refresh can say what "
+        "changed and not only what was added or removed; its subscriptions are read again "
+        "when none is named",
+    )
+
     drawing = parser.add_argument_group("how to draw it")
     drawing.add_argument(
         "--view",
@@ -201,6 +226,12 @@ def main(argv: list[str] | None = None) -> int:
                 f"refusing to overwrite {options.snapshot_out}: this tool did not write it, "
                 "or it was edited since (pass --force to replace it)"
             )
+        previous = load_any(options.refresh) if options.refresh else None
+        earlier = load_snapshot(options.since) if options.since else None
+        if previous is not None and options.view == "both":
+            raise ValueError("--refresh redraws one diagram: give its --view, network or groups")
+        if earlier is not None and previous is None:
+            raise ValueError("--since names the read an earlier diagram came from: add --refresh")
         if options.from_snapshot:
             snapshot = load_snapshot(options.from_snapshot)
         else:
@@ -212,11 +243,17 @@ def main(argv: list[str] | None = None) -> int:
                 if options.management_group
                 else []
             )
-            if options.subscription or options.all_subscriptions or not chosen:
+            again = (
+                [entry["id"] for entry in earlier.get("subscriptions") or []]
+                if earlier is not None
+                and not (options.subscription or options.all_subscriptions or chosen)
+                else []
+            )
+            if options.subscription or options.all_subscriptions or again or not chosen:
                 chosen += [
                     entry
                     for entry in session.resolve(
-                        options.subscription, every=options.all_subscriptions
+                        options.subscription or again, every=options.all_subscriptions
                     )
                     if entry["id"] not in {c["id"] for c in chosen}
                 ]
@@ -230,6 +267,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"SNAPSHOT {saved}")
 
         clean = True
+        changed = False
         for view in views:
             settings = ImportOptions(
                 view=view,
@@ -241,10 +279,23 @@ def main(argv: list[str] | None = None) -> int:
                 display="icon" if options.display == "icon" else "card",
             )
             slug = f"{options.slug}-{view}" if options.slug and len(views) > 1 else options.slug
+            if previous is not None and not slug:
+                slug = previous.slug
             plan, summary = blueprint(
                 snapshot, settings, slug=slug, title=options.title, theme=options.theme
             )
-            project = with_overrides(plan.to_project(), options)
+            project = plan.to_project()
+            if previous is not None:
+                kept = carry_layout(previous, project)
+                refresh = compare(snapshot, earlier=earlier, previous=previous)
+                mark(project, refresh)
+                changed = changed or refresh.any
+                print(
+                    f"REFRESH  {project.slug} · {kept} element(s) kept where the reader left them"
+                )
+                for line in refresh.lines():
+                    print(f"         {line}")
+            project = with_overrides(project, options)
             price_notes = price_for_export(project, options)
             drawn = formats
             if not summary.resources and not summary.networks:
@@ -304,7 +355,7 @@ def main(argv: list[str] | None = None) -> int:
     if not clean:
         print("ERROR: the export did not pass verification", file=sys.stderr)
         return 1
-    return 0
+    return 4 if changed else 0
 
 
 if __name__ == "__main__":

@@ -144,7 +144,7 @@
       cost.disabled = !state.nodes.some(node => nodeMonthly(node) !== null);
       cost.setAttribute('aria-checked', String(lensActive('cost')));
       // what an Azure import read: offered only where it read something
-      [['changes', changedLately], ['findings', hasFindings]].forEach(([type, lit]) => {
+      [['changes', changedLately], ['findings', hasFindings], ['refresh', refreshedSince]].forEach(([type, lit]) => {
         const entry = contextMenu.querySelector(`[data-context-action="lens-${type}"]`);
         if (!entry) return;
         entry.hidden = ![...state.nodes, ...state.boundaries].some(lit);
@@ -400,10 +400,15 @@
         'lens-cost': {type: 'cost'},
         'lens-changes': {type: 'changes'},
         'lens-findings': {type: 'findings'},
+        'lens-refresh': {type: 'refresh'},
         'lens-tag': {type: 'tag', key, value: rest.join('=')},
       }[action];
       if (button.getAttribute('aria-checked') === 'true') clearSelection();
-      else showLens(lens);
+      else {
+        showLens(lens);
+        // what was removed has nothing left to light: the status says it
+        if (lens.type === 'refresh') setStatus(refreshSummary());
+      }
       renderGraph();
       return;
     }

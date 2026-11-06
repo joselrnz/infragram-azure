@@ -122,6 +122,7 @@ def context_menu() -> str:
             {menu_item("lens-cost", "Show what costs most", attrs="data-context-canvas-only hidden", role="menuitemcheckbox", glyph="coin")}
             {menu_item("lens-changes", "Show what changed in 7 days", attrs="data-context-canvas-only hidden", role="menuitemcheckbox", glyph="clock")}
             {menu_item("lens-findings", "Show what has findings", attrs="data-context-canvas-only hidden", role="menuitemcheckbox", glyph="shield")}
+            {menu_item("lens-refresh", "Show what changed since the last read", attrs="data-context-canvas-only hidden", role="menuitemcheckbox", glyph="swap")}
             <div class="context-menu-tags" data-context-tags data-context-canvas-only role="group" aria-label="Tags" hidden></div>
             {menu_separator("data-context-canvas")}
             {menu_item("zoom-in", "Zoom in", attrs="data-context-canvas", keys="+", glyph="magnify-plus")}
