@@ -641,7 +641,10 @@ def generate_images(inventory: dict, providers, payload) -> list[Path]:
             frames = sorted(
                 frames_by_group[group], key=lambda c: (c.get("hierarchyLevel", 0), c["name"])
             )
-            provider_id = group if group in registered else "onprem"
+            # the shared frames are drawn under the on-premises library where it
+            # is installed, else under the first library this edition has
+            fallback = "onprem" if "onprem" in registered else min(registered)
+            provider_id = group if group in registered else fallback
             project = CloudProject.model_validate(
                 _frames_project(group, provider_id, display[group], frames)
             )
