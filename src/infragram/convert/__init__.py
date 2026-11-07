@@ -70,8 +70,11 @@ _SUFFIXES = (
     (".md", "markdown"),
     (".markdown", "markdown"),
 )
+#: A %% comment runs to its line's end: with DOTALL a bare .* could also cross
+#: lines, and a file of comment lines took exponential time to refuse.
 _MERMAID_START = re.compile(
-    r"^\s*(?:---.*?---\s*)?(?:%%.*\n\s*)*(?:flowchart|graph|architecture|C4\w+)\b", re.DOTALL
+    r"^\s*(?:---.*?---\s*)?(?:%%[^\n]*\n\s*)*(?:flowchart|graph|architecture|C4\w+)\b",
+    re.DOTALL,
 )
 
 

@@ -20,6 +20,7 @@ carry, but nothing can be said to have changed.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -27,6 +28,9 @@ from ..models.topology import TopologyElement
 from ..projects import CloudProject
 
 __all__ = ["Refresh", "carry_layout", "compare", "mark"]
+
+#: Characters a terminal acts on rather than prints.
+_CONTROL = re.compile(r"[\x00-\x08\x0b-\x1f\x7f-\x9f]")
 
 #: The fields of a resource whose difference is a change. Properties are
 #: compared one key down, so a change names what moved ("properties.sku").
@@ -145,7 +149,10 @@ class Refresh:
         ]
         if not self.compared:
             out.append("NOTE     no earlier snapshot (--since), so changes cannot be told")
-        return out
+        # names come from Azure and from an earlier diagram someone may have
+        # written by hand: a control character is printed as its code, so a
+        # name can never move the cursor or recolour the terminal
+        return [_CONTROL.sub(lambda m: f"\\x{ord(m.group()):02x}", line) for line in out]
 
 
 def compare(

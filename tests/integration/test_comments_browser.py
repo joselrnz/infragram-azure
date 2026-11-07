@@ -133,6 +133,13 @@ def test_comments_survive_a_rename_and_a_reload_and_come_back_through_an_export(
             }
             assert by_text["Is this VM still needed?"]["author"] == "Ana"
 
+            # a page saved from the editor carries none of this reader's
+            # comments: they are the browser's until downloaded
+            saved_page = page.evaluate("() => window.infragramEditor.exportHtml()")
+            assert "still needed" not in saved_page and "Peer this" not in saved_page
+            # no marker on the card (the runtime's own source names the attribute)
+            assert f'data-comment-item="{ids["vm"]}"' not in saved_page
+
             # no picture carries a comment, even with markers on the canvas
             svg = page.evaluate("() => window.infragramEditor.exportSvg()")
             assert "data-comment-marker" not in svg and "still needed" not in svg

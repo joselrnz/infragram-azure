@@ -156,3 +156,36 @@ def test_without_the_earlier_snapshot_only_added_and_removed_are_told(tmp_path: 
 
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(pytest.main([__file__]))
+
+
+def test_refresh_reads_an_earlier_diagram_and_never_runs_one(tmp_path: Path, capsys) -> None:
+    """A .py diagram file is a program: --refresh refuses it rather than run
+    whatever a colleague sent as "the earlier diagram"."""
+    command = _command()
+    planted = tmp_path / "prod-network.py"
+    marker = tmp_path / "ran"
+    planted.write_text(f"open({str(marker)!r}, 'w').close()\n", encoding="utf-8")
+    first = save_snapshot(snapshot(), tmp_path / "estate.json")
+    code = command.main(
+        [
+            "--refresh",
+            str(planted),
+            "--from-snapshot",
+            str(first),
+            "--output-dir",
+            str(tmp_path / "o"),
+        ]
+    )
+    assert code == 2
+    assert "not a diagram file that would run" in capsys.readouterr().err
+    assert not marker.exists()
+
+
+def test_a_name_cannot_drive_the_terminal() -> None:
+    later = _later()
+    for item in later["resources"]:
+        if item["name"] == "kv-prod":
+            item["name"] = "kv\x1b[2J\x1b[31mprod"
+    printed = "\n".join(compare(later, earlier=snapshot()).lines())
+    assert "\x1b" not in printed
+    assert r"kv\x1b[2J\x1b[31mprod" in printed

@@ -19,7 +19,7 @@ private channel.
 
 | Version | Security fixes |
 |---|---|
-| 0.1.71 | yes |
+| 0.1.72 | yes |
 
 Fixes land on `main`. An exported page carries the editor of the version that
 wrote it, so a fix in the editor reaches an existing page only when it is
@@ -36,7 +36,9 @@ What Infragram Azure runs, reads and reaches, as the code does it.
   `export:set` (every `*.py` in the folder it is given), and so do `diff`,
   `views`, `costs`, `check:policy` and `check:terraform` when they are handed
   a `.py` file. Treat a diagram file like any script: read one you did not
-  write before you run it.
+  write before you run it. `export:azure --refresh` is the exception that
+  never runs one: it reads an earlier diagram as a document, page or picture,
+  and refuses a `.py` file.
 - **The MCP server runs diagram files too.** Its `compose` tool runs a
   diagram file, and `compose_source` writes the Python source the client
   sends and then runs it. An agent given the server can run Python as you, in
@@ -63,7 +65,13 @@ What Infragram Azure runs, reads and reaches, as the code does it.
   carried into the page in a JSON script that cannot close itself, and shown
   as text. Comments written in a page stay in that browser's local storage
   until the reader downloads them; the page sends them nowhere, and no SVG,
-  PNG or draw.io carries one.
+  PNG or draw.io carries one. A page opened from a file shares the browser's
+  storage with every other page opened from a file, keyed by the diagram's
+  slug: a page someone sends with the same slug as one of yours opens your
+  saved workspace and comments for that diagram. Nothing leaves the browser
+  unless you download it, but open pages from people you trust, or use
+  `?fresh=` for a separate workspace. A comment's author is whatever name was
+  typed; nothing verifies it.
 - **draw.io and Visio files** go through `infragram.convert.xmlsafe`, which
   refuses any `ENTITY` declaration and any `DOCTYPE` with an internal subset
   before the standard library parses the file. A compressed page or a

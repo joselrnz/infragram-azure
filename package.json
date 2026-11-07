@@ -1,6 +1,6 @@
 {
   "name": "infragram-azure",
-  "version": "0.1.71",
+  "version": "0.1.72",
   "description": "Interactive, local-first infrastructure diagram editor and exporter for Azure, Kubernetes and Databricks. Design and import architecture diagrams, retain editable source in exported images, compare revisions, estimate costs, check policies, and export Terraform skeletons. Discover Azure subscriptions and Kubernetes clusters read-only, or redraw saved Azure snapshots offline.",
   "license": "MIT",
   "author": "Infragram Azure",

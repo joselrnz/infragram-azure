@@ -97,3 +97,5 @@ Publishing to Pages is a CI recipe in the docs and needs no code.
   carry discussion.
 - The file is plain JSON in the repository, so who said what is in git's
   history, not in a database.
+- An author's name is whatever the reviewer typed: nothing verifies it.
+  Who committed a comments file, in git, is the record to trust.

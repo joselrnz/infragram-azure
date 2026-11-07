@@ -107,10 +107,11 @@
   const refreshedSince = item => ['added', 'changed'].includes(item?.attributes?.refresh?.status);
   const refreshSummary = () => {
     const account = originalProject?.topology?.attributes?.refresh || {};
-    const removed = Array.isArray(account.removed) ? account.removed : [];
+    const removed = Array.isArray(account.removed)
+      ? account.removed.filter(item => item && typeof item === 'object') : [];
     const counts = [`${Number(account.added) || 0} added`, `${Number(account.changed) || 0} changed`,
       `${removed.length} removed`].join(', ');
-    const gone = removed.length ? `: ${removed.slice(0, 5).map(item => item.name).join(', ')}${removed.length > 5 ? ', …' : ''}` : '';
+    const gone = removed.length ? `: ${removed.slice(0, 5).map(item => String(item.name || item.type || 'a resource')).join(', ')}${removed.length > 5 ? ', …' : ''}` : '';
     return `Since the last read, ${counts}${gone}`;
   };
   const showLens = lens => {

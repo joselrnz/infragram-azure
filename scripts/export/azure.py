@@ -145,7 +145,8 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         metavar="DIAGRAM",
         help="redraw this earlier export:azure diagram (a .infragram.json, or a page or picture "
-        "that carries one) from the new read: what the reader moved or restyled keeps its "
+        "that carries one; never a .py file, which would run) from the new read: what the "
+        "reader moved or restyled keeps its "
         "place, what is new is laid out, and what changed is marked; exits 4 when something did",
     )
     again.add_argument(
@@ -225,6 +226,13 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError(
                 f"refusing to overwrite {options.snapshot_out}: this tool did not write it, "
                 "or it was edited since (pass --force to replace it)"
+            )
+        # the earlier diagram is read, never run: a .py diagram file is a
+        # program, so it is composed on purpose first, not handed in here
+        if options.refresh and options.refresh.suffix.casefold() == ".py":
+            raise ValueError(
+                f"--refresh reads a document, page or picture, not a diagram file that would run: "
+                f"compose {options.refresh.name} first and refresh what it wrote"
             )
         previous = load_any(options.refresh) if options.refresh else None
         earlier = load_snapshot(options.since) if options.since else None

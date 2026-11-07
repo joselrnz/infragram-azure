@@ -408,7 +408,21 @@
     return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(xml);
   };
   const exportHtml = () => {
+    // a page is saved whole, whatever frame is open (34-drill-down)
+    if (drillPath.length) return wholeDrawing(() => exportHtml());
     const copy = document.documentElement.cloneNode(true);
+    // Comments written here are this browser's until they are downloaded:
+    // a saved page carries only those it was exported with, in their script
+    // (35-comments), never this reader's list, markers or count.
+    copy.querySelector('[data-comments-list]')?.replaceChildren();
+    copy.querySelector('[data-comments-panel]')?.setAttribute('hidden', '');
+    copy.querySelector('[data-comments-count]')?.replaceChildren();
+    copy.querySelectorAll('[data-comment-marker-layer],[data-drill-stub-layer]').forEach(element => element.remove());
+    const copiedPath = copy.querySelector('[data-drill-path]');
+    if (copiedPath) {
+      copiedPath.replaceChildren();
+      copiedPath.setAttribute('hidden', '');
+    }
     // The page the editor saves carries its state in <script> blocks.
     // HTML looks for an end tag or a comment opener there without regard
     // to case, so the three characters that can start one are escaped;
