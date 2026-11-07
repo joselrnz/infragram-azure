@@ -139,20 +139,44 @@ The maintainer commands need a checkout of the repository; `infragram --help` li
 
 ## Install the agent plugin
 
-Use this repository's absolute path in place of `<path-to-infragram-azure>`.
+From GitHub, or use a local checkout's path in place of `joselrnz/infragram-azure`.
 
 ```text
 # Claude Code
-/plugin marketplace add <path-to-infragram-azure>
-/plugin install infragram-azure@infragram-azure
+claude plugin marketplace add joselrnz/infragram-azure
+claude plugin install infragram-azure@infragram-azure
 
 # Codex
-codex plugin marketplace add <path-to-infragram-azure>
+codex plugin marketplace add joselrnz/infragram-azure
 codex plugin add infragram-azure@infragram-azure
 
 # Pi
-pi install <path-to-infragram-azure>
+pi install git:https://github.com/joselrnz/infragram-azure
 ```
+
+### GitHub Copilot, Cursor and other MCP clients
+
+They use two pieces: the MCP server, whose tools draw, check, price and
+export, and the skill. The server needs [uv](https://docs.astral.sh/uv/) and
+runs in the folder the editor opens, so diagrams land in your project.
+
+```text
+# GitHub Copilot in VS Code: the server in your profile
+code --add-mcp '{"name":"infragram","command":"uvx","args":["--from","git+https://github.com/joselrnz/infragram-azure","infragram","mcp"]}'
+# then copy skills/infragram-azure into the project's .github/skills/
+
+# Cursor: in .cursor/mcp.json (or ~/.cursor/mcp.json)
+{"mcpServers": {"infragram": {"command": "uvx", "args": ["--from", "git+https://github.com/joselrnz/infragram-azure", "infragram", "mcp"]}}}
+# then copy skills/infragram-azure into .cursor/skills/
+
+# Codex: the plugin above is enough; for the MCP tools too
+codex mcp add infragram -- uvx --from git+https://github.com/joselrnz/infragram-azure infragram mcp
+```
+
+In VS Code the server can also go in a project's `.vscode/mcp.json` as
+`{"servers": {"infragram": {...}}}`. A skill copied out on its own runs
+through the package installed once:
+`uv tool install "git+https://github.com/joselrnz/infragram-azure[png]"`.
 
 Once installed, the plugin adds these commands: `compose`, `export-project`, `export-azure`, `import`, `discover`, `check` and `check-terraform` (in Claude Code, `/infragram-azure:compose` and so on). A hook checks each diagram an agent writes, and the `diagram-reviewer` agent reviews a finished one.
 
