@@ -291,6 +291,7 @@ UNDRAWN  azurerm_log_analytics_workspace.app: USD 1.50 (priced, not drawn)
 | `<slug>.html` | header, library sidebar (the embedded libraries), search, inspector, drawer (examples, 3D builder), interactive SVG canvas, embedded document and editor state, runtime, the four faces inline | nothing remote - this is the editor |
 | `<slug>.svg` | the editor's own diagram export with its title, description, ARIA relationship, provider artwork, frames, wires, labels, and the faces as inline `@font-face` rules in `<defs>`, cropped to the drawn content plus a 48 px margin | sidebar, inspector, header, grid, guides, handles, selection |
 | `<slug>.png` | the same SVG captured in Chromium at the requested scale, cropped like the SVG, on the `--background` | everything the SVG excludes, and the empty canvas around the content |
+| `<slug>.comments.json` | read, not written: the comments a reviewer downloaded from the page; when it sits beside the document (or the diagram file), the page carries them | the SVG, PNG and draw.io never carry a comment |
 | `<slug>-terraform/` | the diagram's Terraform as a module a concern (`modules/network`, `modules/compute`, ...) of plain resources, and `environments/dev` and `environments/prod` calling each once; a variable for every value the diagram does not state, listed in each environment's `terraform.tfvars.example` ([terraform.md](terraform.md)) |
 | `<slug>-terraform-modules/` | the same layout, each module calling the public registry's maintained module where one fits, pinned ([terraform.md](terraform.md)) |
 
@@ -305,7 +306,9 @@ picture from the same saved positions, and the export says so in its notes.
 The exported HTML works from `file://`: components drag from the library,
 terminals create orthogonal connections, frames contain and move their
 children, layers hide and lock, and the page downloads its current document,
-HTML or SVG without a server. Browser-local recovery keeps edits between
+HTML or SVG without a server. Comments written in the page stay in the browser until **Download
+comments** saves `<slug>.comments.json`; put that beside the document and the
+next export carries them into its page. Browser-local recovery keeps edits between
 reloads; `?fresh=1` opens a separate workspace that ignores saved state.
 Hovering a component shows its name, detail, component id, frame and layer;
 a wire shows what it joins; every node also carries an SVG `<title>`, so the

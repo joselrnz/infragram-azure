@@ -14,6 +14,7 @@ from ..exports import ExportResult, export_project
 from ..models.topology import TopologyElement
 from ..nodes._base import ROOT_ID
 from ..projects import CloudProject, Presentation, ProjectKind, View
+from ..projects.comments import Comments
 from .errors import ComposeError
 from .ids import qualify
 from .inference import infer_kind, infer_providers
@@ -162,6 +163,7 @@ def export(
     renderer: str = "editor",
     routing: str = "around",
     terraform_zip: bool = False,
+    comments: Comments | None = None,
     **project_kwargs,
 ) -> ExportResult:
     """Export a project, or a tree turned into one with ``project_kwargs``.
@@ -201,4 +203,5 @@ def export(
         routing=routing,
         terraform_zip=terraform_zip,
         check=check,
+        comments=comments,
     )

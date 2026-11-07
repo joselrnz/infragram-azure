@@ -9,7 +9,7 @@ edition's own, so the runtime is unchanged.
 from __future__ import annotations
 
 from ..branding import mascot_uri
-from ..components import button, icon_button
+from ..components import button, field, icon_button, text_input
 from ..html import attributes
 from ..icons import icon
 
@@ -116,6 +116,7 @@ def context_menu() -> str:
             {menu_item("edge-reset-route", "Reset route", attrs="data-context-edge-only hidden", glyph="route-reset")}
             {menu_item("reset-label-position", "Reset label position", attrs="hidden", glyph="text")}
             {menu_item("edit-text", "Edit text", glyph="edit")}
+            {menu_item("comment-add", "Add comment", glyph="comment")}
             {menu_item("paste", "Paste here", attrs="data-context-canvas", keys="Ctrl+V", glyph="paste")}
             {menu_separator("data-context-canvas-only hidden")}
             {menu_item("lens-internet", "Show what the internet reaches", attrs="data-context-canvas-only hidden", role="menuitemcheckbox", glyph="globe")}
@@ -253,6 +254,33 @@ def frame_review() -> str:
           </section>"""
 
 
+def comments_panel() -> str:
+    """The comments on this diagram (ADR 0009): a thread per card, frame or
+    wire, the detached ones, and the form a reviewer writes in, in review and
+    in edit alike. The runtime fills it (35-comments); the page sends nothing
+    anywhere."""
+    return f"""          <section class="comments-panel" data-comments-panel role="dialog" aria-labelledby="comments-title" hidden>
+            <header class="comments-panel__header">
+              <strong id="comments-title">Comments</strong>
+              {icon_button("close", "Close comments", attrs="data-comments-close")}
+            </header>
+            <div class="comments-panel__body">
+              <div class="comments-bar">
+                {field("Your name", text_input('data-comment-author maxlength="80" autocomplete="name" placeholder="Shown on what you write"'))}
+                {button("Download comments", variant="outlined", glyph="download", attrs="data-comments-download")}
+              </div>
+              <p class="comments-note" data-comments-note>Comments stay in this browser until you download them.</p>
+              <form class="comments-form" data-comment-form>
+                <p class="comments-target" data-comment-target>Right-click a card, frame or wire and choose Add comment.</p>
+                <label class="md-field comments-field">Comment<textarea class="md-field__input" data-comment-text rows="3" maxlength="4000" disabled></textarea></label>
+                <p class="comments-error" data-comment-error role="alert" hidden></p>
+                <button type="button" class="md-button md-button--filled" data-comment-submit disabled>Add comment</button>
+              </form>
+              <div class="comments-list" data-comments-list aria-live="polite"></div>
+            </div>
+          </section>"""
+
+
 def canvas(diagram: str) -> str:
     """The canvas viewport and everything that floats over it."""
     return f"""        <div class="canvas-pane">
@@ -260,6 +288,7 @@ def canvas(diagram: str) -> str:
 {selection_toolbar()}
 {shortcuts()}
 {frame_review()}
+{comments_panel()}
           <div class="diagram-stage">
 {diagram}
           </div>

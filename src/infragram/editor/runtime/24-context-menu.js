@@ -198,6 +198,8 @@
     }
     const edit = contextMenu.querySelector('[data-context-action="edit-text"]');
     edit.hidden = !['node', 'boundary', 'edge'].includes(type);
+    const comment = contextMenu.querySelector('[data-context-action="comment-add"]');
+    if (comment) comment.hidden = !['node', 'boundary', 'edge'].includes(type);
     edit.disabled = locked;
     const resetLabel = contextMenu.querySelector('[data-context-action="reset-label-position"]');
     if (resetLabel) {
@@ -434,6 +436,7 @@
     else if (action === 'frame-display-card') setFrameDisplayMode(item?.id, 'card');
     else if (action === 'frame-review') openFrameReview(item?.id);
     else if (action === 'frame-open') openFrame(item?.id);
+    else if (action === 'comment-add') openCommentFor(selected?.type, item);
     else if (action === 'delete') deleteSelection();
     else arrangeSelection(action);
   });

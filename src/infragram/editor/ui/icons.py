@@ -69,6 +69,8 @@ ICON_PATHS = {
     "edit": '<path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17z"/><path d="m14 8 3 3"/>',
     "select": '<path d="m6 4 4.5 15 2.3-6.2L19 10.5z"/><path d="m13.5 13.5 5 5"/>',
     "text": '<path d="M5 6V4.5h14V6M12 4.5v15M9 19.5h6"/>',
+    # A speech bubble: comments on the diagram (ADR 0009).
+    "comment": '<path d="M5 5.5h14A1.5 1.5 0 0 1 20.5 7v8a1.5 1.5 0 0 1-1.5 1.5h-8.5l-4 3.5v-3.5H5A1.5 1.5 0 0 1 3.5 15V7A1.5 1.5 0 0 1 5 5.5z"/>',
     # Six dots: the handle a floating bar is dragged by.
     "grip": '<circle cx="9" cy="6" r="1.25" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1.25" fill="currentColor" stroke="none"/>'
     '<circle cx="9" cy="12" r="1.25" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.25" fill="currentColor" stroke="none"/>'

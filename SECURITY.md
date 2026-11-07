@@ -58,6 +58,12 @@ What Infragram Azure runs, reads and reaches, as the code does it.
   frame or wire is written into the picture only when it is a colour (a hex,
   a CSS name, or `rgb()`/`hsl()`); anything else is dropped, and
   `infragram check` fails the document.
+- **A comments file** (`<slug>.comments.json`, ADR 0009) is data, read by
+  the same rules as a document: a fixed format, checked by `infragram check`,
+  carried into the page in a JSON script that cannot close itself, and shown
+  as text. Comments written in a page stay in that browser's local storage
+  until the reader downloads them; the page sends them nowhere, and no SVG,
+  PNG or draw.io carries one.
 - **draw.io and Visio files** go through `infragram.convert.xmlsafe`, which
   refuses any `ENTITY` declaration and any `DOCTYPE` with an internal subset
   before the standard library parses the file. A compressed page or a

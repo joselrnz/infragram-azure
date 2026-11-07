@@ -30,6 +30,7 @@ from ..catalog.fonts import font_style_element
 from ..iso3d import vocabulary as iso3d_vocabulary
 from ..iso3d.bundle import bundle_source as iso3d_bundle_source
 from ..projects import CloudProject
+from ..projects.comments import Comments
 from .bundle import runtime_script, stylesheet
 from .sidebar import (
     _library_payload,
@@ -180,8 +181,18 @@ def script_safe(payload: str) -> str:
     return payload
 
 
-def render_editor_html(project: CloudProject, scene: Scene, *, libraries: str = "project") -> str:
-    """Render the distributable HTML workspace with sidebar and live canvas."""
+def render_editor_html(
+    project: CloudProject,
+    scene: Scene,
+    *,
+    libraries: str = "project",
+    comments: Comments | None = None,
+) -> str:
+    """Render the distributable HTML workspace with sidebar and live canvas.
+
+    ``comments`` ride along in their own script (ADR 0009); the page that
+    pictures are drawn from is rendered without them.
+    """
 
     if libraries not in EMBEDDED_LIBRARIES:
         raise ValueError(f"libraries must be one of {EMBEDDED_LIBRARIES}, not {libraries!r}")
@@ -281,6 +292,11 @@ def render_editor_html(project: CloudProject, scene: Scene, *, libraries: str = 
   <script type="application/json" id="infragram-link-styles">{link_styles_json}</script>
   <script type="application/json" id="infragram-component-links">{component_links_json}</script>
   <script type="application/json" id="infragram-iso3d-vocabulary">{iso3d_json}</script>"""
+    if comments is not None:
+        data_scripts += (
+            '\n  <script type="application/json" id="infragram-comments">'
+            f"{script_safe(comments.page_json())}</script>"
+        )
     if terraform_block:
         data_scripts += f"\n  {terraform_block}"
     return views.page(

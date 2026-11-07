@@ -171,6 +171,7 @@ def _export_one(project, options: argparse.Namespace, view_notes: list[str]) -> 
             formats=formats,
             overwrite=options.force,
             check=checker().check_path if options.verify else None,
+            comments=getattr(options, "comments", None),
             **export_keywords(options),
         )
     except (ExportError, ComposeError, OSError, ValueError) as error:
@@ -203,6 +204,7 @@ def main(argv: list[str] | None = None) -> int:
     from pydantic import ValidationError
 
     from ...projects import CloudProject
+    from ...projects.comments import find_comments, page_comments
 
     options = build_parser().parse_args(argv)
     if not options.source.is_file():
@@ -223,7 +225,13 @@ def main(argv: list[str] | None = None) -> int:
             project = CloudProject.model_validate(payload)
         else:
             project = CloudProject.load(options.source)
+        # the comments beside the document, else those a page already carries
+        options.comments = find_comments(options.source.parent, project.slug)
+        if options.comments is None and options.source.suffix.casefold() in (".html", ".htm"):
+            options.comments = page_comments(options.source.read_text(encoding="utf-8"))
     except (OSError, ValidationError, ValueError) as error:
         print(f"ERROR: {error}", file=sys.stderr)
         return 2
+    if options.comments is not None:
+        print(f"COMMENTS {len(options.comments.comments)} carried into the page")
     return run_export(project, options)

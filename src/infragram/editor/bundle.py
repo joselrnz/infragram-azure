@@ -8,7 +8,7 @@ looking.
 It is a folder of numbered modules now, concatenated at render time in numeric
 order. The number is not decoration: the modules share one scope, so the order
 they are joined in *is* the order the statements evaluate, and ``00-bootstrap``
-opening the closure and ``35-api-and-start`` closing it are the two ends of
+opening the closure and ``36-api-and-start`` closing it are the two ends of
 that. Each number is used once, and each module names itself on its first line
 so a reader landing in the middle of the bundle knows which file to open.
 

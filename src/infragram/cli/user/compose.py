@@ -195,5 +195,15 @@ def _compose(spec: Path, options: argparse.Namespace, *, layout: bool) -> int:
                 for note in apply_layout(project, sidecar):
                     print(f"NOTE     {note}", file=sys.stderr)
                 print(f"LAYOUT   placed from {sidecar.name}")
+        from ...projects.comments import find_comments
+
+        try:
+            # comments a reviewer left, beside the diagram file (ADR 0009)
+            options.comments = find_comments(spec.parent, project.slug) if spec else None
+        except (ValidationError, ValueError, OSError) as error:
+            print(f"ERROR: {error}", file=sys.stderr)
+            return 2
+        if options.comments is not None:
+            print(f"COMMENTS {len(options.comments.comments)} carried into the page")
         status = max(status, run_export(project, options))
     return status

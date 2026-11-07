@@ -11,6 +11,7 @@ from __future__ import annotations
 from ..builders.architecture import from_topology, load_icon_set, load_theme
 from ..editor import render_editor_html
 from ..projects import CloudProject
+from ..projects.comments import Comments
 from .errors import ExportError
 from .presets import _check_preset, _style_for
 from .svg import finish_standalone_svg, resolve_background
@@ -29,14 +30,17 @@ __all__ = [
 EXPORT_LIBRARIES = ("drawn", "project", "all")
 
 
-def render_project_html(project: CloudProject, *, libraries: str = "project") -> str:
-    """Render one project to the canonical, self-contained HTML artifact."""
+def render_project_html(
+    project: CloudProject, *, libraries: str = "project", comments: Comments | None = None
+) -> str:
+    """Render one project to the canonical, self-contained HTML artifact,
+    with the comments on it when there are some (ADR 0009)."""
 
     if libraries not in EXPORT_LIBRARIES:
         raise ExportError(f"unknown libraries choice {libraries!r}; use project or all")
     scene = _scene_for(project)
     _check_preset(project, scene)
-    return render_editor_html(project, scene, libraries=libraries)
+    return render_editor_html(project, scene, libraries=libraries, comments=comments)
 
 
 def look_variant(project: CloudProject, look: str) -> CloudProject:

@@ -229,6 +229,27 @@ on a page that carries the 3D renderer -- one that draws a 3D item, embeds
 every library, or embeds the on-premises library among the project's own;
 any other page says so in the tab.
 
+## Comments
+
+Anyone reading the page can comment on a card, a frame or a wire: right-click
+it and choose **Add comment**, or open **Comments** in the header. The panel
+lists a thread per element, newest last, each with its author and time; the
+element's name opens it on the map, and a numbered marker on the map opens the
+thread. Your name is asked once and remembered in this browser.
+
+Comments stay in this browser, under the page's workspace (`?fresh=` gives a
+separate one), until **Download comments** saves `<slug>.comments.json`. Send
+that file back, or commit it beside the `.infragram.json`: the next
+`export:project` or `compose` carries it into the page it writes, and those
+comments show for everyone who opens it. Only comments written here can be
+deleted here; the ones the page carries belong to the file.
+
+A comment follows its element by id, so a rename in the editor keeps it. A
+Python diagram derives ids from names, so pass `id=` on an element that
+carries a discussion: a comment whose element is gone is listed under
+**Detached**, with the name it was on, never dropped. Nothing is sent
+anywhere, and no SVG, PNG or draw.io download ever carries a comment.
+
 ## Themes and exporting
 
 Three themes -- Light, Dark and Darker -- from the palette button in the

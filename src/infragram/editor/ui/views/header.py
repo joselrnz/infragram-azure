@@ -169,6 +169,7 @@ def header(
             <img class="app-mascot" src="{mascot_uri(64)}" width="40" height="40" alt="Infragram Azure pangolin mascot" title="Infragram Azure">
           </div>
           <div class="document-views" role="group" aria-label="View">
+            <button type="button" class="md-button md-button--outlined view-toggle" data-comments-toggle aria-pressed="false" aria-haspopup="dialog" title="Comments on this diagram: read them, add yours, download them">{icon("comment")}<span class="document-action-label">Comments</span><span class="comments-count" data-comments-count></span></button>
             <button type="button" class="md-button md-button--outlined view-toggle" data-inventory-toggle aria-pressed="false" title="The inventory: every resource as a table, beside or under the map">{icon("table")}<span class="document-action-label">Inventory</span></button>
             <button type="button" class="md-button md-button--outlined view-toggle" data-edit-mode aria-pressed="true" title="Editing tools: the component library and the inspector">{icon("edit")}<span class="document-action-label">Edit</span></button>
           </div>

@@ -1,7 +1,9 @@
 # 0009: Shared viewing and comments without a server
 
-Status: proposed, 2026-11-06. Awaiting the owner's approval; no code is
-written until then.
+Status: accepted, 2026-11-06. The first step below is built, with one
+change: the comments live in a panel the header opens, not in a tab of the
+bottom drawer, because the drawer is hidden in review mode and on a phone,
+where reviewers read.
 
 ## Context
 

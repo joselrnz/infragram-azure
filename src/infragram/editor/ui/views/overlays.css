@@ -100,3 +100,26 @@
 .drill-path button{padding:4px 2px;border:0;background:none;color:var(--md-sys-color-primary);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .drill-path button:focus-visible{outline:2px solid var(--md-sys-color-primary);outline-offset:2px;border-radius:4px}
 .drill-path [aria-current]{font-weight:600}
+.comments-panel{position:fixed;z-index:70;display:flex;width:380px;max-height:min(680px,calc(100vh - 140px));flex-direction:column;overflow:hidden;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius-lg);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);box-shadow:var(--ui-shadow-menu)}
+.comments-panel[hidden]{display:none}
+.comments-panel__header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 8px 4px 16px;font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
+.comments-panel__body{display:flex;flex-direction:column;gap:12px;min-height:0;overflow:auto;padding:8px 16px 16px}
+.comments-bar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:8px}
+.comments-bar .md-field{flex:1 1 160px}
+.comments-note{margin:0;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.comments-form{display:flex;flex-direction:column;gap:8px;padding-top:8px;border-top:1px solid var(--md-sys-color-outline-variant)}
+.comments-target{margin:0;font:var(--md-sys-typescale-title-small);letter-spacing:var(--md-sys-typescale-title-small-tracking)}
+.comments-field textarea{resize:vertical;min-height:64px}
+.comments-error{margin:0;color:var(--md-sys-color-error);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.comments-form [data-comment-submit]{align-self:flex-start}
+.comments-list{display:flex;flex-direction:column;gap:12px;min-width:0}
+.comments-empty{margin:0;color:var(--md-sys-color-on-surface-variant)}
+.comment-thread{border-top:1px solid var(--md-sys-color-outline-variant);padding-top:8px}
+.comment-thread h4{margin:0 0 4px;font:var(--md-sys-typescale-title-small);letter-spacing:var(--md-sys-typescale-title-small-tracking)}
+.comment-thread h4 span{color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
+.comment-thread-title{padding:0;border:0;background:none;color:var(--md-sys-color-primary);font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.comment-thread ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.comment-thread li p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.comment-thread li small{color:var(--md-sys-color-on-surface-variant)}
+/* a phone: a sheet along the bottom, the map above it */
+@media(max-width:599px){.comments-panel{left:8px!important;right:8px;top:auto!important;bottom:8px;width:auto;max-height:70dvh}}

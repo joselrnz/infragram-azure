@@ -108,3 +108,9 @@
   .document-actions .download-menu__label{display:none}
   .document-actions .download-menu>summary{gap:2px;padding:0 8px}
 }
+/* the comments button: its count beside the icon; its word only where the header has room */
+.comments-count{font-variant-numeric:tabular-nums}
+.comments-count:empty{display:none}
+@media(max-width:1679px){[data-comments-toggle] .document-action-label{display:none}[data-comments-toggle]{padding:0 6px;gap:4px}}
+/* three view switches where there were two: closer together where the header is tight */
+@media(min-width:600px) and (max-width:1679px){.document-views{gap:4px;padding:0 8px}}

@@ -21,6 +21,7 @@ from typing import Any
 
 from ..builders.architecture import load_theme
 from ..projects import CloudProject
+from ..projects.comments import Comments
 from . import written
 from .browser import (
     EXPORT_ROUTINGS,
@@ -165,6 +166,7 @@ def export_project(
     renderer: str = "editor",
     routing: str = "around",
     terraform_zip: bool = False,
+    comments: Comments | None = None,
 ) -> ExportResult:
     """Write requested artifacts, all derived from one canonical HTML render.
 
@@ -469,6 +471,14 @@ def export_project(
             for name in ("png", "png_icons"):
                 if name in materialized:
                     paths[name].write_bytes(embed_in_png(paths[name].read_bytes(), document))
+        # Comments ride in the page that is written, never in the one the
+        # pictures were drawn from (ADR 0009).
+        if comments is not None and "html" in delivered:
+            paths["html"].write_text(
+                render_project_html(project, libraries=libraries, comments=comments),
+                encoding="utf-8",
+                newline="\n",
+            )
         for name in sorted(delivered):
             if final[name].is_dir():
                 # A folder cannot be replaced in one move: the old one goes

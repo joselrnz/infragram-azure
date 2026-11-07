@@ -339,6 +339,57 @@ def check_project(payload: object, errors: list[str]) -> dict[str, object]:
     return summary
 
 
+#: A comments file beside a document, and the copy a page carries (ADR 0009).
+COMMENTS_FORMAT = "infragram.comments/1"
+EMBEDDED_COMMENTS = re.compile(
+    r'<script\b[^>]*\bid="infragram-comments"[^>]*>(.*?)</script>', re.IGNORECASE | re.DOTALL
+)
+_COMMENT_ID = re.compile(r"^c-[a-z0-9-]{4,60}$")
+_COMMENT_KEYS = frozenset({"id", "anchor", "author", "text", "at"})
+_ANCHOR_KEYS = frozenset({"kind", "id", "name"})
+
+
+def check_comments(payload: object, errors: list[str]) -> int:
+    """A comments file is what the package reads: its format, the document it
+    is about, and every comment anchored to a card, frame or wire. Returns
+    how many comments it holds."""
+    if not isinstance(payload, dict) or payload.get("format") != COMMENTS_FORMAT:
+        errors.append(f"comments must say format {COMMENTS_FORMAT!r}")
+        return 0
+    _unknown_keys(payload, frozenset({"format", "slug", "comments"}), "comments file", errors)
+    if not isinstance(payload.get("slug"), str) or not payload["slug"]:
+        errors.append("comments file must name the document it is about (slug)")
+    comments = payload.get("comments")
+    if not isinstance(comments, list):
+        errors.append("comments must be a list")
+        return 0
+    for index, comment in enumerate(comments):
+        where = f"comments[{index}]"
+        if not isinstance(comment, dict):
+            errors.append(f"{where} must be an object")
+            continue
+        _unknown_keys(comment, _COMMENT_KEYS, where, errors)
+        if not _COMMENT_ID.match(str(comment.get("id") or "")):
+            errors.append(f"{where}.id must look like c-<letters and digits>")
+        text = comment.get("text")
+        if not isinstance(text, str) or not text.strip() or len(text) > 4000:
+            errors.append(f"{where}.text must be words, at most 4000 characters")
+        if not isinstance(comment.get("author", ""), str) or len(comment.get("author", "")) > 80:
+            errors.append(f"{where}.author must be a name, at most 80 characters")
+        if not isinstance(comment.get("at"), str):
+            errors.append(f"{where}.at must say when it was written")
+        anchor = comment.get("anchor")
+        if not isinstance(anchor, dict):
+            errors.append(f"{where}.anchor must name a card, frame or wire")
+            continue
+        _unknown_keys(anchor, _ANCHOR_KEYS, f"{where}.anchor", errors)
+        if anchor.get("kind") not in ("node", "boundary", "edge"):
+            errors.append(f"{where}.anchor.kind must be node, boundary or edge")
+        if not isinstance(anchor.get("id"), str) or not anchor["id"]:
+            errors.append(f"{where}.anchor.id must name the element")
+    return len(comments)
+
+
 #: A colour a document may paint with (the package's verification.SAFE_COLOUR).
 SAFE_COLOUR = re.compile(r"#[0-9a-fA-F]{3,8}|[A-Za-z]{3,24}|(?:rgb|rgba|hsl|hsla)\([0-9.,\s%]+\)")
 #: The stored-style keys whose values are written into a colour attribute.
@@ -452,6 +503,12 @@ def check_html(text: str, errors: list[str]) -> dict[str, object]:
         if not url.startswith(ALLOWED_HOSTS):
             errors.append(f"page loads a remote resource: {url}")
             break
+    carried = EMBEDDED_COMMENTS.search(text)
+    if carried is not None:
+        try:
+            check_comments(json.loads(carried.group(1)), errors)
+        except json.JSONDecodeError as error:
+            errors.append(f"the page's comments are not valid JSON: {error}")
     match = EMBEDDED_PROJECT.search(text)
     if match is None:
         errors.append("no embedded project document")
@@ -2223,6 +2280,18 @@ def inspect_path(path: Path) -> dict[str, object]:
             payload = json.loads(text)
         except json.JSONDecodeError as error:
             return failed(f"FAIL {path}: not valid JSON ({error})", [f"not valid JSON ({error})"])
+        if isinstance(payload, dict) and payload.get("format") == COMMENTS_FORMAT:
+            count = check_comments(payload, errors)
+            if errors:
+                details = "\n".join(f"  - {error}" for error in errors[:20])
+                return failed(f"FAIL {path}: {len(errors)} problem(s)\n{details}", list(errors))
+            report.update(
+                ok=True,
+                kind="comments",
+                summary={"comments": count},
+                message=f"OK {path}: comments on {payload['slug']} - {count} comment(s)",
+            )
+            return report
         summary = check_project(payload, errors)
         check_components(payload, errors)
         check_nesting(payload, errors)

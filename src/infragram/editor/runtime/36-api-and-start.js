@@ -1,4 +1,4 @@
-// @module 35-api-and-start: window.infragramEditor and start-up
+// @module 36-api-and-start: window.infragramEditor and start-up
   const editorApi = Object.freeze({
     setDisplayMode: mode => applyProjectDisplayMode(mode, {persist: false}),
     // the library payload as the page inflated it (the script element carries it deflated)
@@ -10,6 +10,8 @@
     whenSettled: () => new Promise(resolve => whenFitSettles(resolve)),
     getState: () => clone(state),
     getStorageKey: () => storageKey,
+    // the comments file this page would download (35-comments)
+    getComments: () => commentsFile(),
     // a 3D item by spec, rendered in this page and added as a node; the spec is scene.js's own
     build3d: (spec, caption) => renderIsoSpec(spec).then(render => addIsoNode(spec, render, caption)),
     exportProject,

@@ -62,6 +62,8 @@
       else element.removeAttribute('marker-start');
     });
     // The chip keeps its thin border; a selected wire's accent is the page's, not the picture's.
+    // comment markers are the page's, never the picture's (35-comments)
+    copy.querySelectorAll('[data-comment-marker-layer]').forEach(element => element.remove());
     copy.querySelectorAll('[data-edge-label] .edge-label-mask').forEach(element => {
       element.setAttribute('stroke', element.dataset.chipStroke || 'transparent');
     });

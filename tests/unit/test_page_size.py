@@ -68,11 +68,12 @@ def test_all_libraries_embeds_the_3d_builder_and_renderer_offline() -> None:
 def test_exported_pages_stay_small() -> None:
     """Catch an uncompressed catalog or a needless 1.6 MB renderer, while
     allowing the shared editor's costs, views, policy and export controls,
-    and the right-click menu's icons, view entries and More actions (about
-    17 KB)."""
+    the right-click menu's icons, view entries and More actions (about
+    17 KB), and opening a frame alone, the refresh lens and comments (about
+    33 KB)."""
     sizes = {
         name: len(render_project_html(_template(name)).encode("utf-8"))
         for name in ("azure-api", "azure-web-app-front-door")
     }
-    assert sizes["azure-api"] < 2_670_000, sizes
+    assert sizes["azure-api"] < 2_710_000, sizes
     assert sizes["azure-web-app-front-door"] < 3_000_000, sizes
