@@ -6,9 +6,9 @@ One versioned `.infragram.json` document produces an offline HTML editor, SVG, P
 
 This edition carries **three vendor libraries**: Azure, Kubernetes and Databricks. It has the same editor and exporter as the full Infragram product, plus `export:azure`, an Azure inventory importer the full product does not have.
 
-[![The Front Door example in the editor: a request's numbered steps lit one by one, from the users through Front Door and App Service to Redis, Azure SQL and Blob storage, then the Steps panel and the Failover flow](docs/images/infragram-tour-azure-front-door.gif)](docs/media/infragram-tour.mp4)
+[![The Front Door example in the editor: a request's numbered steps lit one by one, from the users through Front Door and App Service to Redis, Azure SQL and Blob storage, then the Steps panel and the Failover flow, and what it costs a month: what costs most lit, the inventory's prices and the Cost tab](docs/images/infragram-tour-azure-front-door.gif)](docs/media/infragram-tour.mp4)
 
-Number a wire with `Edge("HTTPS 443", step=1, says="...")` and it carries its number; click a card and the wires it joins light up, and the Steps panel lists each step's sentence. A second flow, here `Failover`, is drawn with blue squares. The [AKS baseline tour](docs/images/infragram-tour-azure-aks.gif) shows lenses, zoom and the dark theme. [Watch both (MP4)](docs/media/infragram-tour.mp4).
+Number a wire with `Edge("HTTPS 443", step=1, says="...")` and it carries its number; click a card and the wires it joins light up, and the Steps panel lists each step's sentence. A second flow, here `Failover`, is drawn with blue squares. An export prices each Azure component from list prices: right-click for what costs most, open **Inventory** for each resource's month, or the **Cost** tab for the total by frame. The [AKS baseline tour](docs/images/infragram-tour-azure-aks.gif) shows lenses, zoom and the dark theme. [Watch both (MP4)](docs/media/infragram-tour.mp4).
 
 ## What ships
 

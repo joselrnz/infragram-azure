@@ -28,6 +28,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from playwright.sync_api import Page, sync_playwright  # noqa: E402
 
 from infragram.exports import render_project_html  # noqa: E402
+from infragram.pricing import price_project  # noqa: E402
 
 IMAGES = ROOT / "docs" / "images"
 MEDIA = ROOT / "docs" / "media"
@@ -156,15 +157,21 @@ def set_theme(page: Page, choice: str) -> None:
     page.locator(f'[data-theme-choice="{choice}"]').click()
 
 
+#: Wheel notches from the fitted picture to about actual size (each is about
+#: 7.5%), where a card's caption is as large as in the editor: in a player
+#: that shrinks the video to its column, a fitted picture's are unreadable.
+CLOSE_IN = 11
+
+
 def tour_front_door(page: Page) -> None:
-    """The whole picture; then, close enough to read, a request's numbered
+    """The whole picture; then, at about actual size, a request's numbered
     steps in order from the users through Front Door and App Service to the
-    data, and the Steps panel that tells them; then, fitted again, the
-    Failover flow."""
+    data, the Steps panel that tells them, and the Failover flow; then the
+    whole picture again."""
     page.wait_for_timeout(1400)
     view = page.locator(".canvas-viewport").bounding_box()
     assert view is not None
-    wheel_zoom(page, (view["x"] + view["width"] / 2, view["y"] + view["height"] / 2), 5)
+    wheel_zoom(page, (view["x"] + view["width"] / 2, view["y"] + view["height"] / 2), CLOSE_IN)
     for node_id in (
         "users",
         "azure-front-door-premium",
@@ -180,18 +187,39 @@ def tour_front_door(page: Page) -> None:
     move_to(page, "[data-step-list]", top=True)
     park(page)
     page.wait_for_timeout(3000)
-    page.locator('[data-editor-action="zoom-fit"]').click()
-    park(page)
-    page.wait_for_timeout(800)
     for node_id in ("azure-sql-geo-secondary", "app-service-warm-standby"):
+        move_to(page, f'[data-graph-node][data-node-id="{node_id}"]')
         flow_of(page, node_id, hold=1500)
     clear(page)
-    page.wait_for_timeout(800)
+    costs(page)
+
+
+def costs(page: Page) -> None:
+    """What it costs a month, from the list prices the export wrote: the
+    whole picture with what costs most lit, the inventory with each
+    resource's month, and the Cost tab's total and frames."""
+    page.locator('[data-editor-action="zoom-fit"]').click()
+    park(page)
+    page.wait_for_timeout(1000)
+    context_action(page, empty_point(page), "lens-cost")
+    page.wait_for_timeout(3400)
+    page.keyboard.press("Escape")
+    page.locator("[data-inventory-toggle]").click()
+    park(page)
+    page.wait_for_timeout(3800)
+    page.locator("[data-inventory-toggle]").click()
+    page.locator("[data-inspector-toggle]").click()
+    page.locator('[data-inspector-tab="cost"]').click()
+    park(page)
+    page.wait_for_timeout(3800)
+    page.locator("[data-inspector-toggle]").click()
+    park(page)
+    page.wait_for_timeout(1000)
 
 
 def tour_aks(page: Page) -> None:
-    """In the dark theme: what the internet reaches, then closer in, ingress to
-    the pods, their private endpoints and their egress."""
+    """In the dark theme: what the internet reaches, then at about actual
+    size, ingress to the pods, their private endpoints and their egress."""
     set_theme(page, "dark")
     page.wait_for_timeout(1500)
     context_action(page, empty_point(page), "lens-internet")
@@ -199,7 +227,7 @@ def tour_aks(page: Page) -> None:
     page.keyboard.press("Escape")
     box = card(page, "user-node-pool").bounding_box()
     assert box is not None
-    wheel_zoom(page, (box["x"] + box["width"] / 2, box["y"] + box["height"]), 3)
+    wheel_zoom(page, (box["x"] + box["width"] / 2, box["y"] + box["height"]), CLOSE_IN - 3)
     page.wait_for_timeout(900)
     for node_id in (
         "application-gateway",
@@ -208,7 +236,9 @@ def tour_aks(page: Page) -> None:
         "private-endpoints",
         "azure-firewall",
     ):
+        move_to(page, f'[data-graph-node][data-node-id="{node_id}"]')
         flow_of(page, node_id)
+    move_to(page, '[data-graph-boundary][data-boundary-id="supply-chain-and-secrets"]', top=True)
     page.mouse.click(*frame_label(page, "supply-chain-and-secrets"))
     shown(page, None)
     page.keyboard.press("Escape")
@@ -292,8 +322,13 @@ def record_tour(scratch: Path) -> list[Path]:
         for name, _label, walk in TOUR:
             diagram = runpy.run_path(str(ROOT / "examples" / f"{name}.py"), run_name="tour")
             source = scratch / f"{name}.html"
+            # priced from the shipped list-price table, as export:project
+            # prices a diagram, so the cost lens, the inventory and the Cost
+            # tab have something to show
+            project = diagram["diagram"].to_project()
+            price_project(project)
             source.write_text(
-                render_project_html(diagram["diagram"].to_project()),
+                render_project_html(project),
                 encoding="utf-8",
                 newline="\n",
             )
@@ -317,11 +352,14 @@ def record_tour(scratch: Path) -> list[Path]:
 
 
 def to_mp4(listing: Path, target: Path) -> None:
+    # At the size captured (twice the page's), so it stays sharp on a
+    # high-density screen and when a player shrinks it; CRF 14 keeps thin
+    # coloured captions from smearing in 4:2:0.
     encode(
         "-f", "concat", "-safe", "0", "-i", str(listing), "-an",
-        "-vf", f"fps=20,scale={VIEWPORT['width']}:-2:flags=lanczos",
-        "-c:v", "libx264", "-preset", "slow", "-crf", "18",
-        "-pix_fmt", "yuv420p", "-movflags", "+faststart",
+        "-vf", "fps=25,format=yuv420p",
+        "-c:v", "libx264", "-preset", "slow", "-crf", "14", "-tune", "animation",
+        "-movflags", "+faststart",
         str(target),
     )  # fmt: skip
 
