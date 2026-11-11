@@ -25,7 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from playwright.sync_api import Page, sync_playwright  # noqa: E402
+from playwright.sync_api import Page, ViewportSize, sync_playwright  # noqa: E402
 
 from infragram.exports import render_project_html  # noqa: E402
 from infragram.pricing import price_project  # noqa: E402
@@ -253,7 +253,7 @@ TOUR: tuple[tuple[str, str, Callable[[Page], None]], ...] = (
 
 #: The editor is recorded at this size in CSS pixels and captured at twice
 #: that, so the GIFs and the MP4 are scaled down from sharp frames.
-VIEWPORT = {"width": 1600, "height": 1000}
+VIEWPORT: ViewportSize = {"width": 1600, "height": 1000}
 SCALE = 2
 
 
