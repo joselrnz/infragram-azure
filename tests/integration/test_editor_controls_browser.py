@@ -145,6 +145,34 @@ def _change(page, selector: str, value: str) -> None:
 
 
 # ------------------------------------------------------------------ header
+@pytest.mark.parametrize(
+    "viewport",
+    # the sidebar open beside a small window; collapsed at 900, the editor
+    # 852 px wide; open on a laptop, the editor 928 px wide
+    [(920, 531), (900, 800), (1300, 800)],
+)
+def test_narrow_header_keeps_toolbar_controls_clickable(
+    tmp_path: Path, viewport: tuple[int, int]
+) -> None:
+    with _editor(tmp_path, viewport=viewport) as (page, _):
+        toolbar = page.get_by_role("toolbar", name="Diagram controls")
+        # every tool has room: none is pushed under the view switches
+        assert toolbar.evaluate("el => el.scrollWidth <= el.clientWidth")
+        toolbar.get_by_role("button", name="Fit diagram to window").click(timeout=3000)
+        grid = toolbar.get_by_role("button", name="Grid", exact=True)
+        grid.click(timeout=3000)
+        assert grid.get_attribute("aria-pressed") == "true"
+
+        comments = page.locator("[data-comments-toggle]")
+        comments.click(timeout=3000)
+        assert page.locator("[data-comments-panel]").is_visible()
+        page.locator("[data-comments-close]").click()
+
+        inventory = page.locator("[data-inventory-toggle]")
+        inventory.click(timeout=3000)
+        assert inventory.get_attribute("aria-pressed") == "true"
+
+
 def test_theme_palette_and_download_menu(tmp_path: Path) -> None:
     with _editor(tmp_path) as (page, _errors):
         token = "name => getComputedStyle(document.body).getPropertyValue(name).trim()"

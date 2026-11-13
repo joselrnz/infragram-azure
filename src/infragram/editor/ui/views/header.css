@@ -85,6 +85,18 @@
   .document-views .view-toggle[aria-pressed="true"]{background:var(--md-sys-color-secondary-container)}
   /* the tools: a row under a hairline, as on a wider screen */
   .editor-header>.editor-toolbar{margin:0;border:0;border-top:1px solid var(--md-sys-color-outline-variant);border-bottom:1px solid var(--md-sys-color-outline-variant);border-radius:0;background:none}}
+/* Below the one-row width the drawing tools get a row of their own, the
+   view switches moving up beside the actions: the tools and the switches
+   side by side need some 900 px, more than an editor this narrow has. */
+@media(min-width:600px){
+  @container editor (max-width:959px){
+    .editor-header{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"title views actions" "tools tools tools"}
+    .document-views{border-top:0}
+    .editor-header>.editor-toolbar{overflow-x:auto;scrollbar-width:none}
+    .document-actions .download-menu__label{display:none}
+    .document-actions .download-menu>summary{gap:2px;padding:0 8px}
+  }
+}
 /* One 48 px row wherever the editor is wide enough for the four groups side
    by side -- the title, the tools, the view switches, the actions -- so the
    top takes as little of the screen as it can and is the same in every
