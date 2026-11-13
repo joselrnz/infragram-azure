@@ -29,6 +29,17 @@ def test_inflate_stops_at_the_limit_and_passes_what_fits() -> None:
         bounded.inflate(b"not deflated", 15, DrawioError)
 
 
+def test_a_stream_cut_short_is_refused_as_zlib_refuses_it() -> None:
+    whole = zlib.compress(b"<mxGraphModel>" + b"<mxCell/>" * 200 + b"</mxGraphModel>")
+    with pytest.raises(zlib.error, match="truncated"):
+        bounded.inflate(whole[: len(whole) // 2], 15, DrawioError)
+    raw = zlib.compressobj(9, zlib.DEFLATED, -15)
+    page = raw.compress(b"<mxGraphModel/>" * 100) + raw.flush()
+    assert bounded.inflate(page, -15, DrawioError) == b"<mxGraphModel/>" * 100
+    with pytest.raises(zlib.error):
+        bounded.inflate(page[:-4], -15, DrawioError)
+
+
 def test_a_deflated_drawio_page_that_expands_too_far_is_refused(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

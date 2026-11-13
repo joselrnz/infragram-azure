@@ -45,6 +45,18 @@ def _paint_checked(style: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _edge_style_checked(style: dict[str, Any]) -> dict[str, Any]:
+    """A wire's stored style without a colour that is not a colour, its
+    caption's colour (``textStyle.textColor``) included."""
+    checked = _paint_checked(style)
+    text = checked.get("textStyle")
+    if isinstance(text, dict) and "textColor" in text:
+        colour = text.get("textColor")
+        if colour is not None and safe_colour(colour) is None:
+            checked["textStyle"] = {key: value for key, value in text.items() if key != "textColor"}
+    return checked
+
+
 def _pinned_side(element, connection, key: str) -> str:
     """The side the author gave this end, or ``auto`` to let the wire route.
 
@@ -467,14 +479,17 @@ def _editor_state(
                     ),
                     **(
                         {
-                            # the sides travel as sourcePort/targetPort above
-                            "style": {
-                                key: value
-                                for key, value in element.attributes["editor_edge_styles"][
-                                    connection.target
-                                ].items()
-                                if key not in ("source_port", "target_port")
-                            }
+                            # the sides travel as sourcePort/targetPort above;
+                            # colours are checked as a card's are
+                            "style": _edge_style_checked(
+                                {
+                                    key: value
+                                    for key, value in element.attributes["editor_edge_styles"][
+                                        connection.target
+                                    ].items()
+                                    if key not in ("source_port", "target_port")
+                                }
+                            )
                         }
                         if isinstance(element.attributes.get("editor_edge_styles"), dict)
                         and isinstance(

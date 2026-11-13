@@ -33,6 +33,10 @@ def inflate(data: bytes, wbits: int, error: type[Exception], limit: int | None =
     out += stream.flush()
     if len(out) > limit:
         raise error(f"a compressed part expands past {limit // (1024 * 1024)} MB")
+    if not stream.eof:
+        # what zlib.decompress says of a stream cut short, rather than
+        # handing back half a page to fail later as broken XML
+        raise zlib.error("Error -5 while decompressing data: incomplete or truncated stream")
     return out
 
 

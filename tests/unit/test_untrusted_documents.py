@@ -76,6 +76,30 @@ def test_a_connector_colour_cannot_break_out_of_its_attribute() -> None:
     json.loads(state.group(1))  # still parses: the guard did not corrupt it
 
 
+def test_a_wire_s_stored_colours_are_checked_like_a_card_s() -> None:
+    """The draw.io download writes a wire's stroke and caption colour into a
+    style string: a stored value that is not a colour could add keys of its
+    own (``red;image=...``), so the page never receives one."""
+    internet, browser = _two_nodes()
+    internet.attributes["editor_edge_styles"] = {
+        browser.id: {
+            "stroke": "red;image=https://example.invalid/x.png",
+            "width": 2,
+            "textStyle": {"textColor": "blue;fontFamily=x", "fontSize": 12},
+        },
+    }
+    html = render_project_html(
+        compose.to_project(
+            [internet, browser], slug="d", title="D", description="d.", display="card"
+        )
+    )
+    state = re.search(r'id="infragram-editor-state" data-editor-state>(.*?)</script>', html, re.S)
+    assert state, "the page carries editor state"
+    (edge,) = json.loads(state.group(1))["edges"]
+    assert "stroke" not in edge["style"] and edge["style"]["width"] == 2
+    assert edge["style"]["textStyle"] == {"fontSize": 12}
+
+
 def test_a_document_cannot_name_an_icon_collection_outside_the_assets() -> None:
     """`icon_collection` is a name, not a path: a separator or a parent
     reference would read whatever it landed on and inline it as artwork."""

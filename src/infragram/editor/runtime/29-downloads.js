@@ -364,10 +364,13 @@
       const style = `edgeStyle=none;rounded=${cornerRadius(edge) > 0 ? 1 : 0};html=1;`
         + (crossingStyle() === 'bridge' ? `jumpStyle=arc;jumpSize=${METRICS.router.crossing_radius * 2};` : 'jumpStyle=none;')
         + pin(edge.source, corners[0], 'exit') + pin(edge.target, corners.at(-1), 'entry')
-        + `strokeColor=${edgeThemeStroke(edge) || colors.wire};strokeWidth=${Number(edge.style?.width) || edge.width || 1.4};`
+        // a wire's stored colours and face pass the same checks as a card's,
+        // so a stored value can never add a style key of its own
+        + `strokeColor=${paintOf(edgeThemeStroke(edge), colors.wire)};strokeWidth=${Number(edge.style?.width) || edge.width || 1.4};`
         + `endArrow=${direction === 'none' ? 'none' : arrow};startArrow=${direction === 'both' ? arrow : 'none'};`
-        + `fontColor=${text.textColor};fontSize=${text.fontSize};fontFamily=${text.fontFamily};textOpacity=${text.opacity};`
-        + (dash ? `dashed=1;dashPattern=${dash.replace(/,/g, ' ')};` : '');
+        + `fontColor=${paintOf(text.textColor, colors.text)};fontSize=${Number(text.fontSize) || 12};`
+        + `fontFamily=${styleWord(text.fontFamily || 'Inter')};textOpacity=${Number.isFinite(Number(text.opacity)) ? Number(text.opacity) : 100};`
+        + (dash ? `dashed=1;dashPattern=${styleWord(dash).replace(/,/g, ' ')};` : '');
       const cell = append(root, 'mxCell', {id: `wire:${edge.id}`, value: escapeText(edge.label || ''),
         edge: 1, parent, source, target, style});
       const geometry = append(cell, 'mxGeometry', {relative: 1, as: 'geometry'});
