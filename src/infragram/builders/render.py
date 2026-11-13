@@ -1636,10 +1636,11 @@ def _place_captions(scene: Scene) -> list[tuple[Link, captions.Spot, float, floa
             if routed.plain
             else routed.corners
         )
-        if (scene.saved_layout and link.waypoints) or _parallel_lane(link, scene):
+        if routed.shaped:
             # The editor keeps no route for a wire bent by hand or laned
             # beside its twin, and places the caption along the plain path
-            # between the wire's ends.
+            # between the wire's ends; a twin whose lane was blocked is
+            # searched, and its caption follows the route.
             corners = captions.tidy(
                 captions.simple_corners(routed.corners[0], routed.corners[-1], out_side, GRID)
             )
