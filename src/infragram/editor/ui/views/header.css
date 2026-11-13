@@ -97,6 +97,13 @@
     .document-actions .download-menu>summary{gap:2px;padding:0 8px}
   }
 }
+/* Tighter still, the view switches keep their icons and the note on where
+   changes are kept goes, as on a phone, so the title keeps its name. */
+@media(min-width:600px){
+  @container editor (max-width:759px){
+    .document-views .document-action-label,.local-state{display:none}
+  }
+}
 /* One 48 px row wherever the editor is wide enough for the four groups side
    by side -- the title, the tools, the view switches, the actions -- so the
    top takes as little of the screen as it can and is the same in every

@@ -158,6 +158,9 @@ def test_narrow_header_keeps_toolbar_controls_clickable(
         toolbar = page.get_by_role("toolbar", name="Diagram controls")
         # every tool has room: none is pushed under the view switches
         assert toolbar.evaluate("el => el.scrollWidth <= el.clientWidth")
+        # and the title keeps room for its name
+        title = page.locator(".document-copy strong").bounding_box()
+        assert title and title["width"] >= 80, title
         toolbar.get_by_role("button", name="Fit diagram to window").click(timeout=3000)
         grid = toolbar.get_by_role("button", name="Grid", exact=True)
         grid.click(timeout=3000)
