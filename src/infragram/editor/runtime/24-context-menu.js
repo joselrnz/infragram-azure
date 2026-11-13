@@ -147,7 +147,8 @@
       [['changes', changedLately], ['findings', hasFindings], ['refresh', refreshedSince]].forEach(([type, lit]) => {
         const entry = contextMenu.querySelector(`[data-context-action="lens-${type}"]`);
         if (!entry) return;
-        entry.hidden = ![...state.nodes, ...state.boundaries].some(lit);
+        entry.hidden = !([...state.nodes, ...state.boundaries].some(lit)
+          || (type === 'refresh' && refreshFoundAny()));
         entry.setAttribute('aria-checked', String(lensActive(type)));
       });
       tidyDividers(contextMenu);

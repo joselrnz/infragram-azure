@@ -114,6 +114,14 @@
     const gone = removed.length ? `: ${removed.slice(0, 5).map(item => String(item.name || item.type || 'a resource')).join(', ')}${removed.length > 5 ? ', …' : ''}` : '';
     return `Since the last read, ${counts}${gone}`;
   };
+  // a refresh that found something, even when all it found was removed
+  // (nothing left to light, but the summary still has to be offered)
+  const refreshFoundAny = () => {
+    const account = originalProject?.topology?.attributes?.refresh;
+    if (!account || typeof account !== 'object') return false;
+    return Number(account.added) > 0 || Number(account.changed) > 0
+      || (Array.isArray(account.removed) && account.removed.length > 0);
+  };
   const showLens = lens => {
     clearSelection();
     flowFocus = lens;

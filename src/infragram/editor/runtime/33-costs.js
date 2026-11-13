@@ -236,6 +236,15 @@
     const row = rows.find(entry => Array.isArray(entry) && entry[0] === label);
     return row ? String(row[1] ?? '') : '';
   };
+  // With a frame open the sheets hold only what is in it: the file says so,
+  // so it is never taken for the whole diagram's.
+  const sheetName = suffix => {
+    const base = originalProject.slug || 'diagram';
+    const open = drillPath.length ? boundaryById(drillPath.at(-1)) : null;
+    const scope = open ? String(open.name || open.id || '').toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) : '';
+    return `${base}${scope ? `-${scope}` : ''}-${suffix}.csv`;
+  };
   const resourceRows = () => {
     const nodes = state.nodes.filter(nodeInOpenFrame).map(node => {
       const definition = componentDefinitions.get(node.componentQualifiedId) || {};
@@ -1063,7 +1072,7 @@
       if (event.target.closest('[data-savings-csv]')) {
         const link = document.createElement('a');
         link.href = URL.createObjectURL(new Blob(['\uFEFF', savingsCsv()], {type: 'text/csv;charset=utf-8'}));
-        link.download = `${originalProject.slug || 'diagram'}-savings.csv`;
+        link.download = sheetName('savings');
         document.body.append(link);
         link.click();
         link.remove();
@@ -1078,7 +1087,7 @@
       if (event.target.closest('[data-changes-csv]')) {
         const link = document.createElement('a');
         link.href = URL.createObjectURL(new Blob(['\uFEFF', changesCsv()], {type: 'text/csv;charset=utf-8'}));
-        link.download = `${originalProject.slug || 'diagram'}-changes.csv`;
+        link.download = sheetName('changes');
         document.body.append(link);
         link.click();
         link.remove();
@@ -1197,7 +1206,7 @@
     resourcePanel.querySelector('[data-resource-csv]').addEventListener('click', () => {
       const link = document.createElement('a');
       link.href = URL.createObjectURL(new Blob(['\uFEFF', resourceCsv()], {type: 'text/csv;charset=utf-8'}));
-      link.download = `${originalProject.slug || 'diagram'}-resources.csv`;
+      link.download = sheetName('resources');
       document.body.append(link);
       link.click();
       link.remove();
