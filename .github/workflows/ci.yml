@@ -20,7 +20,9 @@ jobs:
     # requires-python says) is still checked statically: ruff and mypy
     # target it.
     name: Verify (Python 3.15)
-    runs-on: ubuntu-latest
+    # Pinned: Playwright 1.55 (pinned in the test extra) installs no Chromium
+    # on Ubuntu 26.04, which ubuntu-latest became in November 2026.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
       PYTHONUTF8: "1"
