@@ -788,6 +788,9 @@ class _Builder:
             frame = az.VNet(_named(str(vnet.get("name")), _prefixes(props, "addressSpace")))
             group_frames[self._group_key(vnet)].add(frame)
             self.vnet_frames[vnet["id"]] = frame
+            # a frame has no details table: what it stands for, so a refresh
+            # can light a network that changed (discovery/refresh.py)
+            frame.attributes["resource_id"] = _lower(vnet["id"])
             subnets = sorted(props.get("subnets") or [], key=lambda s: _lower(s.get("name")))
             if len(subnets) > 1:
                 frame.row()
@@ -800,6 +803,7 @@ class _Builder:
                     )
                 )
                 subnet_frames[_lower(subnet.get("id"))] = child
+                child.attributes["resource_id"] = _lower(subnet.get("id"))
                 frame.add(child)
             self.summary.networks += 1
             self.summary.subnets += len(subnets)

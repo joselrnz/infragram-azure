@@ -295,7 +295,7 @@ def main(argv: list[str] | None = None) -> int:
             project = plan.to_project()
             if previous is not None:
                 kept = carry_layout(previous, project)
-                refresh = compare(snapshot, earlier=earlier, previous=previous)
+                refresh = compare(snapshot, earlier=earlier, previous=previous, project=project)
                 mark(project, refresh)
                 changed = changed or refresh.any
                 print(

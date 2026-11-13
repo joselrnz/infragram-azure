@@ -68,15 +68,17 @@ def _key(element: TopologyElement) -> tuple[str, str]:
 
 def carry_layout(previous: CloudProject, project: CloudProject) -> int:
     """Give each element of *project* the editor attributes of its earlier
-    self in *previous*, matched by resource and else by element id. Returns
-    how many elements got something back."""
+    self in *previous*. A card drawn for a resource matches only the card of
+    that same resource; an element id is a name slug numbered in reading
+    order, so a new resource can take an old one's id. Only elements with no
+    resource of their own (frames) match by element id. Returns how many
+    elements got something back."""
     earlier: dict[tuple[str, str], TopologyElement] = {}
     for element in previous.topology.walk():
         earlier.setdefault(_key(element), element)
-        earlier.setdefault(("element", element.id), element)
     kept = 0
     for element in project.topology.walk():
-        match = earlier.get(_key(element)) or earlier.get(("element", element.id))
+        match = earlier.get(_key(element))
         if match is None:
             continue
         carried = {
@@ -160,9 +162,14 @@ def compare(
     *,
     earlier: dict[str, Any] | None = None,
     previous: CloudProject | None = None,
+    project: CloudProject | None = None,
 ) -> Refresh:
     """What changed from *earlier* (a snapshot) to *snapshot*; with no
-    earlier snapshot, what the *previous* diagram's cards say."""
+    earlier snapshot, what the *previous* diagram's cards say against the
+    cards of *project*, the diagram drawn from *snapshot*. Diagram is
+    compared with diagram, not with the raw read: plumbing, parts and
+    networks drawn as frames never get a card of their own, and a peer
+    drawn outside the read is in neither snapshot."""
     now = {str(item.get("id") or "").lower(): item for item in snapshot.get("resources") or []}
     if earlier is not None:
         before = {
@@ -179,18 +186,34 @@ def compare(
                 if (fields := _differences(before[rid], now[rid]))
             ],
         )
-    drawn: dict[str, TopologyElement] = {}
-    if previous is not None:
-        for element in previous.topology.walk():
-            if rid := _rid(element):
-                drawn[rid] = element
+
+    def cards(diagram: CloudProject | None) -> dict[str, TopologyElement]:
+        found: dict[str, TopologyElement] = {}
+        if diagram is not None:
+            for element in diagram.topology.walk():
+                if rid := _rid(element):
+                    found.setdefault(rid, element)
+        return found
+
+    drawn = cards(previous)
+    # no new diagram given: the read itself, as the best that is known
+    fresh: dict[str, TopologyElement | None] = (
+        dict(cards(project)) if project is not None else dict.fromkeys(now)
+    )
+
+    def brief(rid: str) -> dict[str, str]:
+        if rid in now:
+            return _brief(now[rid])
+        element = fresh.get(rid)
+        return {"id": rid, "name": element.name if element else rid, "type": "", "group": ""}
+
     return Refresh(
         since=None,
         read=snapshot.get("taken"),
-        added=[_brief(now[rid]) for rid in sorted(set(now) - set(drawn))] if drawn else [],
+        added=[brief(rid) for rid in sorted(set(fresh) - set(drawn))] if drawn else [],
         removed=[
             {"id": rid, "name": drawn[rid].name, "type": "", "group": ""}
-            for rid in sorted(set(drawn) - set(now))
+            for rid in sorted(set(drawn) - set(fresh))
         ],
         compared=False,
     )
@@ -204,7 +227,9 @@ def mark(project: CloudProject, refresh: Refresh) -> int:
     marked = 0
     for element in project.topology.walk():
         element.attributes.pop("refresh", None)
-        rid = _rid(element)
+        # a card by its details table; a network or subnet frame by the
+        # resource it was drawn for
+        rid = _rid(element) or (str(element.attributes.get("resource_id") or "").lower() or None)
         if rid in added:
             element.attributes["refresh"] = {"status": "added"}
             marked += 1

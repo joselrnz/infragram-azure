@@ -154,6 +154,79 @@ def test_without_the_earlier_snapshot_only_added_and_removed_are_told(tmp_path: 
     assert "NOTE     no earlier snapshot (--since), so changes cannot be told" in refresh.lines()
 
 
+def _drawn(snap: dict, view: str):
+    from infragram.discovery import ImportOptions, blueprint
+    from infragram.projects import CloudProject
+
+    plan, _ = blueprint(snap, ImportOptions(view=view), slug="estate")
+    return CloudProject.model_validate(json.loads(plan.to_project().model_dump_json()))
+
+
+@pytest.mark.parametrize("view", ["network", "groups"])
+def test_without_the_earlier_snapshot_the_same_read_is_no_change(view: str) -> None:
+    """Plumbing, parts and networks drawn as frames have no card, and a peer
+    drawn outside the read is in no snapshot: diagram is compared with
+    diagram, so the same read twice says nothing changed."""
+    previous, now = _drawn(snapshot(), view), _drawn(snapshot(), view)
+    refresh = compare(snapshot(), previous=previous, project=now)
+    assert not refresh.any, refresh.lines()
+
+
+def test_without_the_earlier_snapshot_a_new_card_is_added_and_a_lost_one_removed() -> None:
+    later = _later()
+    refresh = compare(later, previous=_drawn(snapshot(), "groups"), project=_drawn(later, "groups"))
+    assert [item["name"] for item in refresh.added] == ["kv-prod"]
+    assert [item["name"] for item in refresh.removed] == ["log-prod"]
+
+
+def test_a_new_resource_never_takes_the_layout_of_another_with_its_name() -> None:
+    """Element ids are name slugs numbered in reading order: a second
+    storage account called stprod, read first, takes the id the old card
+    had. The reader's layout stays with the resource it was given to."""
+    from infragram.discovery.refresh import _rid, carry_layout
+
+    previous = _drawn(snapshot(), "groups")
+    for element in previous.topology.walk():
+        if element.name == "stprod":
+            element.attributes.update(editor_x=1234, editor_y=567)
+            moved = _rid(element)
+    later = copy.deepcopy(snapshot())
+    later["resources"].insert(
+        0, resource("rg-hub", "Microsoft.Storage", "storageAccounts", "stprod")
+    )
+    project = _drawn(later, "groups")
+    assert carry_layout(previous, project) >= 1
+    placed = {
+        _rid(element): (element.attributes.get("editor_x"), element.attributes.get("editor_y"))
+        for element in project.topology.walk()
+        if element.name == "stprod"
+    }
+    assert len(placed) == 2
+    assert placed.pop(moved) == (1234, 567)
+    assert list(placed.values()) == [(None, None)]
+
+
+def test_a_network_that_changed_is_lit_on_its_frame() -> None:
+    """A network is drawn as a frame, which has no details table: the lens
+    still finds it, by the resource the frame was drawn for."""
+    from infragram.discovery.refresh import mark
+
+    later = copy.deepcopy(snapshot())
+    for item in later["resources"]:
+        if item["name"] == "vnet-app":
+            item["tags"] = {"owner": "network-team"}
+    project = _drawn(later, "network")
+    refresh = compare(later, earlier=snapshot())
+    assert [(item["name"], fields) for item, fields in refresh.changed] == [("vnet-app", ["tags"])]
+    mark(project, refresh)
+    lit = [
+        element.name
+        for element in project.topology.walk()
+        if (element.attributes.get("refresh") or {}).get("status") == "changed"
+    ]
+    assert len(lit) == 1 and lit[0].startswith("vnet-app")
+
+
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(pytest.main([__file__]))
 
