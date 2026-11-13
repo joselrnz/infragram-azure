@@ -19,7 +19,7 @@ private channel.
 
 | Version | Security fixes |
 |---|---|
-| 0.1.72 | yes |
+| 0.1.73 | yes |
 
 Fixes land on `main`. An exported page carries the editor of the version that
 wrote it, so a fix in the editor reaches an existing page only when it is

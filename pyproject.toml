@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "infragram-azure"
-version = "0.1.72"
+version = "0.1.73"
 description = "Infrastructure diagram editor, project schema, exports and agent tools for the Infragram Azure plugin"
 readme = "README.md"
 license = "MIT"
