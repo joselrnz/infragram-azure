@@ -221,6 +221,7 @@ infragram export:azure --refresh azure-production-network.infragram.json \
 - **What the reader did stays.** A card moved, a frame resized or a style set
   in the editor is written back into the document, and the refresh gives it to
   the element drawn for the same resource now, matched by its Resource ID.
+  A new resource never takes the place of another that had its name.
   The earlier diagram can be the `.infragram.json`, or a page or picture saved
   from the editor, since those carry the document. What is new is laid out as
   on a first read, so look over where it landed.
@@ -229,10 +230,14 @@ infragram export:azure --refresh azure-production-network.infragram.json \
   or changed element carries `refresh` (a change names its fields, such as
   `sku` or `properties.networkAcls`), and the root lists what was removed. In
   the page, **Show what changed since the last read** (right-click empty
-  canvas) lights them. Fields Azure rewrites by itself, such as
-  `provisioningState`, are not counted as changes. Without `--since`, added
+  canvas) lights them, a network or subnet on its frame. Fields Azure
+  rewrites by itself, such as `provisioningState`, are not counted as
+  changes. Without `--since`, added
   and removed still show, from the Resource IDs on the earlier cards, but
-  nothing can be called changed.
+  nothing can be called changed. The earlier diagram is then compared with
+  the one drawn from the new read, so a resource drawn as part of a frame or
+  not drawn at all is never reported, and the same read twice reports
+  nothing.
 - **The same subscriptions are read.** With no subscription named, those in
   the `--since` snapshot are read again. `--from-snapshot` replays a newer
   snapshot instead of calling Azure.

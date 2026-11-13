@@ -241,8 +241,11 @@ Comments stay in this browser, under the page's workspace (`?fresh=` gives a
 separate one), until **Download comments** saves `<slug>.comments.json`. Send
 that file back, or commit it beside the `.infragram.json`: the next
 `export:project` or `compose` carries it into the page it writes, and those
-comments show for everyone who opens it. Only comments written here can be
-deleted here; the ones the page carries belong to the file.
+comments show for everyone who opens it. A view's page saves the file under
+the document's slug, so it goes beside the document all the same. Only
+comments written here can be deleted here; the ones the page carries belong
+to the file. A comment on a wire also keeps the two cards the wire joins, so
+it stays on its wire when wires are added or a view leaves some out.
 
 A comment follows its element by id, so a rename in the editor keeps it. A
 Python diagram derives ids from names, so pass `id=` on an element that

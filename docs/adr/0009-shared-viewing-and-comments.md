@@ -38,7 +38,10 @@ What Infragram is today constrains the answer (ADR 0003):
 (`node`, `boundary`, `edge`), the document's slug, and the id's name when the
 comment was made. On load, a comment finds its element by id. If the id is
 gone, it tries the same kind with the same name. If neither matches, the
-comment is shown as detached in the comments list, never dropped. Moving or
+comment is shown as detached in the comments list, never dropped. A wire's id
+is its place in the drawing order, which an added wire or a view moves, so a
+comment on a wire also names the two cards it joins and is found by them, its
+label telling apart two wires between the same pair. Moving or
 re-laying out an element changes nothing, because coordinates are not part of
 the anchor.
 
