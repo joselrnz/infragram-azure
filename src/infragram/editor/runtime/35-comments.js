@@ -26,15 +26,26 @@
   const validComment = comment => Boolean(comment) && typeof comment.id === 'string'
     && typeof comment.text === 'string' && comment.text.trim() !== '' && comment.anchor
     && ['node', 'boundary', 'edge'].includes(comment.anchor.kind) && typeof comment.anchor.id === 'string';
-  const carriedComments = (() => {
+  const carriedPayload = (() => {
     try {
       const payload = JSON.parse(document.querySelector('#infragram-comments')?.textContent || 'null');
-      return payload?.format === COMMENTS_FORMAT && Array.isArray(payload.comments)
-        ? payload.comments.filter(validComment) : [];
+      return payload?.format === COMMENTS_FORMAT ? payload : null;
     } catch {
-      return [];
+      return null;
     }
   })();
+  const carriedComments = Array.isArray(carriedPayload?.comments)
+    ? carriedPayload.comments.filter(validComment) : [];
+  // The document the comments are on: a view's page (<slug>-<view>) carries
+  // the whole document's comments, and its download goes back beside that
+  // document under the document's own slug, where an export looks for it.
+  const commentsSlug = typeof carriedPayload?.slug === 'string' && carriedPayload.slug
+    ? carriedPayload.slug : originalProject.slug;
+  // what the comments file allows (projects/comments.py), so a download is
+  // always one an export reads back
+  const ANCHOR_ID_MAX = 200;
+  const ANCHOR_NAME_MAX = 300;
+  const capped = (value, max) => String(value || '').slice(0, max);
   let localComments = (() => {
     try {
       const saved = JSON.parse(localStorage.getItem(commentsKey) || '[]');
@@ -51,7 +62,10 @@
       return false;
     }
   };
-  const isLocalComment = id => localComments.some(comment => comment.id === id);
+  // a comment the page was exported with is part of the page: only one
+  // written in this browser, and not carried too, can be deleted here
+  const isLocalComment = id => localComments.some(comment => comment.id === id)
+    && !carriedComments.some(comment => comment.id === id);
   const allComments = () => {
     const carried = new Set(carriedComments.map(comment => comment.id));
     return [...carriedComments, ...localComments.filter(comment => !carried.has(comment.id))]
@@ -60,14 +74,36 @@
   const itemsOfKind = kind => (kind === 'node' ? state.nodes : kind === 'boundary' ? state.boundaries : state.edges);
   const itemOfKind = (kind, id) => (kind === 'node' ? nodeById(id) : kind === 'boundary' ? boundaryById(id) : edgeById(id));
   const itemName = (kind, item) => String((kind === 'edge' ? item?.label : item?.name) || '');
+  // A wire's id is its place in the drawing order, which an added wire or a
+  // view moves: a comment on a wire is found by the two cards it joins, the
+  // label telling apart two wires between the same pair.
+  const anchoredEdge = anchor => {
+    const byId = edgeById(anchor.id);
+    if (!anchor.source || !anchor.target) return byId || null;
+    const joins = edge => edge.source === anchor.source && edge.target === anchor.target;
+    const labelled = edge => capped(itemName('edge', edge), ANCHOR_NAME_MAX) === String(anchor.name || '');
+    if (byId && joins(byId) && labelled(byId)) return byId;
+    const between = state.edges.filter(joins);
+    if (between.length === 1) return between[0];
+    const sameLabel = between.filter(labelled);
+    if (sameLabel.length === 1) return sameLabel[0];
+    return byId && joins(byId) ? byId : null;
+  };
   // by id; else the one element of that kind with the remembered name
   const anchoredItem = anchor => {
+    if (anchor.kind === 'edge' && anchor.source && anchor.target) return anchoredEdge(anchor);
     const byId = itemOfKind(anchor.kind, anchor.id);
     if (byId) return byId;
     if (!anchor.name) return null;
-    const named = itemsOfKind(anchor.kind).filter(item => itemName(anchor.kind, item) === anchor.name);
+    const named = itemsOfKind(anchor.kind).filter(item => capped(itemName(anchor.kind, item), ANCHOR_NAME_MAX) === anchor.name);
     return named.length === 1 ? named[0] : null;
   };
+  const anchorOf = (kind, item) => ({
+    kind,
+    id: capped(item.id, ANCHOR_ID_MAX),
+    name: capped(itemName(kind, item), ANCHOR_NAME_MAX),
+    ...(kind === 'edge' ? {source: capped(item.source, ANCHOR_ID_MAX), target: capped(item.target, ANCHOR_ID_MAX)} : {}),
+  });
   let commentTarget = null;
   const describe = (kind, item) => {
     const name = itemName(kind, item);
@@ -177,7 +213,7 @@
     }
     localComments.push({
       id: `c-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`,
-      anchor: {kind: commentTarget.kind, id: item.id, name: itemName(commentTarget.kind, item)},
+      anchor: anchorOf(commentTarget.kind, item),
       author: commentAuthor.value.trim().slice(0, 80),
       text: text.slice(0, 4000),
       at: new Date().toISOString(),
@@ -236,16 +272,20 @@
   // date with what it is on now, so it is found by id the next time too.
   const commentsFile = () => ({
     format: COMMENTS_FORMAT,
-    slug: originalProject.slug,
+    slug: commentsSlug,
     comments: allComments().map(comment => {
       const item = anchoredItem(comment.anchor);
+      const kept = {
+        kind: comment.anchor.kind,
+        id: capped(comment.anchor.id, ANCHOR_ID_MAX),
+        name: capped(comment.anchor.name, ANCHOR_NAME_MAX),
+        ...(comment.anchor.source && comment.anchor.target
+          ? {source: capped(comment.anchor.source, ANCHOR_ID_MAX), target: capped(comment.anchor.target, ANCHOR_ID_MAX)}
+          : {}),
+      };
       return {
         id: comment.id,
-        anchor: {
-          kind: comment.anchor.kind,
-          id: item ? item.id : comment.anchor.id,
-          name: item ? itemName(comment.anchor.kind, item) : String(comment.anchor.name || ''),
-        },
+        anchor: item ? anchorOf(comment.anchor.kind, item) : kept,
         author: String(comment.author || ''),
         text: comment.text,
         at: String(comment.at || ''),
@@ -253,7 +293,7 @@
     }),
   });
   commentsPanel?.querySelector('[data-comments-download]')?.addEventListener('click', () => {
-    download(`${originalProject.slug}.comments.json`, 'application/json',
+    download(`${commentsSlug}.comments.json`, 'application/json',
       `${JSON.stringify(commentsFile(), null, 2)}\n`);
   });
   // A marker on each commented element, numbered, which opens its thread.

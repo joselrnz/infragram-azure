@@ -139,6 +139,13 @@ def run_export(project, options: argparse.Namespace) -> int:
     except ViewError as error:
         print(f"ERROR: {error}", file=sys.stderr)
         return 2
+    if getattr(options, "comments", None) is None:
+        from ...projects.comments import Comments
+
+        # a view's page is <slug>-<view>: it is told the document's slug, so
+        # comments written on it download as the file an export of the
+        # document reads back (ADR 0009)
+        options.comments = Comments(slug=project.slug)
     status = 0
     for view, selected, notes in selections:
         components = sum(1 for element in selected.topology.walk() if not element.children)

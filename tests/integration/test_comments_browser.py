@@ -85,6 +85,8 @@ def test_comments_survive_a_rename_and_a_reload_and_come_back_through_an_export(
             page.on("pageerror", lambda error: errors.append(str(error)))
             page.goto(page_path.resolve().as_uri() + "?fresh=comments")
             page.wait_for_load_state("networkidle")
+            # the editor's API is there once its last script has run
+            page.wait_for_function("() => Boolean(window.infragramEditor)")
             page.evaluate("() => window.infragramEditor.whenSettled()")
 
             # on the card
@@ -166,5 +168,95 @@ def test_comments_survive_a_rename_and_a_reload_and_come_back_through_an_export(
             # carried comments are the file's: this page offers no delete for them
             page.locator(TOGGLE).click()
             assert page.locator(f"{PANEL} [data-comment-delete]").count() == 0
+        finally:
+            browser.close()
+
+
+def _wire_document(tmp_path: Path, *, earlier_wire: bool) -> tuple[Path, dict[str, str]]:
+    with Diagram(
+        "Review", "Two cards in a network.", slug="review", providers=("azure",)
+    ) as diagram:
+        with az.VNet("app 10.1.0.0/16"):
+            # drawn first, so its wire takes the first place in the order
+            web = compute.VirtualMachine("vm-web") if earlier_wire else None
+            vm = compute.VirtualMachine("vm-app")
+            database = databases.SQLDatabase("sqldb-orders")
+        if web is not None:
+            web >> Edge("TDS 1433") >> database
+        vm >> Edge("TDS 1433") >> database
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    source = tmp_path / "review.infragram.json"
+    diagram.to_project().save(source)
+    return source, {"vm": vm.id, "database": database.id}
+
+
+def test_a_comment_on_a_wire_stays_on_that_wire_when_another_is_drawn_before_it(
+    tmp_path: Path,
+) -> None:
+    """A wire's id is its place in the drawing order: a wire added earlier
+    takes it. The comment is found by the cards at the wire's two ends."""
+    import re
+
+    sync_api = pytest.importorskip("playwright.sync_api")
+    before, ids = _wire_document(tmp_path / "before", earlier_wire=False)
+    page_path = _export(before, tmp_path / "before" / "out")
+    state = json.loads(
+        re.search(
+            r'id="infragram-editor-state" data-editor-state>(.*?)</script>',
+            page_path.read_text(encoding="utf-8"),
+            re.S,
+        ).group(1)
+    )
+    (wire,) = state["edges"]
+    comments = {
+        "format": "infragram.comments/1",
+        "slug": "review",
+        "comments": [
+            {
+                "id": "c-wire01",
+                "anchor": {
+                    "kind": "edge",
+                    "id": wire["id"],
+                    "name": "TDS 1433",
+                    "source": wire["source"],
+                    "target": wire["target"],
+                },
+                "author": "Ana",
+                "text": "Encrypt this link.",
+                "at": "2026-11-08T10:00:00Z",
+            }
+        ],
+    }
+    after, _ = _wire_document(tmp_path / "after", earlier_wire=True)
+    (after.parent / "review.comments.json").write_text(json.dumps(comments), encoding="utf-8")
+    page_path = _export(after, tmp_path / "after" / "out")
+    state = json.loads(
+        re.search(
+            r'id="infragram-editor-state" data-editor-state>(.*?)</script>',
+            page_path.read_text(encoding="utf-8"),
+            re.S,
+        ).group(1)
+    )
+    ends = {edge["id"]: (edge["source"], edge["target"]) for edge in state["edges"]}
+    assert len(ends) == 2
+    # the comment's old id now names the other wire
+    assert ends[wire["id"]] != (wire["source"], wire["target"])
+    with sync_api.sync_playwright() as playwright:
+        browser = playwright.chromium.launch()
+        try:
+            page = browser.new_page(viewport={"width": 1440, "height": 960})
+            errors: list[str] = []
+            page.on("pageerror", lambda error: errors.append(str(error)))
+            page.goto(page_path.resolve().as_uri() + "?fresh=wire")
+            page.wait_for_load_state("networkidle")
+            page.wait_for_function("() => Boolean(window.infragramEditor)")
+            page.evaluate("() => window.infragramEditor.whenSettled()")
+            marker = page.locator('[data-comment-marker][data-comment-kind="edge"]')
+            assert marker.count() == 1
+            on = marker.get_attribute("data-comment-item")
+            assert ends[on] == (wire["source"], wire["target"])
+            page.locator(TOGGLE).click()
+            assert page.locator(f"{PANEL} [data-comment-detached]").count() == 0
+            assert not errors, errors
         finally:
             browser.close()

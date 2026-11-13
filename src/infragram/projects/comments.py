@@ -10,7 +10,9 @@ carry a comment.
 A comment anchors to an element by kind and id, and remembers the element's
 name, so a page can still place it after the id changes (a Python diagram that
 renamed a card without ``id=``); one that matches neither is shown as detached,
-never dropped.
+never dropped. A wire's id is its place in the drawing order, which an added
+wire or a view moves, so a comment on a wire also keeps the cards at its two
+ends and is found by them.
 """
 
 from __future__ import annotations
@@ -43,6 +45,9 @@ class Anchor(BaseModel):
     id: str = Field(min_length=1, max_length=200)
     #: the element's name (a wire's label) when the comment was made
     name: str = Field(default="", max_length=300)
+    #: a wire's two ends, the ids of the cards it joins
+    source: str = Field(default="", max_length=200)
+    target: str = Field(default="", max_length=200)
 
 
 class Comment(BaseModel):

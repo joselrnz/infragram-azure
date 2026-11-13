@@ -346,7 +346,8 @@ EMBEDDED_COMMENTS = re.compile(
 )
 _COMMENT_ID = re.compile(r"^c-[a-z0-9-]{4,60}$")
 _COMMENT_KEYS = frozenset({"id", "anchor", "author", "text", "at"})
-_ANCHOR_KEYS = frozenset({"kind", "id", "name"})
+#: a wire's anchor also keeps the cards at its ends (source, target)
+_ANCHOR_KEYS = frozenset({"kind", "id", "name", "source", "target"})
 
 
 def check_comments(payload: object, errors: list[str]) -> int:
@@ -385,8 +386,13 @@ def check_comments(payload: object, errors: list[str]) -> int:
         _unknown_keys(anchor, _ANCHOR_KEYS, f"{where}.anchor", errors)
         if anchor.get("kind") not in ("node", "boundary", "edge"):
             errors.append(f"{where}.anchor.kind must be node, boundary or edge")
-        if not isinstance(anchor.get("id"), str) or not anchor["id"]:
-            errors.append(f"{where}.anchor.id must name the element")
+        if not isinstance(anchor.get("id"), str) or not anchor["id"] or len(anchor["id"]) > 200:
+            errors.append(f"{where}.anchor.id must name the element, at most 200 characters")
+        if not isinstance(anchor.get("name", ""), str) or len(anchor.get("name", "")) > 300:
+            errors.append(f"{where}.anchor.name must be a name, at most 300 characters")
+        for end in ("source", "target"):
+            if not isinstance(anchor.get(end, ""), str) or len(anchor.get(end, "")) > 200:
+                errors.append(f"{where}.anchor.{end} must name a card, at most 200 characters")
     return len(comments)
 
 

@@ -61,6 +61,57 @@ def test_a_file_reads_and_anything_else_is_refused() -> None:
             Comments.model_validate(_file(**bad))
 
 
+def test_a_wire_comment_keeps_the_cards_at_its_ends() -> None:
+    """A wire's id is its place in the drawing order; its ends are not."""
+    wire = {"kind": "edge", "id": "edge-3", "name": "HTTPS", "source": "fd", "target": "app"}
+    comments = Comments.model_validate(_file(anchor=wire))
+    assert (comments.comments[0].anchor.source, comments.comments[0].anchor.target) == ("fd", "app")
+    # a file written before the ends were kept still reads
+    older = Comments.model_validate(_file(anchor={"kind": "edge", "id": "edge-3"}))
+    assert older.comments[0].anchor.source == ""
+
+
+def test_the_checker_takes_a_wire_s_ends_and_refuses_what_the_package_would(
+    tmp_path: Path,
+) -> None:
+    checker = _checker()
+    wire = tmp_path / "wire.comments.json"
+    wire.write_text(
+        json.dumps(_file(anchor={"kind": "edge", "id": "edge-1", "source": "a", "target": "b"})),
+        encoding="utf-8",
+    )
+    ok, message = checker.check_path(wire)
+    assert ok, message
+    long = tmp_path / "long.comments.json"
+    long.write_text(
+        json.dumps(_file(anchor={"kind": "node", "id": "vm", "name": "n" * 301})), encoding="utf-8"
+    )
+    ok, message = checker.check_path(long)
+    assert not ok and "anchor.name must be a name, at most 300 characters" in message
+    with pytest.raises(ValidationError):
+        Comments.model_validate(_file(anchor={"kind": "node", "id": "vm", "name": "n" * 301}))
+
+
+def test_a_view_s_page_is_told_the_document_s_slug(tmp_path: Path) -> None:
+    """A view's page is <slug>-<view>; comments written on it go back beside
+    the document under the document's slug, where an export looks."""
+    from infragram.cli.user import export_project
+
+    project = load_template_project("azure-hub-spoke-landing-zone")
+    source = tmp_path / f"{project.slug}.infragram.json"
+    source.write_text(project.model_dump_json(), encoding="utf-8")
+    out = tmp_path / "out"
+    code = export_project.main(
+        [str(source), "--view", "landing-zone-production", "--formats", "html"]
+        + ["--output-dir", str(out)]
+    )
+    assert code == 0
+    (page,) = out.glob("*.html")
+    assert page.stem == f"{project.slug}-landing-zone-production"
+    carried = page_comments(page.read_text(encoding="utf-8"))
+    assert carried is not None and carried.slug == project.slug and carried.comments == []
+
+
 def test_the_file_is_found_beside_the_document_and_must_be_about_it(tmp_path: Path) -> None:
     assert find_comments(tmp_path, "review") is None
     (tmp_path / "review.comments.json").write_text(json.dumps(_file()), encoding="utf-8")
