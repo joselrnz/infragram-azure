@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import difflib
 import weakref
-from collections.abc import Iterable, Mapping, Sequence
+from collections.abc import Iterable, Mapping
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast
 
 from ..models.topology import ComponentRef, TopologyElement
@@ -245,32 +245,6 @@ class Element(TopologyElement):
         )
         _register(self)
         _scope.adopt(self)
-
-    def table(self, columns: Sequence[str], rows: Iterable[Sequence[str]] = ()) -> Element:
-        """Attach a table the editor shows when this element is selected.
-
-            net.RouteTables("rt-spoke-prod", "UDR").table(
-                ("Prefix", "Next hop type", "Next hop"),
-                [("0.0.0.0/0", "Virtual appliance", "10.0.1.4"),
-                 ("10.0.0.0/16", "VNet peering", "hub-vnet")])
-
-        Nothing is drawn on the canvas: the card stays the card, and clicking
-        it opens the table in a popup beside it. The rows are whatever you
-        pass, so three routes and thirty are the same call. The table rides in
-        the element's attributes, so it survives saving and reopening the page.
-        """
-        heading = tuple(str(value) for value in columns)
-        if not heading:
-            raise ValueError(f"{self.name!r}: a table needs at least one column")
-        body = [[str(cell) for cell in row] for row in rows]
-        wide = [row for row in body if len(row) > len(heading)]
-        if wide:
-            raise ValueError(
-                f"{self.name!r}: {len(wide)} row(s) have more cells than the "
-                f"{len(heading)} column(s) declared"
-            )
-        self.attributes["table"] = {"columns": list(heading), "rows": body}
-        return self
 
     def sizing(self, **values: str | int | float) -> Element:
         """Say what this element is sized as, for the approximate price an

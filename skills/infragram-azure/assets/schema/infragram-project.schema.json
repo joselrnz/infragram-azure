@@ -47,6 +47,22 @@
           "default": 0.5,
           "title": "Offset",
           "type": "number"
+        },
+        "table": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "items": {},
+                "type": "array"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Table"
         }
       },
       "required": [

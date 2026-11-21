@@ -26,6 +26,13 @@
     labels.slice(1).forEach(label => { reach += c.spacing + c.icon + c.gap + cornerCaptionWidth(label); });
     return Math.round(reach);
   };
+  // A badge that carries a table (an NSG's rules, a route table's routes)
+  // answers a click with it (15-overlays): its icon and its name take the
+  // pointer and say which badge they are. Every other badge stays inert, as
+  // it always was, so a press there still lands on the frame.
+  const badgePointer = (boundary, badge) => (badge.table
+    ? ` data-badge-index="${(boundary.badges || []).indexOf(badge)}" pointer-events="auto" style="cursor:pointer"`
+    : ' pointer-events="none"');
   // Azure NAT gateways retain the border bar used by imported subnets.
   const EDGE_BADGE = {icon: 20, bar: 3, gap: 3, spacing: 16, color: '#50c8e8'};
   const edgeRowWidth = labels => labels.length
@@ -45,8 +52,8 @@
       cursor += spans[index] + c.spacing;
       const label = String(badge.label || '');
       const caption = label
-        ? `<text data-frame-badge-label x="${textX}" y="${y + CORNER_BADGE.font + CORNER_BADGE.drop + c.bar}" font-family="'Inter',sans-serif" font-size="${CORNER_BADGE.font}" font-weight="600" fill="${escapeText(colors.text)}" pointer-events="none">${escapeText(label)}</text>` : '';
-      return `<image data-frame-badge data-boundary-badge="${escapeText(label || badge.icon || '')}" href="${escapeText(badge.iconUri)}" x="${iconX - c.icon / 2}" y="${y - c.icon / 2}" width="${c.icon}" height="${c.icon}" preserveAspectRatio="xMidYMid meet" aria-hidden="true" pointer-events="none"/>${caption}`;
+        ? `<text data-frame-badge-label x="${textX}" y="${y + CORNER_BADGE.font + CORNER_BADGE.drop + c.bar}" font-family="'Inter',sans-serif" font-size="${CORNER_BADGE.font}" font-weight="600" fill="${escapeText(colors.text)}"${badgePointer(boundary, badge)}>${escapeText(label)}</text>` : '';
+      return `<image data-frame-badge data-boundary-badge="${escapeText(label || badge.icon || '')}" href="${escapeText(badge.iconUri)}" x="${iconX - c.icon / 2}" y="${y - c.icon / 2}" width="${c.icon}" height="${c.icon}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"${badgePointer(boundary, badge)}/>${caption}`;
     }).join('');
     return `<rect data-boundary-edge-bar x="${x}" y="${y}" width="${width}" height="${c.bar}" fill="${c.color}" pointer-events="none"/>${marks}`;
   };
@@ -68,7 +75,7 @@
     .filter(badge => !['corner', 'edge'].includes(badge.side) && badge.iconUri)
     .map(badge => {
       const anchor = borderBadgeAnchor(boundary, badge);
-      return `<image data-frame-badge href="${escapeText(badge.iconUri)}" x="${anchor.x - 9}" y="${anchor.y - 9}" width="18" height="18" preserveAspectRatio="xMidYMid meet" pointer-events="none" aria-hidden="true"/>`;
+      return `<image data-frame-badge href="${escapeText(badge.iconUri)}" x="${anchor.x - 9}" y="${anchor.y - 9}" width="18" height="18" preserveAspectRatio="xMidYMid meet"${badgePointer(boundary, badge)} aria-hidden="true"/>`;
     }).join('');
   // The box the corner badges occupy, which wires and captions keep out of
   // as they keep out of the title. Mirrors cluster_badge_rect in
@@ -117,7 +124,7 @@
         : '';
       // No group of their own: the frame's group is the one thing a reader
       // of the page (the shipped checker) takes a frame's parts from.
-      return `<image data-frame-badge href="${escapeText(badge.iconUri)}" x="${iconX - c.icon / 2}" y="${top - c.icon / 2}" width="${c.icon}" height="${c.icon}" preserveAspectRatio="xMidYMid meet" pointer-events="none" aria-hidden="true"/>${caption.replace('<text ', '<text pointer-events="none" ')}`;
+      return `<image data-frame-badge href="${escapeText(badge.iconUri)}" x="${iconX - c.icon / 2}" y="${top - c.icon / 2}" width="${c.icon}" height="${c.icon}" preserveAspectRatio="xMidYMid meet"${badgePointer(boundary, badge)} aria-hidden="true"/>${caption.replace('<text ', `<text${badgePointer(boundary, badge)} `)}`;
     }).join('');
   };
   // A frame's border as drawn: its kind's own width times the frame lines
@@ -155,7 +162,7 @@
     const tabY = by + seat;
     const icon = boundary.tabbed && boundary.iconUri
       ? `<rect data-boundary-tab x="${tabX}" y="${tabY}" width="${tab}" height="${tab}" fill="${escapeText(boundary.tabFill || boundaryStroke)}"/>
-         <image href="${escapeText(boundary.iconUri)}" x="${tabX + FRAME.iconInset}" y="${tabY + FRAME.iconInset}" width="${tab - 2 * FRAME.iconInset}" height="${tab - 2 * FRAME.iconInset}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"/>`
+         <image data-boundary-tab-icon href="${escapeText(boundary.iconUri)}" x="${tabX + FRAME.iconInset}" y="${tabY + FRAME.iconInset}" width="${tab - 2 * FRAME.iconInset}" height="${tab - 2 * FRAME.iconInset}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"/>`
       : '';
     const dash = boundary.dash ? ` stroke-dasharray="${escapeText(boundary.dash)}"` : '';
     const textStyle = withCurrentFace({
@@ -208,7 +215,7 @@
       ${boundary.highlight ? `<rect data-frame-highlight x="${bx - 6}" y="${by - 6}" width="${bw + 12}" height="${bh + 12}" rx="${(Number(boundary.radius) || 0) + 6}" fill="${colors.accent}" fill-opacity=".07" stroke="${colors.accent}" stroke-width="2.5" pointer-events="none"/>` : ''}
       <rect data-boundary-surface x="${Number(boundary.x) || 0}" y="${Number(boundary.y) || 0}" width="${Number(boundary.width) || 0}" height="${Number(boundary.height) || 0}" rx="${Number(boundary.radius) || 0}" fill="${escapeText(boundaryFill)}" stroke="${escapeText(boundaryStroke)}" stroke-width="${frameStroke(boundary)}"${dash} pointer-events="all"/>
       ${labelBacking}${icon}${edgeBadgesMarkup(boundary, colors)}${cornerBadgesMarkup(boundary, colors)}${borderBadgesMarkup(boundary)}
-      <text x="${textX}" y="${labelY}" fill="${escapeText(textStyle.textColor)}" fill-opacity="${Number(textStyle.opacity) / 100}" font-family="'${escapeText(textStyle.fontFamily)}',sans-serif" font-size="${Number(textStyle.fontSize)}" font-weight="${escapeText(textStyle.fontWeight)}" letter-spacing="${escapeText(boundary.labelTracking || '0')}" text-anchor="${anchor}">${escapeText(label)}</text>
+      <text data-boundary-title x="${textX}" y="${labelY}" fill="${escapeText(textStyle.textColor)}" fill-opacity="${Number(textStyle.opacity) / 100}" font-family="'${escapeText(textStyle.fontFamily)}',sans-serif" font-size="${Number(textStyle.fontSize)}" font-weight="${escapeText(textStyle.fontWeight)}" letter-spacing="${escapeText(boundary.labelTracking || '0')}" text-anchor="${anchor}">${escapeText(label)}</text>
       ${selection}
     </g>`;
   };

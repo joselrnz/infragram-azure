@@ -41,7 +41,13 @@ border beside it, each icon hiding the line behind it, with just its name
 beside it under the line. A NAT gateway is the subnet's way out, so it sits
 where Azure's NAT gateway diagrams put it: the middle of the top edge, over
 a teal bar along that edge that marks the subnet it serves. One NSG or NAT
-gateway on two subnets is drawn on each. An NSG can instead be attached to a VM's network interface: then it is
+gateway on two subnets is drawn on each. Each NSG badge carries the group's
+rules and each route table badge its routes, exactly as ARM holds them (an
+NSG's own rules in ARM's order, then Azure's default rules); clicking the
+badge in the page opens them, and clicking the VNet lists those of all its
+subnets. Each subnet also says its router address, the first host of its
+prefix (`10.1.2.0/24` routes through `10.1.2.1`), shown when the pointer
+rests on the subnet's title and in its right-click menu. An NSG can instead be attached to a VM's network interface: then it is
 a card in that VM's subnet, captioned "on NIC · <vm>", with a dashed `NIC`
 wire to the VM it guards (in the groups view too). A VNet-injected Databricks
 workspace sits in its container subnet. A resource group whose resources all

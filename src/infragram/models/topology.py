@@ -24,8 +24,8 @@ lookup that makes those sources addressable.
 
 from __future__ import annotations
 
-from collections.abc import Iterator
-from typing import Any, Literal
+from collections.abc import Iterable, Iterator, Sequence
+from typing import Any, Literal, Self
 
 from pydantic import (
     BaseModel,
@@ -138,6 +138,45 @@ class Connection(BaseModel):
 RETIRED_BADGES = "badges"
 
 
+def table_payload(
+    owner: str, columns: Sequence[str], rows: Iterable[Sequence[str]]
+) -> dict[str, Any]:
+    """The ``{"columns": [...], "rows": [[...]]}`` a table rides in.
+
+    Cells are kept exactly as given, as text and in the order given: the
+    editor shows a route table's routes or a security group's rules the way
+    they were written, never sorted or reformatted. A row may be shorter than
+    the heading (its last cells stay empty), never longer.
+    """
+    heading = [str(value) for value in columns]
+    if not heading:
+        raise ValueError(f"{owner!r}: a table needs at least one column")
+    body = [[str(cell) for cell in row] for row in rows]
+    wide = [row for row in body if len(row) > len(heading)]
+    if wide:
+        raise ValueError(
+            f"{owner!r}: {len(wide)} row(s) have more cells than the "
+            f"{len(heading)} column(s) declared"
+        )
+    return {"columns": heading, "rows": body}
+
+
+def _table_argument(owner: str, table: Any) -> dict[str, Any] | None:
+    """A badge's ``table=``: ``(columns, rows)`` or an already built payload."""
+    if table is None:
+        return None
+    if isinstance(table, dict):
+        return table_payload(owner, table.get("columns") or (), table.get("rows") or ())
+    try:
+        columns, rows = table
+    except (TypeError, ValueError):
+        raise ValueError(
+            f"{owner!r}: table= takes (columns, rows), for example "
+            '(("Priority", "Name", "Access"), [("100", "allow-https", "Allow")])'
+        ) from None
+    return table_payload(owner, columns, rows)
+
+
 class Badge(BaseModel):
     """What applies to a frame, drawn on its top-right corner: a subnet's
     network security group or route table, the way Azure's reference
@@ -160,6 +199,26 @@ class Badge(BaseModel):
     #: documents authored before corner badges were introduced.
     side: Literal["corner", "edge", "top", "bottom", "left", "right"] = "top"
     offset: float = 0.5
+    #: What the badge stands for, row by row: a security group's rules, a
+    #: route table's routes. Nothing is drawn; clicking the badge in the
+    #: editor opens it. Written only when there is one.
+    table: dict[str, list[Any]] | None = None
+
+    @field_validator("table")
+    @classmethod
+    def _table_shape(cls, value: dict[str, list[Any]] | None) -> dict[str, list[Any]] | None:
+        if value is None:
+            return None
+        return table_payload("badge", value.get("columns") or (), value.get("rows") or ())
+
+    @model_serializer(mode="wrap")
+    def _table_only_when_there_is_one(self, handler: SerializerFunctionWrapHandler) -> Any:
+        """A badge with no table writes no ``table`` key, so documents saved
+        before badges carried tables read and write the same."""
+        data = handler(self)
+        if isinstance(data, dict) and data.get("table") is None:
+            data.pop("table", None)
+        return data
 
 
 class TopologyElement(BaseModel):
@@ -220,7 +279,13 @@ class TopologyElement(BaseModel):
             _scope.hold(child, self.children)
 
     def badge(
-        self, source: Any, *, side: str = "corner", offset: float = 0.5, label: str = ""
+        self,
+        source: Any,
+        *,
+        side: str = "corner",
+        offset: float = 0.5,
+        label: str = "",
+        table: Any = None,
     ) -> TopologyElement:
         """Pin a corner, NAT edge, or named-border mark to this frame. Returns *self*.
 
@@ -229,6 +294,11 @@ class TopologyElement(BaseModel):
 
             with azure_frames.Subnet("snet-web").badge(azure.NetworkSecurityGroups, label="nsg-web"):
                 ...
+
+        ``table=(columns, rows)`` says what the badge stands for -- an NSG's
+        rules, a route table's routes. Nothing is drawn: clicking the badge
+        in the editor opens the table, rows exactly as written, and clicking
+        the frame (or the VNet around a subnet) lists it with the others.
         """
         if side not in {"corner", "edge", "top", "bottom", "left", "right"}:
             raise ValueError(f"unknown frame badge side: {side!r}")
@@ -239,8 +309,61 @@ class TopologyElement(BaseModel):
         if not icon:
             raise ValueError(f"badge(): {source!r} names no icon")
         self.badges.append(
-            Badge(icon=icon, collection=collection, label=label, side=side, offset=offset)
+            Badge(
+                icon=icon,
+                collection=collection,
+                label=label,
+                side=side,
+                offset=offset,
+                table=_table_argument(label or icon, table),
+            )
         )
+        return self
+
+    def table(self, columns: Sequence[str], rows: Iterable[Sequence[str]] = ()) -> Self:
+        """Attach a table the editor shows when this element is selected.
+
+            net.RouteTables("rt-spoke-prod", "UDR").table(
+                ("Prefix", "Next hop type", "Next hop"),
+                [("0.0.0.0/0", "Virtual appliance", "10.0.1.4"),
+                 ("10.0.0.0/16", "VNet peering", "hub-vnet")])
+
+        Nothing is drawn on the canvas: the card stays the card, and clicking
+        it opens the table in a popup beside it. A frame takes one too, and
+        clicking the frame opens it. The rows are whatever you pass, exactly
+        as written, so three routes and thirty are the same call. The table
+        rides in the element's attributes, so it survives saving and
+        reopening the page.
+        """
+        self.attributes["table"] = table_payload(self.name, columns, rows)
+        return self
+
+    def addresses(self, *pairs: tuple[str, str], **named: str) -> Self:
+        """Say which IP addresses this element answers on.
+
+            az.Subnet("snet-app · 10.1.2.0/24").addresses(router="10.1.2.1")
+            net.Firewalls("Azure Firewall").addresses(private="10.0.1.4", public="20.1.2.3")
+            edge.addresses(("BGP peer", "169.254.0.1"))
+
+        A keyword's name is the label (``router`` reads Router, ``public_ip``
+        Public ip); a ``(label, address)`` pair says a label no keyword can.
+        Nothing is drawn: the editor lists them when the pointer rests on the
+        card or frame, under the right-click menu's title, and in its popup.
+        Calling it again adds to what is there; a label given twice keeps the
+        last address.
+        """
+        found: dict[str, str] = {
+            str(label): str(value) for label, value in (self.attributes.get("addresses") or [])
+        }
+        for label, value in pairs:
+            found[str(label)] = str(value)
+        for key, value in named.items():
+            words = key.replace("_", " ").strip()
+            found[words[:1].upper() + words[1:]] = str(value)
+        empty = [label for label, value in found.items() if not label or not value.strip()]
+        if empty:
+            raise ValueError(f"{self.name!r}: an address needs a label and a value ({empty})")
+        self.attributes["addresses"] = [[label, value] for label, value in found.items()]
         return self
 
     def to(

@@ -25,6 +25,7 @@ SUITES = (
     ROOT / "tests" / "integration" / "test_cloud_editor_browser.py",
     ROOT / "tests" / "integration" / "test_cloud_project_png.py",
     ROOT / "tests" / "integration" / "test_element_popup_browser.py",
+    ROOT / "tests" / "integration" / "test_badge_popup_browser.py",
     ROOT / "tests" / "integration" / "test_routed_wires_meet_squarely.py",
     ROOT / "tests" / "integration" / "test_export_pictures.py",
     ROOT / "tests" / "integration" / "test_frame_fit_browser.py",

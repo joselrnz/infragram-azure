@@ -39,6 +39,7 @@ compared case-insensitively because ARM itself is inconsistent about case.
 
 from __future__ import annotations
 
+import ipaddress
 import math
 import re
 from collections.abc import Iterable, Iterator, Sequence
@@ -339,6 +340,113 @@ def _prefixes(props: dict[str, Any], *keys: str) -> str:
 
 def _named(name: str, suffix: str) -> str:
     return f"{name} · {suffix}" if suffix else name
+
+
+def _subnet_router(prefix: str) -> str:
+    """The subnet's router: Azure answers on the first host address
+    (``10.1.2.0/24`` routes through ``10.1.2.1``). Empty for no IPv4 prefix."""
+    first = prefix.split(",")[0].strip()
+    try:
+        network = ipaddress.ip_network(first, strict=False)
+    except ValueError:
+        return ""
+    if network.version != 4 or network.num_addresses < 4:
+        return ""
+    return str(network.network_address + 1)
+
+
+def _arm_names(ids: Any) -> str:
+    """Application security groups and the like by name, in ARM's order."""
+    return ", ".join(
+        str((item or {}).get("id") or "").rstrip("/").split("/")[-1]
+        for item in ids or []
+        if (item or {}).get("id")
+    )
+
+
+def _either(props: dict[str, Any], single: str, many: str, groups: str = "") -> str:
+    """A rule's side as ARM keeps it: the one prefix, else the list, else the
+    application security groups. Kept verbatim -- ``*`` stays ``*``."""
+    value = props.get(single)
+    if isinstance(value, str) and value:
+        return value
+    listed = props.get(many) or []
+    if listed:
+        return ", ".join(str(item) for item in listed)
+    return _arm_names(props.get(groups)) if groups else ""
+
+
+#: An NSG badge's table: its rules exactly as ARM holds them.
+NSG_COLUMNS = (
+    "Priority",
+    "Name",
+    "Direction",
+    "Access",
+    "Protocol",
+    "Source",
+    "Source ports",
+    "Destination",
+    "Destination ports",
+)
+#: A route table badge's table: its routes exactly as ARM holds them.
+ROUTE_COLUMNS = ("Name", "Address prefix", "Next hop type", "Next hop IP")
+
+
+def nsg_rules_table(resource: dict[str, Any]) -> tuple[tuple[str, ...], list[list[str]]]:
+    """An NSG's rules, in the order ARM lists them, its own rules first and
+    then the defaults Azure adds to every NSG. Nothing sorted or reworded."""
+    props = resource.get("properties") or {}
+    rows: list[list[str]] = []
+    for rule in [*(props.get("securityRules") or []), *(props.get("defaultSecurityRules") or [])]:
+        rp = (rule or {}).get("properties") or {}
+        rows.append(
+            [
+                str(rp.get("priority", "")),
+                str((rule or {}).get("name") or ""),
+                str(rp.get("direction") or ""),
+                str(rp.get("access") or ""),
+                str(rp.get("protocol") or ""),
+                _either(
+                    rp,
+                    "sourceAddressPrefix",
+                    "sourceAddressPrefixes",
+                    "sourceApplicationSecurityGroups",
+                ),
+                _either(rp, "sourcePortRange", "sourcePortRanges"),
+                _either(
+                    rp,
+                    "destinationAddressPrefix",
+                    "destinationAddressPrefixes",
+                    "destinationApplicationSecurityGroups",
+                ),
+                _either(rp, "destinationPortRange", "destinationPortRanges"),
+            ]
+        )
+    return NSG_COLUMNS, rows
+
+
+def route_table_rows(resource: dict[str, Any]) -> tuple[tuple[str, ...], list[list[str]]]:
+    """A route table's routes, in the order ARM lists them, as written."""
+    props = resource.get("properties") or {}
+    rows = [
+        [
+            str((route or {}).get("name") or ""),
+            str(((route or {}).get("properties") or {}).get("addressPrefix") or ""),
+            str(((route or {}).get("properties") or {}).get("nextHopType") or ""),
+            str(((route or {}).get("properties") or {}).get("nextHopIpAddress") or ""),
+        ]
+        for route in props.get("routes") or []
+    ]
+    return ROUTE_COLUMNS, rows
+
+
+def _badge_table(resource: dict[str, Any]) -> tuple[tuple[str, ...], list[list[str]]] | None:
+    kind = resource.get("type")
+    if kind == "microsoft.network/networksecuritygroups":
+        return nsg_rules_table(resource)
+    if kind == "microsoft.network/routetables":
+        return route_table_rows(resource)
+    return None
 
 
 def _slug(text: str) -> str:
@@ -796,14 +904,13 @@ class _Builder:
                 frame.row()
             for subnet in subnets:
                 sprops = subnet.get("properties") or {}
-                child = az.Subnet(
-                    _named(
-                        str(subnet.get("name")),
-                        _prefixes(sprops, "addressPrefix", "addressPrefixes"),
-                    )
-                )
+                prefix = _prefixes(sprops, "addressPrefix", "addressPrefixes")
+                child = az.Subnet(_named(str(subnet.get("name")), prefix))
                 subnet_frames[_lower(subnet.get("id"))] = child
                 child.attributes["resource_id"] = _lower(subnet.get("id"))
+                router = _subnet_router(prefix)
+                if router:
+                    child.addresses(router=router)
                 frame.add(child)
             self.summary.networks += 1
             self.summary.subnets += len(subnets)
@@ -823,7 +930,7 @@ class _Builder:
         # gateway leftwards along the top edge, each captioned by name. An
         # NSG can instead sit on a VM's network interface: then it is a card
         # in that VM's subnet, says "on NIC", and is wired to the VM.
-        corner: dict[str, list[tuple[int, str, str]]] = {}
+        corner: dict[str, list[tuple[int, str, str, str]]] = {}
         for resource in drawn:
             if resource["type"] not in _EDGE_TYPES:
                 continue
@@ -836,6 +943,7 @@ class _Builder:
                         _EDGE_TYPES.index(resource["type"]),
                         str(resource.get("name")),
                         resource["type"],
+                        resource["id"],
                     )
                 )
                 self.summary.attached += 1
@@ -859,14 +967,21 @@ class _Builder:
                 self.moved_out.add(self._group_key(resource))
                 self.summary.resources += 1
         for target, marks in corner.items():
-            for _rank, name, arm_type in sorted(marks):
+            for _rank, name, arm_type, resource_id in sorted(marks):
                 # Just the name: the icon says what it is, as in Azure's own
                 # diagrams; the editor's table says the rest. A NAT gateway is
                 # the subnet's way out, so it sits on the top edge with a bar,
                 # the way Azure's NAT gateway diagrams draw it; the rest on the
                 # corner.
                 side = "edge" if arm_type == "microsoft.network/natgateways" else "corner"
-                subnet_frames[target].badge(arm_types.node_class(arm_type), side=side, label=name)
+                # the NSG's rules and the route table's routes ride on the
+                # badge, exactly as ARM holds them: clicking it opens them
+                subnet_frames[target].badge(
+                    arm_types.node_class(arm_type),
+                    side=side,
+                    label=name,
+                    table=_badge_table(self.by_id[resource_id]),
+                )
 
     def _guarded(self, resource: dict[str, Any]) -> list[str]:
         """What an NSG guards through a network interface, in order."""

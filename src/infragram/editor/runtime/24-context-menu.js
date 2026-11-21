@@ -422,6 +422,11 @@
     else if (action === 'details') {
       // a card with links or a price shows its popup; anything else, the inspector
       if (selected?.type === 'node' && item && popupContent(item).any) openElementDetails(item.id);
+      // a frame with addresses or tables (its security groups, its routes) shows them
+      else if (selected?.type === 'boundary' && item && (frameTables(item).length || addressesOf(item).length)) {
+        popupBadge = null;
+        openElementDetails(item.id);
+      }
       else openInspectorPanel('style');
     }
     else if (action === 'toggle-parts') toggleAttachedParts(item?.id);
