@@ -13,8 +13,6 @@ Through the skill's launcher, from the plugin folder::
 
     python skills/infragram-azure/scripts/infragram.py compose examples/databricks_routable_ip.py \
         --formats template,html,svg,png --output-dir dist
-
-The exported editor page is examples/databricks_routable_ip.html.
 """
 
 from __future__ import annotations
