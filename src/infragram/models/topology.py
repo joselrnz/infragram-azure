@@ -286,7 +286,7 @@ class TopologyElement(BaseModel):
         offset: float = 0.5,
         label: str = "",
         table: Any = None,
-    ) -> TopologyElement:
+    ) -> Self:
         """Pin a corner, NAT edge, or named-border mark to this frame. Returns *self*.
 
         ``source`` is a node class, an instance of one, or a plain ``"slug"``
