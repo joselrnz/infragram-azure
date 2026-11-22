@@ -139,6 +139,7 @@
       ...((boundary.badges || []).length ? {badges: boundary.badges.map(badge => ({
         icon: badge.icon, collection: badge.collection || '', label: badge.label || '',
         side: badge.side || 'corner', offset: Number(badge.offset ?? 0.5),
+        ...(badge.table ? {table: clone(badge.table)} : {}),
       }))} : {}),
       children: [
         ...state.boundaries.filter(item => item.parentId === boundary.id).map(boundaryElement),

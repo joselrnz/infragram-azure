@@ -183,7 +183,17 @@ formats=...)` writes it, the same as the command line.
   table to any element. Nothing is drawn: selecting the card in the editor
   opens the table in a popup beside it, and any number of rows is the same
   call. Use it for a route table's routes, a security group's rules or a
-  load balancer's back-end pools.
+  load balancer's back-end pools. A frame takes one too.
+- `.badge(networking.NetworkSecurityGroups, label="nsg-app", table=(columns, rows))`
+  gives a badge what it stands for: the NSG's rules, a route table's routes
+  (`.badge(networking.RouteTables, label="rt-app", table=...)`). Clicking
+  the badge in the editor opens the table, rows exactly as written; clicking
+  the frame, or the VNet around the subnet, lists it with the others
+  ([editor.md](editor.md)).
+- `.addresses(router="10.1.2.1")` on a subnet, `.addresses(private="10.0.1.4")`
+  on a card, or `(label, address)` pairs (`("BGP peer", "169.254.0.1")`) say
+  where an element answers. Nothing is drawn: the editor shows them on hover,
+  in the right-click menu and in **Inspect details**.
 - `web.change("create")` (or `update`, `replace`, `delete`) says what a
   Terraform plan does to an element: the card in the action's colour and a
   mark on its detail line (`+ added`). `import:terraform` of a plan writes it

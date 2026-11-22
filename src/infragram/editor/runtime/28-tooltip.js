@@ -8,6 +8,21 @@
     // a connection dot or a resize handle says what it does, and only that
     const handle = target.closest('[data-node-port],[data-node-resize]');
     if (handle) return [['', handle.querySelector('title')?.textContent || '']];
+    // a badge that carries a table: what it is, and that a click opens it
+    const badgeElement = target.closest('[data-badge-index]');
+    if (badgeElement) {
+      const owner = boundaryById(badgeElement.closest('[data-graph-boundary]')?.dataset.boundaryId);
+      const badge = owner?.badges?.[Number(badgeElement.dataset.badgeIndex)];
+      if (badge) {
+        const rows = Array.isArray(badge.table?.rows) ? badge.table.rows.length : 0;
+        return [
+          ['', badgeHeading(badge)],
+          ['On', owner.name],
+          ['Rows', String(rows)],
+          ['', 'Click to open'],
+        ];
+      }
+    }
     const nodeElement = target.closest('[data-graph-node]');
     if (nodeElement) {
       const node = nodeById(nodeElement.dataset.nodeId);
@@ -18,6 +33,7 @@
       return [
         ['', node.name],
         ['', node.detail || ''],
+        ...addressesOf(node),
         ['Component', node.componentQualifiedId || node.componentId || ''],
         ['Frame', frame?.name || ''],
         ['Layer', layerById(node.layerId)?.name || ''],
@@ -40,8 +56,11 @@
       const boundary = boundaryById(boundaryElement.dataset.boundaryId);
       if (!boundary) return null;
       const parent = boundary.parentId ? boundaryById(boundary.parentId) : null;
+      const tables = frameTables(boundary).length;
       return [
         ['', boundary.name],
+        ...addressesOf(boundary),
+        ['Tables', tables ? `${tables} · click the frame or a badge` : ''],
         ['Frame', boundary.kind || boundary.type || ''],
         ['Inside', parent?.name || ''],
         ['Contains', `${state.nodes.filter(node => node.boundaryId === boundary.id).length} components`],
@@ -115,7 +134,20 @@
     // On hover only a handle (a connection dot, a resize grip) says what it
     // does: a card over every card the pointer crossed stood in the way.
     // What an item is shows under the right-click menu's title instead.
-    const hoverRows = target => (target.closest('[data-node-port],[data-node-resize]') ? tooltipRows(target) : null);
+    // Two exceptions say only what was asked of them: a badge that opens a
+    // table says so, and a card or a frame's title that carries addresses
+    // (its router, its private address) shows its name and those, nothing
+    // else -- the pointer crossing a VNet's inside still shows nothing.
+    const hoverRows = target => {
+      if (target.closest('[data-node-port],[data-node-resize],[data-badge-index]')) return tooltipRows(target);
+      const nodeElement = target.closest('[data-graph-node]');
+      const titled = !nodeElement && target.closest('[data-boundary-title],[data-boundary-tab],[data-boundary-tab-icon]');
+      const item = nodeElement ? nodeById(nodeElement.dataset.nodeId)
+        : titled ? boundaryById(target.closest('[data-graph-boundary]')?.dataset.boundaryId) : null;
+      if (nodeElement && elementPopup && !elementPopup.hidden && elementPopup.dataset.nodeId === item?.id) return null;
+      const pairs = addressesOf(item);
+      return pairs.length ? [['', item.name], ...pairs] : null;
+    };
     diagram.addEventListener('pointerover', event => {
       if (event.buttons !== 0 || connection) return hideTooltip();
       const rows = hoverRows(event.target);

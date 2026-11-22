@@ -257,6 +257,9 @@ def _editor_state(
                     "iconUri": _data_uri(
                         markup.encode("utf-8") if markup else drawn.icon.path.read_bytes()
                     ),
+                    # an NSG's rules, a route table's routes: clicking the
+                    # badge opens them, rows exactly as the author wrote them
+                    **({"table": spec.table} if spec.table else {}),
                 }
             )
         if badges:

@@ -363,10 +363,79 @@
   // in the card's right-click menu), so selecting a card to move or wire it
   // never puts a popup over the canvas.
   let popupRequestedFor = null;
+  // A table as the popup shows it: the heading, then every row exactly as
+  // its author wrote it, in their order -- a route table's routes or a
+  // security group's rules are never sorted or reworded here.
+  const isTable = table => Array.isArray(table?.columns) && table.columns.length > 0;
+  const popupTableMarkup = table => {
+    const rows = Array.isArray(table.rows) ? table.rows : [];
+    const markup = `<table data-popup-table><thead><tr>${table.columns.map(heading => `<th>${escapeText(heading)}</th>`).join('')}</tr></thead>`
+      + `<tbody>${rows.map(row => `<tr>${table.columns.map((_, index) =>
+        `<td>${escapeText(Array.isArray(row) ? (row[index] ?? '') : '')}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+    // three or more columns scroll sideways rather than lose their right side
+    return table.columns.length > 2 ? `<div class="canvas-popup__scroll" data-popup-scroll>${markup}</div>` : markup;
+  };
+  // The addresses a card or frame answers on (`.addresses(router=...)` in a
+  // diagram file, a subnet's router from an Azure import), label and address.
+  const addressesOf = item => (Array.isArray(item?.attributes?.addresses) ? item.attributes.addresses : [])
+    .filter(pair => Array.isArray(pair) && pair[0] && pair[1])
+    .map(([label, value]) => [String(label), String(value)]);
+  const addressesSection = item => {
+    const pairs = addressesOf(item);
+    return pairs.length
+      ? '<section class="canvas-popup__section" data-popup-addresses><h3>Addresses</h3><table><tbody>'
+        + pairs.map(([label, value]) => `<tr><th>${escapeText(label)}</th><td>${escapeText(value)}</td></tr>`).join('')
+        + '</tbody></table></section>'
+      : '';
+  };
+  // What a badge stands for, as its table's heading: "Network security
+  // group · nsg-web". A label already written "Type · name" says it itself.
+  const BADGE_KINDS = {'network-security-groups': 'Network security group', 'route-tables': 'Route table',
+    nat: 'NAT gateway', 'nat-gateways': 'NAT gateway'};
+  const badgeHeading = badge => {
+    const label = String(badge?.label || '');
+    if (label.includes(' · ')) return label;
+    const kind = BADGE_KINDS[badge?.icon] || String(badge?.icon || 'Badge').replace(/-/g, ' ');
+    return label ? `${kind} · ${label}` : kind;
+  };
+  // A frame's tables: its own, its badges', and its child frames' badges --
+  // a VNet lists the security groups and route tables of its subnets. A
+  // clicked badge narrows it to that one badge.
+  const frameTables = (boundary, badgeIndex = null) => {
+    const own = boundary.badges || [];
+    if (badgeIndex !== null && isTable(own[badgeIndex]?.table)) {
+      // the popup's title names the badge already
+      return [{heading: '', note: '', table: own[badgeIndex].table}];
+    }
+    const listed = [];
+    if (isTable(boundary.attributes?.table)) listed.push({heading: '', note: '', table: boundary.attributes.table});
+    own.forEach(badge => {
+      if (isTable(badge.table)) listed.push({heading: badgeHeading(badge), note: '', table: badge.table});
+    });
+    // one security group on two subnets is one table, naming both
+    const shared = new Map();
+    state.boundaries.filter(child => child.parentId === boundary.id).forEach(child => {
+      (child.badges || []).forEach(badge => {
+        if (!isTable(badge.table)) return;
+        const key = JSON.stringify([badge.icon, badge.label, badge.table]);
+        if (shared.has(key)) shared.get(key).on.push(child.name);
+        else shared.set(key, {heading: badgeHeading(badge), table: badge.table, on: [child.name]});
+      });
+    });
+    shared.forEach(({heading, table, on}) => listed.push({heading, note: `on ${on.join(', ')}`, table}));
+    return listed;
+  };
+  const frameTablesMarkup = tables => tables.map(({heading, note, table}) => (heading
+    ? `<section class="canvas-popup__section" data-popup-badge-table><h3>${escapeText(heading)}</h3>`
+      + (note ? `<p class="canvas-popup__note">${escapeText(note)}</p>` : '') + `${popupTableMarkup(table)}</section>`
+    : popupTableMarkup(table))).join('');
+  // A badge someone pressed: its frame and its place among the frame's
+  // badges, until a press lands anywhere else.
+  let popupBadge = null;
   const popupContent = node => {
     const table = node?.attributes?.table;
     const price = node?.attributes?.price;
-    const hasTable = Array.isArray(table?.columns) && table.columns.length > 0;
+    const hasTable = isTable(table);
     const hasPrice = Boolean(price) && Number.isFinite(Number(price.monthly));
     const links = node ? componentLinks(node) : [];
     // every cloud card carries a price now, so a price alone does not open
@@ -378,9 +447,10 @@
     // where the popup would go
     const review = document.body.classList.contains('review-mode');
     const inventoryBelow = phoneLayout() && Boolean(document.body.dataset.dock);
+    const addresses = node ? addressesOf(node).length > 0 : false;
     return {table, price, hasTable, hasPrice, links, attached,
       opens: (hasTable || Boolean(attached)) && !review && !inventoryBelow,
-      any: hasTable || hasPrice || links.length > 0 || Boolean(attached)};
+      any: hasTable || hasPrice || links.length > 0 || Boolean(attached) || addresses};
   };
   // The popup's body: the price worked out, what the card carries, the
   // table its author attached, where to read about it. The inventory's
@@ -388,15 +458,40 @@
   // what the card carries, which the column lists itself.
   const elementDetailsBody = (node, {attached: withAttached = true} = {}) => {
     const {table, price, hasTable, hasPrice, links, attached} = popupContent(node);
-    const rows = hasTable && Array.isArray(table.rows) ? table.rows : [];
-    return (hasPrice ? priceSection(price) : '')
+    return addressesSection(node)
+      + (hasPrice ? priceSection(price) : '')
       + (withAttached ? attached || '' : '')
-      + (hasTable
-        ? `<table data-popup-table><thead><tr>${table.columns.map(heading => `<th>${escapeText(heading)}</th>`).join('')}</tr></thead>`
-          + `<tbody>${rows.map(row => `<tr>${table.columns.map((_, index) =>
-            `<td>${escapeText(Array.isArray(row) ? (row[index] ?? '') : '')}</td>`).join('')}</tr>`).join('')}</tbody></table>`
-        : '')
+      + (hasTable ? popupTableMarkup(table) : '')
       + (links.length ? linksSection(links) : '');
+  };
+  // A selected frame's popup: its addresses, its own table, the tables its
+  // badges carry and those of the frames directly inside it. It opens by
+  // itself when there is a table to show; addresses alone wait for Details
+  // (or the hover and right-click that list them already).
+  const syncFramePopup = boundary => {
+    const badgeIndex = popupBadge?.boundaryId === boundary.id ? popupBadge.index : null;
+    const tables = frameTables(boundary, badgeIndex);
+    const addresses = badgeIndex === null ? addressesSection(boundary) : '';
+    const asked = popupRequestedFor === boundary.id || badgeIndex !== null;
+    const review = document.body.classList.contains('review-mode');
+    const inventoryBelow = phoneLayout() && Boolean(document.body.dataset.dock);
+    if (popupDismissedFor === boundary.id || !(tables.length || (addresses && asked))
+        || ((review || inventoryBelow) && !asked)) {
+      elementPopup.hidden = true;
+      return;
+    }
+    const title = badgeIndex !== null ? badgeHeading(boundary.badges[badgeIndex]) : boundary.name;
+    elementPopup.innerHTML = `<header><strong>${escapeText(title)}</strong>`
+      + '<button type="button" class="md-icon-button md-icon-button--sm" data-popup-close aria-label="Close" title="Close">'
+      + chromeIcon('<path d="M6 6l12 12M18 6 6 18"/>')
+      + '</button></header>'
+      + (badgeIndex !== null ? `<p class="canvas-popup__note">on ${escapeText(boundary.name)}</p>` : '')
+      + addresses + frameTablesMarkup(tables);
+    elementPopup.dataset.nodeId = '';
+    elementPopup.dataset.boundaryId = boundary.id;
+    elementPopup.dataset.badgeIndex = badgeIndex === null ? '' : String(badgeIndex);
+    elementPopup.hidden = false;
+    placeElementPopup();
   };
   // Details (the right-click menu): the selected card's popup, links and all.
   const openElementDetails = id => {
@@ -410,6 +505,20 @@
     const node = selected?.type === 'node' && selectedNodeIds.size === 1
       ? nodeById(selected.id)
       : !selected && flowFocus?.type === 'node' ? nodeById(flowFocus.id) : null;
+    // a frame selected for editing, else the frame whose flow a single click
+    // shows -- the click a card's popup answers too
+    const frame = node ? null
+      : selected?.type === 'boundary' && selectedBoundaryIds.size === 1 && !selectedNodeIds.size
+        ? boundaryById(selected.id)
+        : !selected && flowFocus?.type === 'boundary' ? boundaryById(flowFocus.id) : null;
+    if (popupBadge && popupBadge.boundaryId !== frame?.id) popupBadge = null;
+    if (frame) {
+      if (popupRequestedFor && popupRequestedFor !== frame.id) popupRequestedFor = null;
+      syncFramePopup(frame);
+      return;
+    }
+    elementPopup.dataset.boundaryId = '';
+    elementPopup.dataset.badgeIndex = '';
     if (!node) {
       popupDismissedFor = null;
       popupRequestedFor = null;
@@ -441,7 +550,16 @@
   // hover tooltip is placed.
   const placeElementPopup = () => {
     if (!elementPopup || elementPopup.hidden) return;
-    const card = diagram.querySelector(`[data-graph-node][data-node-id="${CSS.escape(elementPopup.dataset.nodeId || '')}"]`);
+    // a card's popup stands beside the card; a frame's beside the badge
+    // that was pressed, else beside the frame's title
+    const frameGroup = elementPopup.dataset.boundaryId
+      ? diagram.querySelector(`[data-graph-boundary][data-boundary-id="${CSS.escape(elementPopup.dataset.boundaryId)}"]`)
+      : null;
+    const card = frameGroup
+      ? (elementPopup.dataset.badgeIndex
+        && frameGroup.querySelector(`image[data-badge-index="${CSS.escape(elementPopup.dataset.badgeIndex)}"]`))
+        || frameGroup.querySelector('[data-boundary-title]') || frameGroup.querySelector('[data-boundary-surface]')
+      : diagram.querySelector(`[data-graph-node][data-node-id="${CSS.escape(elementPopup.dataset.nodeId || '')}"]`);
     const host = elementPopup.parentElement;
     if (!card || !host) return;
     elementPopup.style.left = '0px';
@@ -460,7 +578,14 @@
     const viewHeight = host.clientHeight || stage.height;
     const inView = rect => ({left: rect.left - stage.left, top: rect.top - stage.top,
       right: rect.right - stage.left, bottom: rect.bottom - stage.top});
-    const anchor = inView(card.getBoundingClientRect());
+    // a badge's popup keeps clear of the whole row of badges, so the next
+    // badge along stays there to click
+    const marks = frameGroup && elementPopup.dataset.badgeIndex
+      ? [...frameGroup.querySelectorAll('[data-badge-index]')].map(mark => mark.getBoundingClientRect()) : [];
+    const anchor = inView(marks.length
+      ? {left: Math.min(...marks.map(r => r.left)), top: Math.min(...marks.map(r => r.top)),
+        right: Math.max(...marks.map(r => r.right)), bottom: Math.max(...marks.map(r => r.bottom))}
+      : card.getBoundingClientRect());
     const obstacles = [anchor];
     const toolbar = document.querySelector('[data-selection-toolbar]');
     if (toolbar && !toolbar.hidden) obstacles.push(inView(toolbar.getBoundingClientRect()));
@@ -513,12 +638,26 @@
       if (!event.target.closest('[data-popup-close]')) return;
       popupDismissedFor = selected?.id || null;
       popupRequestedFor = null;
+      popupBadge = null;
       elementPopup.hidden = true;
     });
     // Presses and wheel turns inside the popup belong to it: selecting text or
     // scrolling a long table must not pan, zoom or deselect the canvas below.
     elementPopup.addEventListener('pointerdown', event => event.stopPropagation());
     elementPopup.addEventListener('wheel', event => event.stopPropagation(), {passive: true});
+    // A press on a badge that carries a table (an NSG's rules, a route
+    // table's routes) remembers which badge, before the canvas selects its
+    // frame; a press anywhere else forgets it. The click after it opens the
+    // table even when the frame was already selected and nothing re-renders.
+    diagram.addEventListener('pointerdown', event => {
+      const badge = event.target.closest?.('[data-badge-index]');
+      const owner = badge?.closest('[data-graph-boundary]');
+      popupBadge = owner ? {boundaryId: owner.dataset.boundaryId, index: Number(badge.dataset.badgeIndex)} : null;
+      if (popupBadge && popupDismissedFor === popupBadge.boundaryId) popupDismissedFor = null;
+    }, true);
+    diagram.addEventListener('click', event => {
+      if (event.target.closest?.('[data-badge-index]')) syncElementPopup();
+    });
   }
 
   // The provider mark is drawn once, below the laid-out picture. Frames grow

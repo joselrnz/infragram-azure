@@ -66,6 +66,11 @@
     const nodeElement = element?.closest?.('[data-graph-node]');
     const node = nodeElement ? nodeById(nodeElement.dataset.nodeId) : null;
     if (node) return {type: 'node', item: node};
+    // A badge straddles its frame's border, so the point under it may lie in
+    // the frame around: the badge says which frame it belongs to.
+    const badgeOwner = element?.closest?.('[data-badge-index]')?.closest('[data-graph-boundary]');
+    const badgeFrame = badgeOwner ? boundaryById(badgeOwner.dataset.boundaryId) : null;
+    if (badgeFrame) return {type: 'boundary', item: badgeFrame};
     const edgeElement = element?.closest?.('[data-edge-label],[data-graph-edge],[data-edge-hit]');
     const edge = edgeElement
       ? edgeById(edgeElement.dataset.edgeId || edgeElement.dataset.edgeLabel || edgeElement.dataset.edgeHit) : null;

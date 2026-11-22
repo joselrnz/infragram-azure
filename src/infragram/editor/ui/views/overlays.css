@@ -5,7 +5,7 @@
 .canvas-tooltip strong{display:block;margin-bottom:2px;font:var(--md-sys-typescale-title-small);letter-spacing:var(--md-sys-typescale-title-small-tracking)}
 .canvas-tooltip em{margin-right:8px;font-style:normal;font-weight:500}
 .canvas-tooltip span{display:block;white-space:normal;overflow-wrap:normal;word-break:normal}
-.canvas-popup{position:absolute;z-index:7;min-width:240px;max-width:min(560px,90%);max-height:60%;overflow:auto;padding:4px 16px 16px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);box-shadow:var(--ui-shadow-menu)}
+.canvas-popup{position:absolute;z-index:7;min-width:240px;max-width:min(880px,92%);max-height:60%;overflow:auto;padding:4px 16px 16px;border:1px solid var(--md-sys-color-outline-variant);border-radius:var(--ui-radius);background:var(--md-sys-color-surface);color:var(--md-sys-color-on-surface);box-shadow:var(--ui-shadow-menu)}
 .canvas-popup header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-right:-12px}
 .canvas-popup header strong{font:var(--md-sys-typescale-title-medium);letter-spacing:var(--md-sys-typescale-title-medium-tracking)}
 :is(.canvas-popup,.element-details) table{width:100%;border-collapse:collapse;font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking)}
@@ -16,19 +16,32 @@
    its edge; a label starts with a capital whatever its source wrote */
 :is(.canvas-popup,.element-details) td:last-child{white-space:normal;overflow-wrap:anywhere}
 :is(.canvas-popup,.element-details) table{table-layout:auto;max-width:100%}
-:is(.canvas-popup,.element-details) :is(th,td):first-child::first-letter{text-transform:uppercase}
+:is(.canvas-popup,.element-details) table:not([data-popup-table]) :is(th,td):first-child::first-letter,
+:is(.canvas-popup,.element-details) table[data-popup-table]:has(thead th:nth-child(2):last-child) td:first-child::first-letter{text-transform:uppercase}
 :is(.canvas-popup,.element-details) tr:last-child td{border-bottom:0}
+/* a table of three or more columns (a security group's rules, a route
+   table's routes) is shown exactly as its author wrote it: no cell is
+   recased, nothing wraps, and a table wider than the popup scrolls sideways
+   inside it rather than losing its right-hand columns */
+.canvas-popup__scroll{max-width:100%;overflow-x:auto}
+.canvas-popup__scroll>table{width:max-content;min-width:100%;max-width:none}
+.canvas-popup__scroll td:last-child{white-space:nowrap;overflow-wrap:normal}
 /* a two-column table is label and value rows: its Property / Value heading
    says nothing the rows do not, so it is kept for screen readers only */
 :is(.canvas-popup,.element-details) table[data-popup-table]:has(thead th:nth-child(2):last-child) thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 :is(.canvas-popup,.element-details) table[data-popup-table]:has(thead th:nth-child(2):last-child) td:first-child{width:1%;color:var(--md-sys-color-on-surface-variant)}
 .canvas-popup__section{margin-top:8px}
-.canvas-popup__section+.canvas-popup__section,.canvas-popup__section+table,table+.canvas-popup__section{margin-top:16px;padding-top:12px;border-top:1px solid var(--md-sys-color-outline-variant)}
+.canvas-popup__section+.canvas-popup__section,.canvas-popup__section+table,table+.canvas-popup__section,.canvas-popup__section+.canvas-popup__scroll,.canvas-popup__scroll+.canvas-popup__section{margin-top:16px;padding-top:12px;border-top:1px solid var(--md-sys-color-outline-variant)}
 .canvas-popup__amount{margin:0 0 2px;font:var(--md-sys-typescale-body-medium);letter-spacing:var(--md-sys-typescale-body-medium-tracking);color:var(--md-sys-color-on-surface-variant)}
 .canvas-popup__amount strong{font:var(--md-sys-typescale-title-large);letter-spacing:var(--md-sys-typescale-title-large-tracking);color:var(--md-sys-color-on-surface);font-variant-numeric:tabular-nums}
 .canvas-popup__note{margin:4px 0;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-body-small);letter-spacing:var(--md-sys-typescale-body-small-tracking);white-space:normal}
 .canvas-popup__section th{width:1%;border-bottom:0;padding:4px 16px 4px 0}
 .canvas-popup__section td{border-bottom:0;padding:4px 0}
+/* a badge's table under its heading keeps a table's own spacing and rules */
+.canvas-popup__section table[data-popup-table] th{width:auto;padding:8px 16px 8px 0;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.canvas-popup__section table[data-popup-table] td{padding:8px 16px 8px 0;border-bottom:1px solid var(--md-sys-color-outline-variant)}
+.canvas-popup__section table[data-popup-table] :is(th,td):last-child{padding-right:0}
+.canvas-popup__section table[data-popup-table] tr:last-child td{border-bottom:0}
 :is(.canvas-popup,.element-details) em[data-popup-assumed]{margin-left:6px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-small);letter-spacing:var(--md-sys-typescale-label-small-tracking);font-style:normal}
 :is(.canvas-popup,.element-details) h3{margin:0 0 4px;color:var(--md-sys-color-on-surface-variant);font:var(--md-sys-typescale-label-medium);letter-spacing:var(--md-sys-typescale-label-medium-tracking)}
 :is(.canvas-popup,.element-details) ul{margin:0;padding:0;list-style:none}

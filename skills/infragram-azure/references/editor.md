@@ -190,6 +190,29 @@ the card, never over it:
 **Escape**, a click on empty canvas, the close button or selecting another
 card closes the popup; the close button leaves the card selected.
 
+## A frame's security groups, routes and addresses
+
+A badge on a frame can carry a table: a subnet's NSG badge its rules, its
+route table badge its routes (`badge(..., table=(columns, rows))` in a
+diagram file; an Azure import fills both from ARM). A badge that carries one
+takes the pointer:
+
+- *Click a badge* and its table opens beside the row of badges, every row
+  exactly as written, in the order written -- nothing is sorted, reworded or
+  recased. A table wider than the popup scrolls sideways inside it.
+- *Click a frame* and its popup lists its own table (`.table()` on the
+  frame), its badges' tables and those of the frames directly inside it: a
+  VNet lists the security groups and route tables of its subnets, and one
+  group on two subnets is one table naming both.
+- *Addresses* (`.addresses(router="10.1.2.1")` on a card or a frame; a
+  subnet's router from an Azure import) show when the pointer rests on the
+  card or on the frame's title or tab, under the right-click menu's title,
+  and in **Inspect details**. A card without addresses still shows nothing
+  on hover.
+
+None of it is drawn: the SVG, PNG and draw.io exports are unchanged, and the
+saved document keeps the tables and addresses.
+
 ## On a phone or a tablet
 
 The page works by touch. On a phone the drawing is the whole screen:

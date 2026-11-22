@@ -98,7 +98,7 @@ ELEMENT_KEYS = frozenset(
 #: other sides were retired because the editor never drew them. The package
 #: accepts corner badges and refuses the rest, and so does this.
 RETIRED_BADGES = "badges"
-BADGE_KEYS = frozenset({"collection", "icon", "label", "side", "offset"})
+BADGE_KEYS = frozenset({"collection", "icon", "label", "side", "offset", "table"})
 CONNECTION_KEYS = frozenset(
     {
         "direction",
@@ -249,6 +249,16 @@ def check_project(payload: object, errors: list[str]) -> dict[str, object]:
                 isinstance(badge["offset"], bool) or not isinstance(badge["offset"], (int, float))
             ):
                 errors.append(f"{where}.offset must be a number")
+            if "table" in badge:
+                # an NSG's rules, a route table's routes: columns, then rows
+                # no wider than the columns
+                table = badge["table"]
+                columns = table.get("columns") if isinstance(table, dict) else None
+                rows = table.get("rows", []) if isinstance(table, dict) else None
+                if not isinstance(columns, list) or not columns or not isinstance(rows, list):
+                    errors.append(f"{where}.table must hold a columns list and a rows list")
+                elif any(not isinstance(row, list) or len(row) > len(columns) for row in rows):
+                    errors.append(f"{where}.table has a row wider than its columns")
             _text(badge.get("icon"), f"{where}.icon", errors)
         element_id = element.get("id")
         if not isinstance(element_id, str) or not element_id.strip():
